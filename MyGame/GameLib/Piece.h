@@ -5,7 +5,7 @@
 
 class Piece
 {
-private:
+protected:
 	bool color;
 	std::string curPosition;
 	std::list<std::string> possiblePositions;
@@ -18,7 +18,6 @@ public:
 	// Setters
 	void setColor(bool);
 	void setCurPosition(std::string);
-	void setPossiblePositions(std::list<std::string>);
 
 	// Getters
 	bool getColor();

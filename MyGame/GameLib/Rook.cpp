@@ -12,14 +12,14 @@ std::list<std::string> Rook::calculatePossiblePositions()
 {
 	this->clearPossiblePositions();
 
-	std::list<std::string> newPossiblePositions;	std::string currentPossiblePosition;
+	std::string currentPossiblePosition;
 
 	currentPossiblePosition.push_back(this->getCurPosition()[0]);
 
 	for (int i = 1; i <= 8; i++)
 	{
 		currentPossiblePosition.push_back(i + 48);
-		newPossiblePositions.push_back(currentPossiblePosition);
+		this->possiblePositions.push_back(currentPossiblePosition);
 		currentPossiblePosition.pop_back();
 	}
 
@@ -33,12 +33,11 @@ std::list<std::string> Rook::calculatePossiblePositions()
 	{
 		currentPossiblePosition.push_back(curLetter);
 		std::swap(currentPossiblePosition[0], currentPossiblePosition[1]);
-		newPossiblePositions.push_back(currentPossiblePosition);
+		this->possiblePositions.push_back(currentPossiblePosition);
 		std::swap(currentPossiblePosition[0], currentPossiblePosition[1]);
 		currentPossiblePosition.pop_back();
 	}
 
-	this->setPossiblePositions(newPossiblePositions);
 }
 
 bool Rook::move(std::string newPosition)

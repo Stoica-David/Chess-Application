@@ -24,11 +24,6 @@ void Piece::setCurPosition(std::string curPosition)
 	this->curPosition = curPosition;
 }
 
-void Piece::setPossiblePositions(std::list<std::string> possiblePositions)
-{
-	this->possiblePositions = possiblePositions;
-}
-
 bool Piece::getColor()
 {
 	return this->color;
