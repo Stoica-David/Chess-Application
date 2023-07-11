@@ -18,6 +18,7 @@ public:
 	// Setters
 	void setColor(bool);
 	void setCurPosition(std::string);
+	void setPossiblePositions(std::list<std::string>);
 
 	// Getters
 	bool getColor();
@@ -26,6 +27,10 @@ public:
 
 	// Other methods
 	void showPossiblePositions();
+	bool checkPosition(std::string);
+	void clearPossiblePositions();
 	
 	virtual std::list<std::string> calculatePossiblePositions()=0;
+	virtual bool move(std::string)=0;
+	virtual bool checkMove(std::string)=0;
 };

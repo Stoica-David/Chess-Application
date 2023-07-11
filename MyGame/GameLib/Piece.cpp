@@ -24,6 +24,11 @@ void Piece::setCurPosition(std::string curPosition)
 	this->curPosition = curPosition;
 }
 
+void Piece::setPossiblePositions(std::list<std::string> possiblePositions)
+{
+	this->possiblePositions = possiblePositions;
+}
+
 bool Piece::getColor()
 {
 	return this->color;
@@ -39,14 +44,20 @@ std::list<std::string> Piece::getPossiblePositions()
 	return this->possiblePositions;
 }
 
-std::list<std::string> Piece::calculatePossiblePositions()
-{
-}
-
 void Piece::showPossiblePositions()
 {
 	for (auto current : this->possiblePositions)
 	{
 		std::cout << current << " ";
 	}
+}
+
+bool Piece::checkPosition(std::string curPosition)
+{
+	return (curPosition[0] >= 'A' && curPosition[0] <= 'H' && curPosition[1] >= 1 && curPosition[1] <= 8);
+}
+
+void Piece::clearPossiblePositions()
+{
+	this->possiblePositions.clear();
 }
