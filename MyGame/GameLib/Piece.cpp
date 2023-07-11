@@ -56,3 +56,13 @@ void Piece::clearPossiblePositions()
 {
 	this->possiblePositions.clear();
 }
+
+bool Piece::move(std::string newPosition)
+{
+	if (checkPosition(newPosition) && checkMove(newPosition))
+	{
+		this->setCurPosition(newPosition);
+		return true;
+	}
+	return false;
+}

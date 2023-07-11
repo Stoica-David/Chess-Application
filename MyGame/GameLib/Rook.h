@@ -10,6 +10,5 @@ public:
 
 	// Other methods
 	std::list<std::string> calculatePossiblePositions();
-	bool move(std::string);
 	bool checkMove(std::string);
 };

@@ -40,16 +40,6 @@ std::list<std::string> Rook::calculatePossiblePositions()
 
 }
 
-bool Rook::move(std::string newPosition)
-{
-	if (checkPosition(newPosition) && checkMove(newPosition))
-	{
-		this->setCurPosition(newPosition);
-		return true;
-	}
-	return false;
-}
-
 bool Rook::checkMove(std::string newPosition)
 {
 	return ((newPosition[0] == this->getCurPosition()[0]) || (newPosition[1] == this->getCurPosition()[1]));
