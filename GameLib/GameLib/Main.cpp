@@ -2,6 +2,7 @@
 #include<memory>
 #include "Board.h"
 
+
 int main()
 {
 	Board myBoard;
@@ -10,7 +11,7 @@ int main()
 	{
 		for (int j = 0; j < 8; j++)
 		{
-			std::cout << myBoard.GetGameboard()[i][j]->GetName()[0] << " ";
+			std::cout << myBoard.GetGameboard()[i][j] << " ";
 		}
 		std::cout << std::endl;
 	}

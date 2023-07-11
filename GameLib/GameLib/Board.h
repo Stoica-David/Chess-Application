@@ -6,8 +6,9 @@
 #include "Queen.h"
 #include "Pawn.h"
 #include<array>
+#define stringify( name ) #name
 
-enum class EPieceType
+/*enum class EPieceType
 {
 	Rook,
 	Knight,
@@ -15,7 +16,7 @@ enum class EPieceType
 	King,
 	Queen,
 	Pawn
-};
+}*/;
 
 class Board
 {

@@ -1,16 +1,16 @@
 #include "Piece.h"
 
-Piece::Piece():name("-"), color(EColor::none)
+Piece::Piece():m_type(EPieceType::None), color(EColor::none)
 {
 }
 
-Piece::Piece(std::string name, EColor color)
+EPieceType Piece::GetType() const
 {
-	this->name = name;
+	return m_type;
+}
+
+Piece::Piece(EPieceType type, EColor color)
+{
+	this->m_type = type;
 	this->color = color;
-}
-
-std::string Piece::GetName()
-{
-	return this->name;
 }

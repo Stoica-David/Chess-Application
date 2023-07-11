@@ -1,9 +1,5 @@
 #include "Rook.h"
 
-Rook::Rook() :Piece("Rook")
-{
-}
-
-Rook::Rook(EColor color): Piece("Rook", color)
+Rook::Rook(EColor color): Piece(EPieceType::Rook, color)
 {
 }

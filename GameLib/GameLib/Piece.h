@@ -12,16 +12,27 @@ enum class EColor
 	none
 };
 
+enum class EPieceType
+{
+	Rook,
+	Knight,
+	Bishop,
+	Queen,
+	King,
+	Pawn,
+	None
+};
+
 class Piece
 {
 public:
 	// Constructors
 	Piece();
-	Piece(std::string, EColor=EColor::none);
+	Piece(EPieceType, EColor=EColor::none);
 
 	// Getters
-	std::string GetName();
+	EPieceType GetType() const;
 protected:
-	std::string name;
+	EPieceType m_type;
 	EColor color;
 };

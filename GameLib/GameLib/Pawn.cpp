@@ -1,9 +1,10 @@
 #include "Pawn.h"
 
-Pawn::Pawn() : Piece("Pawn")
+
+Pawn::Pawn()
 {
 }
 
-Pawn::Pawn(EColor) : Piece("Pawn", color)
+Pawn::Pawn(EColor) : Piece(EPieceType::Pawn, color)
 {
 }
