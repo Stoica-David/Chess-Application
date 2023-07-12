@@ -3,7 +3,6 @@
 class Knight :public Piece
 {
 public:
-	Knight();
 	Knight(EColor);
 };
 

@@ -4,7 +4,6 @@
 class Queen:public Piece
 {
 public:
-    Queen();
     Queen(EColor);
 };
 

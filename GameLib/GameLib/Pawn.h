@@ -4,7 +4,6 @@
 class Pawn:public Piece
 {
 public:
-    Pawn();
     Pawn(EColor);
 };
 
