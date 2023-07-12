@@ -1,5 +1,5 @@
 #include "Bishop.h"
 
-Bishop::Bishop(EColor) : Piece(EPieceType::Bishop, m_color)
+Bishop::Bishop(EColor color) : Piece(EPieceType::Bishop, color)
 {
 }

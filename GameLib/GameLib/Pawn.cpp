@@ -1,5 +1,5 @@
 #include "Pawn.h"
 
-Pawn::Pawn(EColor) : Piece(EPieceType::Pawn, m_color)
+Pawn::Pawn(EColor color) : Piece(EPieceType::Pawn, color)
 {
 }

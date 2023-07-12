@@ -32,6 +32,7 @@ public:
 
 	// Getters
 	EPieceType GetType() const;
+	EColor GetColor() const;
 protected:
 	EPieceType m_type;
 	EColor m_color;

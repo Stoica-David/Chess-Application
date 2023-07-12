@@ -6,7 +6,12 @@ Piece::Piece():m_type(EPieceType::None), m_color(EColor::none)
 
 EPieceType Piece::GetType() const
 {
-	return m_type;
+	return this->m_type;
+}
+
+EColor Piece::GetColor() const
+{
+	return this->m_color;
 }
 
 Piece::Piece(EPieceType type, EColor color)
