@@ -1,13 +1,13 @@
 #pragma once
+
 #include "Rook.h"
 #include "Knight.h"
 #include "Bishop.h"
 #include "King.h"
 #include "Queen.h"
 #include "Pawn.h"
-#include<array>
 
-class Piece;
+#include<array>
 
 class Board
 {

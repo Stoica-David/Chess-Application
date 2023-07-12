@@ -1,6 +1,7 @@
 #pragma once
+
 #include "IPiece.h"
-#include "Board.h"
+
 #include<memory>
 #include <string>
 #include <cmath>
@@ -36,7 +37,11 @@ public:
 	EPieceType GetType() const;
 	EColor GetColor() const;
 
+
+	bool IsMoveRegular(int x_curr, int y_curr, int x_next, int y_next) override;
+
 	//Functions
+
 	
 
 protected:
