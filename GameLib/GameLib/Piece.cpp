@@ -1,6 +1,6 @@
 #include "Piece.h"
 
-Piece::Piece():m_type(EPieceType::None), color(EColor::none)
+Piece::Piece():m_type(EPieceType::None), m_color(EColor::none)
 {
 }
 
@@ -12,5 +12,5 @@ EPieceType Piece::GetType() const
 Piece::Piece(EPieceType type, EColor color)
 {
 	this->m_type = type;
-	this->color = color;
+	this->m_color = color;
 }

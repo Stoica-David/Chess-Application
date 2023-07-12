@@ -4,5 +4,6 @@
 class Rook:public Piece
 {
 public:
+	Rook();
 	Rook(EColor);
 };

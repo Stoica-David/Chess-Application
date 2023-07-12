@@ -34,5 +34,5 @@ public:
 	EPieceType GetType() const;
 protected:
 	EPieceType m_type;
-	EColor color;
+	EColor m_color;
 };

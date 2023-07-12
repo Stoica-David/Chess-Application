@@ -6,9 +6,9 @@
 
 class Game
 {
-private:
-	Board gameboard;
-	std::vector<PiecesPtr> pieces;
 public:
 
+private:
+	Board m_gameboard;
+	std::vector<PiecesPtr> m_pieces;
 };

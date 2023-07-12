@@ -8,16 +8,6 @@
 #include<array>
 #define stringify( name ) #name
 
-/*enum class EPieceType
-{
-	Rook,
-	Knight,
-	Bishop,
-	King,
-	Queen,
-	Pawn
-}*/;
-
 class Board
 {
 public:
@@ -27,5 +17,5 @@ public:
 	// Getters
 	std::array<std::array<PiecesPtr, 8>, 8> GetGameboard();
 private:
-	std::array<std::array<PiecesPtr, 8>, 8> gameboard;
+	std::array<std::array<PiecesPtr, 8>, 8> m_gameboard;
 };

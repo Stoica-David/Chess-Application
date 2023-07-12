@@ -5,6 +5,6 @@ Pawn::Pawn()
 {
 }
 
-Pawn::Pawn(EColor) : Piece(EPieceType::Pawn, color)
+Pawn::Pawn(EColor) : Piece(EPieceType::Pawn, m_color)
 {
 }

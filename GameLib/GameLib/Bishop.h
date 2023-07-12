@@ -4,6 +4,7 @@ class Bishop :
     public Piece
 {
 public:
+    Bishop();
     Bishop(EColor);
 };
 

@@ -4,6 +4,7 @@ class King :
     public Piece
 {
 public:
+    King();
     King(EColor);
 };
 
