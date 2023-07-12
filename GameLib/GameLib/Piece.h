@@ -32,9 +32,10 @@ public:
 
 	// Getters
 	EPieceType GetType() const;
+	EColor GetColor() const;
 
 	//Functions
-	virtual bool IsMoveValid(int x_curr, int y_curr, int x_next, int y_next) = 0;
+	//bool IsMoveValid(int x_curr, int y_curr, int x_next, int y_next);
 protected:
 	EPieceType m_type;
 	EColor m_color;
