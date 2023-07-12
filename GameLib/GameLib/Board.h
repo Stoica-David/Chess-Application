@@ -15,6 +15,9 @@ public:
 
 	// Getters
 	std::array<std::array<PiecesPtr, 8>, 8> GetGameboard();
+
+	//Functions
+	bool positionExists(int x, int y);
 private:
 	std::array<std::array<PiecesPtr, 8>, 8> m_gameboard;
 };

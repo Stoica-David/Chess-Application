@@ -1,6 +1,7 @@
 #include<iostream>
 #include<memory>
 #include "Board.h"
+#include "gtest/gtest.h"
 
 int main()
 {
@@ -52,6 +53,8 @@ int main()
 		}
 		std::cout << std::endl;
 	}
+
+
 
 	return 0;
 }

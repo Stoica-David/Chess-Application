@@ -40,3 +40,10 @@ std::array<std::array<PiecesPtr, 8>, 8> Board::GetGameboard()
 	return this->m_gameboard;
 }
 
+bool Board::positionExists(int x, int y)
+{
+	if ((x > -1 && x < 8) && (y > -1 && y < 8))
+		return true;
+	return false;
+}
+
