@@ -40,6 +40,21 @@ INSTANTIATE_TEST_SUITE_P(Default, PieceParametricTest, testing::Values(
 	std::make_tuple(Pawn(EColor::black), EPieceType::Pawn, EColor::black)
 ));
 
+TEST(IsMoveRegularTest, BishopMove)
+{
+	Bishop b(EColor::white);
+	EXPECT_EQ(b.IsMoveRegular(4, 1, 2, 3), true);
+	EXPECT_EQ(b.IsMoveRegular(4, 1, 4, 5), false);
+}
+
+TEST(IsMoveRegularTest, KingMove)
+{
+	King k(EColor::black);
+	EXPECT_EQ(k.IsMoveRegular(4, 1, 5, 1), true);
+	EXPECT_EQ(k.IsMoveRegular(4, 1, 5, 3), false);
+
+}
+
 int main(int argc, char** argv)
 {
 	::testing::InitGoogleTest(&argc, argv);
