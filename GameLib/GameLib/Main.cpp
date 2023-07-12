@@ -2,7 +2,6 @@
 #include<memory>
 #include "Board.h"
 
-
 int main()
 {
 	Board myBoard;
@@ -11,7 +10,45 @@ int main()
 	{
 		for (int j = 0; j < 8; j++)
 		{
-			std::cout << myBoard.GetGameboard()[i][j] << " ";
+			switch (myBoard.GetGameboard()[i][j]->GetType())
+			{
+
+			case EPieceType::King:
+			{
+				std::cout << "K ";
+				break;
+			}
+			case EPieceType::Rook:
+			{
+				std::cout << "R ";
+				break;
+			}
+			case EPieceType::Knight:
+			{
+				std::cout << "Kn ";
+				break;
+			}
+
+			case EPieceType::Bishop:
+			{
+				std::cout << "B ";
+				break;
+			}
+			case EPieceType::Pawn:
+			{
+				std::cout << "P ";
+				break;
+			}
+			case EPieceType::Queen:
+			{
+				std::cout << "Q ";
+				break;
+			}
+			default:
+				std::cout << "- ";
+				break;
+
+			}
 		}
 		std::cout << std::endl;
 	}

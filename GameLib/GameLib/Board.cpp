@@ -30,8 +30,8 @@ Board::Board()
 
 	for (int i = 0; i < 8; i++)
 	{
-		this->m_gameboard[1][i] = std::make_shared<Pawn>();
-		this->m_gameboard[6][i] = std::make_shared<Pawn>();
+		this->m_gameboard[1][i] = std::make_shared<Pawn>(EColor::white);
+		this->m_gameboard[6][i] = std::make_shared<Pawn>(EColor::black);
 	}
 }
 

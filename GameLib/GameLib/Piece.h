@@ -14,7 +14,7 @@ enum class EColor
 
 enum class EPieceType
 {
-	Rook,
+	Rook = 0,
 	Knight,
 	Bishop,
 	Queen,
