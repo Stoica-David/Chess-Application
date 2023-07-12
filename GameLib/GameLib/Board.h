@@ -6,7 +6,6 @@
 #include "Queen.h"
 #include "Pawn.h"
 #include<array>
-#define stringify( name ) #name
 
 class Board
 {
