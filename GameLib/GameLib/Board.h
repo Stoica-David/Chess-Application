@@ -14,10 +14,11 @@ public:
 	Board();
 
 	// Getters
-	std::array<std::array<PiecesPtr, 8>, 8> GetGameboard();
+	std::array<std::array<PiecesPtr, 8>, 8> GetGameboard() const;
 
 	//Functions
 	bool PositionExists(int x, int y);
+
 private:
 	std::array<std::array<PiecesPtr, 8>, 8> m_gameboard;
 };

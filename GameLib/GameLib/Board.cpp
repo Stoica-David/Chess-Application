@@ -35,7 +35,7 @@ Board::Board()
 	}
 }
 
-std::array<std::array<PiecesPtr, 8>, 8> Board::GetGameboard()
+std::array<std::array<PiecesPtr, 8>, 8> Board::GetGameboard() const
 {
 	return this->m_gameboard;
 }

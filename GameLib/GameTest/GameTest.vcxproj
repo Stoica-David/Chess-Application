@@ -151,7 +151,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
-    <ClCompile Include="TestMain.cpp" />
+    <ClCompile Include="BoardTest.cpp" />
+    <ClCompile Include="PieceTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />
