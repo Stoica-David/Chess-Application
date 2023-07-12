@@ -1,7 +1,9 @@
 #pragma once
-
+#include "IPiece.h"
+#include "Board.h"
 #include<memory>
 #include <string>
+#include <cmath>
 
 using PiecesPtr = std::shared_ptr<class Piece>;
 
@@ -14,7 +16,7 @@ enum class EColor
 
 enum class EPieceType
 {
-	Rook = 0,
+	Rook,
 	Knight,
 	Bishop,
 	Queen,
@@ -23,7 +25,7 @@ enum class EPieceType
 	None
 };
 
-class Piece
+class Piece:public IPiece
 {
 public:
 	// Constructors
@@ -35,7 +37,8 @@ public:
 	EColor GetColor() const;
 
 	//Functions
-	//bool IsMoveValid(int x_curr, int y_curr, int x_next, int y_next);
+	
+
 protected:
 	EPieceType m_type;
 	EColor m_color;

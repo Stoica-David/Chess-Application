@@ -7,6 +7,8 @@
 #include "Pawn.h"
 #include<array>
 
+class Piece;
+
 class Board
 {
 public:

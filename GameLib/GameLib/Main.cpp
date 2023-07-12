@@ -56,12 +56,6 @@ int main()
 		}
 		std::cout << std::endl;
 	}
-	//if (myBoard.PositionExists(1, 3) && myBoard.PositionExists(3, 5))
-	//	if (b.IsMoveValid(1, 3, 3, 5))
-	//		std::cout << "Miscarea este posibila\n";
-
-
-
 
 	return 0;
 }

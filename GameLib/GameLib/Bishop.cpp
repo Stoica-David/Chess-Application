@@ -1,11 +1,9 @@
 #include "Bishop.h"
 
-//bool Bishop::IsMoveValid(int x_curr, int y_curr, int x_next, int y_next)
-//{
-//	if (x_next == y_next || x_next + y_next == 8)
-//		return true;
-//	return false;
-//}
+bool Bishop::IsMoveRegular(int x_curr, int y_curr, int x_next, int y_next)
+{
+	return (std::abs(x_curr - x_next) == std::abs(y_curr - y_next));
+}
 
 Bishop::Bishop(EColor color) : Piece(EPieceType::Bishop, color)
 {
