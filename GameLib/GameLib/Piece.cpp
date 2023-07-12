@@ -19,6 +19,10 @@ bool Piece::IsMoveRegular(int x_curr, int y_curr, int x_next, int y_next)
 	return true;
 }
 
+void Piece::DeterminePattern(int x_curr, int y_curr)
+{
+}
+
 Piece::Piece(EPieceType type, EColor color)
 {
 	this->m_type = type;

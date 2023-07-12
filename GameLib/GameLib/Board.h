@@ -6,7 +6,6 @@
 #include "King.h"
 #include "Queen.h"
 #include "Pawn.h"
-
 #include<array>
 
 class Board
@@ -20,6 +19,7 @@ public:
 
 	//Functions
 	bool PositionExists(int x, int y);
+	bool VerifyTheWay(int x_curr, int y_curr);
 
 private:
 	std::array<std::array<PiecesPtr, 8>, 8> m_gameboard;

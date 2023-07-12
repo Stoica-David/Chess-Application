@@ -40,6 +40,11 @@ std::array<std::array<PiecesPtr, 8>, 8> Board::GetGameboard() const
 	return this->m_gameboard;
 }
 
+bool Board::VerifyTheWay(int x_curr, int y_curr)
+{
+	return false;
+}
+
 
 bool Board::PositionExists(int x, int y)
 {

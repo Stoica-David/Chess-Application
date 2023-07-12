@@ -3,7 +3,7 @@
 #include "IPiece.h"
 
 #include<memory>
-#include <string>
+#include<vector>
 #include <cmath>
 
 using PiecesPtr = std::shared_ptr<class Piece>;
@@ -31,20 +31,18 @@ class Piece:public IPiece
 public:
 	// Constructors
 	Piece();
-	Piece(EPieceType, EColor=EColor::none);
+	Piece(EPieceType, EColor = EColor::none);
 
 	// Getters
 	EPieceType GetType() const;
 	EColor GetColor() const;
 
-
-	bool IsMoveRegular(int x_curr, int y_curr, int x_next, int y_next) override;
-
 	//Functions
-
-	
+	bool IsMoveRegular(int x_curr, int y_curr, int x_next, int y_next) override;
+	void DeterminePattern(int x_curr, int y_curr) override;
 
 protected:
 	EPieceType m_type;
 	EColor m_color;
+	std::vector<std::pair<int, int>> m_pattern;
 };
