@@ -9,8 +9,6 @@
 
 class PieceParametricTest : public testing::TestWithParam<std::tuple<Piece, EPieceType, EColor>>
 {
-protected:
-	Piece m_piece;
 };
 
 TEST_P(PieceParametricTest, CreationTest)
@@ -45,6 +43,7 @@ TEST(IsMoveRegularTest, BishopMove)
 	Bishop b(EColor::white);
 	EXPECT_EQ(b.IsMoveRegular(4, 1, 2, 3), true);
 	EXPECT_EQ(b.IsMoveRegular(4, 1, 4, 5), false);
+	EXPECT_EQ(b.IsMoveRegular(4, 1, 4, 1), false);
 }
 
 TEST(IsMoveRegularTest, KingMove)
@@ -52,8 +51,80 @@ TEST(IsMoveRegularTest, KingMove)
 	King k(EColor::black);
 	EXPECT_EQ(k.IsMoveRegular(4, 1, 5, 1), true);
 	EXPECT_EQ(k.IsMoveRegular(4, 1, 5, 3), false);
+	EXPECT_EQ(k.IsMoveRegular(4, 1, 4, 1), false);
 
 }
+
+TEST(IsMoveRegularTest, PawnMove)
+{
+	Pawn p1(EColor::black), p2(EColor::white);
+
+	EXPECT_EQ(p1.IsMoveRegular(1, 1, 0, 1), false);
+	EXPECT_EQ(p1.IsMoveRegular(1, 1, 3, 1), true);
+	EXPECT_EQ(p1.IsMoveRegular(1, 1, 2, 1), true);
+	EXPECT_EQ(p1.IsMoveRegular(6, 1, 6, 1), false);
+
+	EXPECT_EQ(p2.IsMoveRegular(6, 1, 5, 1), true);
+	EXPECT_EQ(p2.IsMoveRegular(6, 1, 4, 1), true);
+	EXPECT_EQ(p2.IsMoveRegular(6, 1, 7, 1), false);
+	EXPECT_EQ(p2.IsMoveRegular(6, 1, 6, 1), false);
+
+	EXPECT_EQ(p1.IsMoveRegular(2, 7, 3, 7), true);
+	EXPECT_EQ(p1.IsMoveRegular(2, 7, 4, 7), false);
+	EXPECT_EQ(p1.IsMoveRegular(2, 7, 6, 7), false);
+
+	EXPECT_EQ(p2.IsMoveRegular(5, 7, 4, 7), true);
+	EXPECT_EQ(p2.IsMoveRegular(5, 7, 3, 7), false);
+	EXPECT_EQ(p2.IsMoveRegular(5, 7, 1, 7), false);
+
+	EXPECT_EQ(p1.IsMoveRegular(1, 3, 2, 2), true);
+	EXPECT_EQ(p1.IsMoveRegular(1, 3, 2, 4), true);
+	EXPECT_EQ(p1.IsMoveRegular(1, 3, 1, 4), false);
+
+	EXPECT_EQ(p2.IsMoveRegular(4, 5, 3, 4), true);
+	EXPECT_EQ(p2.IsMoveRegular(4, 5, 3, 6), true);
+	EXPECT_EQ(p2.IsMoveRegular(4, 5, 2, 7), false);
+}
+
+TEST(IsMoveRegularTest, RookMove)
+{
+	Rook r(EColor::black);
+	EXPECT_EQ(r.IsMoveRegular(0, 7, 0, 4), true);
+	EXPECT_EQ(r.IsMoveRegular(0, 7, 3, 7), true);
+	EXPECT_EQ(r.IsMoveRegular(0, 7, 0, 7), false);
+	EXPECT_EQ(r.IsMoveRegular(0, 7, 3, 5), false);
+}
+
+TEST(IsMoveRegularTest, KnightMove)
+{
+	Knight Kn(EColor::black);
+	EXPECT_EQ(Kn.IsMoveRegular(3, 4, 1, 3), true);
+	EXPECT_EQ(Kn.IsMoveRegular(3, 4, 1, 5), true);
+	EXPECT_EQ(Kn.IsMoveRegular(3, 4, 2, 2), true);
+	EXPECT_EQ(Kn.IsMoveRegular(3, 4, 2, 6), true);
+	EXPECT_EQ(Kn.IsMoveRegular(3, 4, 4, 2), true);
+	EXPECT_EQ(Kn.IsMoveRegular(3, 4, 4, 6), true);
+	EXPECT_EQ(Kn.IsMoveRegular(3, 4, 5, 3), true);
+	EXPECT_EQ(Kn.IsMoveRegular(3, 4, 5, 5), true);
+
+	EXPECT_EQ(Kn.IsMoveRegular(3, 4, 3, 4), false);
+	EXPECT_EQ(Kn.IsMoveRegular(3, 4, 1, 2), false);
+	EXPECT_EQ(Kn.IsMoveRegular(3, 4, 7, 7), false);
+}
+
+TEST(IsMoveRegularTest, QueenMove)
+{
+	Queen Q(EColor::white);
+	EXPECT_EQ(Q.IsMoveRegular(2, 5, 0, 5), true);
+	EXPECT_EQ(Q.IsMoveRegular(2, 5, 0, 7), true);
+	EXPECT_EQ(Q.IsMoveRegular(2, 5, 4, 7), true);
+	EXPECT_EQ(Q.IsMoveRegular(2, 5, 0, 7), true);
+
+	EXPECT_EQ(Q.IsMoveRegular(2, 5, 2, 5), false);
+	EXPECT_EQ(Q.IsMoveRegular(2, 5, 3, 3), false);
+	EXPECT_EQ(Q.IsMoveRegular(2, 5, 7, 7), false);
+}
+
 
 int main(int argc, char** argv)
 {
