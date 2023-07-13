@@ -13,7 +13,6 @@ enum class EColor
 {
 	Black,
 	White,
-	None
 };
 
 enum class EPieceType
@@ -32,7 +31,7 @@ class Piece:public IPiece
 public:
 	// Constructors
 	Piece();
-	Piece(EPieceType, EColor = EColor::None);
+	Piece(EPieceType, EColor);
 
 	// Getters
 	EPieceType GetType() const;

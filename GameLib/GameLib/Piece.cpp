@@ -1,6 +1,6 @@
 #include "Piece.h"
 
-Piece::Piece():m_type(EPieceType::None), m_color(EColor::None)
+Piece::Piece():m_type(EPieceType::None), m_color(EColor::White)
 {
 }
 
@@ -13,7 +13,6 @@ EColor Piece::GetColor() const
 {
 	return m_color;
 }
-
 
 bool Piece::IsMoveRegular(Position p1, Position p2)
 {
