@@ -27,5 +27,5 @@ public:
 	void printBoard();
 
 private:
-	ChessBoard m_gameboard;
+	ChessBoard m_board;
 };

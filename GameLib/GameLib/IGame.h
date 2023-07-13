@@ -1,7 +1,8 @@
 #pragma once
+#include "IPiece.h"
 
 class IGame
 {
-	virtual bool MovePiece(int, int) = 0;
+	virtual bool Move(Position, Position) = 0;
 	virtual ~IGame() = default;
 };

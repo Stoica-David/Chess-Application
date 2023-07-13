@@ -13,22 +13,7 @@ PositionList Pawn::DeterminePattern(Position p1, Position p2)
 {
 	PositionList newPattern;
 
-	if (std::abs(p1.first - p2.first) == 2)
-	{
-		if (m_color == EColor::White)
-		{
-			newPattern.push_back({ p1.first - 1, p1.second });
-		}
-		else
-		{
-			newPattern.push_back({ p1.first + 1, p1.second });
-		}
-		newPattern.push_back(p2);
-	}
-	else
-	{
-		newPattern.push_back(p2);
-	}
+	newPattern.push_back(p2);
 
 	return newPattern;
 }
