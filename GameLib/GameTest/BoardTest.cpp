@@ -11,10 +11,10 @@ TEST(PositionExistsTest, AllPositions)
 TEST(VerifyTheWayTest, PawnTest)
 {
 	Board b;
-	EXPECT_EQ(b.VerifyTheWay({6,0}, {5,0}), true);
-	EXPECT_EQ(b.VerifyTheWay({6,0}, {4,0}), true);
-	EXPECT_EQ(b.VerifyTheWay({6,0}, {5,1}), true);
-	EXPECT_EQ(b.VerifyTheWay({6,0}, {7,0}), false);
+	EXPECT_EQ(b.VerifyTheWay({ 6,0 }, { 5,0 }), true);
+	EXPECT_EQ(b.VerifyTheWay({ 6,0 }, { 4,0 }), true);
+	EXPECT_EQ(b.VerifyTheWay({ 6,0 }, { 5,1 }), true);
+	EXPECT_EQ(b.VerifyTheWay({ 6,0 }, { 7,0 }), false);
 
 	EXPECT_EQ(b.VerifyTheWay({ 1,0 }, { 2,0 }), true);
 	EXPECT_EQ(b.VerifyTheWay({ 1,0 }, { 3,0 }), true);
@@ -25,7 +25,6 @@ TEST(VerifyTheWayTest, PawnTest)
 TEST(VerifyTheWayTest, RookTest)
 {
 	Board b;
-
 	EXPECT_EQ(b.VerifyTheWay({ 0,0 }, { 0,1 }), false);
 	EXPECT_EQ(b.VerifyTheWay({ 0,0 }, { 3,0 }), false);
 	EXPECT_EQ(b.VerifyTheWay({ 0,7 }, { 0,4 }), false);
@@ -76,12 +75,38 @@ TEST(VerifyTheWatTest, KnightTest)
 	EXPECT_EQ(b.VerifyTheWay({ 0, 4 }, { 1, 5 }), false);
 }
 
-int main(int argc, char** argv)
+TEST(VerifyTheWayTest, BishopTest)
 {
 	Board b;
+	EXPECT_EQ(b.VerifyTheWay({ 0,2 }, { 1,1 }), false);
+	EXPECT_EQ(b.VerifyTheWay({ 0,2 }, { 3,4 }), false);
+	EXPECT_EQ(b.VerifyTheWay({ 0,5 }, { 3,2 }), false);
+	EXPECT_EQ(b.VerifyTheWay({ 0,5 }, { 1,6 }), false);
+	EXPECT_EQ(b.VerifyTheWay({ 7,2 }, { 6,1 }), false);
+	EXPECT_EQ(b.VerifyTheWay({ 7,2 }, { 6,3 }), false);
+	EXPECT_EQ(b.VerifyTheWay({ 7,5 }, { 4,2 }), false);
+	EXPECT_EQ(b.VerifyTheWay({ 7,5 }, { 5,7 }), false);
+}
 
-	b.printBoard();
+TEST(VerifyTheWayTest, KnightTest)
+{
+	Board b;
+	EXPECT_EQ(b.VerifyTheWay({ 0,1 }, { 2,0 }), true);
+	EXPECT_EQ(b.VerifyTheWay({ 0,1 }, { 2,2 }), true);
+	EXPECT_EQ(b.VerifyTheWay({ 0,6 }, { 2,5 }), true);
+	EXPECT_EQ(b.VerifyTheWay({ 0,6 }, { 2,7 }), true);
+	EXPECT_EQ(b.VerifyTheWay({ 7,1 }, { 5,0 }), true);
+	EXPECT_EQ(b.VerifyTheWay({ 7,1 }, { 5,2 }), true);
+	EXPECT_EQ(b.VerifyTheWay({ 7,6 }, { 5,5 }), true);
+	EXPECT_EQ(b.VerifyTheWay({ 7,6 }, { 5,7 }), true);
+	EXPECT_EQ(b.VerifyTheWay({ 0,1 }, { 1,3 }), false);
+	EXPECT_EQ(b.VerifyTheWay({ 0,6 }, { 1,4 }), false);
+	EXPECT_EQ(b.VerifyTheWay({ 7,1 }, { 6,3 }), false);
+	EXPECT_EQ(b.VerifyTheWay({ 7,6 }, { 6,4 }), false);
+}
 
+int main(int argc, char** argv)
+{
 	::testing::InitGoogleTest(&argc, argv);
 	return RUN_ALL_TESTS();
 }

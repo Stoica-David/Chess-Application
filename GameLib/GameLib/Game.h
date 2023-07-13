@@ -1,6 +1,8 @@
 #pragma once
+
 #include "Board.h"
 #include "Piece.h"
+
 #include<vector>
 #include<memory>
 
@@ -10,5 +12,6 @@ public:
 
 private:
 	Board m_gameboard;
+
 	std::vector<PiecesPtr> m_pieces;
 };

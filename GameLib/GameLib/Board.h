@@ -8,6 +8,8 @@
 #include "Pawn.h"
 #include<array>
 
+using ChessBoard = std::array<std::array<PiecesPtr, 8>, 8>;
+
 class Board
 {
 public:
@@ -15,15 +17,15 @@ public:
 	Board();
 
 	// Getters
-	std::array<std::array<PiecesPtr, 8>, 8> GetGameboard() const;
+	ChessBoard GetGameboard() const;
 
 	// Functions
-	bool PositionExists(Position p);
-	bool VerifyTheWay(Position p1, Position p2);
+	bool PositionExists(Position p) const;
+	bool VerifyTheWay(Position p1, Position p2) const;
 
 	// Temporary
 	void printBoard();
 
 private:
-	std::array<std::array<PiecesPtr, 8>, 8> m_gameboard;
+	ChessBoard m_gameboard;
 };
