@@ -153,6 +153,29 @@ TEST(DeterminePatternTest, BishopPattern)
 	EXPECT_EQ(B.DeterminePattern({ 4, 4 }, { 6, 6 }), P4);
 }
 
+TEST(DeterminePatternTest, QueenTest)
+{
+	Queen Q(EColor::White);
+
+	PositionList P1 = { { 0,1 }, { 0,2 }, { 0,3 }, { 0,4 } };
+	PositionList P2 = { { 1,3 }, { 1,4 }, { 1,5 }, {1,6} };
+	PositionList P3 = { { 2,5 }, { 3,5 }, { 4,5 }, {5,5} };
+	PositionList P4 = { { 1,0 }, { 2,0 } };
+	PositionList P5 = { { 3,5 }, { 2,6} };
+	PositionList P6 = { { 3,3 }, { 2,2 }, { 1,1 }, {0,0} };
+	PositionList P7 = { { 5,3 }, { 6,2 }, { 7,1} };
+	PositionList P8 = { { 5,5 }, { 6,6 } };
+
+	EXPECT_EQ(Q.DeterminePattern({ 0, 0 }, { 0, 4 }), P1);
+	EXPECT_EQ(Q.DeterminePattern({ 1, 2 }, { 1, 6 }), P2);
+	EXPECT_EQ(Q.DeterminePattern({ 1, 5 }, { 5, 5 }), P3);
+	EXPECT_EQ(Q.DeterminePattern({ 0, 0 }, { 2, 0 }), P4);
+	EXPECT_EQ(Q.DeterminePattern({ 4, 4 }, { 2, 6 }), P5);
+	EXPECT_EQ(Q.DeterminePattern({ 4, 4 }, { 0, 0 }), P6);
+	EXPECT_EQ(Q.DeterminePattern({ 4, 4 }, { 7, 1 }), P7);
+	EXPECT_EQ(Q.DeterminePattern({ 4, 4 }, { 6, 6 }), P8);
+}
+
 int main(int argc, char** argv)
 {
 	::testing::InitGoogleTest(&argc, argv);
