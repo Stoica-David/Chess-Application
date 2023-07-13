@@ -199,6 +199,13 @@ TEST(DeterminePatternTest, PawnPattern)
 	EXPECT_EQ(Pa1.DeterminePattern({ 1, 0 }, { 1, 2 }), P1);
 	EXPECT_EQ(Pa1.DeterminePattern({ 1, 0 }, { 2, 1 }), P2);
 	EXPECT_EQ(Pa1.DeterminePattern({ 1, 0 }, { 3, 0 }), P3);
+
+	PositionList P4 = { {5,1} };
+	PositionList P5 = { {5,0} };
+	PositionList P6 = { {5,1}, {4,1} };
+	EXPECT_EQ(Pa2.DeterminePattern({ 6, 1 }, { 5, 1 }), P4);
+	EXPECT_EQ(Pa2.DeterminePattern({ 6, 1 }, { 5, 0 }), P5);
+	EXPECT_EQ(Pa2.DeterminePattern({ 6, 1 }, { 4, 1 }), P6);
 }
 
 int main(int argc, char** argv)
