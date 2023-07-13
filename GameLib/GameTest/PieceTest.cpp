@@ -125,6 +125,14 @@ TEST(IsMoveRegularTest, QueenMove)
 	EXPECT_EQ(Q.IsMoveRegular({ 2, 5 }, { 7, 7 }), false);
 }
 
+TEST(DeterminePatternTest, RookPattern)
+{
+	Rook R(EColor::Black);
+	PositionList P = { { 0,1 }, { 0,2 }, { 0,3 }, { 0,4 } };
+
+	EXPECT_EQ(R.DeterminePattern({ 0, 0 }, { 0, 4 }), P);
+}
+
 int main(int argc, char** argv)
 {
 	::testing::InitGoogleTest(&argc, argv);
