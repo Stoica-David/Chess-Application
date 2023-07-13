@@ -17,9 +17,12 @@ public:
 	// Getters
 	std::array<std::array<PiecesPtr, 8>, 8> GetGameboard() const;
 
-	//Functions
-	bool PositionExists(int x, int y);
-	bool VerifyTheWay(int x_curr, int y_curr);
+	// Functions
+	bool PositionExists(Position p);
+	bool VerifyTheWay(Position p1, Position p2);
+
+	// Temporary
+	void printBoard();
 
 private:
 	std::array<std::array<PiecesPtr, 8>, 8> m_gameboard;
