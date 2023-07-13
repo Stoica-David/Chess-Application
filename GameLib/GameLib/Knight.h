@@ -8,6 +8,6 @@ public:
 	// Constructor
 	Knight(EColor);
 	
-	bool IsMoveRegular(int x_curr, int y_curr, int x_next, int y_next) override;
+	bool IsMoveRegular(Position p1, Position p2) override;
 };
 

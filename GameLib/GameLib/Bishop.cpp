@@ -1,8 +1,8 @@
 #include "Bishop.h"
 
-bool Bishop::IsMoveRegular(int x_curr, int y_curr, int x_next, int y_next)
+bool Bishop::IsMoveRegular(Position p1, Position p2)
 {
-	return (std::abs(x_curr - x_next) == std::abs(y_curr - y_next) && (x_curr != x_next && y_curr != y_next));
+	return (std::abs(p1.first - p2.first) == std::abs(p1.second - p2.second) && (p1.first != p2.first && p1.second != p2.second));
 }
 
 Bishop::Bishop(EColor color) : Piece(EPieceType::Bishop, color)

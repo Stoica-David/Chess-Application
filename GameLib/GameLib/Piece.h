@@ -5,14 +5,15 @@
 #include<memory>
 #include<vector>
 #include <cmath>
+#include <utility>
 
 using PiecesPtr = std::shared_ptr<class Piece>;
 
 enum class EColor
 {
-	black,
-	white,
-	none
+	Black,
+	White,
+	None
 };
 
 enum class EPieceType
@@ -31,18 +32,17 @@ class Piece:public IPiece
 public:
 	// Constructors
 	Piece();
-	Piece(EPieceType, EColor = EColor::none);
+	Piece(EPieceType, EColor = EColor::None);
 
 	// Getters
 	EPieceType GetType() const;
 	EColor GetColor() const;
 
 	//Functions
-	bool IsMoveRegular(int x_curr, int y_curr, int x_next, int y_next) override;
-	void DeterminePattern(int x_curr, int y_curr) override;
+	bool IsMoveRegular(Position p1, Position p2) override;
+	PositionList DeterminePattern(Position p1, Position p2) override;
 
 protected:
 	EPieceType m_type;
 	EColor m_color;
-	std::vector<std::pair<int, int>> m_pattern;
 };

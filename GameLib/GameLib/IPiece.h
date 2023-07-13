@@ -1,8 +1,14 @@
 #pragma once
 
+#include <utility>
+#include <vector>
+
+using Position = std::pair<int, int>;
+using PositionList = std::vector<Position>;
+
 class IPiece
 {
 public:
-	virtual bool IsMoveRegular(int x_curr, int y_curr, int x_next, int y_next)=0;
-	virtual void DeterminePattern(int x_curr, int y_curr) = 0;
+	virtual bool IsMoveRegular(Position p1, Position p2)=0;
+	virtual PositionList DeterminePattern(Position p1, Position p2)=0;
 };

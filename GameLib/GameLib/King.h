@@ -8,6 +8,6 @@ public:
     King(EColor);
 
     // Other methods
-    bool IsMoveRegular(int x_curr, int y_curr, int x_next, int y_next);
+    bool IsMoveRegular(Position p1, Position p2);
 };
 

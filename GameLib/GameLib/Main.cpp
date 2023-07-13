@@ -7,7 +7,7 @@
 int main()
 {
 
-	Bishop b(EColor::white);
+	Bishop b(EColor::White);
 	Board myBoard;
 
 	for (int i = 0; i < 8; i++)
