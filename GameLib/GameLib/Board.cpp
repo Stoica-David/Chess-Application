@@ -14,8 +14,8 @@ Board::Board()
 	this->m_gameboard[0][0] = std::make_shared<Rook>(EColor::Black);
 	this->m_gameboard[0][1] = std::make_shared<Knight>(EColor::Black);
 	this->m_gameboard[0][2] = std::make_shared<Bishop>(EColor::Black);
-	this->m_gameboard[0][3] = std::make_shared<King>(EColor::Black);
-	this->m_gameboard[0][4] = std::make_shared<Queen>(EColor::Black);
+	this->m_gameboard[0][3] = std::make_shared<Queen>(EColor::Black);
+	this->m_gameboard[0][4] = std::make_shared<King>(EColor::Black);
 	this->m_gameboard[0][5] = std::make_shared<Bishop>(EColor::Black);
 	this->m_gameboard[0][6] = std::make_shared<Knight>(EColor::Black);
 	this->m_gameboard[0][7] = std::make_shared<Rook>(EColor::Black);
@@ -23,8 +23,8 @@ Board::Board()
 	this->m_gameboard[7][0] = std::make_shared<Rook>(EColor::White);
 	this->m_gameboard[7][1] = std::make_shared<Knight>(EColor::White);
 	this->m_gameboard[7][2] = std::make_shared<Bishop>(EColor::White);
-	this->m_gameboard[7][3] = std::make_shared<King>(EColor::White);
-	this->m_gameboard[7][4] = std::make_shared<Queen>(EColor::White);
+	this->m_gameboard[7][3] = std::make_shared<Queen>(EColor::White);
+	this->m_gameboard[7][4] = std::make_shared<King>(EColor::White);
 	this->m_gameboard[7][5] = std::make_shared<Bishop>(EColor::White);
 	this->m_gameboard[7][6] = std::make_shared<Knight>(EColor::White);
 	this->m_gameboard[7][7] = std::make_shared<Rook>(EColor::White);

@@ -36,6 +36,46 @@ TEST(VerifyTheWayTest, RookTest)
 	EXPECT_EQ(b.VerifyTheWay({ 7,0 }, { 7,5 }), false);
 }
 
+TEST(VerifyTheWatTest, QueenTest)
+{
+	Board b;
+	//white
+	EXPECT_EQ(b.VerifyTheWay({7, 3}, {6, 3}), false);
+	EXPECT_EQ(b.VerifyTheWay({7, 3}, {7, 0}), false);
+	EXPECT_EQ(b.VerifyTheWay({7, 3}, {7, 7}), false);
+	EXPECT_EQ(b.VerifyTheWay({7, 3}, {4, 0}), false);
+	EXPECT_EQ(b.VerifyTheWay({7, 3}, {4, 7}), false);
+	EXPECT_EQ(b.VerifyTheWay({ 7, 3 }, { 5, 4 }), false);
+
+	//black
+	EXPECT_EQ(b.VerifyTheWay({ 0, 3 }, { 0, 0 }), false);
+	EXPECT_EQ(b.VerifyTheWay({ 0, 3 }, { 0, 7 }), false);
+	EXPECT_EQ(b.VerifyTheWay({ 0, 3 }, { 5, 3 }), false);
+	EXPECT_EQ(b.VerifyTheWay({ 0, 3 }, { 3, 0 }), false);
+	EXPECT_EQ(b.VerifyTheWay({ 0, 3 }, { 4, 7 }), false);
+
+
+}
+
+TEST(VerifyTheWatTest, KnightTest)
+{
+	Board b;
+
+	//white
+	EXPECT_EQ(b.VerifyTheWay({ 7, 4 }, { 7, 3 }), false);
+	EXPECT_EQ(b.VerifyTheWay({ 7, 4 }, { 7, 4 }), false);
+	EXPECT_EQ(b.VerifyTheWay({ 7, 4 }, { 6, 4 }), false);
+	EXPECT_EQ(b.VerifyTheWay({ 7, 4 }, { 6, 3 }), false);
+	EXPECT_EQ(b.VerifyTheWay({ 7, 4 }, { 6, 5 }), false);
+
+	//black
+	EXPECT_EQ(b.VerifyTheWay({ 0, 4 }, { 0, 3 }), false);
+	EXPECT_EQ(b.VerifyTheWay({ 0, 4 }, { 0, 5 }), false);
+	EXPECT_EQ(b.VerifyTheWay({ 0, 4 }, { 1, 3 }), false);
+	EXPECT_EQ(b.VerifyTheWay({ 0, 4 }, { 1, 4 }), false);
+	EXPECT_EQ(b.VerifyTheWay({ 0, 4 }, { 1, 5 }), false);
+}
+
 int main(int argc, char** argv)
 {
 	Board b;
