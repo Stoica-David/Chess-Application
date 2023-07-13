@@ -128,9 +128,29 @@ TEST(IsMoveRegularTest, QueenMove)
 TEST(DeterminePatternTest, RookPattern)
 {
 	Rook R(EColor::Black);
-	PositionList P = { { 0,1 }, { 0,2 }, { 0,3 }, { 0,4 } };
+	PositionList P1 = { { 0,1 }, { 0,2 }, { 0,3 }, { 0,4 } };
+	PositionList P2 = { { 1,3 }, { 1,4 }, { 1,5 }, {1,6} };
+	PositionList P3 = { { 2,5 }, { 3,5 }, { 4,5 }, {5,5} };
+	PositionList P4 = { { 1,0 }, { 2,0 }};
 
-	EXPECT_EQ(R.DeterminePattern({ 0, 0 }, { 0, 4 }), P);
+	EXPECT_EQ(R.DeterminePattern({ 0, 0 }, { 0, 4 }), P1);
+	EXPECT_EQ(R.DeterminePattern({ 1, 2 }, { 1, 6 }), P2);
+	EXPECT_EQ(R.DeterminePattern({ 1, 5 }, { 5, 5 }), P3);
+	EXPECT_EQ(R.DeterminePattern({ 0, 0 }, { 2, 0 }), P4);
+}
+
+TEST(DeterminePatternTest, BishopPattern)
+{
+	Bishop B(EColor::Black);
+	PositionList P1 = { { 3,5 }, { 2,6} };
+	PositionList P2 = { { 3,3 }, { 2,2 }, { 1,1 }, {0,0} };
+	PositionList P3 = { { 5,3 }, { 6,2 }, { 7,1} };
+	PositionList P4 = { { 5,5 }, { 6,6 } };
+
+	EXPECT_EQ(B.DeterminePattern({ 4, 4 }, { 2, 6 }), P1);
+	EXPECT_EQ(B.DeterminePattern({ 4, 4 }, { 0, 0 }), P2);
+	EXPECT_EQ(B.DeterminePattern({ 4, 4 }, { 7, 1 }), P3);
+	EXPECT_EQ(B.DeterminePattern({ 4, 4 }, { 6, 6 }), P4);
 }
 
 int main(int argc, char** argv)

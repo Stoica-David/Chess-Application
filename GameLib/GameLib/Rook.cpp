@@ -12,7 +12,7 @@ PositionList Rook::DeterminePattern(Position p1, Position p2)
 
 	if (p1.first == p2.first)
 	{
-		for (int i = 0; i <= p2.second; i++)
+		for (int i = p1.second; i <= p2.second; i++)
 		{
 			if (i != p1.second)
 				newPattern.push_back(std::make_pair(p1.first, i));
@@ -20,7 +20,7 @@ PositionList Rook::DeterminePattern(Position p1, Position p2)
 	}
 	else
 	{
-		for (int i = 0; i <= p2.first; i++)
+		for (int i = p1.first; i <= p2.first; i++)
 		{
 			if (i != p1.first)
 				newPattern.push_back(std::make_pair(i, p1.second));
