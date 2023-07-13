@@ -176,6 +176,31 @@ TEST(DeterminePatternTest, QueenTest)
 	EXPECT_EQ(Q.DeterminePattern({ 4, 4 }, { 6, 6 }), P8);
 }
 
+TEST(DeterminePatternTest, KingTest)
+{
+	King K(EColor::White);
+
+	PositionList P1 = { { 0, 1 } };
+	PositionList P2 = { { 4, 4 } };
+	PositionList P3 = { { 7, 6 } };
+
+	EXPECT_EQ(K.DeterminePattern({ 0, 0 }, { 0, 1 }), P1);
+	EXPECT_EQ(K.DeterminePattern({ 4, 3 }, { 4, 4 }), P2);
+	EXPECT_EQ(K.DeterminePattern({ 7, 7 }, { 7, 6 }), P3);
+}
+
+TEST(DeterminePatternTest, PawnPattern)
+{
+	Pawn Pa1(EColor::Black), Pa2(EColor::White);
+	PositionList P1 = { {1,2 }};
+	PositionList P2 = { { 2, 1 } };
+	PositionList P3 = { {2,0 }, {3,0}};
+
+	EXPECT_EQ(Pa1.DeterminePattern({ 1, 0 }, { 1, 2 }), P1);
+	EXPECT_EQ(Pa1.DeterminePattern({ 1, 0 }, { 2, 1 }), P2);
+	EXPECT_EQ(Pa1.DeterminePattern({ 1, 0 }, { 3, 0 }), P3);
+}
+
 int main(int argc, char** argv)
 {
 	::testing::InitGoogleTest(&argc, argv);
