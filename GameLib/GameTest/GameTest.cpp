@@ -57,7 +57,6 @@ TEST(MoveTest, QueenTest)
 	EXPECT_EQ(g.Move({ 1, 7 }, { 6, 7 }), false);
 	EXPECT_EQ(g.Move({ 1, 7 }, { 0, 7 }), true);
 	EXPECT_EQ(g.Move({ 0, 7 }, { -1, 7 }), false);
-	g.m_gameboard.printBoard();
 }
 
 TEST(MoveTest, PawnMove)
@@ -94,6 +93,20 @@ TEST(MoveTest, KingMove)
 	EXPECT_EQ(g.Move({ 1,4 }, { 2,5 }), true);
 	EXPECT_EQ(g.Move({ 2,5 }, { 2,2 }), false);
 	EXPECT_EQ(g.Move({ 2,5 }, { 3,6 }), true);
+}
+
+TEST(MoveTest, BishopMove)
+{
+	Game g;
+
+	EXPECT_EQ(g.Move({ 1,1 }, { 3,1 }), true);
+	EXPECT_EQ(g.Move({ 0,2 }, { 1,1 }), true);
+	EXPECT_EQ(g.Move({ 1,1 }, { 6,6 }), true);
+	EXPECT_EQ(g.Move({ 6,5 }, { 5,5 }), true);
+	EXPECT_EQ(g.Move({ 6,6 }, { 4,4 }), false);
+	EXPECT_EQ(g.Move({ 6,6 }, { 7,7 }), true);
+	EXPECT_EQ(g.Move({ 6,6 }, { 12,7 }), false);
+	EXPECT_EQ(g.Move({ 6,6 }, { 5,6 }), false);
 }
 
 int main(int argv, char** argc)

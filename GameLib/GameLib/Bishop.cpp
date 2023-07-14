@@ -11,26 +11,26 @@ PositionList Bishop::DeterminePattern(Position p1, Position p2)
 
 	int x = p1.first, y = p1.second;
 
-	if (x > p2.first)
+	if (p1.first > p2.first)
 	{
-		if (p2.second > y)
+		if (p2.second > p1.second)
 		{
-			while (x > p2.first && y < p2.second)
+			while (p1.first > p2.first && p1.second < p2.second)
 			{
-				x--;
-				y++;
+				p1.first--;
+				p1.second++;
 
-				newPosition.push_back({ x, y });
+				newPosition.push_back({ p1.first, p1.second });
 			}
 		}
 		else
 		{
-			while (x > p2.first && y > p2.second)
+			while (p1.first > p2.first && p1.second > p2.second)
 			{
-				x--;
-				y--;
+				p1.first--;
+				p1.second--;
 
-				newPosition.push_back({ x, y });
+				newPosition.push_back({ p1.first, p1.second });
 			}
 		}
 	}
@@ -38,22 +38,22 @@ PositionList Bishop::DeterminePattern(Position p1, Position p2)
 	{
 		if (p2.second > p1.second)
 		{
-			while (x < p2.first && y < p2.second)
+			while (p1.first < p2.first && p1.second < p2.second)
 			{
-				x++;
-				y++;
+				p1.first++;
+				p1.second++;
 
-				newPosition.push_back({ x, y });
+				newPosition.push_back({ p1.first, p1.second });
 			}
 		}
 		else
 		{
-			while (x < p2.first && y > p2.second)
+			while (p1.first < p2.first && p1.second > p2.second)
 			{
-				x++;
-				y--;
+				p1.first++;
+				p1.second--;
 
-				newPosition.push_back({ x, y });
+				newPosition.push_back({ p1.first, p1.second });
 			}
 		}
 	}
