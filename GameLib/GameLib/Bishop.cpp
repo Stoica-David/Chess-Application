@@ -2,14 +2,12 @@
 
 bool Bishop::IsMoveRegular(Position p1, Position p2)
 {
-	return (std::abs(p1.first - p2.first) == std::abs(p1.second - p2.second) && (p1.first != p2.first && p1.second != p2.second));
+	return (AbsValue(p1.first, p2.first) == AbsValue(p1.second, p2.second) && (p1.first != p2.first && p1.second != p2.second));
 }
 
 PositionList Bishop::DeterminePattern(Position p1, Position p2)
 {
 	PositionList newPosition;
-
-	int x = p1.first, y = p1.second;
 
 	if (p1.first > p2.first)
 	{

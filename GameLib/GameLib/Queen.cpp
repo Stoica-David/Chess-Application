@@ -8,7 +8,7 @@ Queen::Queen(EColor color) :Piece(EPieceType::Queen, color)
 
 bool Queen::IsMoveRegular(Position p1, Position p2)
 {
-	return (((p1.first == p2.first) ^ (p1.second == p2.second)) || (std::abs(p2.first - p1.first) == std::abs(p2.second - p1.second) && (p2.first != p1.first || p2.second != p1.second)));
+	return (((p1.first == p2.first) ^ (p1.second == p2.second)) || (AbsValue(p2.first, p1.first) == AbsValue(p2.second, p1.second) && (p2.first != p1.first || p2.second != p1.second)));
 }
 
 PositionList Queen::DeterminePattern(Position p1, Position p2)

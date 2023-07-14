@@ -5,7 +5,6 @@
 
 int main()
 {
-
 	Bishop b(EColor::White);
 	Game g;
 
