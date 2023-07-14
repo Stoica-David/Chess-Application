@@ -1,15 +1,36 @@
-#include<iostream>
+#include <iostream>
 #include "Game.h"
 
 bool Game::Move(Position p1, Position p2)
 {
-	//PiecesPtr currPiece = Game::m_gameboard.GetGameboard()[p1.first][p2.first];
+	PiecesPtr currPiece, nextPiece;
 
-	if (m_gameboard.GetGameboard()[p1.first][p1.second] && m_gameboard.PositionExists(p2) && m_gameboard.GetGameboard()[p1.first][p1.second]->IsMoveRegular(p1, p2) && m_gameboard.VerifyTheWay(p1, p2))
+	if (m_gameboard.PositionExists(p1) && m_gameboard.PositionExists(p2))
 	{
-		m_gameboard.SetGameboard(p2, m_gameboard.GetGameboard()[p1.first][p1.second]);
+		currPiece = m_gameboard.GetGameboard()[p1.first][p1.second];
+		nextPiece = m_gameboard.GetGameboard()[p2.first][p2.second];
+	}
+	else
+	{
+		return false;
+	}
+
+	if (currPiece && currPiece->IsMoveRegular(p1, p2) && m_gameboard.VerifyTheWay(p1, p2))
+	{
+		if (currPiece->GetType() == EPieceType::Pawn && std::abs(p2.first - p1.first) == 1 && std::abs(p2.second - p1.second) == 1 && (!nextPiece || nextPiece->GetColor() == currPiece->GetColor()))
+		{
+			return false;
+		}
+
+		if (nextPiece && currPiece->GetColor() == nextPiece->GetColor())
+		{
+			return false;
+		}
+
+		m_gameboard.SetGameboard(p2, currPiece);
 		m_gameboard.FreePosition(p1);
 		return true;
 	}
+
 	return false;
 }

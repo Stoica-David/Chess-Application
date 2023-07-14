@@ -54,7 +54,7 @@ bool Board::VerifyTheWay(Position p1, Position p2) const
 	{
 		if (m_board[currPos.first][currPos.second])
 		{
-			if ((currPos != p2) || (currPos == p2 && m_board[currPos.first][currPos.second]))
+			if ((currPos != p2) || (currPos == p2 && m_board[currPos.first][currPos.second] && m_board[p1.first][p1.second]->GetColor() == m_board[currPos.first][currPos.second]->GetColor()))
 			{
 				return false;
 			}
