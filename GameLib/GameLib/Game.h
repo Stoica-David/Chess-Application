@@ -1,5 +1,6 @@
 #pragma once
 
+#include "IGame.h"
 #include "Board.h"
 #include "Piece.h"
 
@@ -8,14 +9,14 @@
 
 
 
-class Game
+class Game:public IGame
 {
 public:
 	//Getters
 	ChessBoard GetBoard();
 
 	//Other methods
-	bool Move(Position p1, Position p2);
+	bool Move(Position p1, Position p2) override;
 
 private:
 	Board m_gameboard;
