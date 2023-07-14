@@ -49,15 +49,16 @@ TEST(MoveTest, QueenTest)
 {
 	Game g;
 
-	EXPECT_EQ(g.Move({7, 3}, {4, 3}), false);
-	EXPECT_EQ(g.Move({6, 3}, {4, 3}), true);
+	EXPECT_EQ(g.Move({ 7, 3 }, { 4, 3 }), false);
+	EXPECT_EQ(g.Move({ 6, 3 }, { 4, 3 }), true);
 	EXPECT_EQ(g.Move({ 7, 3 }, { 5, 3 }), true);
-	EXPECT_EQ(g.Move({5, 3}, {1, 7}), true);
-	EXPECT_EQ(g.Move({1, 7}, {6, 2}), false);
-	EXPECT_EQ(g.Move({1, 7}, {6, 7}), false);
-	EXPECT_EQ(g.Move({1, 7}, {0, 7}), true);
-	EXPECT_EQ(g.Move({0, 7}, {-1, 7}), false);
+	EXPECT_EQ(g.Move({ 5, 3 }, { 1, 7 }), true);
+	EXPECT_EQ(g.Move({ 1, 7 }, { 6, 2 }), false);
+	EXPECT_EQ(g.Move({ 1, 7 }, { 6, 7 }), false);
+	EXPECT_EQ(g.Move({ 1, 7 }, { 0, 7 }), true);
+	EXPECT_EQ(g.Move({ 0, 7 }, { -1, 7 }), false);
 	g.m_gameboard.printBoard();
+}
 
 TEST(MoveTest, PawnMove)
 {
