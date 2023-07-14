@@ -19,9 +19,13 @@ public:
 	// Getters
 	ChessBoard GetGameboard() const;
 
+	// Setters
+	void SetGameboard(Position p, PiecesPtr newPiece);
+
 	// Functions
 	bool PositionExists(Position p) const;
 	bool VerifyTheWay(Position p1, Position p2) const;
+	void FreePosition(Position p);
 
 	// Temporary
 	void printBoard();

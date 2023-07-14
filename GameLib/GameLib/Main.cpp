@@ -1,20 +1,20 @@
 #include<iostream>
 #include<memory>
-#include "Board.h"
-#include "Piece.h"
+#include "Game.h"
 
 
 int main()
 {
 
 	Bishop b(EColor::White);
-	Board myBoard;
+	Game g;
 
 	for (int i = 0; i < 8; i++)
 	{
 		for (int j = 0; j < 8; j++)
 		{
-			switch (myBoard.GetGameboard()[i][j]->GetType())
+			if(g.m_gameboard.GetGameboard()[i][j])
+			switch (g.m_gameboard.GetGameboard()[i][j]->GetType())
 			{
 
 			case EPieceType::King:
@@ -50,8 +50,11 @@ int main()
 			}
 			default:
 				std::cout << "- ";
-				break;
 
+			}
+			else
+			{
+				std::cout << "- ";
 			}
 		}
 		std::cout << std::endl;

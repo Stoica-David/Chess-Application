@@ -1,9 +1,5 @@
 #include "Piece.h"
 
-Piece::Piece():m_type(EPieceType::None), m_color(EColor::White)
-{
-}
-
 EPieceType Piece::GetType() const
 {
 	return m_type;

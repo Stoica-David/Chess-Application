@@ -22,15 +22,13 @@ enum class EPieceType
 	Bishop,
 	Queen,
 	King,
-	Pawn,
-	None
+	Pawn
 };
 
 class Piece:public IPiece
 {
 public:
 	// Constructors
-	Piece();
 	Piece(EPieceType, EColor);
 
 	// Getters

@@ -41,6 +41,11 @@ ChessBoard Board::GetGameboard() const
 	return m_board;
 }
 
+void Board::SetGameboard(Position p, PiecesPtr newPiece)
+{
+	m_board[p.first][p.second] = newPiece;
+}
+
 bool Board::VerifyTheWay(Position p1, Position p2) const
 {
 	PositionList piecePattern = m_board[p1.first][p1.second]->DeterminePattern(p1, p2);
@@ -57,6 +62,11 @@ bool Board::VerifyTheWay(Position p1, Position p2) const
 	}
 
 	return true;
+}
+
+void Board::FreePosition(Position p)
+{
+	m_board[p.first][p.second] = {};
 }
 
 // Delete later on
@@ -101,12 +111,16 @@ void Board::printBoard()
 					std::cout << "Q ";
 					break;
 				}
+				Default:
+				{
+					std::cout << "- ";
+					break;
+				}
 				}
 			}
 			else
 			{
 				std::cout << "- ";
-				break;
 			}
 			
 		}
