@@ -13,13 +13,13 @@ TEST(MoveTest, RookTest)
 	EXPECT_EQ(g.Move({ 0,0 }, { 0,1 }), false);
 	EXPECT_EQ(g.Move({ 0,0 }, { 8,1 }), false);
 
-	EXPECT_EQ(g.m_gameboard.GetGameboard()[1][7], nullptr);
-	EXPECT_EQ(g.m_gameboard.GetGameboard()[0][7], nullptr);
-	EXPECT_EQ(g.m_gameboard.GetGameboard()[2][7], nullptr);
-	EXPECT_EQ(g.m_gameboard.GetGameboard()[2][6], nullptr);
-	EXPECT_EQ(g.m_gameboard.GetGameboard()[6][6]->GetType(), EPieceType::Rook);
-	EXPECT_EQ(g.m_gameboard.GetGameboard()[0][0]->GetType(), EPieceType::Rook);
-	EXPECT_EQ(g.m_gameboard.GetGameboard()[0][1]->GetType(), EPieceType::Knight);
+	EXPECT_EQ(g.GetBoard()[1][7], nullptr);
+	EXPECT_EQ(g.GetBoard()[0][7], nullptr);
+	EXPECT_EQ(g.GetBoard()[2][7], nullptr);
+	EXPECT_EQ(g.GetBoard()[2][6], nullptr);
+	EXPECT_EQ(g.GetBoard()[6][6]->GetType(), EPieceType::Rook);
+	EXPECT_EQ(g.GetBoard()[0][0]->GetType(), EPieceType::Rook);
+	EXPECT_EQ(g.GetBoard()[0][1]->GetType(), EPieceType::Knight);
 }
 
 TEST(MoveTest, KnightTest)
@@ -40,9 +40,9 @@ TEST(MoveTest, KnightTest)
 	EXPECT_EQ(g.Move({ 0,150 }, { 199,1 }), false);
 	EXPECT_EQ(g.Move({ 0,-1 }, { 0,1 }), false);
 
-	EXPECT_EQ(g.m_gameboard.GetGameboard()[0][6], nullptr);
-	EXPECT_EQ(g.m_gameboard.GetGameboard()[2][7], nullptr);
-	EXPECT_EQ(g.m_gameboard.GetGameboard()[4][6], nullptr);
+	EXPECT_EQ(g.GetBoard()[0][6], nullptr);
+	EXPECT_EQ(g.GetBoard()[2][7], nullptr);
+	EXPECT_EQ(g.GetBoard()[4][6], nullptr);
 }
 
 TEST(MoveTest, QueenTest)

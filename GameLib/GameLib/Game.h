@@ -6,10 +6,17 @@
 #include<vector>
 #include<memory>
 
+
+
 class Game
 {
 public:
 
+	//Getters
+
+	ChessBoard GetBoard();
+
+	//Other methods
 	bool Move(Position p1, Position p2);
 
 public:

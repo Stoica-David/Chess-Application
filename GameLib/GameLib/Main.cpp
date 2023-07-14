@@ -13,8 +13,8 @@ int main()
 	{
 		for (int j = 0; j < 8; j++)
 		{
-			if(g.m_gameboard.GetGameboard()[i][j])
-			switch (g.m_gameboard.GetGameboard()[i][j]->GetType())
+			if(g.GetBoard()[i][j])
+			switch (g.GetBoard()[i][j]->GetType())
 			{
 
 			case EPieceType::King:

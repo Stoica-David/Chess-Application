@@ -1,14 +1,19 @@
 #include <iostream>
 #include "Game.h"
 
+ChessBoard Game::GetBoard()
+{
+	return m_gameboard.GetGameboard();
+}
+
 bool Game::Move(Position p1, Position p2)
 {
 	PiecesPtr currPiece, nextPiece;
 
 	if (m_gameboard.PositionExists(p1) && m_gameboard.PositionExists(p2))
 	{
-		currPiece = m_gameboard.GetGameboard()[p1.first][p1.second];
-		nextPiece = m_gameboard.GetGameboard()[p2.first][p2.second];
+		currPiece = GetBoard()[p1.first][p1.second];
+		nextPiece = GetBoard()[p2.first][p2.second];
 	}
 	else
 	{
