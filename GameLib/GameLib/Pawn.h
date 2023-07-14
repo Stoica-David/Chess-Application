@@ -1,6 +1,5 @@
 #pragma once
 #include "Piece.h"
-#include "IException.h"
 
 class Pawn:public Piece
 {
@@ -11,6 +10,5 @@ public:
     // Other methods
     bool IsMoveRegular(Position p1, Position p2) override;
     PositionList DeterminePattern(Position p1, Position p2) override;
-
 };
 
