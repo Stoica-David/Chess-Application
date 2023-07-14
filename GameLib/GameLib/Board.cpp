@@ -59,7 +59,7 @@ bool Board::VerifyTheWay(Position p1, Position p2) const
 	return true;
 }
 
-// Delete later
+// Delete later on
 void Board::printBoard()
 {
 	for (int i = 0; i < 8; i++)
