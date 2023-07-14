@@ -7,7 +7,7 @@
 #include<vector>
 #include<memory>
 
-
+using PieceVector = std::vector<PiecesPtr>;
 
 class Game:public IGame
 {
@@ -20,5 +20,5 @@ public:
 
 private:
 	Board m_gameboard;
-	std::vector<PiecesPtr> m_pieces;
+	PieceVector m_pieces;
 };

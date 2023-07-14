@@ -12,7 +12,7 @@ using PiecesPtr = std::shared_ptr<class Piece>;
 enum class EColor
 {
 	Black,
-	White,
+	White
 };
 
 enum class EPieceType
