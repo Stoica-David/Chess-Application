@@ -13,7 +13,6 @@ class Game
 public:
 
 	//Getters
-
 	ChessBoard GetBoard();
 
 	//Other methods

@@ -20,6 +20,21 @@ PositionList Piece::DeterminePattern(Position p1, Position p2)
 	return {};
 }
 
+bool Piece::IsWhite() const
+{
+	return (m_color == EColor::White);
+}
+
+int Piece::AbsValue(int x, int y) const
+{
+	return (std::abs(x - y));
+}
+
+bool Piece::IsBlack() const
+{
+	return (m_color == EColor::Black);
+}
+
 Piece::Piece(EPieceType type, EColor color)
 {
 	m_type = type;

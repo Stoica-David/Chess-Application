@@ -27,6 +27,7 @@ enum class EPieceType
 
 class Piece:public IPiece
 {
+
 public:
 	// Constructors
 	Piece(EPieceType, EColor);
@@ -44,6 +45,11 @@ protected:
 	{
 		return ((i >= 0 && i < 8) && (j >= 0 && j < 8));
 	}
+
+	bool IsWhite() const;
+	bool IsBlack() const;
+
+	int AbsValue(int, int) const;
 
 protected:
 	EPieceType m_type;
