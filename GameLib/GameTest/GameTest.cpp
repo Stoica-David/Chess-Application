@@ -35,7 +35,7 @@ TEST(MoveTest, KnightTest)
 	EXPECT_EQ(g.Move({ 5,0 }, { 3,1 }), true);
 	EXPECT_EQ(g.Move({ 3,1 }, { 1,0 }), true);
 	EXPECT_EQ(g.Move({ 1,0 }, { 2,2 }), true);
-	EXPECT_EQ(g.Move({ 2,2 }, { 1,4 }), true); 
+	EXPECT_EQ(g.Move({ 2,2 }, { 1,4 }), true);
 	EXPECT_EQ(g.Move({ 0,0 }, { 199,1 }), false);
 	EXPECT_EQ(g.Move({ 0,150 }, { 199,1 }), false);
 	EXPECT_EQ(g.Move({ 0,-1 }, { 0,1 }), false);
@@ -44,7 +44,6 @@ TEST(MoveTest, KnightTest)
 	EXPECT_EQ(g.m_gameboard.GetGameboard()[2][7], nullptr);
 	EXPECT_EQ(g.m_gameboard.GetGameboard()[4][6], nullptr);
 }
-
 
 TEST(MoveTest, QueenTest)
 {
@@ -59,6 +58,41 @@ TEST(MoveTest, QueenTest)
 	EXPECT_EQ(g.Move({1, 7}, {0, 7}), true);
 	EXPECT_EQ(g.Move({0, 7}, {-1, 7}), false);
 	g.m_gameboard.printBoard();
+
+TEST(MoveTest, PawnMove)
+{
+	Game g;
+
+	EXPECT_EQ(g.Move({ 1,0 }, { 3,0 }), true);
+	EXPECT_EQ(g.Move({ 1,1 }, { 2,1 }), true);
+	EXPECT_EQ(g.Move({ 1,1 }, { 2,0 }), false);
+	EXPECT_EQ(g.Move({ 1,7 }, { 2,7 }), true);
+	EXPECT_EQ(g.Move({ 1,2 }, { 2,2 }), true);
+	EXPECT_EQ(g.Move({ 1,4 }, { 2,3 }), false);
+	EXPECT_EQ(g.Move({ 6,0 }, { 5,1 }), false);
+	EXPECT_EQ(g.Move({ 6,0 }, { 5,0 }), true);
+	EXPECT_EQ(g.Move({ 6,3 }, { 4,3 }), true);
+	EXPECT_EQ(g.Move({ 6,3 }, { 9,3 }), false);
+	EXPECT_EQ(g.Move({ 6,3 }, { 4,4 }), false);
+	EXPECT_EQ(g.Move({ 3,0 }, { 2,0 }), false);
+}
+
+TEST(MoveTest, KingMove)
+{
+	Game g;
+
+	EXPECT_EQ(g.Move({ 0,4 }, { 0,3 }), false);
+	EXPECT_EQ(g.Move({ 0,4 }, { 0,5 }), false);
+	EXPECT_EQ(g.Move({ 0,4 }, { -1,4 }), false);
+	EXPECT_EQ(g.Move({ 0,4 }, { 1,3 }), false);
+	EXPECT_EQ(g.Move({ 0,4 }, { 1,4 }), false);
+	EXPECT_EQ(g.Move({ 0,4 }, { 1,5 }), false);
+	EXPECT_EQ(g.Move({ 1,4 }, { 3,4 }), true);
+	EXPECT_EQ(g.Move({ 0,4 }, { 2,4 }), false);
+	EXPECT_EQ(g.Move({ 0,4 }, { 1,4 }), true);
+	EXPECT_EQ(g.Move({ 1,4 }, { 2,5 }), true);
+	EXPECT_EQ(g.Move({ 2,5 }, { 2,2 }), false);
+	EXPECT_EQ(g.Move({ 2,5 }, { 3,6 }), true);
 }
 
 int main(int argv, char** argc)
