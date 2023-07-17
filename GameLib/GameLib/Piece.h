@@ -9,8 +9,6 @@
 
 using PiecesPtr = std::shared_ptr<class Piece>;
 
-
-
 class Piece:public IPiece
 {
 

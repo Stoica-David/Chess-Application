@@ -117,6 +117,11 @@ bool Board::IsCheck()
 	return false;
 }
 
+PiecesPtr Board::GetPiece(Position p) const
+{
+	return m_board[p.first][p.second];
+}
+
 // Delete later on
 void Board::printBoard()
 {

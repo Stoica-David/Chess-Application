@@ -20,6 +20,7 @@ public:
 
 	//Other methods
 	bool Move(Position p1, Position p2) override;
+	IPiecePtr GetPieceInfo(Position) const override;
 
 private:
 	Board m_gameboard;

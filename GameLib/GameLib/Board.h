@@ -28,6 +28,7 @@ public:
 	void FreePosition(Position p);
 	PositionList GetMoves(Position p);
 	bool IsCheck();
+	PiecesPtr GetPiece(Position p) const;
 
 	// Temporary
 	void printBoard();
