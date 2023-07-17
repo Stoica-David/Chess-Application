@@ -69,6 +69,54 @@ void Board::FreePosition(Position p)
 	m_board[p.first][p.second] = {};
 }
 
+PositionList Board::GetMoves(Position p)
+{
+	auto initialPiece = m_board[p.first][p.second];
+	
+	PositionMatrix currMoves = initialPiece->AllMoves(p);
+	PositionList newList;
+
+	for (int i = 0; i < currMoves.size(); i++)
+	{
+		for (int j = 0; j < currMoves[i].size(); j++)
+		{
+			int x = currMoves[i][j].first;
+			int y = currMoves[i][j].second;
+
+			if (auto currPiece = m_board[x][y])
+			{
+				if (currPiece->GetColor() != initialPiece->GetColor())
+					newList.push_back({ x , y });
+				break;
+			}
+
+			newList.push_back({ x , y });
+		}
+	}
+
+	return newList;
+}
+
+bool Board::IsCheck()
+{
+	PositionList moves;
+
+	for (int i = 0; i < m_board.size(); i++)
+	{
+		for (int j = 0; j < m_board[i].size(); j++)
+		{
+			moves = GetMoves({ i, j });
+
+			for (int k = 0; k < moves.size(); k ++)
+			{
+				if (m_board[moves[k].first][moves[k].second]->GetType() == EPieceType::King)
+					return true;
+			}
+		}
+	}
+	return false;
+}
+
 // Delete later on
 void Board::printBoard()
 {
@@ -111,7 +159,7 @@ void Board::printBoard()
 					std::cout << "Q ";
 					break;
 				}
-				Default:
+			Default:
 				{
 					std::cout << "- ";
 					break;
@@ -122,7 +170,7 @@ void Board::printBoard()
 			{
 				std::cout << "- ";
 			}
-			
+
 		}
 		std::cout << std::endl;
 	}

@@ -26,6 +26,8 @@ public:
 	bool PositionExists(Position p) const;
 	bool VerifyTheWay(Position p1, Position p2) const;
 	void FreePosition(Position p);
+	PositionList GetMoves(Position p);
+	bool IsCheck();
 
 	// Temporary
 	void printBoard();
