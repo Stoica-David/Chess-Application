@@ -1,6 +1,6 @@
 #include "Game.h"
 
-IGamePtr IGame::Produce()
+IGamePtr IGame::Produce() 
 {
 	return std::make_shared<Game>();
 }

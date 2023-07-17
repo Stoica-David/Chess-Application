@@ -8,17 +8,26 @@ Queen::Queen(EColor color) :Piece(EPieceType::Queen, color)
 
 bool Queen::IsMoveRegular(Position p1, Position p2) const
 {
-	int x1 = p1.first, y1 = p1.second, x2 = p2.first, y2 = p2.second;
-
+	auto x1 = p1.first,
+		x2 = p2.first,
+		y1 = p1.second,
+		y2 = p2.second;
 	return (((x1 == x2) ^ (y1 == y2)) || (AbsValue(x2, x1) == AbsValue(y2, y1) && (x2 != x1 || y2 != y1)));
 }
 
 PositionList Queen::DeterminePattern(Position p1, Position p2) const
 {
+	auto x1 = p1.first,
+		x2 = p2.first,
+		y1 = p1.second,
+		y2 = p2.second;
+
 	PositionList finalNewPosition;
 	PositionList newPosition;
 
+
 	int x1 = p1.first, y1 = p1.second, x2 = p2.first, y2 = p2.second;
+
 
 	if (x1 == x2 || y1 == y2)
 	{
@@ -51,8 +60,7 @@ PositionMatrix Queen::AllMoves(Position p) const
 	PositionMatrix newMatrix1 = R.AllMoves(p);
 	PositionMatrix newMatrix2 = B.AllMoves(p);
 	PositionMatrix newMatrix;
-	PositionList newList1;
-	PositionList newList2;
+
 
 	newMatrix.resize(8);
 
