@@ -9,8 +9,8 @@ public:
 	Knight(EColor);
 	
 	// Other methods
-	bool IsMoveRegular(Position p1, Position p2) override;
-	PositionList DeterminePattern(Position p1, Position p2) override;
-	PositionMatrix AllMoves(Position p) override;
+	bool IsMoveRegular(Position p1, Position p2) const override;
+	PositionList DeterminePattern(Position p1, Position p2) const override;
+	PositionMatrix AllMoves(Position p) const override;
 };
 

@@ -4,7 +4,7 @@ class MoveException :  public IException
 {
 public:
 	MoveException();
-	std::string GetMessage() override;
+	std::string GetMessage() const override;
 private:
 	std::string message;
 };

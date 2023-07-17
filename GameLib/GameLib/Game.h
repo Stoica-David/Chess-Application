@@ -16,7 +16,7 @@ public:
 	Game();
 
 	//Getters
-	ChessBoard GetBoard();
+	ChessBoard GetBoard() const;
 
 	//Other methods
 	bool Move(Position p1, Position p2) override;

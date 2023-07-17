@@ -9,7 +9,7 @@ Game::Game()
 {
 }
 
-ChessBoard Game::GetBoard()
+ChessBoard Game::GetBoard() const
 {
 	return m_gameboard.GetGameboard();
 }
@@ -18,10 +18,12 @@ bool Game::Move(Position p1, Position p2)
 {
 	PiecesPtr currPiece, nextPiece;
 
+	int x1 = p1.first, y1 = p1.second, x2 = p2.first, y2 = p2.second;
+
 	if (m_gameboard.PositionExists(p1) && m_gameboard.PositionExists(p2))
 	{
-		currPiece = GetBoard()[p1.first][p1.second];
-		nextPiece = GetBoard()[p2.first][p2.second];
+		currPiece = m_gameboard.GetPiece({ x1, y1 });
+		nextPiece = m_gameboard.GetPiece({ x2, y2 });
 	}
 	else
 	{
@@ -30,7 +32,7 @@ bool Game::Move(Position p1, Position p2)
 
 	if (currPiece && currPiece->IsMoveRegular(p1, p2) && m_gameboard.VerifyTheWay(p1, p2))
 	{
-		if (currPiece->GetType() == EPieceType::Pawn && std::abs(p2.first - p1.first) == 1 && std::abs(p2.second - p1.second) == 1 && (!nextPiece || nextPiece->GetColor() == currPiece->GetColor()))
+		if (currPiece->GetType() == EPieceType::Pawn && std::abs(x2 - x1) == 1 && std::abs(y2 - y1) == 1 && (!nextPiece || nextPiece->GetColor() == currPiece->GetColor()))
 		{
 			return false;
 		}

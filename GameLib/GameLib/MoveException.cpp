@@ -5,7 +5,7 @@ MoveException::MoveException():message("[Move] The move cannot be done by the pi
 
 }
 
-std::string MoveException::GetMessage()
+std::string MoveException::GetMessage() const
 {
 	return message;
 }

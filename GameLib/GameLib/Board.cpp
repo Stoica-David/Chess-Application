@@ -36,48 +36,6 @@ Board::Board()
 	}
 }
 
-Board::Board(bool is)
-{
-	for (int i = 0; i < 8; i++)
-	{
-		for (int j = 0; j < 8; j++)
-		{
-			m_board[i][j] = {};
-		}
-	}
-
-	m_board[0][0] = std::make_shared<Rook>(EColor::Black);
-	m_board[0][1] = std::make_shared<Knight>(EColor::Black);
-	m_board[0][2] = std::make_shared<Bishop>(EColor::Black);
-	m_board[4][7] = std::make_shared<Queen>(EColor::Black);
-	m_board[0][4] = std::make_shared<King>(EColor::Black);
-	m_board[0][5] = std::make_shared<Bishop>(EColor::Black);
-	m_board[0][6] = std::make_shared<Knight>(EColor::Black);
-	m_board[0][7] = std::make_shared<Rook>(EColor::Black);
-
-	m_board[7][0] = std::make_shared<Rook>(EColor::White);
-	m_board[7][1] = std::make_shared<Knight>(EColor::White);
-	m_board[7][2] = std::make_shared<Bishop>(EColor::White);
-	m_board[7][3] = std::make_shared<Queen>(EColor::White);
-	m_board[7][4] = std::make_shared<King>(EColor::White);
-	m_board[7][5] = std::make_shared<Bishop>(EColor::White);
-	m_board[7][6] = std::make_shared<Knight>(EColor::White);
-	m_board[7][7] = std::make_shared<Rook>(EColor::White);
-
-	for (int i = 0; i < 8; i++)
-	{
-		m_board[1][i] = std::make_shared<Pawn>(EColor::Black);
-		m_board[6][i] = std::make_shared<Pawn>(EColor::White);
-	}
-
-	m_board[1][4] = {};
-	m_board[6][5] = {};
-	m_board[6][6] = {};
-	m_board[3][4] = std::make_shared<Pawn>(EColor::Black);
-	m_board[5][5] = std::make_shared<Pawn>(EColor::White);
-	m_board[4][6] = std::make_shared<Pawn>(EColor::White);
-}
-
 ChessBoard Board::GetGameboard() const
 {
 	return m_board;
@@ -90,13 +48,15 @@ void Board::SetGameboard(Position p, PiecesPtr newPiece)
 
 bool Board::VerifyTheWay(Position p1, Position p2) const
 {
-	PositionList piecePattern = m_board[p1.first][p1.second]->DeterminePattern(p1, p2);
+	int x1 = p1.first, y1 = p1.second, x2 = p2.first, y2 = p2.second;
+
+	PositionList piecePattern = m_board[x1][y1]->DeterminePattern(p1, p2);
 
 	for (const auto& currPos : piecePattern)
 	{
 		if (m_board[currPos.first][currPos.second])
 		{
-			if ((currPos != p2) || (currPos == p2 && m_board[currPos.first][currPos.second] && m_board[p1.first][p1.second]->GetColor() == m_board[currPos.first][currPos.second]->GetColor()))
+			if ((currPos != p2) || (currPos == p2 && m_board[currPos.first][currPos.second] && m_board[x1][y1]->GetColor() == m_board[currPos.first][currPos.second]->GetColor()))
 			{
 				return false;
 			}

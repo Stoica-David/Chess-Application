@@ -10,17 +10,17 @@ EColor Piece::GetColor() const
 	return m_color;
 }
 
-bool Piece::IsMoveRegular(Position p1, Position p2)
+bool Piece::IsMoveRegular(Position p1, Position p2) const
 {
 	return true;
 }
 
-PositionList Piece::DeterminePattern(Position p1, Position p2)
+PositionList Piece::DeterminePattern(Position p1, Position p2) const
 {
 	return {};
 }
 
-PositionMatrix Piece::AllMoves(Position p)
+PositionMatrix Piece::AllMoves(Position p) const
 {
 	return {};
 }

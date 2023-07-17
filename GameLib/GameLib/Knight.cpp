@@ -1,11 +1,11 @@
 #include "Knight.h"
 
-bool Knight::IsMoveRegular(Position p1, Position p2)
+bool Knight::IsMoveRegular(Position p1, Position p2) const
 {
     return ((AbsValue(p2.first, p1.first) == 2 && AbsValue(p2.second, p1.second) == 1) || (AbsValue(p2.first, p1.first) == 1 && AbsValue(p2.second, p1.second) == 2));
 }
 
-PositionList Knight::DeterminePattern(Position p1, Position p2)
+PositionList Knight::DeterminePattern(Position p1, Position p2) const
 {
     PositionList newPattern;
 
@@ -17,7 +17,7 @@ PositionList Knight::DeterminePattern(Position p1, Position p2)
     return newPattern;
 }
 
-PositionMatrix Knight::AllMoves(Position p)
+PositionMatrix Knight::AllMoves(Position p) const
 {
     PositionMatrix newMatrix;
 

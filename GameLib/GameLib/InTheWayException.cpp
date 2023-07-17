@@ -4,7 +4,7 @@ InTheWayException::InTheWayException() : message("[InTheWay] There is a piece in
 {
 }
 
-std::string InTheWayException::GetMessage()
+std::string InTheWayException::GetMessage() const
 {
 	return message;
 }

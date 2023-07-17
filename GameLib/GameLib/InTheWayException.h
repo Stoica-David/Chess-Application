@@ -4,7 +4,7 @@ class InTheWayException :  public IException
 {
 public:
 	InTheWayException();
-	std::string GetMessage() override;
+	std::string GetMessage() const override;
 private:
 	std::string message;
 };

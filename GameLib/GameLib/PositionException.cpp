@@ -4,7 +4,7 @@ PositionException::PositionException():message("[Position] The given position is
 {
 }
 
-std::string PositionException::GetMessage()
+std::string PositionException::GetMessage() const
 {
 	return message;
 }

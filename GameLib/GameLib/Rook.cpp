@@ -1,12 +1,12 @@
 #include "Rook.h"
 
 
-bool Rook::IsMoveRegular(Position p1, Position p2)
+bool Rook::IsMoveRegular(Position p1, Position p2) const
 {
 	return((p1.first == p2.first) ^ (p1.second == p2.second));
 }
 
-PositionList Rook::DeterminePattern(Position p1, Position p2)
+PositionList Rook::DeterminePattern(Position p1, Position p2) const
 {
 	PositionList newPattern;
 
@@ -54,7 +54,7 @@ PositionList Rook::DeterminePattern(Position p1, Position p2)
 	return newPattern;
 }
 
-PositionMatrix Rook::AllMoves(Position p)
+PositionMatrix Rook::AllMoves(Position p) const
 {
 	PositionMatrix newMatrix;
 

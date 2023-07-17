@@ -15,7 +15,6 @@ class Board
 public:
 	// Constructors
 	Board();
-	Board(bool);
 
 	// Getters
 	ChessBoard GetGameboard() const;

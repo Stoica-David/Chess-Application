@@ -1,57 +1,65 @@
 #include "Bishop.h"
 
-bool Bishop::IsMoveRegular(Position p1, Position p2)
+Bishop::Bishop(EColor color) : Piece(EPieceType::Bishop, color)
 {
-	return (AbsValue(p1.first, p2.first) == AbsValue(p1.second, p2.second) && (p1.first != p2.first && p1.second != p2.second));
 }
 
-PositionList Bishop::DeterminePattern(Position p1, Position p2)
+bool Bishop::IsMoveRegular(Position p1, Position p2) const
+{
+	int x1 = p1.first, y1 = p1.second, x2 = p2.first, y2 = p2.second;
+
+	return (AbsValue(x1, x2) == AbsValue(y1, y2) && (x1 != x2 && y1 != y2));
+}
+
+PositionList Bishop::DeterminePattern(Position p1, Position p2) const
 {
 	PositionList newPosition;
 
-	if (p1.first > p2.first)
-	{
-		if (p2.second > p1.second)
-		{
-			while (p1.first > p2.first && p1.second < p2.second)
-			{
-				p1.first--;
-				p1.second++;
+	int x1 = p1.first, y1 = p1.second, x2 = p2.first, y2 = p2.second;
 
-				newPosition.push_back({ p1.first, p1.second });
+	if (x1 > x2)
+	{
+		if (y2 > y1)
+		{
+			while (x1 > x2 && y1 < y2)
+			{
+				x1--;
+				y1++;
+
+				newPosition.push_back({ x1, y1 });
 			}
 		}
 		else
 		{
-			while (p1.first > p2.first && p1.second > p2.second)
+			while (x1 > x2 && y1 > y2)
 			{
-				p1.first--;
-				p1.second--;
+				x1--;
+				y1--;
 
-				newPosition.push_back({ p1.first, p1.second });
+				newPosition.push_back({ x1, y1 });
 			}
 		}
 	}
 	else
 	{
-		if (p2.second > p1.second)
+		if (y2 > y1)
 		{
-			while (p1.first < p2.first && p1.second < p2.second)
+			while (x1 < x2 && y1 < y2)
 			{
-				p1.first++;
-				p1.second++;
+				x1++;
+				y1++;
 
-				newPosition.push_back({ p1.first, p1.second });
+				newPosition.push_back({ x1, y1 });
 			}
 		}
 		else
 		{
-			while (p1.first < p2.first && p1.second > p2.second)
+			while (x1 < x2 && y1 > y2)
 			{
-				p1.first++;
-				p1.second--;
+				x1++;
+				y1--;
 
-				newPosition.push_back({ p1.first, p1.second });
+				newPosition.push_back({ x1, y1 });
 			}
 		}
 	}
@@ -59,54 +67,51 @@ PositionList Bishop::DeterminePattern(Position p1, Position p2)
 	return newPosition;
 }
 
-PositionMatrix Bishop::AllMoves(Position p)
+PositionMatrix Bishop::AllMoves(Position p) const
 {
 	PositionMatrix newMatrix;
 
 	newMatrix.resize(4);
-	
-	Position pAux = p;
-	while (pAux.first > 0 && pAux.second > 0)
-	{
-		pAux.first--;
-		pAux.second--;
 
-		newMatrix[0].push_back({ pAux.first, pAux.second });
+	int x = p.first, y = p.second;
+
+	while (x > 0 && y > 0)
+	{
+		x--;
+		y--;
+
+		newMatrix[0].push_back({ x, y });
 	}
 
-	pAux = p;
+	x = p.first;	y = p.second;
 
-	while (pAux.first < 7 && pAux.second > 0)
+	while (x < 7 && y > 0)
 	{
-		pAux.first++;
-		pAux.second--;
+		x++;
+		y--;
 
-		newMatrix[1].push_back({ pAux.first, pAux.second });
+		newMatrix[1].push_back({ x, y });
 	}
 
-	pAux = p;
+	x = p.first;	y = p.second;
 
-	while (pAux.first > 0 && pAux.second < 7)
+	while (x > 0 && y < 7)
 	{
-		pAux.first--;
-		pAux.second++;
+		x--;
+		y++;
 
-		newMatrix[2].push_back({ pAux.first, pAux.second });
+		newMatrix[2].push_back({ x, y });
 	}
 
-	pAux = p;
+	x = p.first;	y = p.second;
 
-	while (pAux.first < 7 && pAux.second < 7)
+	while (x < 7 && y < 7)
 	{
-		pAux.first++;
-		pAux.second++;
+		x++;
+		y++;
 
-		newMatrix[3].push_back({ pAux.first, pAux.second });
+		newMatrix[3].push_back({x, y});
 	}
 
 	return newMatrix;
-}
-
-Bishop::Bishop(EColor color) : Piece(EPieceType::Bishop, color)
-{
 }

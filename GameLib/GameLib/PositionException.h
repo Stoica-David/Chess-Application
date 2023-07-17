@@ -4,7 +4,7 @@ class PositionException:public IException
 {
 public:
 	PositionException();
-	std::string GetMessage() override;
+	std::string GetMessage() const override;
 private:
 	std::string message;
 };
