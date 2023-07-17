@@ -36,6 +36,7 @@ Board::Board()
 	}
 }
 
+// For creating different type of boards for testing
 Board::Board(bool t)
 {
 	for (int i = 0; i < 8; i++)
@@ -182,27 +183,32 @@ bool Board::FindHelp(Position p)
 	PositionList currMoves;
 	PositionList kingMoves = GetMoves(p);
 
+	int x = p.first, y = p.second;
+
 	for (int i = 0; i < 8; i++)
 	{
 		for (int j = 0; j < 8; j++)
 		{
-			if(m_board[i][j] && m_board[i][j]->GetColor() == m_board[p.first][p.second]->GetColor())
-				currMoves = GetMoves({i, j});
+			if (m_board[i][j] && m_board[i][j]->GetColor() == m_board[x][y]->GetColor())
+				currMoves = GetMoves({ i, j });
 
-			for (int k = 0; k < currMoves.size(); k ++)
+			for (int k = 0; k < currMoves.size(); k++)
 			{
-				m_board[currMoves[k].first][currMoves[k].second] = m_board[i][j];
+				int currX = currMoves[k].first;
+				int currY = currMoves[k].second;
+
+				m_board[currX][currY] = m_board[i][j];
 				m_board[i][j] = {};
 
 				if (!IsCheck(p))
 				{
-					m_board[i][j] = m_board[currMoves[k].first][currMoves[k].second];
-					m_board[currMoves[k].first][currMoves[k].second] = {};
+					m_board[i][j] = m_board[currX][currY];
+					m_board[currX][currY] = {};
 					return true;
 				}
 
-				m_board[i][j] = m_board[currMoves[k].first][currMoves[k].second];
-				m_board[currMoves[k].first][currMoves[k].second] = {};
+				m_board[i][j] = m_board[currX][currY];
+				m_board[currX][currY] = {};
 			}
 		}
 	}
@@ -212,36 +218,44 @@ bool Board::FindHelp(Position p)
 bool Board::KillCheck(Position p)
 {
 	Position toKill;
-		for (int i = 0; i < 8; i++)
-		{
-			for (int j = 0; j < 8; j++)
-				if (m_board[i][j] && m_board[i][j]->GetColor() != m_board[p.first][p.second]->GetColor())
-				{
-					PositionList moves = GetMoves({ i, j });
-					for (int k = 0; k < moves.size(); k++)
-						if (moves[k] == p)
-							toKill = { i, j };
-				}
 
-		}
+	int x = p.first, y = p.second;
 
-		for (int i = 0; i < 8; i++)
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
 		{
-			for(int j = 0; j < 8; j++)
-				if (m_board[i][j] && m_board[i][j]->GetColor() != m_board[toKill.first][toKill.second]->GetColor())
-				{
-					PositionList moves = GetMoves({ i, j });
-					for (int k = 0; k < moves.size(); k++)
-						if (moves[k] == p)
-							return true;
-				}
+			if (m_board[i][j] && m_board[i][j]->GetColor() != m_board[x][y]->GetColor())
+			{
+				PositionList moves = GetMoves({ i, j });
+				for (int k = 0; k < moves.size(); k++)
+					if (moves[k] == p)
+						toKill = { i, j };
+			}
 		}
-		return false;
+	}
+
+	int killX = toKill.first, killY = toKill.second;
+
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			if (m_board[i][j] && m_board[i][j]->GetColor() != m_board[killX][killY]->GetColor())
+			{
+				PositionList moves = GetMoves({ i, j });
+				for (int k = 0; k < moves.size(); k++)
+					if (moves[k] == p)
+						return true;
+			}
+		}
+	}
+	return false;
 }
 
 Position Board::FindKing(EColor color) const
 {
-	for (int i = 0;i < 8; i++)
+	for (int i = 0; i < 8; i++)
 	{
 		for (int j = 0; j < 8; j++)
 			if (m_board[i][j] && m_board[i][j]->GetType() == EPieceType::King && m_board[i][j]->GetColor() == color)

@@ -26,13 +26,12 @@ public:
 	// Functions
 	bool PositionExists(Position p) const;
 	bool VerifyTheWay(Position p1, Position p2) const;
-	void FreePosition(Position p);
-	PositionList GetMoves(Position p) const;
-	bool IsCheck(Position p) const;
 	PiecesPtr GetPiece(Position p) const;
+	bool IsCheck(Position p) const;
 	bool IsCheckMate(Position p);
+	void FreePosition(Position p);
 private:
-
+	PositionList GetMoves(Position p) const;
 	bool FindHelp(Position p);
 	bool KillCheck(Position p);
 	Position FindKing(EColor) const;
