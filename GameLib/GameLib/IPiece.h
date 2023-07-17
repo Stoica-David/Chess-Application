@@ -11,4 +11,5 @@ class IPiece
 public:
 	virtual bool IsMoveRegular(Position p1, Position p2)=0;
 	virtual PositionList DeterminePattern(Position p1, Position p2)=0;
+	virtual PositionList AllMoves(Position p)=0;
 };

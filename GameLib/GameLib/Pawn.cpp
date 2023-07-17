@@ -32,3 +32,26 @@ PositionList Pawn::DeterminePattern(Position p1, Position p2)
 
 	return newPattern;
 }
+
+PositionList Pawn::AllMoves(Position p)
+{
+	PositionList newList;
+
+	if (IsWhite() && (p.first == 6))
+	{
+		newList.push_back({ p.first - 1, p.second });
+		newList.push_back({ p.first - 2, p.second });
+		newList.push_back({ p.first - 1, p.second - 1 });
+		newList.push_back({ p.first - 1, p.second + 1 });
+	}
+
+	if (IsBlack() && (p.first == 1))
+	{
+		newList.push_back({ p.first + 1, p.second });
+		newList.push_back({ p.first + 2, p.second });
+		newList.push_back({ p.first + 1, p.second - 1 });
+		newList.push_back({ p.first + 1, p.second + 1 });
+	}
+
+	return newList;
+}

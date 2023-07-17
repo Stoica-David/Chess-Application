@@ -39,3 +39,24 @@ PositionList Queen::DeterminePattern(Position p1, Position p2)
 
 	return finalNewPosition;
 }
+
+PositionList Queen::AllMoves(Position p)
+{
+	Rook R(EColor::White);
+	Bishop B(EColor::White);
+	PositionList newList1 = R.AllMoves(p);
+	PositionList newList2 = B.AllMoves(p);
+	PositionList newList;
+
+	for (int i = 0; i < newList1.size(); i++)
+	{
+		newList.push_back(newList1[i]);
+	}
+	
+	for (int i = 0; i < newList2.size(); i++)
+	{
+		newList.push_back(newList2[i]);
+	}
+
+	return newList;
+}

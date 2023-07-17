@@ -17,6 +17,30 @@ PositionList Knight::DeterminePattern(Position p1, Position p2)
     return newPattern;
 }
 
+PositionList Knight::AllMoves(Position p)
+{
+    PositionList newList;
+
+    if (IsInTable(p.first - 1, p.second - 2))
+        newList.push_back({ p.first - 1, p.second - 2});
+    if (IsInTable(p.first - 2, p.second - 1))
+        newList.push_back({ p.first - 2, p.second - 1 });
+    if(IsInTable(p.first - 2, p.second + 1))
+        newList.push_back({ p.first - 2, p.second + 1 });
+    if(IsInTable(p.first - 1, p.second + 2))
+        newList.push_back({ p.first - 1, p.second + 2 });
+	if (IsInTable(p.first + 1, p.second + 2))
+		newList.push_back({ p.first + 1, p.second + 2 });
+	if (IsInTable(p.first + 2, p.second + 1))
+		newList.push_back({ p.first + 2, p.second + 1 });
+	if (IsInTable(p.first + 2, p.second - 1))
+		newList.push_back({ p.first + 2, p.second - 1 });
+    if (IsInTable(p.first + 1, p.second - 2))
+        newList.push_back({ p.first + 1, p.second - 2 });
+
+    return newList;
+}
+
 Knight::Knight(EColor color):Piece(EPieceType::Knight, color)
 {
 }

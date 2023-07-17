@@ -14,3 +14,25 @@ PositionList King::DeterminePattern(Position p1, Position p2)
 	PositionList newPattern = { p2 };
 	return newPattern;
 }
+
+PositionList King::AllMoves(Position p)
+{
+	PositionList newList;
+	if(IsInTable( p.first - 1, p.second - 1))
+	newList.push_back({ p.first - 1, p.second - 1 });
+	if (IsInTable(p.first - 1, p.second))
+	newList.push_back({ p.first - 1, p.second });
+	if (IsInTable(p.first - 1, p.second + 1))
+	newList.push_back({ p.first - 1, p.second  + 1});
+	if (IsInTable(p.first , p.second - 1))
+	newList.push_back({ p.first , p.second  - 1});
+	if (IsInTable(p.first , p.second + 1))
+	newList.push_back({ p.first , p.second  + 1});
+	if (IsInTable(p.first + 1, p.second - 1))
+	newList.push_back({ p.first + 1 , p.second  - 1});
+	if (IsInTable(p.first + 1, p.second ))
+	newList.push_back({ p.first + 1 , p.second  });
+	if (IsInTable(p.first + 1, p.second + 1))
+	newList.push_back({ p.first + 1 , p.second + 1 });
+	return newList;
+}

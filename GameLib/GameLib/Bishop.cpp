@@ -59,6 +59,52 @@ PositionList Bishop::DeterminePattern(Position p1, Position p2)
 	return newPosition;
 }
 
+PositionList Bishop::AllMoves(Position p)
+{
+	PositionList newList;
+	
+	Position pAux = p;
+	while (pAux.first > 0 && pAux.second > 0)
+	{
+		pAux.first--;
+		pAux.second--;
+
+		newList.push_back({ pAux.first, pAux.second });
+	}
+
+	pAux = p;
+
+	while (pAux.first < 7 && pAux.second > 0)
+	{
+		pAux.first++;
+		pAux.second--;
+
+		newList.push_back({ pAux.first, pAux.second });
+	}
+
+	pAux = p;
+
+	while (pAux.first > 0 && pAux.second < 7)
+	{
+		pAux.first--;
+		pAux.second++;
+
+		newList.push_back({ pAux.first, pAux.second });
+	}
+
+	pAux = p;
+
+	while (pAux.first < 7 && pAux.second < 7)
+	{
+		pAux.first++;
+		pAux.second++;
+
+		newList.push_back({ pAux.first, pAux.second });
+	}
+
+	return newList;
+}
+
 Bishop::Bishop(EColor color) : Piece(EPieceType::Bishop, color)
 {
 }
