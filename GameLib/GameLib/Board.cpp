@@ -159,7 +159,7 @@ void Board::printBoard()
 					std::cout << "Q ";
 					break;
 				}
-			Default:
+				default:
 				{
 					std::cout << "- ";
 					break;

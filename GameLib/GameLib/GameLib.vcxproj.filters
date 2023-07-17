@@ -57,6 +57,9 @@
     <ClCompile Include="InTheWayException.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PieceInfo.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -102,6 +105,21 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="InTheWayException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="Position.h">
+      <Filter>Header Files\API</Filter>
+    </ClInclude>
+    <ClInclude Include="EPieceType.h">
+      <Filter>Header Files\API</Filter>
+    </ClInclude>
+    <ClInclude Include="EColor.h">
+      <Filter>Header Files\API</Filter>
+    </ClInclude>
+    <ClInclude Include="IPieceInfo.h">
+      <Filter>Header Files\API</Filter>
+    </ClInclude>
+    <ClInclude Include="PieceInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>

@@ -157,6 +157,7 @@
     <ClCompile Include="MoveException.cpp" />
     <ClCompile Include="Pawn.cpp" />
     <ClCompile Include="Piece.cpp" />
+    <ClCompile Include="PieceInfo.cpp" />
     <ClCompile Include="PositionException.cpp" />
     <ClCompile Include="Queen.cpp" />
     <ClCompile Include="Rook.cpp" />
@@ -164,16 +165,21 @@
   <ItemGroup>
     <ClInclude Include="Bishop.h" />
     <ClInclude Include="Board.h" />
+    <ClInclude Include="EColor.h" />
+    <ClInclude Include="EPieceType.h" />
     <ClInclude Include="IException.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="IGame.h" />
     <ClInclude Include="InTheWayException.h" />
     <ClInclude Include="IPiece.h" />
+    <ClInclude Include="IPieceInfo.h" />
     <ClInclude Include="King.h" />
     <ClInclude Include="Knight.h" />
     <ClInclude Include="MoveException.h" />
     <ClInclude Include="Pawn.h" />
     <ClInclude Include="Piece.h" />
+    <ClInclude Include="PieceInfo.h" />
+    <ClInclude Include="Position.h" />
     <ClInclude Include="PositionException.h" />
     <ClInclude Include="Queen.h" />
     <ClInclude Include="Rook.h" />

@@ -12,6 +12,9 @@ using PieceVector = std::vector<PiecesPtr>;
 class Game:public IGame
 {
 public:
+	// Constructor
+	Game();
+
 	//Getters
 	ChessBoard GetBoard();
 
@@ -20,5 +23,4 @@ public:
 
 private:
 	Board m_gameboard;
-	PieceVector m_pieces;
 };

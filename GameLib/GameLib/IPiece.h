@@ -1,10 +1,11 @@
 #pragma once
 
+#include "Position.h"
+#include "EPieceType.h"
+#include "EColor.h"
 #include <utility>
 #include <vector>
 
-using Position = std::pair<int, int>;
-using PositionList = std::vector<Position>;
 using PositionMatrix = std::vector<PositionList>;
 
 class IPiece

@@ -1,5 +1,14 @@
 #include "Game.h"
 
+IGamePtr IGame::Produce()
+{
+	return std::make_shared<Game>();
+}
+
+Game::Game()
+{
+}
+
 ChessBoard Game::GetBoard()
 {
 	return m_gameboard.GetGameboard();

@@ -9,21 +9,7 @@
 
 using PiecesPtr = std::shared_ptr<class Piece>;
 
-enum class EColor
-{
-	Black,
-	White
-};
 
-enum class EPieceType
-{
-	Rook,
-	Knight,
-	Bishop,
-	Queen,
-	King,
-	Pawn
-};
 
 class Piece:public IPiece
 {
