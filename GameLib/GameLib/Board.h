@@ -15,6 +15,7 @@ class Board
 public:
 	// Constructors
 	Board();
+	Board(bool);
 
 	// Getters
 	ChessBoard GetGameboard() const;
@@ -29,7 +30,12 @@ public:
 	PositionList GetMoves(Position p) const;
 	bool IsCheck(Position p) const;
 	PiecesPtr GetPiece(Position p) const;
-	bool IsCheckMate(Position p) const;
+	bool IsCheckMate(Position p);
+private:
+
+	bool FindHelp(Position p);
+	bool KillCheck(Position p);
+	Position FindKing(EColor) const;
 
 private:
 	ChessBoard m_board;

@@ -36,6 +36,28 @@ Board::Board()
 	}
 }
 
+Board::Board(bool t)
+{
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			m_board[i][j] = {};
+		}
+	}
+
+	m_board[6][1] = std::make_shared<Bishop>(EColor::Black);
+	m_board[2][5] = std::make_shared<King>(EColor::White);
+	m_board[4][1] = std::make_shared<Rook>(EColor::White);
+	m_board[2][4] = std::make_shared<Pawn>(EColor::White);
+	m_board[1][4] = std::make_shared<Pawn>(EColor::White);
+	m_board[1][5] = std::make_shared<Pawn>(EColor::White);
+	m_board[1][6] = std::make_shared<Pawn>(EColor::White);
+	m_board[2][6] = std::make_shared<Pawn>(EColor::White);
+	m_board[3][6] = std::make_shared<Pawn>(EColor::White);
+	m_board[3][5] = std::make_shared<Pawn>(EColor::White);
+}
+
 ChessBoard Board::GetGameboard() const
 {
 	return m_board;
@@ -74,7 +96,7 @@ void Board::FreePosition(Position p)
 PositionList Board::GetMoves(Position p) const
 {
 	auto initialPiece = m_board[p.first][p.second];
-	
+
 	PositionMatrix currMoves = initialPiece->AllMoves(p);
 	PositionList newList;
 
@@ -87,7 +109,7 @@ PositionList Board::GetMoves(Position p) const
 
 			if (auto currPiece = m_board[x][y])
 			{
-				if (currPiece->GetColor() != initialPiece->GetColor())
+				if (currPiece && (currPiece->GetColor() != initialPiece->GetColor()))
 					newList.push_back({ x , y });
 				break;
 			}
@@ -107,16 +129,16 @@ bool Board::IsCheck(Position p) const
 	{
 		for (int j = 0; j < m_board[i].size(); j++)
 		{
-			if ((!m_board[i][j]) || (m_board[i][j]->GetColor() == m_board[p.first][p.second]->GetColor()))
+			if ((!m_board[i][j] || !m_board[p.first][p.second]) || (m_board[i][j]->GetColor() == m_board[p.first][p.second]->GetColor()))
 			{
-				break;
+				continue;
 			}
 			else
 			{
 				moves = GetMoves({ i, j });
 			}
 
-			for (int k = 0; k < moves.size(); k ++)
+			for (int k = 0; k < moves.size(); k++)
 			{
 				if (moves[k] == p)
 					return true;
@@ -131,7 +153,7 @@ PiecesPtr Board::GetPiece(Position p) const
 	return m_board[p.first][p.second];
 }
 
-bool Board::IsCheckMate(Position p) const
+bool Board::IsCheckMate(Position p)
 {
 	PositionList currMoves = GetMoves(p);
 
@@ -144,7 +166,88 @@ bool Board::IsCheckMate(Position p) const
 			return false;
 	}
 
+	if (FindHelp(p))
+	{
+		return false;
+	}
+
+	if (!KillCheck(p))
+		return false;
+
 	return true;
+}
+
+bool Board::FindHelp(Position p)
+{
+	PositionList currMoves;
+	PositionList kingMoves = GetMoves(p);
+
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			if(m_board[i][j] && m_board[i][j]->GetColor() == m_board[p.first][p.second]->GetColor())
+				currMoves = GetMoves({i, j});
+
+			for (int k = 0; k < currMoves.size(); k ++)
+			{
+				m_board[currMoves[k].first][currMoves[k].second] = m_board[i][j];
+				m_board[i][j] = {};
+
+				if (!IsCheck(p))
+				{
+					m_board[i][j] = m_board[currMoves[k].first][currMoves[k].second];
+					m_board[currMoves[k].first][currMoves[k].second] = {};
+					return true;
+				}
+
+				m_board[i][j] = m_board[currMoves[k].first][currMoves[k].second];
+				m_board[currMoves[k].first][currMoves[k].second] = {};
+			}
+		}
+	}
+	return false;
+}
+
+bool Board::KillCheck(Position p)
+{
+	Position toKill;
+		for (int i = 0; i < 8; i++)
+		{
+			for (int j = 0; j < 8; j++)
+				if (m_board[i][j] && m_board[i][j]->GetColor() != m_board[p.first][p.second]->GetColor())
+				{
+					PositionList moves = GetMoves({ i, j });
+					for (int k = 0; k < moves.size(); k++)
+						if (moves[k] == p)
+							toKill = { i, j };
+				}
+
+		}
+
+		for (int i = 0; i < 8; i++)
+		{
+			for(int j = 0; j < 8; j++)
+				if (m_board[i][j] && m_board[i][j]->GetColor() != m_board[toKill.first][toKill.second]->GetColor())
+				{
+					PositionList moves = GetMoves({ i, j });
+					for (int k = 0; k < moves.size(); k++)
+						if (moves[k] == p)
+							return true;
+				}
+		}
+		return false;
+}
+
+Position Board::FindKing(EColor color) const
+{
+	for (int i = 0;i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+			if (m_board[i][j] && m_board[i][j]->GetType() == EPieceType::King && m_board[i][j]->GetColor() == color)
+				return { i, j };
+	}
+	return { -1, -1 };
 }
 
 bool Board::PositionExists(Position p) const
