@@ -1,5 +1,9 @@
 #include "Knight.h"
 
+Knight::Knight(EColor color) :Piece(EPieceType::Knight, color)
+{
+}
+
 bool Knight::IsMoveRegular(Position p1, Position p2) const
 {
     auto x1 = p1.first, y1 = p1.second, x2 = p2.first, y2 = p2.second;
@@ -43,8 +47,4 @@ PositionMatrix Knight::AllMoves(Position p) const
         newMatrix[7].push_back({ x + 1, y - 2 });
 
     return newMatrix;
-}
-
-Knight::Knight(EColor color):Piece(EPieceType::Knight, color)
-{
 }

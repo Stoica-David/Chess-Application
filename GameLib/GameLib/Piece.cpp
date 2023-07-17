@@ -1,5 +1,11 @@
 #include "Piece.h"
 
+Piece::Piece(EPieceType type, EColor color)
+{
+	m_type = type;
+	m_color = color;
+}
+
 EPieceType Piece::GetType() const
 {
 	return m_type;
@@ -38,10 +44,4 @@ int Piece::AbsValue(int x, int y) const
 bool Piece::IsBlack() const
 {
 	return (m_color == EColor::Black);
-}
-
-Piece::Piece(EPieceType type, EColor color)
-{
-	m_type = type;
-	m_color = color;
 }

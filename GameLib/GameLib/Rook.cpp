@@ -1,5 +1,8 @@
 #include "Rook.h"
 
+Rook::Rook(EColor color) : Piece(EPieceType::Rook, color)
+{
+}
 
 bool Rook::IsMoveRegular(Position p1, Position p2) const
 {
@@ -103,8 +106,4 @@ PositionMatrix Rook::AllMoves(Position p) const
 	}
 
 	return newMatrix;
-}
-
-Rook::Rook(EColor color) : Piece(EPieceType::Rook, color)
-{
 }

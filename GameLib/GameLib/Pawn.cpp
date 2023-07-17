@@ -9,12 +9,6 @@ bool Pawn::IsMoveRegular(Position p1, Position p2) const
 
 	int x1 = p1.first, y1 = p1.second, x2 = p2.first, y2 = p2.second;
 
-	auto
-		x1 = p1.first,
-		y1 = p1.second,
-		x2 = p2.first,
-		y2 = p2.second;
-
 	if (!(((IsWhite() && (x1 == 6) && (x2 < x1)) || IsBlack() && (x1 == 1) && (x2 > x1)) && ((AbsValue(x2, x1) >= 1 && (y2 == y1)) && (AbsValue(x2, x1) < 3)))) // Moves wrong forward (one/two squares)
 	{
 		return false;
@@ -48,8 +42,6 @@ PositionMatrix Pawn::AllMoves(Position p) const
 	PositionMatrix newMatrix;
 
 	newMatrix.resize(4);
-
-	int x = p.first, y = p.second;
 
 	if (IsWhite())
 	{

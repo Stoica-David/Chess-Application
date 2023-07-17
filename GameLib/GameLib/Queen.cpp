@@ -17,11 +17,6 @@ bool Queen::IsMoveRegular(Position p1, Position p2) const
 
 PositionList Queen::DeterminePattern(Position p1, Position p2) const
 {
-	auto x1 = p1.first,
-		x2 = p2.first,
-		y1 = p1.second,
-		y2 = p2.second;
-
 	PositionList finalNewPosition;
 	PositionList newPosition;
 
