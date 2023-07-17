@@ -15,6 +15,7 @@ class Board
 public:
 	// Constructors
 	Board();
+	Board(bool);
 
 	// Getters
 	ChessBoard GetGameboard() const;
@@ -26,12 +27,10 @@ public:
 	bool PositionExists(Position p) const;
 	bool VerifyTheWay(Position p1, Position p2) const;
 	void FreePosition(Position p);
-	PositionList GetMoves(Position p);
-	bool IsCheck();
+	PositionList GetMoves(Position p) const;
+	bool IsCheck(Position p) const;
 	PiecesPtr GetPiece(Position p) const;
-
-	// Temporary
-	void printBoard();
+	bool IsCheckMate(Position p) const;
 
 private:
 	ChessBoard m_board;

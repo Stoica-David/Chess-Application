@@ -36,6 +36,48 @@ Board::Board()
 	}
 }
 
+Board::Board(bool is)
+{
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			m_board[i][j] = {};
+		}
+	}
+
+	m_board[0][0] = std::make_shared<Rook>(EColor::Black);
+	m_board[0][1] = std::make_shared<Knight>(EColor::Black);
+	m_board[0][2] = std::make_shared<Bishop>(EColor::Black);
+	m_board[4][7] = std::make_shared<Queen>(EColor::Black);
+	m_board[0][4] = std::make_shared<King>(EColor::Black);
+	m_board[0][5] = std::make_shared<Bishop>(EColor::Black);
+	m_board[0][6] = std::make_shared<Knight>(EColor::Black);
+	m_board[0][7] = std::make_shared<Rook>(EColor::Black);
+
+	m_board[7][0] = std::make_shared<Rook>(EColor::White);
+	m_board[7][1] = std::make_shared<Knight>(EColor::White);
+	m_board[7][2] = std::make_shared<Bishop>(EColor::White);
+	m_board[7][3] = std::make_shared<Queen>(EColor::White);
+	m_board[7][4] = std::make_shared<King>(EColor::White);
+	m_board[7][5] = std::make_shared<Bishop>(EColor::White);
+	m_board[7][6] = std::make_shared<Knight>(EColor::White);
+	m_board[7][7] = std::make_shared<Rook>(EColor::White);
+
+	for (int i = 0; i < 8; i++)
+	{
+		m_board[1][i] = std::make_shared<Pawn>(EColor::Black);
+		m_board[6][i] = std::make_shared<Pawn>(EColor::White);
+	}
+
+	m_board[1][4] = {};
+	m_board[6][5] = {};
+	m_board[6][6] = {};
+	m_board[3][4] = std::make_shared<Pawn>(EColor::Black);
+	m_board[5][5] = std::make_shared<Pawn>(EColor::White);
+	m_board[4][6] = std::make_shared<Pawn>(EColor::White);
+}
+
 ChessBoard Board::GetGameboard() const
 {
 	return m_board;
@@ -69,7 +111,7 @@ void Board::FreePosition(Position p)
 	m_board[p.first][p.second] = {};
 }
 
-PositionList Board::GetMoves(Position p)
+PositionList Board::GetMoves(Position p) const
 {
 	auto initialPiece = m_board[p.first][p.second];
 	
@@ -97,7 +139,7 @@ PositionList Board::GetMoves(Position p)
 	return newList;
 }
 
-bool Board::IsCheck()
+bool Board::IsCheck(Position p) const
 {
 	PositionList moves;
 
@@ -105,11 +147,18 @@ bool Board::IsCheck()
 	{
 		for (int j = 0; j < m_board[i].size(); j++)
 		{
-			moves = GetMoves({ i, j });
+			if ((!m_board[i][j]) || (m_board[i][j]->GetColor() == m_board[p.first][p.second]->GetColor()))
+			{
+				break;
+			}
+			else
+			{
+				moves = GetMoves({ i, j });
+			}
 
 			for (int k = 0; k < moves.size(); k ++)
 			{
-				if (m_board[moves[k].first][moves[k].second]->GetType() == EPieceType::King)
+				if (moves[k] == p)
 					return true;
 			}
 		}
@@ -122,63 +171,17 @@ PiecesPtr Board::GetPiece(Position p) const
 	return m_board[p.first][p.second];
 }
 
-// Delete later on
-void Board::printBoard()
+bool Board::IsCheckMate(Position p) const
 {
-	for (int i = 0; i < 8; i++)
+	PositionList currMoves = GetMoves(p);
+
+	for (int i = 0; i < currMoves.size(); i++)
 	{
-		for (int j = 0; j < 8; j++)
-		{
-			if (m_board[i][j])
-			{
-				switch (m_board[i][j]->GetType())
-				{
-				case EPieceType::King:
-				{
-					std::cout << "K ";
-					break;
-				}
-				case EPieceType::Rook:
-				{
-					std::cout << "R ";
-					break;
-				}
-				case EPieceType::Knight:
-				{
-					std::cout << "Kn ";
-					break;
-				}
-
-				case EPieceType::Bishop:
-				{
-					std::cout << "B ";
-					break;
-				}
-				case EPieceType::Pawn:
-				{
-					std::cout << "P ";
-					break;
-				}
-				case EPieceType::Queen:
-				{
-					std::cout << "Q ";
-					break;
-				}
-				default:
-				{
-					std::cout << "- ";
-					break;
-				}
-				}
-			}
-			else
-			{
-				std::cout << "- ";
-			}
-
-		}
-		std::cout << std::endl;
+		if (!IsCheck(currMoves[i]))
+			return false;
 	}
+
+	return true;
 }
 
 bool Board::PositionExists(Position p) const
