@@ -5,7 +5,7 @@ Pawn::Pawn(EColor color) : Piece(EPieceType::Pawn, color)
 }
 
 bool Pawn::IsMoveRegular(Position p1, Position p2)
-{ 
+{
 	if (!(((IsWhite() && (p1.first == 6) && (p2.first < p1.first)) || IsBlack() && (p1.first == 1) && (p2.first > p1.first)) && ((AbsValue(p2.first, p1.first) >= 1 && (p2.second == p1.second)) && (AbsValue(p2.first, p1.first) < 3)))) // Moves wrong forward (one/two squares)
 	{
 		return false;
@@ -33,25 +33,39 @@ PositionList Pawn::DeterminePattern(Position p1, Position p2)
 	return newPattern;
 }
 
-PositionList Pawn::AllMoves(Position p)
+PositionMatrix Pawn::AllMoves(Position p)
 {
-	PositionList newList;
+	PositionMatrix newMatrix;
 
-	if (IsWhite() && (p.first == 6))
+	newMatrix.resize(4);
+
+	if (IsWhite())
 	{
-		newList.push_back({ p.first - 1, p.second });
-		newList.push_back({ p.first - 2, p.second });
-		newList.push_back({ p.first - 1, p.second - 1 });
-		newList.push_back({ p.first - 1, p.second + 1 });
+		newMatrix[0].push_back({ p.first - 1, p.second });
+
+		if (p.first == 6)
+			newMatrix[1].push_back({ p.first - 2, p.second });
+
+		if (IsInTable(p.first - 1, p.second - 1))
+			newMatrix[2].push_back({ p.first - 1, p.second - 1 });
+
+		if (IsInTable(p.first - 1, p.second + 1))
+			newMatrix[3].push_back({ p.first - 1, p.second + 1 });
 	}
 
-	if (IsBlack() && (p.first == 1))
+	if (IsBlack())
 	{
-		newList.push_back({ p.first + 1, p.second });
-		newList.push_back({ p.first + 2, p.second });
-		newList.push_back({ p.first + 1, p.second - 1 });
-		newList.push_back({ p.first + 1, p.second + 1 });
+		newMatrix[0].push_back({ p.first + 1, p.second });
+
+		if (p.first == 1)
+			newMatrix[1].push_back({ p.first + 2, p.second });
+
+		if (IsInTable(p.first + 1, p.second - 1))
+			newMatrix[2].push_back({ p.first + 1, p.second - 1 });
+
+		if (IsInTable(p.first + 1, p.second + 1))
+			newMatrix[3].push_back({ p.first + 1, p.second + 1 });
 	}
 
-	return newList;
+	return newMatrix;
 }

@@ -20,7 +20,7 @@ PositionList Piece::DeterminePattern(Position p1, Position p2)
 	return {};
 }
 
-PositionList Piece::AllMoves(Position p)
+PositionMatrix Piece::AllMoves(Position p)
 {
 	return {};
 }

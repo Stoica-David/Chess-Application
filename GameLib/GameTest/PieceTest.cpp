@@ -209,9 +209,9 @@ TEST(DeterminePatternTest, PawnPattern)
 TEST(AllMovesTest, BishopMoves)
 {
 	Bishop B(EColor::White);
-	PositionList  P1 = { {2, 1}, { 1,0 }, {4, 1}, {5, 0}, {2, 3}, {1, 4}, {0, 5}, {4, 3 }, {5, 4}, {6, 5}, {7, 6 } };
-	PositionList P2 = { {6, 1}, {5, 2}, {4, 3}, {3, 4}, {2, 5}, {1, 6}, {0, 7} };
-	PositionList P3 = { {6, 3}, {5, 2}, {4, 1}, {3, 0}, {6, 5}, {5, 6}, {4, 7} };
+	PositionMatrix  P1 = { {{2, 1}, { 1,0 }}, {{4, 1}, {5, 0}}, {{2, 3}, {1, 4}, {0, 5}}, {{4, 3 }, {5, 4}, {6, 5}, {7, 6 }} };
+	PositionMatrix P2 = { {}, {}, { {6, 1}, {5, 2}, {4, 3}, {3, 4}, {2, 5}, {1, 6}, {0, 7}}, {} };
+	PositionMatrix P3 = { {{6, 3}, {5, 2}, {4, 1}, {3, 0}}, {}, { {6, 5}, {5, 6}, {4, 7} }, {} };
 
 
 	EXPECT_EQ(B.AllMoves({ 3, 2 }), P1);
@@ -223,8 +223,8 @@ TEST(AllMovesTest, BishopMoves)
 TEST(AllMovesTest, RookMoves)
 {
 	Rook R(EColor::White);
-	PositionList  P1 = { {2, 3}, {1, 3}, {0, 3}, {3, 4}, {3, 5}, {3,6}, {3, 7}, {4, 3}, {5, 3}, {6, 3}, {7, 3}, {3, 2}, {3, 1}, {3, 0} };
-	PositionList P2 = { {0, 1}, {0, 2}, {0, 3}, {0, 4}, {0, 5},{0, 6}, {0, 7}, {1, 0}, {2, 0}, {3, 0}, {4, 0},{5, 0} ,{6, 0},{7, 0}  };
+	PositionMatrix  P1 = { {{2, 3}, {1, 3}, {0, 3}}, {{3, 4}, {3, 5}, {3,6}, {3, 7}}, {{4, 3}, {5, 3}, {6, 3}, {7, 3}}, {{3, 2}, {3, 1}, {3, 0}} };
+	PositionMatrix P2 = { {},  { {0, 1}, {0, 2}, {0, 3}, {0, 4}, {0, 5},{0, 6}, {0, 7}}, {{1, 0}, {2, 0}, {3, 0}, {4, 0},{5, 0} ,{6, 0},{7, 0}}, {} };
 
 
 	EXPECT_EQ(R.AllMoves({ 3, 3 }), P1);
@@ -234,9 +234,9 @@ TEST(AllMovesTest, RookMoves)
 TEST(AllMovesTest, KnightMoves)
 {
 	Knight Kn(EColor::White);
-	PositionList  P1 = { {0, 0}, {0, 4}, {2, 4}, {3, 3}, {3, 1}, {2, 0} };
-	PositionList P2 = { {4, 3}, {3, 4}, {3, 6}, {4, 7}, {6, 7}, {7, 6}, {7, 4}, {6, 3} };
-	PositionList  P3 = { {2, 6}, {1, 5} };
+	PositionMatrix  P1 = { {{0, 0}}, {}, {}, {{0, 4}}, {{2, 4}}, {{3, 3}}, {{3, 1}}, {{2, 0}} };
+	PositionMatrix P2 = { {{4, 3}}, {{3, 4}}, {{3, 6}}, {{4, 7}}, {{6, 7}}, {{7, 6}}, {{7, 4}}, {{6, 3}} };
+	PositionMatrix P3 = { {}, {}, {}, {}, {}, {}, {{2, 6}}, {{1, 5} } };
 
 
 	EXPECT_EQ(Kn.AllMoves({ 1, 2 }), P1);
@@ -247,7 +247,7 @@ TEST(AllMovesTest, KnightMoves)
 TEST(AllMovesTest, QueenMoves)
 {
 	Queen Q(EColor::White);
-	PositionList  P1 = { {1, 1}, {0 ,1}, {2, 2}, {2, 3}, {2, 4}, {2, 5}, {2, 6}, {2, 7}, {3, 1}, {4, 1}, {5, 1}, {6, 1}, {7, 1}, {2, 0}, {1, 0}, {3, 0}, {1, 2}, {0 ,3}, {3 ,2}, {4, 3}, {5, 4}, {6, 5},{7, 6} };
+	PositionMatrix  P1 = { {{1, 1}, {0 ,1}}, {{2, 2}, {2, 3}, {2, 4}, {2, 5}, {2, 6}, {2, 7}}, {{3, 1}, {4, 1}, {5, 1}, {6, 1}, {7, 1}}, {{2, 0}}, {{1, 0}}, {{3, 0}}, {{1, 2}, {0 ,3}}, {{3 ,2}, {4, 3}, {5, 4}, {6, 5},{7, 6}} };
 
 
 	EXPECT_EQ(Q.AllMoves({ 2, 1 }), P1);
@@ -256,9 +256,9 @@ TEST(AllMovesTest, QueenMoves)
 TEST(AllMovesTest, KingMoves)
 {
 	King K(EColor::White);
-	PositionList  P1 = { {0, 1}, {0, 2}, {0, 3}, {1, 1}, {1, 3}, {2, 1}, {2, 2}, {2, 3} };
-	PositionList  P2 = { {6, 6}, {6, 7}, {7, 6} };
-	PositionList  P3 = { {6, 1}, {6, 2}, {6, 3}, {7, 1}, {7, 3} };
+	PositionMatrix  P1 = { {{0, 1}}, {{0, 2}}, {{0, 3}}, {{1, 1}}, {{1, 3}}, {{2, 1}}, {{2, 2}}, {{2, 3}} };
+	PositionMatrix  P2 = { {{6, 6}}, {{6, 7}}, {}, {{7, 6}}, {}, {}, {}, {} };
+	PositionMatrix  P3 = { {{6, 1}}, {{6, 2}}, {{6, 3}}, {{7, 1}}, {{7, 3}}, {}, {}, {} };
 
 
 	EXPECT_EQ(K.AllMoves({ 1, 2 }), P1);
@@ -271,12 +271,14 @@ TEST(AllMovesTest, PawnMoves)
 	Pawn P1(EColor::White);
 	Pawn P2(EColor::Black);
 
-	PositionList V1 = { {2,5}, {3,5}, {2,4}, {2,6} };
-	PositionList V2 = { {5,6}, {4,6}, {5,5}, {5,7} };
+	PositionMatrix V1 = { {{2,5}}, {{3,5}}, {{2,4}}, {{2,6}} };
+	PositionMatrix V2 = { {{5,6}}, {{4,6}}, {{5,5}}, {{5,7}} };
+	PositionMatrix V3 = { {{5,7}}, {{4,7}}, {{5,6}}, {}};
 
 
 	EXPECT_EQ(P2.AllMoves({ 1, 5 }), V1);
 	EXPECT_EQ(P1.AllMoves({ 6, 6 }), V2);
+	EXPECT_EQ(P1.AllMoves({ 6, 7 }), V3);
 }
 
 int main(int argc, char** argv)

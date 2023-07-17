@@ -15,24 +15,28 @@ PositionList King::DeterminePattern(Position p1, Position p2)
 	return newPattern;
 }
 
-PositionList King::AllMoves(Position p)
+PositionMatrix King::AllMoves(Position p)
 {
-	PositionList newList;
+	PositionMatrix newMatrix;
+
+	newMatrix.resize(8);
+
 	if(IsInTable( p.first - 1, p.second - 1))
-	newList.push_back({ p.first - 1, p.second - 1 });
+		newMatrix[0].push_back({ p.first - 1, p.second - 1 });
 	if (IsInTable(p.first - 1, p.second))
-	newList.push_back({ p.first - 1, p.second });
+		newMatrix[1].push_back({ p.first - 1, p.second });
 	if (IsInTable(p.first - 1, p.second + 1))
-	newList.push_back({ p.first - 1, p.second  + 1});
+		newMatrix[2].push_back({ p.first - 1, p.second  + 1});
 	if (IsInTable(p.first , p.second - 1))
-	newList.push_back({ p.first , p.second  - 1});
+		newMatrix[3].push_back({ p.first , p.second  - 1});
 	if (IsInTable(p.first , p.second + 1))
-	newList.push_back({ p.first , p.second  + 1});
+		newMatrix[4].push_back({ p.first , p.second  + 1});
 	if (IsInTable(p.first + 1, p.second - 1))
-	newList.push_back({ p.first + 1 , p.second  - 1});
+		newMatrix[5].push_back({ p.first + 1 , p.second  - 1});
 	if (IsInTable(p.first + 1, p.second ))
-	newList.push_back({ p.first + 1 , p.second  });
+		newMatrix[6].push_back({ p.first + 1 , p.second  });
 	if (IsInTable(p.first + 1, p.second + 1))
-	newList.push_back({ p.first + 1 , p.second + 1 });
-	return newList;
+		newMatrix[7].push_back({ p.first + 1 , p.second + 1 });
+
+	return newMatrix;
 }

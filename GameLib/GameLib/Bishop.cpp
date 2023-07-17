@@ -59,9 +59,11 @@ PositionList Bishop::DeterminePattern(Position p1, Position p2)
 	return newPosition;
 }
 
-PositionList Bishop::AllMoves(Position p)
+PositionMatrix Bishop::AllMoves(Position p)
 {
-	PositionList newList;
+	PositionMatrix newMatrix;
+
+	newMatrix.resize(4);
 	
 	Position pAux = p;
 	while (pAux.first > 0 && pAux.second > 0)
@@ -69,7 +71,7 @@ PositionList Bishop::AllMoves(Position p)
 		pAux.first--;
 		pAux.second--;
 
-		newList.push_back({ pAux.first, pAux.second });
+		newMatrix[0].push_back({ pAux.first, pAux.second });
 	}
 
 	pAux = p;
@@ -79,7 +81,7 @@ PositionList Bishop::AllMoves(Position p)
 		pAux.first++;
 		pAux.second--;
 
-		newList.push_back({ pAux.first, pAux.second });
+		newMatrix[1].push_back({ pAux.first, pAux.second });
 	}
 
 	pAux = p;
@@ -89,7 +91,7 @@ PositionList Bishop::AllMoves(Position p)
 		pAux.first--;
 		pAux.second++;
 
-		newList.push_back({ pAux.first, pAux.second });
+		newMatrix[2].push_back({ pAux.first, pAux.second });
 	}
 
 	pAux = p;
@@ -99,10 +101,10 @@ PositionList Bishop::AllMoves(Position p)
 		pAux.first++;
 		pAux.second++;
 
-		newList.push_back({ pAux.first, pAux.second });
+		newMatrix[3].push_back({ pAux.first, pAux.second });
 	}
 
-	return newList;
+	return newMatrix;
 }
 
 Bishop::Bishop(EColor color) : Piece(EPieceType::Bishop, color)

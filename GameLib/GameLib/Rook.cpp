@@ -54,15 +54,18 @@ PositionList Rook::DeterminePattern(Position p1, Position p2)
 	return newPattern;
 }
 
-PositionList Rook::AllMoves(Position p)
+PositionMatrix Rook::AllMoves(Position p)
 {
-	PositionList newList;
+	PositionMatrix newMatrix;
+
+	newMatrix.resize(4);
+
 	Position pAux = p;
 
 	while (pAux.first > 0)
 	{
 		pAux.first--;
-		newList.push_back(pAux);
+		newMatrix[0].push_back(pAux);
 	}
 
 	pAux = p;
@@ -70,7 +73,7 @@ PositionList Rook::AllMoves(Position p)
 	while (pAux.second < 7)
 	{
 		pAux.second++;
-		newList.push_back(pAux);
+		newMatrix[1].push_back(pAux);
 	}
 
 	pAux = p;
@@ -78,7 +81,7 @@ PositionList Rook::AllMoves(Position p)
 	while (pAux.first < 7)
 	{
 		pAux.first++;
-		newList.push_back(pAux);
+		newMatrix[2].push_back(pAux);
 	}
 
 	pAux = p;
@@ -86,10 +89,10 @@ PositionList Rook::AllMoves(Position p)
 	while (pAux.second > 0)
 	{
 		pAux.second--;
-		newList.push_back(pAux);
+		newMatrix[3].push_back(pAux);
 	}
 
-	return newList;
+	return newMatrix;
 }
 
 Rook::Rook(EColor color) : Piece(EPieceType::Rook, color)
