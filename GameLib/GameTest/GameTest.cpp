@@ -1,4 +1,4 @@
-W//#include "gtest/gtest.h"
+//#include "gtest/gtest.h"
 //#include "Game.h"
 //
 //TEST(MoveTest, RookTest)

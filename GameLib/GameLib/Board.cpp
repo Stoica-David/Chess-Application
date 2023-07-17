@@ -135,6 +135,9 @@ bool Board::IsCheckMate(Position p) const
 {
 	PositionList currMoves = GetMoves(p);
 
+	if (!IsCheck(p))
+		return false;
+
 	for (int i = 0; i < currMoves.size(); i++)
 	{
 		if (!IsCheck(currMoves[i]))
