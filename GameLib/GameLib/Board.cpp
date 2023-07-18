@@ -37,7 +37,7 @@ Board::Board()
 }
 
 // For creating different type of boards for testing
-Board::Board(bool t)
+Board::Board(const PieceVector& v)
 {
 	for (int i = 0; i < 8; i++)
 	{
@@ -47,9 +47,14 @@ Board::Board(bool t)
 		}
 	}
 
-	m_board[0][3] = std::make_shared<Queen>(EColor::Black);
-	m_board[5][3] = std::make_shared<Rook>(EColor::White);
-	m_board[6][3] = std::make_shared<King>(EColor::White);
+	for (auto curr : v)
+	{
+		int x = curr.first.first;
+		int y = curr.first.second;
+		PiecesPtr currPiece = curr.second;
+
+		m_board[x][y] = currPiece;
+	}
 }
 
 ChessBoard Board::GetGameboard() const

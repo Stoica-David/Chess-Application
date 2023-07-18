@@ -1,5 +1,7 @@
 #include "Game.h"
 
+#include "PieceInfo.h"
+
 IGamePtr IGame::Produce()
 {
 	return std::make_shared<Game>();
@@ -66,7 +68,7 @@ bool Game::Move(Position p1, Position p2)
 	return false;
 }
 
-IPiecePtr Game::GetPieceInfo(Position p) const
+IPieceInfoPtr Game::GetPieceInfo(Position p) const
 {
 	return std::make_shared<PieceInfo>(m_gameboard.GetPiece(p)->GetType(), m_gameboard.GetPiece(p)->GetColor());
 }

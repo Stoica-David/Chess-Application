@@ -2,6 +2,7 @@
 
 #include "EPieceType.h"
 #include "EColor.h"
+
 #include <memory>
 
 class IPieceInfo
@@ -11,4 +12,4 @@ public:
 	virtual EColor GetColor() const = 0;
 };
 
-using IPiecePtr = std::shared_ptr<IPieceInfo>;
+using IPieceInfoPtr = std::shared_ptr<IPieceInfo>;

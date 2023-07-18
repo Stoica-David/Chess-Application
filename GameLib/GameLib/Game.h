@@ -7,9 +7,7 @@
 #include<vector>
 #include<memory>
 
-using PieceVector = std::vector<PiecesPtr>;
-
-class Game:public IGame
+class Game : public IGame
 {
 public:
 	// Constructor
@@ -20,7 +18,7 @@ public:
 
 	//Other methods
 	bool Move(Position p1, Position p2) override;
-	IPiecePtr GetPieceInfo(Position) const override;
+	IPieceInfoPtr GetPieceInfo(Position) const override;
 
 private:
 	Board m_gameboard;

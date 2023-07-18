@@ -6,12 +6,21 @@
 #include<vector>
 #include <cmath>
 #include <utility>
+#include<unordered_map>
 
 using PiecesPtr = std::shared_ptr<class Piece>;
 
+struct Compare {
+	bool operator()(const std::pair<Position, PiecesPtr>& p)
+	{
+		return std::hash<int>{}(p.first.first);
+	}
+};
+
+using PieceVector = std::vector<std::pair<Position, PiecesPtr>>;
+
 class Piece:public IPiece
 {
-
 public:
 	// Constructors
 	Piece(EPieceType, EColor);

@@ -1,7 +1,8 @@
 #pragma once
+
 #include "IPieceInfo.h"
 
-class PieceInfo:public IPieceInfo
+class PieceInfo : public IPieceInfo
 {
 public:
 	// Constructor
