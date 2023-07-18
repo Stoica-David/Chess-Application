@@ -30,11 +30,11 @@ public:
 	bool IsCheck(Position p) const;
 	bool IsCheckMate(Position p);
 	void FreePosition(Position p);
+	Position FindKing(EColor) const;
 private:
 	PositionList GetMoves(Position p) const;
 	bool FindHelp(Position p);
 	bool KillCheck(Position p);
-	Position FindKing(EColor) const;
 
 private:
 	ChessBoard m_board;

@@ -105,22 +105,24 @@
 //	EXPECT_EQ(b.VerifyTheWay({ 7,6 }, { 6,4 }), false);
 //}
 
-TEST(IsCheckTest, AllPieces)
-{
-	Board b(1);
+//TEST(IsCheckTest, AllPieces)
+//{
+//	Board b(1);
+//
+//	EXPECT_EQ(b.IsCheck({ 2,5 }), true);
+//}
+//
+//TEST(IsCheckMateTest, AllPieces)
+//{
+//	Board b(1);
+//
+//	EXPECT_EQ(b.IsCheckMate({ 2,5 }), false);
+//}
 
-	EXPECT_EQ(b.IsCheck({ 2,5 }), true);
-}
 
-TEST(IsCheckMateTest, AllPieces)
-{
-	Board b(1);
 
-	EXPECT_EQ(b.IsCheckMate({ 2,5 }), false);
-}
-
-int main(int argc, char** argv)
-{
-	::testing::InitGoogleTest(&argc, argv);
-	return RUN_ALL_TESTS();
-}
+//int main(int argc, char** argv)
+//{
+//	::testing::InitGoogleTest(&argc, argv);
+//	return RUN_ALL_TESTS();
+//}

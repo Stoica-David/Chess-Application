@@ -1,6 +1,6 @@
 #include "Game.h"
 
-IGamePtr IGame::Produce() 
+IGamePtr IGame::Produce()
 {
 	return std::make_shared<Game>();
 }
@@ -44,8 +44,24 @@ bool Game::Move(Position p1, Position p2)
 
 		m_gameboard.SetGameboard(p2, currPiece);
 		m_gameboard.FreePosition(p1);
+
+		Position kingPos;
+
+		if (currPiece->GetColor() == EColor::White)
+			kingPos = m_gameboard.FindKing(EColor::White);
+		else
+			kingPos = m_gameboard.FindKing(EColor::Black);
+
+		if (m_gameboard.IsCheck(kingPos))
+		{
+			m_gameboard.SetGameboard(p1, currPiece);
+			m_gameboard.FreePosition(p2);
+			return false;
+		}
 		return true;
 	}
+
+
 
 	return false;
 }

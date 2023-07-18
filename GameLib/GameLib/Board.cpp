@@ -47,16 +47,9 @@ Board::Board(bool t)
 		}
 	}
 
-	m_board[6][1] = std::make_shared<Bishop>(EColor::Black);
-	m_board[2][5] = std::make_shared<King>(EColor::White);
-	m_board[4][1] = std::make_shared<Rook>(EColor::White);
-	m_board[2][4] = std::make_shared<Pawn>(EColor::White);
-	m_board[1][4] = std::make_shared<Pawn>(EColor::White);
-	m_board[1][5] = std::make_shared<Pawn>(EColor::White);
-	m_board[1][6] = std::make_shared<Pawn>(EColor::White);
-	m_board[2][6] = std::make_shared<Pawn>(EColor::White);
-	m_board[3][6] = std::make_shared<Pawn>(EColor::White);
-	m_board[3][5] = std::make_shared<Pawn>(EColor::White);
+	m_board[0][3] = std::make_shared<Queen>(EColor::Black);
+	m_board[5][3] = std::make_shared<Rook>(EColor::White);
+	m_board[6][3] = std::make_shared<King>(EColor::White);
 }
 
 ChessBoard Board::GetGameboard() const
@@ -218,7 +211,6 @@ bool Board::FindHelp(Position p)
 bool Board::KillCheck(Position p)
 {
 	Position toKill;
-
 	int x = p.first, y = p.second;
 
 	for (int i = 0; i < 8; i++)
@@ -234,7 +226,6 @@ bool Board::KillCheck(Position p)
 			}
 		}
 	}
-
 	int killX = toKill.first, killY = toKill.second;
 
 	for (int i = 0; i < 8; i++)
