@@ -6,17 +6,15 @@ class PieceInfo : public IPieceInfo
 {
 public:
 	// Constructor
-	PieceInfo(EPieceType type, EColor color)
-		:m_type(type),
-		m_color(color)
-	{
-	}
+	PieceInfo(EPieceType type, EColor color);
+
+	static IPieceInfoPtr Produce(EPieceType type, EColor color);
 
 	// IPieceInfo methods
 	EPieceType GetType()const override;
 	EColor GetColor()const override;
 
-protected:
+private:
 	EPieceType m_type;
 	EColor m_color;
 };

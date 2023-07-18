@@ -1,11 +1,7 @@
 #pragma once
 
-#include "Rook.h"
-#include "Knight.h"
-#include "Bishop.h"
-#include "King.h"
-#include "Queen.h"
-#include "Pawn.h"
+#include "Piece.h"
+
 #include<array>
 
 using ChessBoard = std::array<std::array<PiecesPtr, 8>, 8>;
@@ -27,15 +23,13 @@ public:
 	bool PositionExists(Position p) const;
 	bool VerifyTheWay(Position p1, Position p2) const;
 	PiecesPtr GetPiece(Position p) const;
-	bool IsCheck(Position p) const;
-	bool IsCheckMate(Position p);
-	void FreePosition(Position p);
+	bool IsCheck(Position p, EColor color) const;
+	//bool IsCheckMate(Position p) const;
 	Position FindKing(EColor) const;
 private:
 	PositionList GetMoves(Position p) const;
-	bool FindHelp(Position p);
-	bool KillCheck(Position p);
-	bool IsBlankCheck(Position p, EColor color);
+	//bool FindHelp(Position p);
+	//bool KillCheck(Position p);
 
 private:
 	ChessBoard m_board;

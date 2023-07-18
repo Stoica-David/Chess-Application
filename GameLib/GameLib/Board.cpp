@@ -1,52 +1,41 @@
-#include <iostream>
 #include "Board.h"
 
+//#include "Rook.h"
+//#include "Knight.h"
+//#include "Bishop.h"
+//#include "King.h"
+//#include "Queen.h"
+//#include "Pawn.h"
+//
 Board::Board()
 {
-	for (int i = 2; i < 6; i++)
+	std::vector<EPieceType> TYPES = {
+		EPieceType::Rook, 
+		EPieceType::Knight, 
+		EPieceType::Bishop, 
+		EPieceType::Queen, 
+		EPieceType::King, 
+		EPieceType::Bishop, 
+		EPieceType::Knight, 
+		EPieceType::Rook 
+	}; 
+
+	for (int i = 0; i < TYPES.size(); i++)
 	{
-		for (int j = 0; j < 8; j++)
-		{
-			m_board[i][j] = {};
-		}
+		m_board[0][i] = Piece::Produce(TYPES[i], EColor::Black);
+		m_board[7][i] = Piece::Produce(TYPES[i], EColor::White);
 	}
-
-	m_board[0][0] = std::make_shared<Rook>(EColor::Black);
-	m_board[0][1] = std::make_shared<Knight>(EColor::Black);
-	m_board[0][2] = std::make_shared<Bishop>(EColor::Black);
-	m_board[0][3] = std::make_shared<Queen>(EColor::Black);
-	m_board[0][4] = std::make_shared<King>(EColor::Black);
-	m_board[0][5] = std::make_shared<Bishop>(EColor::Black);
-	m_board[0][6] = std::make_shared<Knight>(EColor::Black);
-	m_board[0][7] = std::make_shared<Rook>(EColor::Black);
-
-	m_board[7][0] = std::make_shared<Rook>(EColor::White);
-	m_board[7][1] = std::make_shared<Knight>(EColor::White);
-	m_board[7][2] = std::make_shared<Bishop>(EColor::White);
-	m_board[7][3] = std::make_shared<Queen>(EColor::White);
-	m_board[7][4] = std::make_shared<King>(EColor::White);
-	m_board[7][5] = std::make_shared<Bishop>(EColor::White);
-	m_board[7][6] = std::make_shared<Knight>(EColor::White);
-	m_board[7][7] = std::make_shared<Rook>(EColor::White);
 
 	for (int i = 0; i < 8; i++)
 	{
-		m_board[1][i] = std::make_shared<Pawn>(EColor::Black);
-		m_board[6][i] = std::make_shared<Pawn>(EColor::White);
+		m_board[1][i] = Piece::Produce(EPieceType::Pawn, EColor::Black);
+		m_board[6][i] = Piece::Produce(EPieceType::Pawn, EColor::White);
 	}
 }
 
 // For creating different type of boards for testing
 Board::Board(const PieceVector& v)
 {
-	for (int i = 0; i < 8; i++)
-	{
-		for (int j = 0; j < 8; j++)
-		{
-			m_board[i][j] = {};
-		}
-	}
-
 	for (auto curr : v)
 	{
 		int x = curr.first.first;
@@ -87,11 +76,6 @@ bool Board::VerifyTheWay(Position p1, Position p2) const
 	return true;
 }
 
-void Board::FreePosition(Position p)
-{
-	m_board[p.first][p.second] = {};
-}
-
 PositionList Board::GetMoves(Position p) const
 {
 	auto initialPiece = m_board[p.first][p.second];
@@ -120,30 +104,15 @@ PositionList Board::GetMoves(Position p) const
 	return newList;
 }
 
-bool Board::IsCheck(Position p) const
+bool Board::IsCheck(Position p, EColor color) const
 {
-	if (!m_board[p.first][p.second])
-	{
-		Position p1 = FindKing(EColor::Black);
-		Position p2 = FindKing(EColor::White);
-
-		float d1 = std::sqrt(std::pow(p1.first - p.first, 2) + std::pow(p1.second, p.second));
-		float d2 = std::sqrt(std::pow(p2.first - p.first, 2) + std::pow(p2.second, p.second));
-
-		if (d1 > d2)
-			return IsBlankCheck(p, EColor::White);
-		else
-			return IsBlankCheck(p, EColor::Black);
-
-	}
-
 	PositionList moves;
 
 	for (int i = 0; i < m_board.size(); i++)
 	{
 		for (int j = 0; j < m_board[i].size(); j++)
 		{
-			if ((!m_board[i][j] || !m_board[p.first][p.second]) || (m_board[i][j]->GetColor() == m_board[p.first][p.second]->GetColor()))
+			if ((!m_board[i][j]) || (m_board[i][j]->GetColor() == color))
 			{
 				continue;
 			}
@@ -167,113 +136,102 @@ PiecesPtr Board::GetPiece(Position p) const
 	return m_board[p.first][p.second];
 }
 
-bool Board::IsCheckMate(Position p)
-{
-	PositionList currMoves = GetMoves(p);
+//bool Board::IsCheckMate(Position p) const
+//{
+//	PositionList currMoves = GetMoves(p);
+//
+//	if (!IsCheck(p))
+//		return false;
+//
+//	for (int i = 0; i < currMoves.size(); i++)
+//	{
+//		if (!IsCheck(currMoves[i]))
+//			return false;
+//	}
+//
+//	if (FindHelp(p))
+//	{
+//		return false;
+//	}
+//
+//	if (!KillCheck(p))
+//		return false;
+//
+//	return true;
+//}
 
-	if (!IsCheck(p))
-		return false;
-
-	for (int i = 0; i < currMoves.size(); i++)
-	{
-		if (!IsCheck(currMoves[i]))
-			return false;
-	}
-
-	if (FindHelp(p))
-	{
-		return false;
-	}
-
-	if (!KillCheck(p))
-		return false;
-
-	return true;
-}
-
-bool Board::FindHelp(Position p)
-{
-	PositionList currMoves;
-	PositionList kingMoves = GetMoves(p);
-
-	int x = p.first, y = p.second;
-
-	for (int i = 0; i < 8; i++)
-	{
-		for (int j = 0; j < 8; j++)
-		{
-			if (m_board[i][j] && m_board[i][j]->GetColor() == m_board[x][y]->GetColor())
-				currMoves = GetMoves({ i, j });
-
-			for (int k = 0; k < currMoves.size(); k++)
-			{
-				int currX = currMoves[k].first;
-				int currY = currMoves[k].second;
-
-				m_board[currX][currY] = m_board[i][j];
-				m_board[i][j] = {};
-
-				if (!IsCheck(p))
-				{
-					m_board[i][j] = m_board[currX][currY];
-					m_board[currX][currY] = {};
-					return true;
-				}
-
-				m_board[i][j] = m_board[currX][currY];
-				m_board[currX][currY] = {};
-			}
-		}
-	}
-	return false;
-}
-
-bool Board::KillCheck(Position p)
-{
-	Position toKill;
-	int x = p.first, y = p.second;
-
-	for (int i = 0; i < 8; i++)
-	{
-		for (int j = 0; j < 8; j++)
-		{
-			if (m_board[i][j] && m_board[i][j]->GetColor() != m_board[x][y]->GetColor())
-			{
-				PositionList moves = GetMoves({ i, j });
-				for (int k = 0; k < moves.size(); k++)
-					if (moves[k] == p)
-						toKill = { i, j };
-			}
-		}
-	}
-	int killX = toKill.first, killY = toKill.second;
-
-	for (int i = 0; i < 8; i++)
-	{
-		for (int j = 0; j < 8; j++)
-		{
-			if (m_board[i][j] && m_board[i][j]->GetColor() != m_board[killX][killY]->GetColor())
-			{
-				PositionList moves = GetMoves({ i, j });
-				for (int k = 0; k < moves.size(); k++)
-					if (moves[k] == p)
-						return true;
-			}
-		}
-	}
-	return false;
-}
-
-bool Board::IsBlankCheck(Position p, EColor color)
-{
-	m_board[p.first][p.second] = std::make_shared<King>(color);
-
-	bool isCheck = IsCheck(p);
-
-	m_board[p.first][p.second].reset();
-
-	return isCheck;
-}
+//bool Board::FindHelp(Position p)
+//{
+//	PositionList currMoves;
+//	PositionList kingMoves = GetMoves(p);
+//
+//	int x = p.first, y = p.second;
+//
+//	for (int i = 0; i < 8; i++)
+//	{
+//		for (int j = 0; j < 8; j++)
+//		{
+//			if (m_board[i][j] && m_board[i][j]->GetColor() == m_board[x][y]->GetColor())
+//				currMoves = GetMoves({ i, j });
+//
+//			for (int k = 0; k < currMoves.size(); k++)
+//			{
+//				int currX = currMoves[k].first;
+//				int currY = currMoves[k].second;
+//
+//				m_board[currX][currY] = m_board[i][j];
+//				m_board[i][j] = {};
+//
+//				if (!IsCheck(p))
+//				{
+//					m_board[i][j] = m_board[currX][currY];
+//					m_board[currX][currY] = {};
+//					return true;
+//				}
+//
+//				m_board[i][j] = m_board[currX][currY];
+//				m_board[currX][currY] = {};
+//			}
+//		}
+//	}
+//	return false;
+//}
+//
+//bool Board::KillCheck(Position p)
+//{
+//	Position toKill;
+//	int x = p.first, y = p.second;
+//
+//	for (int i = 0; i < 8; i++)
+//	{
+//		for (int j = 0; j < 8; j++)
+//		{
+//			if (m_board[i][j] && m_board[i][j]->GetColor() != m_board[x][y]->GetColor())
+//			{
+//				PositionList moves = GetMoves({ i, j });
+//				for (int k = 0; k < moves.size(); k++)
+//					if (moves[k] == p)
+//						toKill = { i, j };
+//			}
+//		}
+//	}
+//	int killX = toKill.first, killY = toKill.second;
+//
+//	for (int i = 0; i < 8; i++)
+//	{
+//		for (int j = 0; j < 8; j++)
+//		{
+//			if (m_board[i][j] && m_board[i][j]->GetColor() != m_board[killX][killY]->GetColor())
+//			{
+//				PositionList moves = GetMoves({ i, j });
+//				for (int k = 0; k < moves.size(); k++)
+//					if (moves[k] == p)
+//						return true;
+//			}
+//		}
+//	}
+//	return false;
+//}
 
 Position Board::FindKing(EColor color) const
 {

@@ -25,6 +25,8 @@ public:
 	// Constructors
 	Piece(EPieceType, EColor);
 
+	static PiecesPtr Produce(EPieceType type, EColor color);
+
 	// Getters
 	EPieceType GetType() const;
 	EColor GetColor() const;
