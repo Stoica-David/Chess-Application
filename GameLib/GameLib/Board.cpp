@@ -122,6 +122,21 @@ PositionList Board::GetMoves(Position p) const
 
 bool Board::IsCheck(Position p) const
 {
+	if (!m_board[p.first][p.second])
+	{
+		Position p1 = FindKing(EColor::Black);
+		Position p2 = FindKing(EColor::White);
+
+		float d1 = std::sqrt(std::pow(p1.first - p.first, 2) + std::pow(p1.second, p.second));
+		float d2 = std::sqrt(std::pow(p2.first - p.first, 2) + std::pow(p2.second, p.second));
+
+		if (d1 > d2)
+			return IsBlankCheck(p, EColor::White);
+		else
+			return IsBlankCheck(p, EColor::Black);
+
+	}
+
 	PositionList moves;
 
 	for (int i = 0; i < m_board.size(); i++)
@@ -247,6 +262,17 @@ bool Board::KillCheck(Position p)
 		}
 	}
 	return false;
+}
+
+bool Board::IsBlankCheck(Position p, EColor color)
+{
+	m_board[p.first][p.second] = std::make_shared<King>(color);
+
+	bool isCheck = IsCheck(p);
+
+	m_board[p.first][p.second].reset();
+
+	return isCheck;
 }
 
 Position Board::FindKing(EColor color) const

@@ -35,6 +35,7 @@ private:
 	PositionList GetMoves(Position p) const;
 	bool FindHelp(Position p);
 	bool KillCheck(Position p);
+	bool IsBlankCheck(Position p, EColor color);
 
 private:
 	ChessBoard m_board;
