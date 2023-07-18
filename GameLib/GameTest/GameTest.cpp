@@ -108,12 +108,12 @@
 //	EXPECT_EQ(g.Move({ 6,6 }, { 5,6 }), false);
 //}
 //
-////TEST(MovePutsKingInChessTest, AllPieces)
-////{
-////	Game g;
-////
-////	EXPECT_EQ(g.Move({ 5, 3 }, { 5, 2 }), false);
-////}
+//TEST(MovePutsKingInChessTest, AllPieces)
+//{
+//	Game g;
+//
+//	EXPECT_EQ(g.Move({ 5, 3 }, { 5, 2 }), false);
+//}
 //
 //int main(int argv, char** argc)
 //{

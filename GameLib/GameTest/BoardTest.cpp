@@ -39,11 +39,11 @@ TEST(VerifyTheWatTest, QueenTest)
 {
 	Board b;
 	//white
-	EXPECT_EQ(b.VerifyTheWay({7, 3}, {6, 3}), false);
-	EXPECT_EQ(b.VerifyTheWay({7, 3}, {7, 0}), false);
-	EXPECT_EQ(b.VerifyTheWay({7, 3}, {7, 7}), false);
-	EXPECT_EQ(b.VerifyTheWay({7, 3}, {4, 0}), false);
-	EXPECT_EQ(b.VerifyTheWay({7, 3}, {4, 7}), false);
+	EXPECT_EQ(b.VerifyTheWay({ 7, 3 }, { 6, 3 }), false);
+	EXPECT_EQ(b.VerifyTheWay({ 7, 3 }, { 7, 0 }), false);
+	EXPECT_EQ(b.VerifyTheWay({ 7, 3 }, { 7, 7 }), false);
+	EXPECT_EQ(b.VerifyTheWay({ 7, 3 }, { 4, 0 }), false);
+	EXPECT_EQ(b.VerifyTheWay({ 7, 3 }, { 4, 7 }), false);
 	EXPECT_EQ(b.VerifyTheWay({ 7, 3 }, { 5, 4 }), false);
 
 	//black
@@ -105,23 +105,79 @@ TEST(VerifyTheWayTest, KnightTest)
 	EXPECT_EQ(b.VerifyTheWay({ 7,6 }, { 6,4 }), false);
 }
 
-TEST(IsCheckTest, AllPieces)
+TEST(IsCheckTest, WBishopBoard)
 {
-	PieceVector m1 = { 
-		{ {2,5}, std::make_shared<King>(EColor::White)}, 
+	PieceVector m1 = {
+		{ {2,5}, std::make_shared<King>(EColor::White)},
+		{ {0,7}, std::make_shared<Bishop>(EColor::White)} };
+	Board b(m1);
+
+	EXPECT_EQ(b.IsCheck({ 2,5 }), false);
+}
+
+TEST(IsCheckTest, BBishopBoard)
+{
+	PieceVector m1 = {
+		{ {2,5}, std::make_shared<King>(EColor::White)},
 		{ {7,0}, std::make_shared<Bishop>(EColor::Black)} };
 	Board b(m1);
 
 	EXPECT_EQ(b.IsCheck({ 2,5 }), true);
 }
 
-TEST(IsCheckMateTest, AllPieces)
+TEST(IsCheckTest, WRookBoard)
 {
-	
-	PieceVector m1 = { {{2,5},  std::make_shared<King>(EColor::White)}, { {7,0},std::make_shared<Bishop>(EColor::Black)} };
+	PieceVector m1 = {
+		{ {2,5}, std::make_shared<King>(EColor::White)},
+		{ {2,7}, std::make_shared<Rook>(EColor::White)} };
+	Board b(m1);
+
+	EXPECT_EQ(b.IsCheck({ 2,5 }), false);
+}
+
+TEST(IsCheckTest, BRookBoard)
+{
+	PieceVector m1 = {
+		{ {2,5}, std::make_shared<King>(EColor::White)},
+		{ {2,7}, std::make_shared<Rook>(EColor::Black)} };
+	Board b(m1);
+
+	EXPECT_EQ(b.IsCheck({ 2,5 }), true);
+}
+
+TEST(IsCheckMateTest, BishopBoard)
+{
+
+	PieceVector m1 = {
+		{ {2,5},  std::make_shared<King>(EColor::White)} ,
+		{ {7,0},std::make_shared<Bishop>(EColor::Black)} };
 	Board b(m1);
 
 	EXPECT_EQ(b.IsCheckMate({ 2,5 }), false);
+}
+
+TEST(IsCheckMateTest, MultipleBishopBoard)
+{
+	PieceVector m1 = {
+		{ {7,2},  std::make_shared<King>(EColor::White)} ,
+		{ {6,0},std::make_shared<Bishop>(EColor::Black)} ,
+		{ {5,0},std::make_shared<Bishop>(EColor::Black)} ,
+		{ {4,0},std::make_shared<Bishop>(EColor::Black)} ,
+		{ {3,0},std::make_shared<Bishop>(EColor::Black)} };
+	Board b(m1);
+
+	EXPECT_EQ(b.IsCheckMate({ 7,2 }), true);
+}
+
+TEST(IsCheckMateTest, DRookMate)
+{
+	PieceVector m1 = {
+		{ {0,0},  std::make_shared<King>(EColor::White)},
+		{ {0,6},std::make_shared<Rook>(EColor::Black)},
+		{ {1,7},std::make_shared<Rook>(EColor::Black)}
+	};
+	Board b(m1);
+	EXPECT_EQ(b.IsCheckMate({ 0,0 }), true);
 }
 
 int main(int argc, char** argv)
