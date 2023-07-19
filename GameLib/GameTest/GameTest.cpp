@@ -145,7 +145,7 @@ TEST(IsOverTest, RookCheckmate)
 }
 
 
-TEST(IsDrawTest, KingVKing)
+TEST(IsOverTest, KingVKing)
 {
 	PiecePairVector v = {
 		{{4, 0}, Piece::Produce(EPieceType::King, EColor::White)},
@@ -158,7 +158,7 @@ TEST(IsDrawTest, KingVKing)
 	EXPECT_EQ(g.IsOver(), true);
 }
 
-TEST(IsDrawTest, KingVKingKnight)
+TEST(IsOverTest, KingVKingKnight)
 {
 	PiecePairVector v = {
 		{{4, 0}, Piece::Produce(EPieceType::King, EColor::White)},
@@ -172,7 +172,7 @@ TEST(IsDrawTest, KingVKingKnight)
 	EXPECT_EQ(g.IsOver(), true);
 }
 
-TEST(IsDrawTest, KingVKingBishop)
+TEST(IsOverTest, KingVKingBishop)
 {
 	PiecePairVector v = {
 		{{4, 0}, Piece::Produce(EPieceType::King, EColor::White)},
@@ -186,7 +186,7 @@ TEST(IsDrawTest, KingVKingBishop)
 	EXPECT_EQ(g.IsOver(), true);
 }
 
-TEST(IsDrawTest, KingBishopVKingBishop)
+TEST(IsOverTest, KingBishopVKingBishop)
 {
 	PiecePairVector v = {
 		{{4, 0}, Piece::Produce(EPieceType::King, EColor::White)},
@@ -199,6 +199,42 @@ TEST(IsDrawTest, KingBishopVKingBishop)
 	Game g(b);
 
 	EXPECT_EQ(g.IsOver(), true);
+}
+
+TEST(IsOverTest, DRookCheckMate)
+{
+	PiecePairVector v = {
+		{{4, 0}, Piece::Produce(EPieceType::King, EColor::White)},
+		{{7, 0}, Piece::Produce(EPieceType::Rook, EColor::Black)},
+		{{7, 1}, Piece::Produce(EPieceType::Rook, EColor::Black)},
+		{{5, 0}, Piece::Produce(EPieceType::Rook, EColor::White)}
+	};
+	Board b(v);
+
+	Game g(b);
+
+	EXPECT_EQ(g.IsOver(), false);
+}
+
+//TEST(IsOverTest, FoolMate)
+//{
+//	Game g;
+//
+//	g.Move({ 6, 5 }, { 5, 5 });
+//	g.Move({ 1, 4 }, { 3, 4 });
+//	g.Move({ 6, 6 }, { 4, 6 });
+//	g.Move({ 0, 3 }, { 4, 7 });
+//
+//	EXPECT_EQ(g.IsOver(), true);
+//}
+
+TEST(GetTurnTest, Normal)
+{
+	Game g;
+
+	EXPECT_EQ(g.GetTurn(), EColor::White);
+	g.Move({6, 0}, {5, 0});
+	EXPECT_EQ(g.GetTurn(), EColor::Black);
 }
 
 int main(int argv, char** argc)

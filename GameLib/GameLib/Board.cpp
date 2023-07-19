@@ -76,6 +76,11 @@ PositionList Board::GetMoves(Position p) const
 {
 	auto initialPiece = m_board[p.first][p.second];
 
+	if (!initialPiece)
+	{
+		return {};
+	}
+
 	PositionMatrix currMoves = initialPiece->AllMoves(p);
 	PositionList newList;
 
