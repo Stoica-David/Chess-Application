@@ -1,4 +1,4 @@
-#include<iostream>
+#include <iostream>
 #include <windows.h>
 #include "IGame.h"
 #include "PositionException.h"
@@ -7,25 +7,27 @@
 #define color_gray "\x1b[90m"
 #define color_white "\x1b[37m"
 #define color_black "\x1b[30m"
-#define color_bold_black "\033[1;30m"
-#define color_dark_gray "\033[100m"
+#define color_blue "\033[34m"
+#define color_cyan "\033[36m"
+#define color_yellow "\033[33m"
+#define color_red "\033[31m"
 
 void PrintMinus()
 {
 	for (int i = 0; i < 18; i++)
-		std::cout << color_black << "--";
+		std::cout << color_blue << "--";
 
-	std::cout << std::endl;
+	std::cout << std::endl << color_white;
 }
 
 void PrintVerticalLine()
 {
-	std::cout << color_black << "|";
+	std::cout << color_blue << "|" << color_white;
 }
 
 void PrintHorizohtalLine()
 {
-	std::cout << color_black << "--";
+	std::cout << color_blue << "--" << color_white;
 }
 
 void PrintSpace()
@@ -38,21 +40,13 @@ void Enter()
 	std::cout << "\n";
 }
 
-void ResetColor()
-{
-	std::cout << color_white << "";
-}
-
 void PrintBoard(const IGamePtr& game)
 {
-	HANDLE console_color;
-	console_color = GetStdHandle(STD_OUTPUT_HANDLE);
-
 	char c;
 	PrintMinus();
 	PrintVerticalLine();
 	PrintSpace();
-	PrintSpace();
+	std::cout << color_blue << "X" << color_white;
 	PrintSpace();
 	PrintVerticalLine();
 	PrintSpace();
@@ -60,7 +54,7 @@ void PrintBoard(const IGamePtr& game)
 	{
 		c = 'A' + i;
 
-		std::cout << c;
+		std::cout << color_yellow << c << color_yellow;
 
 		PrintSpace();
 		PrintVerticalLine();
@@ -75,7 +69,7 @@ void PrintBoard(const IGamePtr& game)
 	{
 		PrintVerticalLine();
 		PrintSpace();
-		std::cout << i;
+		std::cout << color_yellow << i << color_yellow;
 		PrintSpace();
 		PrintVerticalLine();
 
@@ -85,8 +79,7 @@ void PrintBoard(const IGamePtr& game)
 
 			if (!currPiece)
 			{
-				std::cout << color_black << " ~ ";
-				ResetColor();
+				std::cout << color_cyan << " ~ " << color_cyan;
 				PrintVerticalLine();
 				continue;
 			}
@@ -99,7 +92,6 @@ void PrintBoard(const IGamePtr& game)
 				else
 					std::cout << color_white << " R ";
 
-				ResetColor();
 				PrintVerticalLine();
 				break;
 			}
@@ -110,7 +102,6 @@ void PrintBoard(const IGamePtr& game)
 				else
 					std::cout << color_white << " H ";
 
-				ResetColor();
 				PrintVerticalLine();
 				break;
 			}
@@ -121,7 +112,6 @@ void PrintBoard(const IGamePtr& game)
 				else
 					std::cout << color_white << " Q ";
 
-				ResetColor();
 				PrintVerticalLine();
 				break;
 			}
@@ -132,7 +122,6 @@ void PrintBoard(const IGamePtr& game)
 				else
 					std::cout << color_white << " B ";
 
-				ResetColor();
 				PrintVerticalLine();
 				break;
 			}
@@ -143,7 +132,6 @@ void PrintBoard(const IGamePtr& game)
 				else
 					std::cout << color_white << " K ";
 
-				ResetColor();
 				PrintVerticalLine();
 				break;
 			}
@@ -154,7 +142,6 @@ void PrintBoard(const IGamePtr& game)
 				else
 					std::cout << color_white << " P ";
 
-				ResetColor();
 				PrintVerticalLine();
 				break;
 			}
@@ -171,39 +158,25 @@ void Play(const IGamePtr& game)
 {
 	char x1, y1, x2, y2;
 	PrintBoard(game);
-	
-	EColor currTurn = game->GetTurn();
-	
-	//if (currTurn == EColor::White)
-	//	std::cout << "[White]";
-	//else
-	//	std::cout << "[Black]";
-
-	//std::cout << "Enter move: ";
-	//std::cin >> y1 >> x1 >> y2 >> x2;
-
-	//system("PAUSE");
-	//system("CLS");
 
 	do
 	{
 		try
 		{
-			currTurn = game->GetTurn();
+			EColor currTurn = game->GetTurn();
 
 			if (currTurn == EColor::White)
-				std::cout << "[White]";
+				std::cout << color_white << "[White]";
 			else
-				std::cout << "[Black]";
+				std::cout << color_black <<"[Black]";
 
 			std::cout << "Enter move: ";
 			std::cin >> y1 >> x1 >> y2 >> x2;
 
+			system("PAUSE");
+			system("CLS");
+
 			game->Move({ x1 - '0' - 1, y1 - 'A'}, {x2 - '0' - 1, y2 - 'A'});
-			
-			//system("PAUSE");
-			//system("CLS");
-			PrintBoard(game);
 		}
 		catch (const char* m)
 		{
@@ -211,9 +184,11 @@ void Play(const IGamePtr& game)
 		}
 		catch (IException e)
 		{
-			std::cout << e.what();
+			std::cout << color_red << "[EXCEPTION]" << e.what() << "!\n" << color_white;
 		}
-		
+
+		PrintBoard(game);
+
 	} while (!game->IsOver());
 }
 
