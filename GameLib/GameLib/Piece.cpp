@@ -18,17 +18,17 @@ PiecesPtr Piece::Produce(EPieceType type, EColor color)
 	switch (type)
 	{
 	case EPieceType::Rook:
-		return std::make_shared<Rook>(color);
+		return std::make_shared<Rook>(color); 
 	case EPieceType::Knight:
-		return std::make_shared<Knight>(color); break;
+		return std::make_shared<Knight>(color); 
 	case EPieceType::Bishop:
-		return std::make_shared<Bishop>(color); break;
+		return std::make_shared<Bishop>(color); 
 	case EPieceType::Queen:
-		return std::make_shared<Queen>(color); break;
+		return std::make_shared<Queen>(color); 
 	case EPieceType::King:
-		return std::make_shared<King>(color); break;
+		return std::make_shared<King>(color); 
 	case EPieceType::Pawn:
-		return std::make_shared<Pawn>(color); break;
+		return std::make_shared<Pawn>(color); 
 	}
 	return {};
 }

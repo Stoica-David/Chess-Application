@@ -11,7 +11,7 @@ class Board
 public:
 	// Constructors
 	Board();
-	Board(const PieceVector&);
+	Board(const PiecePairVector&);
 
 	// Getters
 	ChessBoard GetGameboard() const;
@@ -28,6 +28,8 @@ public:
 	bool IsSameWay(Position p1, Position p2, EColor color) const;
 	bool IsCheckMate(Position p, EColor color) const;
 	Position FindKing(EColor) const;
+	PieceVector RemainingPieces() const;
+	
 private:
 	PositionList GetMoves(Position p) const;
 	bool FindHelp(Position p, EColor color) const;
@@ -35,6 +37,7 @@ private:
 	PositionList DefendedPositions(Position p, EColor color) const;
 	bool IsDefended(Position p, EColor color) const;
 	bool SameColor(EColor color1, EColor color2) const;
+
 
 private:
 	ChessBoard m_board;

@@ -9,15 +9,8 @@
 #include<unordered_map>
 
 using PiecesPtr = std::shared_ptr<class Piece>;
-
-struct Compare {
-	bool operator()(const std::pair<Position, PiecesPtr>& p)
-	{
-		return std::hash<int>{}(p.first.first);
-	}
-};
-
-using PieceVector = std::vector<std::pair<Position, PiecesPtr>>;
+using PiecePairVector = std::vector<std::pair<Position, PiecesPtr>>;
+using PieceVector = std::vector<PiecesPtr>;
 
 class Piece:public IPiece
 {

@@ -28,7 +28,7 @@ Board::Board()
 }
 
 // For creating different type of boards for testing
-Board::Board(const PieceVector& v)
+Board::Board(const PiecePairVector& v)
 {
 	for (auto curr : v)
 	{
@@ -382,6 +382,21 @@ Position Board::FindKing(EColor color) const
 				return { i, j };
 	}
 	return { -1, -1 };
+}
+
+PieceVector Board::RemainingPieces() const
+{
+	PieceVector newList;
+
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			if (m_board[i][j])
+				newList.push_back(m_board[i][j]);
+		}
+	}
+	return newList;
 }
 
 bool Board::PositionExists(Position p) const

@@ -107,7 +107,7 @@
 //
 //TEST(IsCheckTest, WBishopBoard)
 //{
-//	PieceVector m1 = {
+//	PiecePairVector m1 = {
 //		{ {2,5}, Piece::Produce(EPieceType::King, EColor::White)},
 //		{ {0,7}, Piece::Produce(EPieceType::Bishop, EColor::White)} };
 //	Board b(m1);
@@ -121,7 +121,7 @@
 //
 //TEST(IsCheckTest, BBishopBoard)
 //{
-//	PieceVector m1 = {
+//	PiecePairVector m1 = {
 //		{ {2,5}, Piece::Produce(EPieceType::King,  EColor::White)},
 //		{ {7,0}, Piece::Produce(EPieceType::Bishop, EColor::Black)} };
 //	Board b(m1);
@@ -131,7 +131,7 @@
 //
 //TEST(IsCheckTest, WRookBoard)
 //{
-//	PieceVector m1 = {
+//	PiecePairVector m1 = {
 //		{ {2,5}, Piece::Produce(EPieceType::King, EColor::White)},
 //		{ {2,7}, Piece::Produce(EPieceType::Rook, EColor::White)} };
 //	Board b(m1);
@@ -141,7 +141,7 @@
 //
 //TEST(IsCheckTest, BRookBoard)
 //{
-//	PieceVector m1 = {
+//	PiecePairVector m1 = {
 //		{ {2,5}, Piece::Produce(EPieceType::King, EColor::White)},
 //		{ {2,7}, Piece::Produce(EPieceType::Rook, EColor::Black)} };
 //	Board b(m1);
@@ -156,7 +156,7 @@
 //
 //TEST(IsCheckTest, WQueenBoard)
 //{
-//	PieceVector m1 = {
+//	PiecePairVector m1 = {
 //		{ {2,5}, Piece::Produce(EPieceType::King, EColor::Black)},
 //		{ {7,0}, Piece::Produce(EPieceType::Queen, EColor::White)} };
 //	Board b(m1);
@@ -166,7 +166,7 @@
 //
 //TEST(IsCheckTest, BQueenBoard)
 //{
-//	PieceVector m1 = {
+//	PiecePairVector m1 = {
 //		{ {2,5}, Piece::Produce(EPieceType::King, EColor::White)},
 //		{ {7,0}, Piece::Produce(EPieceType::Queen, EColor::Black)} };
 //	Board b(m1);
@@ -176,7 +176,7 @@
 //
 //TEST(IsCheckTest, WPawnBoard)
 //{
-//	PieceVector m1 = {
+//	PiecePairVector m1 = {
 //		{ {2,5}, Piece::Produce(EPieceType::King, EColor::Black)},
 //		{ {3,4}, Piece::Produce(EPieceType::Pawn, EColor::White)} };
 //	Board b(m1);
@@ -186,7 +186,7 @@
 //
 //TEST(IsCheckTest, BPawnBoard)
 //{
-//	PieceVector m1 = {
+//	PiecePairVector m1 = {
 //		{ {2,5}, Piece::Produce(EPieceType::King, EColor::Black)},
 //		{ {3,4}, Piece::Produce(EPieceType::Pawn, EColor::Black)} };
 //	Board b(m1);
@@ -196,7 +196,7 @@
 //
 //TEST(IsCheckTest, WKnightBoard)
 //{
-//	PieceVector m1 = {
+//	PiecePairVector m1 = {
 //		{ {2,5}, Piece::Produce(EPieceType::King, EColor::Black)},
 //		{ {1,3}, Piece::Produce(EPieceType::Knight, EColor::White)} };
 //	Board b(m1);
@@ -207,7 +207,7 @@
 //TEST(IsCheckMateTest, BishopBoard)
 //{
 //
-//	PieceVector m1 = {
+//	PiecePairVector m1 = {
 //		{ {2,5},  Piece::Produce(EPieceType::King, EColor::White)} ,
 //		{ {7,0},  Piece::Produce(EPieceType::Bishop, EColor::Black)} };
 //	Board b(m1);
@@ -217,7 +217,7 @@
 //
 //TEST(IsCheckMateTest, MultipleBishopBoard)
 //{
-//	PieceVector m1 = {
+//	PiecePairVector m1 = {
 //		{ {7,2}, Piece::Produce(EPieceType::King, EColor::White)},
 //		{ {6,0}, Piece::Produce(EPieceType::Bishop, EColor::Black)},
 //		{ {5,0}, Piece::Produce(EPieceType::Bishop, EColor::Black)},
@@ -230,7 +230,7 @@
 //
 //TEST(IsCheckMateTest, DRookMate)
 //{
-//	PieceVector m1 = {
+//	PiecePairVector m1 = {
 //		{ {0,0}, Piece::Produce(EPieceType::King, EColor::White)},
 //		{ {0,6}, Piece::Produce(EPieceType::Rook, EColor::Black)},
 //		{ {1,7}, Piece::Produce(EPieceType::Rook, EColor::Black)}
@@ -242,7 +242,7 @@
 //
 //TEST(IsCheckMateTest, KillCheckRook)
 //{
-//	PieceVector m1 = {
+//	PiecePairVector m1 = {
 //		{{0, 0}, Piece::Produce(EPieceType::King, EColor::White)},
 //		{{7,7}, Piece::Produce(EPieceType::Bishop, EColor::Black)},
 //		{{0,7}, Piece::Produce(EPieceType::Rook, EColor::Black)}
@@ -254,7 +254,7 @@
 //
 //TEST(IsCheckMateTest, KillCheckPawn)
 //{
-//	PieceVector m1 = {
+//	PiecePairVector m1 = {
 //		{{1, 1}, Piece::Produce(EPieceType::King, EColor::White)},
 //		{{0,7}, Piece::Produce(EPieceType::Rook, EColor::White)},
 //		{{0,0}, Piece::Produce(EPieceType::Pawn, EColor::Black)}
@@ -267,7 +267,7 @@
 //
 //TEST(IsCheckMateTest, CheckmateVariation1)
 //{
-//	PieceVector m1 = {
+//	PiecePairVector m1 = {
 //		{{0, 7}, Piece::Produce(EPieceType::King, EColor::White)},
 //		{{0, 5}, Piece::Produce(EPieceType::Bishop, EColor::Black)},
 //		{{1, 6}, Piece::Produce(EPieceType::Queen, EColor::Black)}
@@ -280,7 +280,7 @@
 //
 //TEST(IsCheckMateTest, CheckmateVariation2)
 //{
-//	PieceVector m1 = {
+//	PiecePairVector m1 = {
 //	{{0, 0}, Piece::Produce(EPieceType::King, EColor::White)},
 //	{{0, 2}, Piece::Produce(EPieceType::King, EColor::Black)},
 //	{{7, 0}, Piece::Produce(EPieceType::Rook, EColor::Black)},
@@ -293,7 +293,7 @@
 //
 //TEST(IsCheckMateTest, CheckmateVariation3)
 //{
-//	PieceVector m1 = {
+//	PiecePairVector m1 = {
 //		{{0, 7}, Piece::Produce(EPieceType::King, EColor::White)},
 //		{{0, 6}, Piece::Produce(EPieceType::Rook, EColor::Black)},
 //		{{2, 5}, Piece::Produce(EPieceType::Knight, EColor::Black)},
@@ -306,7 +306,7 @@
 //
 //TEST(IsCheckMateTest, FindHelpTest1)
 //{
-//	PieceVector m1 = {
+//	PiecePairVector m1 = {
 //		{{0, 7}, Piece::Produce(EPieceType::King, EColor::White)},
 //		{{0, 6}, Piece::Produce(EPieceType::Queen, EColor::White)},
 //		{{2, 5}, Piece::Produce(EPieceType::Bishop, EColor::Black)}
@@ -319,7 +319,7 @@
 //
 //TEST(IsCheckMateTest, FindHelpTest2)
 //{
-//	PieceVector m1 = {
+//	PiecePairVector m1 = {
 //		{{4, 0}, Piece::Produce(EPieceType::King, EColor::White)},
 //		{{7, 0}, Piece::Produce(EPieceType::Rook, EColor::Black)},
 //		{{7, 1}, Piece::Produce(EPieceType::Rook, EColor::Black)},
@@ -333,7 +333,7 @@
 //
 //TEST(IsCheckMateTest, IsSameWayTest)
 //{
-//	PieceVector m1 = {
+//	PiecePairVector m1 = {
 //		{{4, 0}, Piece::Produce(EPieceType::King, EColor::White)},
 //		{{7, 0}, Piece::Produce(EPieceType::Rook, EColor::Black)},
 //		{{7, 1}, Piece::Produce(EPieceType::Rook, EColor::Black)},
