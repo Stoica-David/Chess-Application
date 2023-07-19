@@ -3,9 +3,6 @@
 class PositionException:public IException
 {
 public:
-	PositionException();
-	std::string GetMessage() const override;
-private:
-	std::string message;
+	PositionException(std::string);
 };
 

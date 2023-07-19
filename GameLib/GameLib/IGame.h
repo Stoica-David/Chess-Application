@@ -2,7 +2,6 @@
 
 #include "IPieceInfo.h"
 #include "Position.h"
-
 using IGamePtr = std::shared_ptr<class IGame>;
 
 class IGame
@@ -18,6 +17,7 @@ public:
 	
 	virtual bool IsDraw() const = 0;
 	virtual bool IsOver() const = 0;
+
 
 	virtual ~IGame() = default;
 };

@@ -1,11 +1,5 @@
 #include "MoveException.h"
 
-MoveException::MoveException():message("[Move] The move cannot be done by the piece!")
+MoveException::MoveException(std::string message)
 {
-
-}
-
-std::string MoveException::GetMessage() const
-{
-	return message;
 }

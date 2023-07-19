@@ -3,7 +3,6 @@
 #include "IGame.h"
 #include "Board.h"
 #include "Piece.h"
-
 #include<vector>
 #include<memory>
 
@@ -23,6 +22,7 @@ public:
 	EColor GetTurn() const override;
 	bool IsDraw() const override;
 	bool IsOver() const override;
+
 
 private:
 	bool PawnGoesDiagonally(Position p1, Position p2) const;

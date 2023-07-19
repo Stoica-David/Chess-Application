@@ -1,5 +1,7 @@
 #include "Game.h"
-
+#include "PositionException.h"
+#include "MoveException.h"
+#include "InTheWayException.h"
 #include "PieceInfo.h"
 #include <iostream>
 
@@ -30,44 +32,63 @@ bool Game::Move(Position p1, Position p2)
 	int y2 = p2.second;
 
 	if (!m_gameboard.PositionExists(p1) || !m_gameboard.PositionExists(p2))
+	{
+		throw PositionException("The given position is out of the table");
 		return false;
+	}
 
 	currPiece = m_gameboard.GetPiece(p1);
 	nextPiece = m_gameboard.GetPiece(p2);
 
 	if (!currPiece || currPiece->GetColor() != m_turn)
 	{
+		throw "Nu exista piesa";
 		return false;
 	}
 
-	if (currPiece->IsMoveRegular(p1, p2) && m_gameboard.VerifyTheWay(p1, p2))
+	if (currPiece->IsMoveRegular(p1, p2))
 	{
-		if (currPiece->GetType() == EPieceType::Pawn
-			&& PawnGoesDiagonally(p1, p2)
-			&& (!nextPiece || SameColor(p1, p2)))
+		if (m_gameboard.VerifyTheWay(p1, p2))
 		{
-			return false;
-		}
+			if (currPiece->GetType() == EPieceType::Pawn
+				&& PawnGoesDiagonally(p1, p2)
+				&& (!nextPiece || SameColor(p1, p2)))
+			{
+				throw "Pion exc";
+				return false;
+			}
 
-		if (nextPiece && SameColor(p1, p2))
+			if (nextPiece && SameColor(p1, p2))
+			{
+				throw "Same color exc";
+				return false;
+			}
+
+			m_gameboard[p2] = currPiece;
+			m_gameboard[p1] = {};
+
+			Position kingPos = m_gameboard.FindKing(currPiece->GetColor());
+
+			if (m_gameboard.IsCheck(kingPos, m_turn))
+			{
+				m_gameboard[p1] = currPiece;
+				m_gameboard[p2] = nextPiece;
+				
+				throw "Dupa check exc";
+				return false;
+			}
+
+			SwitchTurn();
+			return true;
+		}
+		else
 		{
-			return false;
+			throw "There is a piece in the way";
 		}
-
-		m_gameboard[p2] = currPiece;
-		m_gameboard[p1] = {};
-
-		Position kingPos = m_gameboard.FindKing(currPiece->GetColor());
-
-		if (m_gameboard.IsCheck(kingPos, m_turn))
-		{
-			m_gameboard[p1] = currPiece;
-			m_gameboard[p2] = nextPiece;
-			return false;
-		}
-
-		SwitchTurn();
-		return true;
+	}
+	else
+	{
+		throw MoveException("The move cannot be done by the piece!");
 	}
 
 	return false;
@@ -76,6 +97,9 @@ bool Game::Move(Position p1, Position p2)
 IPieceInfoPtr Game::GetPieceInfo(Position p) const
 {
 	auto piece = m_gameboard.GetPiece(p);
+
+	if (!piece)
+		return {};
 
 	return PieceInfo::Produce(piece->GetType(), piece->GetColor());
 }
@@ -147,6 +171,7 @@ bool Game::IsOver() const
 
 	return false;
 }
+
 
 bool Game::PawnGoesDiagonally(Position p1, Position p2) const
 {

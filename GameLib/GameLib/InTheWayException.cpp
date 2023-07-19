@@ -1,10 +1,5 @@
 #include "InTheWayException.h"
 
-InTheWayException::InTheWayException() : message("[InTheWay] There is a piece in the way")
+InTheWayException::InTheWayException(std::string message)
 {
-}
-
-std::string InTheWayException::GetMessage() const
-{
-	return message;
 }

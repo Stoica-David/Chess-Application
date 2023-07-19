@@ -9,7 +9,7 @@ PieceInfo::PieceInfo(EPieceType type, EColor color)
 
 }
 
-IPieceInfoPtr PieceInfo::Produce(EPieceType type, EColor color)
+IPieceInfoPtr IPieceInfo::Produce(EPieceType type, EColor color)
 {
 	return std::make_shared<PieceInfo>(type, color);
 }
