@@ -152,6 +152,8 @@ Position Board::FindCheck(Position p, EColor color) const
 			}
 		}
 	}
+
+	return {};
 }
 
 bool Board::IsSameWay(Position p1, Position p2, EColor color) const

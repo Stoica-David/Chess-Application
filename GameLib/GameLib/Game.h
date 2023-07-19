@@ -21,6 +21,7 @@ public:
 private:
 	bool PawnGoesDiagonally(Position p1, Position p2) const;
 	bool SameColor(Position p1, Position p2) const;
+	void SwitchTurn();
 
 private:
 	Board m_gameboard;
