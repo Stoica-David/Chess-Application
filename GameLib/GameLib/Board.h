@@ -34,6 +34,7 @@ private:
 	bool KillCheck(Position p, EColor color) const;
 	PositionList DefendedPositions(Position p, EColor color) const;
 	bool IsDefended(Position p, EColor color) const;
+	bool SameColor(EColor color1, EColor color2) const;
 
 private:
 	ChessBoard m_board;

@@ -58,9 +58,11 @@ bool Board::VerifyTheWay(Position p1, Position p2) const
 
 	for (const auto& currPos : piecePattern)
 	{
-		if (m_board[currPos.first][currPos.second])
+		int currX = currPos.first,
+			currY = currPos.second;
+		if (m_board[currX][currY])
 		{
-			if ((currPos != p2) || (currPos == p2 && m_board[currPos.first][currPos.second] && m_board[x1][y1]->GetColor() == m_board[currPos.first][currPos.second]->GetColor()))
+			if ((currPos != p2) || (currPos == p2 && m_board[currX][currY] && SameColor(m_board[x1][y1]->GetColor(), m_board[currX][currY]->GetColor())))
 			{
 				return false;
 			}
@@ -86,7 +88,7 @@ PositionList Board::GetMoves(Position p) const
 
 			if (auto currPiece = m_board[x][y])
 			{
-				if (currPiece && (currPiece->GetColor() != initialPiece->GetColor()))
+				if (currPiece && !SameColor(currPiece->GetColor(), initialPiece->GetColor()))
 					newList.push_back({ x , y });
 				break;
 			}
@@ -106,7 +108,7 @@ bool Board::IsCheck(Position p, EColor color) const
 	{
 		for (int j = 0; j < m_board[i].size(); j++)
 		{
-			if ((!m_board[i][j]) || (m_board[i][j]->GetColor() == color))
+			if ((!m_board[i][j]) || SameColor(m_board[i][j]->GetColor(), color))
 			{
 				continue;
 			}
@@ -134,7 +136,7 @@ Position Board::FindCheck(Position p, EColor color) const
 	{
 		for (int j = 0; j < 8; j++)
 		{
-			if ((!m_board[i][j]) || (m_board[i][j]->GetColor() == color))
+			if ((!m_board[i][j]) || SameColor(m_board[i][j]->GetColor(), color))
 			{
 				continue;
 			}
@@ -240,7 +242,7 @@ bool Board::FindHelp(Position p, EColor color) const
 	{
 		for (int j = 0; j < 8; j++)
 		{
-			if (!m_board[i][j] || (m_board[i][j]->GetColor() == color))
+			if (!m_board[i][j] || SameColor(m_board[i][j]->GetColor(), color))
 				continue;
 			attackMoves = GetMoves({ i, j });
 			for (int k = 0; k < attackMoves.size(); k++)
@@ -260,7 +262,7 @@ bool Board::FindHelp(Position p, EColor color) const
 		{
 			for (int j = 0; j < 8; j++)
 			{
-				if (!m_board[i][j] || (m_board[i][j]->GetColor() != color) || (m_board[i][j]->GetType() == EPieceType::King && m_board[i][j]->GetColor() == color))
+				if (!m_board[i][j] || (m_board[i][j]->GetColor() != color) || (m_board[i][j]->GetType() == EPieceType::King && SameColor(m_board[i][j]->GetColor(), color)))
 				{
 					continue;
 				}
@@ -287,7 +289,7 @@ bool Board::KillCheck(Position p, EColor color) const
 	{
 		for (int j = 0; j < 8; j++)
 		{
-			if (m_board[i][j] && m_board[i][j]->GetColor() != color)
+			if (m_board[i][j] && !SameColor(m_board[i][j]->GetColor(), color))
 			{
 				PositionList moves = GetMoves({ i, j });
 				for (int k = 0; k < moves.size(); k++)
@@ -302,7 +304,7 @@ bool Board::KillCheck(Position p, EColor color) const
 	{
 		for (int j = 0; j < 8; j++)
 		{
-			if (m_board[i][j] && m_board[i][j]->GetColor() != m_board[killX][killY]->GetColor())
+			if (m_board[i][j] && !SameColor(m_board[i][j]->GetColor(), m_board[killX][killY]->GetColor()))
 			{
 				PositionList moves = GetMoves({ i, j });
 				for (int k = 0; k < moves.size(); k++)
@@ -330,7 +332,7 @@ PositionList Board::DefendedPositions(Position p, EColor color) const
 			int currX = m[i][j].first;
 			int currY = m[i][j].second;
 
-			if (!m_board[currX][currY] || (m_board[currX][currY]->GetColor() != color))
+			if (!m_board[currX][currY] || !SameColor(m_board[currX][currY]->GetColor(), color))
 				continue;
 
 			newList.push_back({ currX, currY });
@@ -348,7 +350,7 @@ bool Board::IsDefended(Position p, EColor color) const
 	{
 		for (int j = 0; j < 8; j++)
 		{
-			if (!m_board[i][j] || (m_board[i][j]->GetColor() != color))
+			if (!m_board[i][j] || !SameColor(m_board[i][j]->GetColor(), color))
 				continue;
 
 			currList = DefendedPositions({ i, j }, color);
@@ -364,12 +366,17 @@ bool Board::IsDefended(Position p, EColor color) const
 	return false;
 }
 
+bool Board::SameColor(EColor color1, EColor color2) const
+{
+	return (color1 == color2);
+}
+
 Position Board::FindKing(EColor color) const
 {
 	for (int i = 0; i < 8; i++)
 	{
 		for (int j = 0; j < 8; j++)
-			if (m_board[i][j] && m_board[i][j]->GetType() == EPieceType::King && m_board[i][j]->GetColor() == color)
+			if (m_board[i][j] && m_board[i][j]->GetType() == EPieceType::King && SameColor(m_board[i][j]->GetColor(), color))
 				return { i, j };
 	}
 	return { -1, -1 };
