@@ -13,14 +13,11 @@ public:
 	Board();
 	Board(const PiecePairVector&);
 
-	// Getters
-	ChessBoard GetGameboard() const;
-
 	// Setters
-	void SetGameboard(Position p, PiecesPtr newPiece);
+	PiecesPtr& operator[](Position p);
 
 	// Functions
-	bool PositionExists(Position p) const;
+	static bool PositionExists(Position p);
 	bool VerifyTheWay(Position p1, Position p2) const;
 	PiecesPtr GetPiece(Position p) const;
 	bool IsCheck(Position p, EColor color) const;
@@ -36,7 +33,7 @@ private:
 	bool KillCheck(Position p, EColor color) const;
 	PositionList DefendedPositions(Position p, EColor color) const;
 	bool IsDefended(Position p, EColor color) const;
-	bool SameColor(EColor color1, EColor color2) const;
+	bool SameColor(EColor color1, EColor color2) const; // TO REMOVE
 
 
 private:

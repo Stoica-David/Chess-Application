@@ -8,13 +8,16 @@ IGamePtr IGame::Produce()
 	return std::make_shared<Game>();
 }
 
-Game::Game() :m_turn(EColor::White)
+Game::Game() 
+	: m_turn(EColor::White)
 {
 }
 
-Game::Game(Board b): m_turn(EColor::White)
+Game::Game(const Board& b, EColor color /*=EColor::White*/)
+	: m_turn(color)
+	, m_gameboard(b)
 {
-	m_gameboard = b;
+	
 }
 
 bool Game::Move(Position p1, Position p2)
@@ -51,15 +54,15 @@ bool Game::Move(Position p1, Position p2)
 			return false;
 		}
 
-		m_gameboard.SetGameboard(p2, currPiece);
-		m_gameboard.SetGameboard(p1, {});
+		m_gameboard[p2] = currPiece;
+		m_gameboard[p1] = {};
 
 		Position kingPos = m_gameboard.FindKing(currPiece->GetColor());
 
 		if (m_gameboard.IsCheck(kingPos, m_turn))
 		{
-			m_gameboard.SetGameboard(p1, currPiece);
-			m_gameboard.SetGameboard(p2, nextPiece);
+			m_gameboard[p1] = currPiece;
+			m_gameboard[p2] = nextPiece;
 			return false;
 		}
 
@@ -129,7 +132,20 @@ bool Game::IsDraw() const
 
 bool Game::IsOver() const
 {
-	return (IsDraw() || IsOverWhite() || IsOverBlack());
+	if (IsDraw())
+	{
+		return true;
+	}
+	else if (IsOverWhite())
+	{
+		return true;
+	}
+	else if (IsOverBlack())
+	{
+		return true;
+	}
+
+	return false;
 }
 
 bool Game::PawnGoesDiagonally(Position p1, Position p2) const

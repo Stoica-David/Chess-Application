@@ -275,7 +275,7 @@
 //
 //	Board b(m1);
 //
-//	EXPECT_EQ(b.IsCheckMate({0,7}, EColor::White), true);
+//	EXPECT_EQ(b.IsCheckMate({ 0,7 }, EColor::White), true);
 //}
 //
 //TEST(IsCheckMateTest, CheckmateVariation2)
@@ -288,7 +288,7 @@
 //
 //	Board b(m1);
 //
-//	EXPECT_EQ(b.IsCheckMate({0,0}, EColor::White), true);
+//	EXPECT_EQ(b.IsCheckMate({ 0,0 }, EColor::White), true);
 //}
 //
 //TEST(IsCheckMateTest, CheckmateVariation3)
@@ -301,8 +301,55 @@
 //
 //	Board b(m1);
 //
-//	EXPECT_EQ(b.IsCheckMate({0,7}, EColor::White), true);
+//	EXPECT_EQ(b.IsCheckMate({ 0,7 }, EColor::White), true);
 //}
+//
+//TEST(IsCheckMateTest, CheckmateVariation4)
+//{
+//	PiecePairVector m1 = {
+//	{{7, 4}, Piece::Produce(EPieceType::King, EColor::White)},
+//	{{6, 4}, Piece::Produce(EPieceType::Pawn, EColor::White)},
+//	{{6, 3}, Piece::Produce(EPieceType::Pawn, EColor::White)},
+//	{{7, 3}, Piece::Produce(EPieceType::Queen, EColor::White)},
+//	{{7, 5}, Piece::Produce(EPieceType::Bishop, EColor::White)},
+//	{{4, 7}, Piece::Produce(EPieceType::Queen, EColor::Black)},
+//	};
+//
+//	Board b(m1);
+//
+//	EXPECT_EQ(b.IsCheckMate({ 7, 4 }, EColor::White), true);
+//}
+//
+//TEST(IsCheckMateTest, CheckmateVariation5)
+//{
+//	PiecePairVector m1 = {
+//	{{0, 2}, Piece::Produce(EPieceType::King, EColor::Black)},
+//	{{0, 3}, Piece::Produce(EPieceType::Rook, EColor::Black)},
+//	{{1, 3}, Piece::Produce(EPieceType::Pawn, EColor::Black)},
+//	{{2, 0}, Piece::Produce(EPieceType::Bishop, EColor::White)},
+//	{{6, 7}, Piece::Produce(EPieceType::Bishop, EColor::White)},
+//	};
+//
+//	Board b(m1);
+//
+//	EXPECT_EQ(b.IsCheckMate({ 0, 2 }, EColor::Black), true);
+//}
+//
+//TEST(IsCheckMateTest, CheckmateVariation6)
+//{
+//	PiecePairVector m1 = {
+//	{{1, 6}, Piece::Produce(EPieceType::King, EColor::Black)},
+//	{{1, 7}, Piece::Produce(EPieceType::Pawn, EColor::Black)},
+//	{{0, 6}, Piece::Produce(EPieceType::Rook, EColor::Black)},
+//	{{2, 5}, Piece::Produce(EPieceType::Queen, EColor::White)},
+//	{{7, 5}, Piece::Produce(EPieceType::Rook, EColor::White)},
+//	};
+//
+//	Board b(m1);
+//
+//	EXPECT_EQ(b.IsCheckMate({ 1, 6 }, EColor::Black), true);
+//}
+//
 //
 //TEST(IsCheckMateTest, FindHelpTest1)
 //{
@@ -314,7 +361,7 @@
 //
 //	Board b(m1);
 //
-//	EXPECT_EQ(b.IsCheckMate({0,7}, EColor::White), false);
+//	EXPECT_EQ(b.IsCheckMate({ 0,7 }, EColor::White), false);
 //}
 //
 //TEST(IsCheckMateTest, FindHelpTest2)
@@ -328,8 +375,41 @@
 //
 //	Board b(m1);
 //
-//	EXPECT_EQ(b.IsCheckMate({4,0}, EColor::White), false);
+//	EXPECT_EQ(b.IsCheckMate({ 4,0 }, EColor::White), false);
 //}
+//
+//
+//TEST(IsCheckMateTest, FindHelpTest3)
+//{
+//	PiecePairVector m1 = {
+//		{{0, 7}, Piece::Produce(EPieceType::King, EColor::White)},
+//		{{0, 6}, Piece::Produce(EPieceType::Queen, EColor::White)},
+//		{{2, 5}, Piece::Produce(EPieceType::Bishop, EColor::Black)}
+//	};
+//
+//	Board b(m1);
+//
+//	EXPECT_EQ(b.IsCheckMate({ 0,7 }, EColor::White), false);
+//}
+//
+//TEST(IsCheckMateTest, FindHelpTest4)
+//{
+//	PiecePairVector m1 = {
+//	{{1, 6}, Piece::Produce(EPieceType::King, EColor::Black)},
+//	{{1, 7}, Piece::Produce(EPieceType::Pawn, EColor::Black)},
+//	{{0, 6}, Piece::Produce(EPieceType::Rook, EColor::Black)},
+//	{{2, 7}, Piece::Produce(EPieceType::Rook, EColor::Black)},
+//	{{2, 5}, Piece::Produce(EPieceType::Queen, EColor::White)},
+//	{{7, 5}, Piece::Produce(EPieceType::Rook, EColor::White)},
+//	};
+//
+//	Board b(m1);
+//
+//	EXPECT_EQ(b.IsCheckMate({ 1, 6 }, EColor::Black), false);
+//
+//}
+//
+//
 //
 //TEST(IsCheckMateTest, IsSameWayTest)
 //{
@@ -344,6 +424,8 @@
 //
 //	EXPECT_EQ(b.IsCheckMate({ 4,0 }, EColor::White), false);
 //}
+//
+//
 //
 //int main(int argc, char** argv)
 //{

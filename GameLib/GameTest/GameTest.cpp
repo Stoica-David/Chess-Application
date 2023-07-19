@@ -163,7 +163,7 @@ TEST(IsOverTest, KingVKingKnight)
 	PiecePairVector v = {
 		{{4, 0}, Piece::Produce(EPieceType::King, EColor::White)},
 		{{1, 0}, Piece::Produce(EPieceType::King, EColor::Black)},
-		{{2, 8}, Piece::Produce(EPieceType::Knight, EColor::Black)},
+		{{2, 7}, Piece::Produce(EPieceType::Knight, EColor::Black)},
 	};
 	Board b(v);
 
@@ -177,7 +177,7 @@ TEST(IsOverTest, KingVKingBishop)
 	PiecePairVector v = {
 		{{4, 0}, Piece::Produce(EPieceType::King, EColor::White)},
 		{{1, 0}, Piece::Produce(EPieceType::King, EColor::Black)},
-		{{2, 8}, Piece::Produce(EPieceType::Bishop, EColor::Black)},
+		{{2, 7}, Piece::Produce(EPieceType::Bishop, EColor::Black)},
 	};
 	Board b(v);
 
@@ -207,7 +207,8 @@ TEST(IsOverTest, DRookCheckMate)
 		{{4, 0}, Piece::Produce(EPieceType::King, EColor::White)},
 		{{7, 0}, Piece::Produce(EPieceType::Rook, EColor::Black)},
 		{{7, 1}, Piece::Produce(EPieceType::Rook, EColor::Black)},
-		{{5, 0}, Piece::Produce(EPieceType::Rook, EColor::White)}
+		{{5, 0}, Piece::Produce(EPieceType::Rook, EColor::White)},
+		{{7, 7}, Piece::Produce(EPieceType::King, EColor::Black)}
 	};
 	Board b(v);
 
@@ -216,17 +217,17 @@ TEST(IsOverTest, DRookCheckMate)
 	EXPECT_EQ(g.IsOver(), false);
 }
 
-//TEST(IsOverTest, FoolMate)
-//{
-//	Game g;
-//
-//	g.Move({ 6, 5 }, { 5, 5 });
-//	g.Move({ 1, 4 }, { 3, 4 });
-//	g.Move({ 6, 6 }, { 4, 6 });
-//	g.Move({ 0, 3 }, { 4, 7 });
-//
-//	EXPECT_EQ(g.IsOver(), true);
-//}
+TEST(IsOverTest, FoolMate)
+{
+	Game g;
+
+	g.Move({ 6, 5 }, { 5, 5 });
+	g.Move({ 1, 4 }, { 3, 4 });
+	g.Move({ 6, 6 }, { 4, 6 });
+	g.Move({ 0, 3 }, { 4, 7 });
+
+	EXPECT_EQ(g.IsOver(), true);
+}
 
 TEST(GetTurnTest, Normal)
 {

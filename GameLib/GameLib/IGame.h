@@ -11,8 +11,11 @@ public:
 	static IGamePtr Produce();
 
 	virtual IPieceInfoPtr GetPieceInfo(Position) const = 0;
+	
 	virtual bool Move(Position, Position) = 0;
+	
 	virtual EColor GetTurn() const = 0;
+	
 	virtual bool IsDraw() const = 0;
 	virtual bool IsOver() const = 0;
 

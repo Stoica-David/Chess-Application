@@ -40,14 +40,9 @@ Board::Board(const PiecePairVector& v)
 	}
 }
 
-ChessBoard Board::GetGameboard() const
+PiecesPtr& Board::operator[](Position p)
 {
-	return m_board;
-}
-
-void Board::SetGameboard(Position p, PiecesPtr newPiece)
-{
-	m_board[p.first][p.second] = newPiece;
+	return m_board[p.first][p.second];
 }
 
 bool Board::VerifyTheWay(Position p1, Position p2) const
@@ -194,6 +189,11 @@ PiecesPtr Board::GetPiece(Position p) const
 
 bool Board::IsCheckMate(Position p, EColor color) const
 {
+	if (!m_board[p.first][p.second])
+	{
+		return false;
+	}
+
 	PositionList currMoves = GetMoves(p);
 
 	if (!IsCheck(p, color))
@@ -261,7 +261,7 @@ bool Board::FindHelp(Position p, EColor color) const
 		}
 	}
 
-	PositionList attackPattern = attackPiece->DeterminePattern(p, attackPos);
+	PositionList attackPattern = attackPiece->DeterminePattern(attackPos, p);
 
 	for (auto currPos : attackPattern)
 	{
@@ -269,7 +269,7 @@ bool Board::FindHelp(Position p, EColor color) const
 		{
 			for (int j = 0; j < 8; j++)
 			{
-				if (!m_board[i][j] || (m_board[i][j]->GetColor() != color) || (m_board[i][j]->GetType() == EPieceType::King && SameColor(m_board[i][j]->GetColor(), color)))
+				if (!m_board[i][j] || (m_board[i][j]->GetColor() != color) || (m_board[i][j]->GetType() == EPieceType::King ))
 				{
 					continue;
 				}
@@ -278,8 +278,14 @@ bool Board::FindHelp(Position p, EColor color) const
 
 				for (int k = 0; k < helpMoves.size(); k++)
 				{
-					if (currPos == helpMoves[k])
-						return true;
+					int x = helpMoves[k].first;
+					int y = helpMoves[k].second;
+
+					if (m_board[i][j]->GetType() == EPieceType::Pawn && m_board[x][y])
+					{
+						if (currPos == helpMoves[k])
+							return true;
+					}
 				}
 			}
 		}
@@ -404,7 +410,7 @@ PieceVector Board::RemainingPieces() const
 	return newList;
 }
 
-bool Board::PositionExists(Position p) const
+bool Board::PositionExists(Position p)
 {
 	return (p.first >= 0 && p.first < 8) && (p.second >= 0 && p.second < 8);
 }

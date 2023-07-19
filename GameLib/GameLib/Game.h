@@ -12,7 +12,7 @@ class Game : public IGame
 public:
 	// Constructor
 	Game();
-	Game(Board b);
+	Game(const Board& b, EColor color = EColor::White);
 
 	//Other methods
 	PiecesPtr GetPiece(Position) const;
