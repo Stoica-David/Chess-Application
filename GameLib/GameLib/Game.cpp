@@ -8,13 +8,12 @@ IGamePtr IGame::Produce()
 	return std::make_shared<Game>();
 }
 
-Game::Game():m_turn(EColor::Black)
+Game::Game():m_turn(EColor::White)
 {
 }
 
 bool Game::Move(Position p1, Position p2)
 {
-	SwitchTurn();
 	PiecesPtr currPiece, nextPiece;
 
 	int x1 = p1.first;
@@ -30,7 +29,6 @@ bool Game::Move(Position p1, Position p2)
 
 	if (!currPiece || currPiece->GetColor() != m_turn)
 	{
-		std::cout << "da";
 		return false;
 	}
 
@@ -59,6 +57,8 @@ bool Game::Move(Position p1, Position p2)
 			m_gameboard.SetGameboard(p2, nextPiece);
 			return false;
 		}
+
+		SwitchTurn();
 		return true;
 	}
 
