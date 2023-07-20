@@ -12,7 +12,7 @@ using PiecesPtr = std::shared_ptr<class Piece>;
 using PiecePairVector = std::vector<std::pair<Position, PiecesPtr>>;
 using PieceVector = std::vector<PiecesPtr>;
 
-class Piece:public IPiece
+class Piece : public IPiece
 {
 public:
 	// Constructors
@@ -28,6 +28,9 @@ public:
 	bool IsMoveRegular(Position p1, Position p2) const override;
 	PositionList DeterminePattern(Position p1, Position p2) const override;
 	PositionMatrix AllMoves(Position p) const override;
+
+	bool Is(EPieceType type) const;
+	bool SameColor(PiecesPtr piece) const;
 
 protected:
 	static bool IsInTable(int i, int j)

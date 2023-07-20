@@ -58,6 +58,16 @@ PositionMatrix Piece::AllMoves(Position p) const
 	return {};
 }
 
+bool Piece::Is(EPieceType type) const
+{
+	return m_type == type;
+}
+
+bool Piece::SameColor(PiecesPtr piece) const
+{
+	return m_color == piece->m_color;
+}
+
 bool Piece::IsWhite() const
 {
 	return (m_color == EColor::White);

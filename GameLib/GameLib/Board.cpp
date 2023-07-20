@@ -1,4 +1,11 @@
 #include "Board.h"
+
+#include "PositionException.h"
+#include "MoveException.h"
+#include "InTheWayException.h"
+#include "DoesntExistException.h"
+#include "TurnException.h"
+
 #include <iostream>
 
 Board::Board()
@@ -45,6 +52,13 @@ PiecesPtr& Board::operator[](Position p)
 	return m_board[p.first][p.second];
 }
 
+bool Board::IsOver(EColor color) const
+{
+	Position whiteKingPos = FindKing(color);
+
+	return (IsCheckMate(whiteKingPos, color));
+}
+
 bool Board::VerifyTheWay(Position p1, Position p2) const
 {
 	int x1 = p1.first, y1 = p1.second, x2 = p2.first, y2 = p2.second;
@@ -65,6 +79,13 @@ bool Board::VerifyTheWay(Position p1, Position p2) const
 	}
 
 	return true;
+}
+
+bool Board::PawnGoesDiagonally(Position p1, Position p2)
+{
+	int x1 = p1.first, y1 = p1.second, x2 = p2.first, y2 = p2.second;
+
+	return (std::abs(x2 - x1) == 1 && std::abs(y2 - y1) == 1);
 }
 
 PositionList Board::GetMoves(Position p) const
@@ -410,7 +431,118 @@ PieceVector Board::RemainingPieces() const
 	return newList;
 }
 
+void Board::Move(Position p1, Position p2)
+{
+	PiecesPtr currPiece = GetPiece(p1);
+	PiecesPtr nextPiece = GetPiece(p2);
+
+	if (!currPiece->IsMoveRegular(p1, p2))
+		throw MoveException("The move cannot be done by the piece!");
+
+	if (!VerifyTheWay(p1, p2))
+	{
+		throw InTheWayException("There is a piece in the way");
+	}
+
+	if (nextPiece && currPiece->SameColor(nextPiece))
+	{
+		throw "Same color exc";
+	}
+
+	if (currPiece->Is(EPieceType::Pawn) && PawnGoesDiagonally(p1, p2) && (!nextPiece))
+	{
+		throw "Pion exc";
+	}
+
+	(*this)[p2] = currPiece;
+	(*this)[p1] = {};
+
+	Position kingPos = FindKing(currPiece->GetColor());
+
+	if (IsCheck(kingPos, currPiece->GetColor()))
+	{
+		(*this)[p1] = currPiece;
+		(*this)[p2] = nextPiece;
+
+		throw "Dupa check exc";
+	}
+	
+}
+
+bool Board::IsDraw() const
+{
+	PieceVector remaining = RemainingPieces();
+
+	if (remaining.size() == 2)
+	{
+		return true;
+	}
+
+	if (remaining.size() <= 4)
+	{
+		if (Find(remaining, EPieceType::Queen) == 1)
+		{
+			return true;
+		}
+
+		if (Find(remaining, EPieceType::Rook) == 1)
+		{
+			return true;
+		}
+
+		if (Find(remaining, EPieceType::Pawn) == 1)
+		{
+			return true;
+		}
+
+		if (Find(remaining, EPieceType::Knight) == 1)
+		{
+			return true;
+		}
+
+		if ((Find(remaining, EPieceType::Bishop) == 2 && !SameBishop()) || Find(remaining, EPieceType::Bishop) == 1)
+		{
+			return true;
+		}
+	}
+
+	return false;
+}
+
 bool Board::PositionExists(Position p)
 {
 	return (p.first >= 0 && p.first < 8) && (p.second >= 0 && p.second < 8);
+}
+
+int Board::Find(PieceVector v, EPieceType Piece) const
+{
+	int cnt = 0;
+	for (const auto& x : v)
+		if (x->GetType() == Piece)
+			cnt++;
+	return cnt;
+}
+
+bool Board::SameBishop() const
+{
+	EColor color1 = {},
+		color2 = {};
+
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			if (m_board[i][j])
+			{
+				if (m_board[i][j]->GetType() == EPieceType::Bishop)
+				{
+					if (color1 == EColor::Black || color1 == EColor::White)
+						color2 = GetPiece({ i, j })->GetColor();
+					else
+						color1 = GetPiece({ i, j })->GetColor();
+				}
+			}
+		}
+	}
+	return color1 == color2;
 }

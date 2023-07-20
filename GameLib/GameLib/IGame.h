@@ -2,6 +2,7 @@
 
 #include "IPieceInfo.h"
 #include "Position.h"
+
 using IGamePtr = std::shared_ptr<class IGame>;
 
 class IGame
@@ -14,10 +15,8 @@ public:
 	virtual void Move(Position, Position) = 0;
 	
 	virtual EColor GetTurn() const = 0;
-	
-	virtual bool IsDraw() const = 0;
-	virtual bool IsOver() const = 0;
 
+	virtual bool IsOver() const = 0;
 
 	virtual ~IGame() = default;
 };

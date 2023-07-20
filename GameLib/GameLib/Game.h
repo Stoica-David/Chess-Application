@@ -13,25 +13,21 @@ public:
 	Game();
 	Game(const Board& b, EColor color = EColor::White);
 
-	//Other methods
-	PiecesPtr GetPiece(Position) const;
-
-	//API methods
+	// IGame methods
 	void Move(Position p1, Position p2) override;
+	
 	IPieceInfoPtr GetPieceInfo(Position) const override;
 	EColor GetTurn() const override;
-	bool IsDraw() const override;
+
 	bool IsOver() const override;
 
+	//Other methods
+	PiecesPtr GetPiece(Position) const;
 
 private:
 	bool PawnGoesDiagonally(Position p1, Position p2) const;
 	bool SameColor(Position p1, Position p2) const;
 	void SwitchTurn();
-	int Find(PieceVector v, EPieceType Piece) const;
-	bool SameBishop()const;
-	bool IsOverWhite()const;
-	bool IsOverBlack()const;
 
 private:
 	Board m_gameboard;

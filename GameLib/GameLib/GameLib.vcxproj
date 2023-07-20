@@ -149,6 +149,8 @@
   <ItemGroup>
     <ClCompile Include="Bishop.cpp" />
     <ClCompile Include="Board.cpp" />
+    <ClCompile Include="ChessException.cpp" />
+    <ClCompile Include="DoesntExistException.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="InTheWayException.cpp" />
     <ClCompile Include="King.cpp" />
@@ -161,10 +163,12 @@
     <ClCompile Include="PositionException.cpp" />
     <ClCompile Include="Queen.cpp" />
     <ClCompile Include="Rook.cpp" />
+    <ClCompile Include="TurnException.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Bishop.h" />
     <ClInclude Include="Board.h" />
+    <ClInclude Include="DoesntExistException.h" />
     <ClInclude Include="EColor.h" />
     <ClInclude Include="EPieceType.h" />
     <ClInclude Include="ChessException.h" />
@@ -183,6 +187,7 @@
     <ClInclude Include="PositionException.h" />
     <ClInclude Include="Queen.h" />
     <ClInclude Include="Rook.h" />
+    <ClInclude Include="TurnException.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
