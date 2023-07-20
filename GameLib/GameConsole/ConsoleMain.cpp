@@ -65,17 +65,17 @@ void PrintBoard(const IGamePtr& game)
 
 	PrintMinus();
 
-	for (int i = 1; i < 9; i++)
+	for (int i = 0; i < 8; i++)
 	{
 		PrintVerticalLine();
 		PrintSpace();
-		std::cout << color_yellow << i << color_yellow;
+		std::cout << color_yellow << 8 - i << color_yellow;
 		PrintSpace();
 		PrintVerticalLine();
 
 		for (int j = 0; j < 8; j++)
 		{
-			IPieceInfoPtr currPiece = game->GetPieceInfo({ i - 1 , j });
+			IPieceInfoPtr currPiece = game->GetPieceInfo({ i , j });
 
 			if (!currPiece)
 			{
@@ -176,7 +176,7 @@ void Play(const IGamePtr& game)
 			system("PAUSE");
 			system("CLS");
 
-			game->Move({ x1 - '0' - 1, y1 - 'A'}, {x2 - '0' - 1, y2 - 'A'});
+			game->Move({ 8 - (x1 - '0'), y1 - 'A'}, {8 - (x2 - '0'), y2 - 'A'});
 		}
 		catch (char* const m)
 		{
