@@ -378,10 +378,12 @@ bool Board::FindHelp(Position p, EColor color) const
 				{
 					if (currPos == helpMoves[k])
 					{
-						if (m_board[i][j]->GetType() != EPieceType::Pawn || (m_board[i][j]->GetType() == EPieceType::Pawn && !m_board[helpMoves[k].first][helpMoves[k].second]))
+						if (m_board[i][j]->GetType() == EPieceType::Pawn && !m_board[helpMoves[k].first][helpMoves[k].second])
 						{
-							return true;
+							break;
 						}
+
+						return true;
 
 					}
 				}
@@ -433,6 +435,11 @@ bool Board::KillCheck(Position p, EColor color) const
 					if (moves[k] == toKill)
 					{
 						if (m_board[i][j]->GetType() == EPieceType::King && IsDefended(toKill, notColor))
+						{
+							break;
+						}
+
+						if (m_board[i][j]->GetType() == EPieceType::Pawn && !PawnGoesDiagonally({ i,j }, moves[0]))
 						{
 							break;
 						}
