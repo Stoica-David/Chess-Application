@@ -171,11 +171,13 @@
   <ItemGroup>
     <ClInclude Include="Bishop.h" />
     <ClInclude Include="Board.h" />
+    <ClInclude Include="BoardExceptions.h" />
     <ClInclude Include="DoesntExistException.h" />
     <ClInclude Include="EColor.h" />
     <ClInclude Include="EPieceType.h" />
     <ClInclude Include="ChessException.h" />
     <ClInclude Include="Game.h" />
+    <ClInclude Include="GameExceptions.h" />
     <ClInclude Include="IGame.h" />
     <ClInclude Include="InTheWayException.h" />
     <ClInclude Include="IPiece.h" />

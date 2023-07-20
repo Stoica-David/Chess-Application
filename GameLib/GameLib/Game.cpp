@@ -1,8 +1,5 @@
 #include "Game.h"
-
-#include "PositionException.h"
-#include "DoesntExistException.h"
-#include "TurnException.h"
+#include "GameExceptions.h"
 
 IGamePtr IGame::Produce()
 {

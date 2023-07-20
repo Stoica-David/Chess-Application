@@ -1,9 +1,10 @@
 #include <iostream>
-#include <windows.h>
+
 #include "IGame.h"
-#include "PositionException.h"
-#include "MoveException.h"
-#include "InTheWayException.h"
+#include "GameExceptions.h"
+#include "BoardExceptions.h"
+
+#include <windows.h>
 #define color_gray "\x1b[90m"
 #define color_white "\x1b[37m"
 #define color_black "\x1b[30m"
