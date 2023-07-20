@@ -5,6 +5,8 @@
 #include "InTheWayException.h"
 #include "DoesntExistException.h"
 #include "TurnException.h"
+#include "PawnDiagonallyException.h"
+#include "StillCheckException.h"
 #include "PieceInfo.h"
 
 #include <iostream>
@@ -462,7 +464,7 @@ void Board::Move(Position p1, Position p2)
 
 	if (currPiece->Is(EPieceType::Pawn) && PawnGoesDiagonally(p1, p2) && (!nextPiece))
 	{
-		throw "Pion exc";
+		throw PawnDiagonallyException("The pawn cannot go diagonally!");
 	}
 
 	(*this)[p2] = currPiece;
@@ -475,7 +477,7 @@ void Board::Move(Position p1, Position p2)
 		(*this)[p1] = currPiece;
 		(*this)[p2] = nextPiece;
 
-		throw "Dupa check exc";
+		throw StillCheckException("The king is still in check!");
 	}
 	
 }

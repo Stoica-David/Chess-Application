@@ -158,11 +158,14 @@
     <ClCompile Include="Main.cpp" />
     <ClCompile Include="MoveException.cpp" />
     <ClCompile Include="Pawn.cpp" />
+    <ClCompile Include="PawnDiagonallyException.cpp" />
     <ClCompile Include="Piece.cpp" />
     <ClCompile Include="PieceInfo.cpp" />
     <ClCompile Include="PositionException.cpp" />
     <ClCompile Include="Queen.cpp" />
     <ClCompile Include="Rook.cpp" />
+    <ClCompile Include="SameColorException.cpp" />
+    <ClCompile Include="StillCheckException.cpp" />
     <ClCompile Include="TurnException.cpp" />
   </ItemGroup>
   <ItemGroup>
@@ -181,12 +184,15 @@
     <ClInclude Include="Knight.h" />
     <ClInclude Include="MoveException.h" />
     <ClInclude Include="Pawn.h" />
+    <ClInclude Include="PawnDiagonallyException.h" />
     <ClInclude Include="Piece.h" />
     <ClInclude Include="PieceInfo.h" />
     <ClInclude Include="Position.h" />
     <ClInclude Include="PositionException.h" />
     <ClInclude Include="Queen.h" />
     <ClInclude Include="Rook.h" />
+    <ClInclude Include="SameColorException.h" />
+    <ClInclude Include="StillCheckException.h" />
     <ClInclude Include="TurnException.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

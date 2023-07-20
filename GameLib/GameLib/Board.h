@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Piece.h"
+#include "IPieceInfo.h"
 
 #include<array>
 

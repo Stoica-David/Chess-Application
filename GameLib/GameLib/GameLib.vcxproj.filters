@@ -69,6 +69,15 @@
     <ClCompile Include="TurnException.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="SameColorException.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="PawnDiagonallyException.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="StillCheckException.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -135,6 +144,15 @@
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="TurnException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="SameColorException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="PawnDiagonallyException.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="StillCheckException.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
