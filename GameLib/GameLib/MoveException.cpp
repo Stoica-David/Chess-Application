@@ -1,5 +1,5 @@
 #include "MoveException.h"
 
-MoveException::MoveException(std::string message)
+MoveException::MoveException(const std::string& message)
 {
 }

@@ -178,7 +178,7 @@ void Play(const IGamePtr& game)
 
 			game->Move({ x1 - '0' - 1, y1 - 'A'}, {x2 - '0' - 1, y2 - 'A'});
 		}
-		catch (const char* m)
+		catch (char* const m)
 		{
 			std::cout << m;
 		}
