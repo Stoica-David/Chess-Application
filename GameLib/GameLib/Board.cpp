@@ -5,6 +5,7 @@
 #include "InTheWayException.h"
 #include "DoesntExistException.h"
 #include "TurnException.h"
+#include "PieceInfo.h"
 
 #include <iostream>
 
@@ -57,6 +58,16 @@ bool Board::IsOver(EColor color) const
 	Position whiteKingPos = FindKing(color);
 
 	return (IsCheckMate(whiteKingPos, color));
+}
+
+IPieceInfoPtr Board::GetPieceInfo(Position p) const
+{
+	if (auto piece = GetPiece(p))
+	{
+		return PieceInfo::Produce(piece->GetType(), piece->GetColor());
+	}
+
+	return {};
 }
 
 bool Board::VerifyTheWay(Position p1, Position p2) const
@@ -507,11 +518,6 @@ bool Board::IsDraw() const
 	}
 
 	return false;
-}
-
-bool Board::PositionExists(Position p)
-{
-	return (p.first >= 0 && p.first < 8) && (p.second >= 0 && p.second < 8);
 }
 
 int Board::Find(PieceVector v, EPieceType Piece) const

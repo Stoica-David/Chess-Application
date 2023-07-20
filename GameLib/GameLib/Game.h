@@ -25,8 +25,6 @@ public:
 	PiecesPtr GetPiece(Position) const;
 
 private:
-	bool PawnGoesDiagonally(Position p1, Position p2) const;
-	bool SameColor(Position p1, Position p2) const;
 	void SwitchTurn();
 
 private:

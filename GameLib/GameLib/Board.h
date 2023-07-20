@@ -18,8 +18,9 @@ public:
 
 	bool IsOver(EColor color) const;
 
+	IPieceInfoPtr GetPieceInfo(Position p) const;
+
 	// Functions
-	static bool PositionExists(Position p);
 	bool VerifyTheWay(Position p1, Position p2) const;
 	PiecesPtr GetPiece(Position p) const;
 	bool IsCheck(Position p, EColor color) const;

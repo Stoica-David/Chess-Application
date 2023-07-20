@@ -1,13 +1,8 @@
 #include "Game.h"
 
 #include "PositionException.h"
-#include "MoveException.h"
-#include "InTheWayException.h"
 #include "DoesntExistException.h"
 #include "TurnException.h"
-#include "PieceInfo.h"
-
-#include <iostream>
 
 IGamePtr IGame::Produce()
 {
@@ -26,9 +21,14 @@ Game::Game(const Board& b, EColor color /*=EColor::White*/)
 	
 }
 
+static bool IsPositionValid(Position p)
+{
+	return (p.first >= 0 && p.first < 8) && (p.second >= 0 && p.second < 8);
+}
+
 void Game::Move(Position p1, Position p2)
 {
-	if (!m_gameboard.PositionExists(p1) || !m_gameboard.PositionExists(p2))
+	if (!IsPositionValid(p1) || !IsPositionValid(p2))
 	{
 		throw PositionException("The given position is out of the table");
 	}
@@ -53,12 +53,7 @@ void Game::Move(Position p1, Position p2)
 
 IPieceInfoPtr Game::GetPieceInfo(Position p) const
 {
-	if (auto piece = m_gameboard.GetPiece(p))
-	{
-		return PieceInfo::Produce(piece->GetType(), piece->GetColor());
-	}
-
-	return {};
+	return m_gameboard.GetPieceInfo(p);
 }
 
 PiecesPtr Game::GetPiece(Position p) const
@@ -73,36 +68,12 @@ EColor Game::GetTurn() const
 
 bool Game::IsOver() const
 {
-	if (m_gameboard.IsDraw())
-		return true;
-	
-	if (m_gameboard.IsOver(m_turn))
-		return true;
-
-	return false;
-
-	//return IsDraw() || m_gameboard.IsOver(m_turn);
-}
-
-
-bool Game::PawnGoesDiagonally(Position p1, Position p2) const
-{
-	int x1 = p1.first, y1 = p1.second, x2 = p2.first, y2 = p2.second;
-
-	return (std::abs(x2 - x1) == 1 && std::abs(y2 - y1) == 1);
-}
-
-bool Game::SameColor(Position p1, Position p2) const
-{
-	return (m_gameboard.GetPiece(p1)->GetColor() == m_gameboard.GetPiece(p2)->GetColor());
+	return m_gameboard.IsDraw() || m_gameboard.IsOver(m_turn);
 }
 
 void Game::SwitchTurn()
 {
-	if (m_turn == EColor::Black)
-		m_turn = EColor::White;
-	else
-		m_turn = EColor::Black;
+	m_turn = m_turn == EColor::Black ? EColor::White : EColor::Black;
 }
 
 
