@@ -6,19 +6,17 @@ Bishop::Bishop(EColor color) : Piece(EPieceType::Bishop, color)
 
 bool Bishop::IsMoveRegular(Position p1, Position p2) const
 {
-	int x1 = p1.first,
-		y1 = p1.second,
-		x2 = p2.first,
-		y2 = p2.second;
-
-	return (AbsValue(x1, x2) == AbsValue(y1, y2) && (x1 != x2 && y1 != y2));
+	return (BishopMove(p1, p2));
 }
 
 PositionList Bishop::DeterminePattern(Position p1, Position p2) const
 {
 	PositionList newPosition;
 
-	int x1 = p1.first, y1 = p1.second, x2 = p2.first, y2 = p2.second;
+	int x1 = p1.first,
+		y1 = p1.second,
+		x2 = p2.first,
+		y2 = p2.second;
 
 	if (x1 > x2)
 	{
@@ -76,7 +74,8 @@ PositionMatrix Bishop::AllMoves(Position p) const
 
 	newMatrix.resize(4);
 
-	int x = p.first, y = p.second;
+	int x = p.first,
+		y = p.second;
 
 	while (x > 0 && y > 0)
 	{
@@ -86,7 +85,8 @@ PositionMatrix Bishop::AllMoves(Position p) const
 		newMatrix[0].push_back({ x, y });
 	}
 
-	x = p.first;	y = p.second;
+	x = p.first;
+	y = p.second;
 
 	while (x < 7 && y > 0)
 	{
@@ -96,7 +96,8 @@ PositionMatrix Bishop::AllMoves(Position p) const
 		newMatrix[1].push_back({ x, y });
 	}
 
-	x = p.first;	y = p.second;
+	x = p.first;
+	y = p.second;
 
 	while (x > 0 && y < 7)
 	{

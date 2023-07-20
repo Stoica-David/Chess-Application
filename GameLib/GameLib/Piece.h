@@ -32,8 +32,11 @@ public:
 	bool SameColor(PiecesPtr piece) const;
 
 protected:
-	static bool IsInTable(int i, int j)
+	static bool IsInTable(Position p)
 	{
+		int i = p.first;
+		int j = p.second;
+
 		return ((i >= 0 && i < 8) && (j >= 0 && j < 8));
 	}
 

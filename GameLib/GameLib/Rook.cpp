@@ -6,22 +6,17 @@ Rook::Rook(EColor color) : Piece(EPieceType::Rook, color)
 
 bool Rook::IsMoveRegular(Position p1, Position p2) const
 {
-	auto x1 = p1.first,
-		x2 = p2.first,
-		y1 = p1.second,
-		y2 = p2.second;
-
-	return((x1 == x2) ^ (y1 == y2));
+	return(RookMove(p1, p2));
 }
 
 PositionList Rook::DeterminePattern(Position p1, Position p2) const
 {
-	auto x1 = p1.first,
-		x2 = p2.first,
-		y1 = p1.second,
-		y2 = p2.second;
-
 	PositionList newPattern;
+
+	auto x1 = p1.first,
+		 x2 = p2.first,
+		 y1 = p1.second,
+		 y2 = p2.second;
 
 	if (x1 == x2)
 	{

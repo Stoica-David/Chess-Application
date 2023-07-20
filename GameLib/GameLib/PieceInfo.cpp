@@ -6,7 +6,6 @@ PieceInfo::PieceInfo(EPieceType type, EColor color)
 	: m_type(type)
 	, m_color(color)
 {
-
 }
 
 IPieceInfoPtr IPieceInfo::Produce(EPieceType type, EColor color)

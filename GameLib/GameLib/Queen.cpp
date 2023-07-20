@@ -8,70 +8,57 @@ Queen::Queen(EColor color) :Piece(EPieceType::Queen, color)
 
 bool Queen::IsMoveRegular(Position p1, Position p2) const
 {
-	auto x1 = p1.first,
-		x2 = p2.first,
-		y1 = p1.second,
-		y2 = p2.second;
-	return (((x1 == x2) ^ (y1 == y2)) || (AbsValue(x2, x1) == AbsValue(y2, y1) && (x2 != x1 || y2 != y1)));
+	return (Rook::RookMove(p1, p2) || Bishop::BishopMove(p1, p2));
 }
 
 PositionList Queen::DeterminePattern(Position p1, Position p2) const
 {
-	PositionList finalNewPosition;
 	PositionList newPosition;
 
-
-	int x1 = p1.first, y1 = p1.second, x2 = p2.first, y2 = p2.second;
-
+	int x1 = p1.first, 
+		y1 = p1.second,
+		x2 = p2.first, 
+		y2 = p2.second;
 
 	if (x1 == x2 || y1 == y2)
 	{
 		Rook R(EColor::White);
 		newPosition = R.DeterminePattern(p1, p2);
-
-		for (int i = 0; i < newPosition.size(); i++)
-		{
-			finalNewPosition.push_back(newPosition[i]);
-		}
 	}
 	else
 	{
 		Bishop B(EColor::White);
 		newPosition = B.DeterminePattern(p1, p2);
-
-		for (int i = 0; i < newPosition.size(); i++)
-		{
-			finalNewPosition.push_back(newPosition[i]);
-		}
 	}
 
-	return finalNewPosition;
+	return newPosition;
 }
 
 PositionMatrix Queen::AllMoves(Position p) const
 {
 	Rook R(EColor::White);
 	Bishop B(EColor::White);
-	PositionMatrix newMatrix1 = R.AllMoves(p);
-	PositionMatrix newMatrix2 = B.AllMoves(p);
-	PositionMatrix newMatrix;
 
+	PositionMatrix rookMoves = R.AllMoves(p);
+	PositionMatrix bishopMoves = B.AllMoves(p);
+	
+	PositionMatrix newMatrix;
 
 	newMatrix.resize(8);
 
 	for (int i = 0; i < 4; i++)
 	{
-		for (int j = 0; j < newMatrix1[i].size(); j++)
+		for (int j = 0; j < rookMoves[i].size(); j++)
 		{
-			newMatrix[i].push_back(newMatrix1[i][j]);
+			newMatrix[i].push_back(rookMoves[i][j]);
 		}
 	}
 
 	for (int i = 0; i < 4; i++)
 	{
-		for (int j = 0; j < newMatrix2[i].size(); j++)
+		for (int j = 0; j < bishopMoves[i].size(); j++)
 		{
-			newMatrix[i + 4].push_back(newMatrix2[i][j]);
+			newMatrix[i + 4].push_back(bishopMoves[i][j]);
 		}
 	}
 

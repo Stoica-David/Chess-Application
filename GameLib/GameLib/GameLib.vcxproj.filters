@@ -161,5 +161,8 @@
     <ClInclude Include="BoardExceptions.h">
       <Filter>Header Files\API</Filter>
     </ClInclude>
+    <ClInclude Include="EState.h">
+      <Filter>Header Files\API</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

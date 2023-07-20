@@ -2,7 +2,7 @@
 
 #include <stdexcept>
 
-class ChessException : public std::runtime_error
+class ChessException : public std::logic_error
 {
 public:
 	ChessException();

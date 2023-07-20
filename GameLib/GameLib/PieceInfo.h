@@ -8,8 +8,6 @@ public:
 	// Constructor
 	PieceInfo(EPieceType type, EColor color);
 
-	
-
 	// IPieceInfo methods
 	EPieceType GetType()const override;
 	EColor GetColor()const override;

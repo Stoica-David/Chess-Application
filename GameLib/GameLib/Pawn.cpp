@@ -48,14 +48,12 @@ PositionMatrix Pawn::AllMoves(Position p) const
 		newMatrix[0].push_back({ x - 1, y });
 
 		if (x == 6)
-
 			newMatrix[1].push_back({ x - 2, y});
 
-
-		if (IsInTable(x - 1, y - 1))
+		if (IsInTable({ x - 1, y - 1 }))
 			newMatrix[2].push_back({ x - 1, y - 1 });
 
-		if (IsInTable(x - 1, y + 1))
+		if (IsInTable({ x - 1, y + 1 }))
 			newMatrix[3].push_back({ x - 1, y + 1 });
 	}
 
@@ -66,10 +64,10 @@ PositionMatrix Pawn::AllMoves(Position p) const
 		if (x == 1)
 			newMatrix[1].push_back({ x + 2, y });
 
-		if (IsInTable(x + 1, y - 1))
+		if (IsInTable({ x + 1, y - 1 }))
 			newMatrix[2].push_back({ x + 1, y - 1 });
 
-		if (IsInTable(x + 1, y + 1))
+		if (IsInTable({ x + 1, y + 1 }))
 			newMatrix[3].push_back({ x + 1, y + 1 });
 	}
 
