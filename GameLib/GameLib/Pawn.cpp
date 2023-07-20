@@ -9,17 +9,17 @@ bool Pawn::IsMoveRegular(Position p1, Position p2) const
 
 	int x1 = p1.first, y1 = p1.second, x2 = p2.first, y2 = p2.second;
 
-	if (!(((IsWhite() && (x1 == 6) && (x2 < x1)) || IsBlack() && (x1 == 1) && (x2 > x1)) && ((AbsValue(x2, x1) >= 1 && (y2 == y1)) && (AbsValue(x2, x1) < 3)))) // Moves wrong forward (one/two squares)
+	if (!(((IsColor(EColor::White) && (x1 == 6) && (x2 < x1)) || IsColor(EColor::Black) && (x1 == 1) && (x2 > x1)) && ((AbsValue(x2, x1) >= 1 && (y2 == y1)) && (AbsValue(x2, x1) < 3)))) // Moves wrong forward (one/two squares)
 	{
 		return false;
 	}
 
-	if ((IsWhite() && (x2 - x1 == 1)) || (IsBlack() && (x2 - x1 == -1))) // Moves backwards
+	if ((IsColor(EColor::White) && (x2 - x1 == 1)) || (IsColor(EColor::Black) && (x2 - x1 == -1))) // Moves backwards
 	{
 		return false;
 	}
 
-	if ((IsWhite() && x2 - x1 == 1 && AbsValue(y2, y1)) || (IsBlack() && x2 - x1 == -1 && AbsValue(y2, y1))) // Moves wrong diagonally
+	if ((IsColor(EColor::White) && x2 - x1 == 1 && AbsValue(y2, y1)) || (IsColor(EColor::Black) && x2 - x1 == -1 && AbsValue(y2, y1))) // Moves wrong diagonally
 	{
 		return false;
 	}
@@ -43,7 +43,7 @@ PositionMatrix Pawn::AllMoves(Position p) const
 
 	newMatrix.resize(4);
 
-	if (IsWhite())
+	if (IsColor(EColor::White))
 	{
 		newMatrix[0].push_back({ x - 1, y });
 
@@ -59,7 +59,7 @@ PositionMatrix Pawn::AllMoves(Position p) const
 			newMatrix[3].push_back({ x - 1, y + 1 });
 	}
 
-	if (IsBlack())
+	if (IsColor(EColor::Black))
 	{
 		newMatrix[0].push_back({ x + 1, y });
 

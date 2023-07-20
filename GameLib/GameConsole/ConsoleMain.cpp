@@ -179,10 +179,6 @@ void Play(const IGamePtr& game)
 
 			game->Move({ 8 - (x1 - '0'), y1 - 'A'}, {8 - (x2 - '0'), y2 - 'A'});
 		}
-		catch (char* const m)
-		{
-			std::cout << m;
-		}
 		catch (ChessException e)
 		{
 			std::cout << color_red << "[EXCEPTION]" << e.what() << "!\n" << color_white;

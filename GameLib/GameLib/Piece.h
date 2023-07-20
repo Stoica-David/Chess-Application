@@ -1,12 +1,8 @@
 #pragma once
 
 #include "IPiece.h"
-
 #include<memory>
-#include<vector>
 #include <cmath>
-#include <utility>
-#include<unordered_map>
 
 using PiecesPtr = std::shared_ptr<class Piece>;
 using PiecePairVector = std::vector<std::pair<Position, PiecesPtr>>;
@@ -24,11 +20,14 @@ public:
 	EPieceType GetType() const;
 	EColor GetColor() const;
 
-	//Functions
+	// IPiece methods
 	bool IsMoveRegular(Position p1, Position p2) const override;
+
 	PositionList DeterminePattern(Position p1, Position p2) const override;
+
 	PositionMatrix AllMoves(Position p) const override;
 
+	// Other methods
 	bool Is(EPieceType type) const;
 	bool SameColor(PiecesPtr piece) const;
 
@@ -38,10 +37,9 @@ protected:
 		return ((i >= 0 && i < 8) && (j >= 0 && j < 8));
 	}
 
-	bool IsWhite() const;
-	bool IsBlack() const;
+	bool IsColor(EColor) const;
 
-	int AbsValue(int, int) const;
+	static int AbsValue(int, int);
 
 protected:
 	EPieceType m_type;

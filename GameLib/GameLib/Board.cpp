@@ -484,26 +484,24 @@ bool Board::SameColor(EColor color1, EColor color2) const
 
 bool Board::SameBishop() const
 {
-	EColor color1 = {},
-		color2 = {};
+	Piece* firstBishop = nullptr;
+	Piece* secondBishop = nullptr;
 
 	for (int i = 0; i < 8; i++)
 	{
 		for (int j = 0; j < 8; j++)
 		{
-			if (m_board[i][j])
+			if (m_board[i][j] && m_board[i][j]->Is(EPieceType::Bishop))
 			{
-				if (m_board[i][j]->GetType() == EPieceType::Bishop)
-				{
-					if (color1 == EColor::Black || color1 == EColor::White)
-						color2 = GetPiece({ i, j })->GetColor();
-					else
-						color1 = GetPiece({ i, j })->GetColor();
-				}
+				if (!firstBishop)
+					firstBishop = GetPiece({ i, j }).get();
+				else
+					secondBishop = GetPiece({ i, j }).get();
 			}
 		}
 	}
-	return color1 == color2;
+
+	return firstBishop && secondBishop && firstBishop->GetColor() == secondBishop->GetColor();
 }
 
 PositionList Board::DefendedPositions(Position p, EColor color) const

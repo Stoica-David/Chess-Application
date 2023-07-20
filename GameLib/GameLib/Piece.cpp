@@ -68,17 +68,12 @@ bool Piece::SameColor(PiecesPtr piece) const
 	return m_color == piece->m_color;
 }
 
-bool Piece::IsWhite() const
+bool Piece::IsColor(EColor color) const
 {
-	return (m_color == EColor::White);
+	return (m_color == color);
 }
 
-int Piece::AbsValue(int x, int y) const
+int Piece::AbsValue(int x, int y)
 {
 	return (std::abs(x - y));
-}
-
-bool Piece::IsBlack() const
-{
-	return (m_color == EColor::Black);
 }
