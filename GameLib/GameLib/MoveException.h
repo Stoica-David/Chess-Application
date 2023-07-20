@@ -1,8 +1,8 @@
 #pragma once
 
-#include "IException.h"
+#include "ChessException.h"
 
-class MoveException :  public IException
+class MoveException :  public ChessException
 {
 public:
 	MoveException(const std::string&);

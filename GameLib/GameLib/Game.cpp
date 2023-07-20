@@ -2,6 +2,8 @@
 #include "PositionException.h"
 #include "MoveException.h"
 #include "InTheWayException.h"
+#include "DoesntExistException.h"
+#include "TurnException.h"
 #include "PieceInfo.h"
 #include <iostream>
 
@@ -22,7 +24,7 @@ Game::Game(const Board& b, EColor color /*=EColor::White*/)
 	
 }
 
-bool Game::Move(Position p1, Position p2)
+void Game::Move(Position p1, Position p2)
 {
 	PiecesPtr currPiece, nextPiece;
 
@@ -34,16 +36,19 @@ bool Game::Move(Position p1, Position p2)
 	if (!m_gameboard.PositionExists(p1) || !m_gameboard.PositionExists(p2))
 	{
 		throw PositionException("The given position is out of the table");
-		return false;
 	}
 
 	currPiece = m_gameboard.GetPiece(p1);
 	nextPiece = m_gameboard.GetPiece(p2);
 
-	if (!currPiece || currPiece->GetColor() != m_turn)
+	if (!currPiece)
 	{
-		throw "Nu exista piesa";
-		return false;
+		throw DoesntExistException("The piece doesn't exist");
+	}
+
+	if (currPiece->GetColor() != m_turn)
+	{
+		throw TurnException("It's the other player's turn");
 	}
 
 	if (currPiece->IsMoveRegular(p1, p2))
@@ -55,13 +60,11 @@ bool Game::Move(Position p1, Position p2)
 				&& (!nextPiece || SameColor(p1, p2)))
 			{
 				throw "Pion exc";
-				return false;
 			}
 
 			if (nextPiece && SameColor(p1, p2))
 			{
 				throw "Same color exc";
-				return false;
 			}
 
 			m_gameboard[p2] = currPiece;
@@ -73,25 +76,21 @@ bool Game::Move(Position p1, Position p2)
 			{
 				m_gameboard[p1] = currPiece;
 				m_gameboard[p2] = nextPiece;
-				
+
 				throw "Dupa check exc";
-				return false;
 			}
 
 			SwitchTurn();
-			return true;
 		}
 		else
 		{
-			throw "There is a piece in the way";
+			throw InTheWayException("There is a piece in the way");
 		}
 	}
 	else
 	{
 		throw MoveException("The move cannot be done by the piece!");
 	}
-
-	return false;
 }
 
 IPieceInfoPtr Game::GetPieceInfo(Position p) const

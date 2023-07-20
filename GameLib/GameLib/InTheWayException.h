@@ -1,8 +1,9 @@
 #pragma once
-#include "IException.h"
-class InTheWayException :  public IException
+#include "ChessException.h"
+
+class InTheWayException :  public ChessException
 {
 public:
-	InTheWayException(std::string);
+	InTheWayException(const std::string&);
 };
 

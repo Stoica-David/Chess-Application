@@ -1,5 +1,5 @@
 #include "InTheWayException.h"
 
-InTheWayException::InTheWayException(std::string message)
+InTheWayException::InTheWayException(const std::string& message)
 {
 }

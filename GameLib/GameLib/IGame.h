@@ -11,7 +11,7 @@ public:
 
 	virtual IPieceInfoPtr GetPieceInfo(Position) const = 0;
 	
-	virtual bool Move(Position, Position) = 0;
+	virtual void Move(Position, Position) = 0;
 	
 	virtual EColor GetTurn() const = 0;
 	

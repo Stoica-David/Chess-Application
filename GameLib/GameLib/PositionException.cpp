@@ -1,5 +1,5 @@
 #include "PositionException.h"
 
-PositionException::PositionException(std::string message)
+PositionException::PositionException(const std::string& message)
 {
 }

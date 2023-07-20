@@ -1,8 +1,9 @@
 #pragma once
-#include "IException.h"
-class PositionException:public IException
+#include "ChessException.h"
+
+class PositionException:public ChessException
 {
 public:
-	PositionException(std::string);
+	PositionException(const std::string&);
 };
 

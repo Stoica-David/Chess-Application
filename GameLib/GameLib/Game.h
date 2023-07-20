@@ -17,7 +17,7 @@ public:
 	PiecesPtr GetPiece(Position) const;
 
 	//API methods
-	bool Move(Position p1, Position p2) override;
+	void Move(Position p1, Position p2) override;
 	IPieceInfoPtr GetPieceInfo(Position) const override;
 	EColor GetTurn() const override;
 	bool IsDraw() const override;

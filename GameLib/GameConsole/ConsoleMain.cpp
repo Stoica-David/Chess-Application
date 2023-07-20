@@ -182,7 +182,7 @@ void Play(const IGamePtr& game)
 		{
 			std::cout << m;
 		}
-		catch (IException e)
+		catch (ChessException e)
 		{
 			std::cout << color_red << "[EXCEPTION]" << e.what() << "!\n" << color_white;
 		}

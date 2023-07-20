@@ -167,7 +167,7 @@
     <ClInclude Include="Board.h" />
     <ClInclude Include="EColor.h" />
     <ClInclude Include="EPieceType.h" />
-    <ClInclude Include="IException.h" />
+    <ClInclude Include="ChessException.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="IGame.h" />
     <ClInclude Include="InTheWayException.h" />
