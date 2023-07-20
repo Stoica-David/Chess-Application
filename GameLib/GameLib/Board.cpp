@@ -367,7 +367,7 @@ bool Board::FindHelp(Position p, EColor color) const
 		{
 			for (int j = 0; j < 8; j++)
 			{
-				if (!m_board[i][j] || (m_board[i][j]->GetColor() != color) || (m_board[i][j]->GetType() == EPieceType::King ))
+				if (!m_board[i][j] || (m_board[i][j]->GetColor() != color) || (m_board[i][j]->GetType() == EPieceType::King))
 				{
 					continue;
 				}
@@ -376,14 +376,8 @@ bool Board::FindHelp(Position p, EColor color) const
 
 				for (int k = 0; k < helpMoves.size(); k++)
 				{
-					int x = helpMoves[k].first;
-					int y = helpMoves[k].second;
-
-					if (m_board[i][j]->GetType() == EPieceType::Pawn && m_board[x][y])
-					{
-						if (currPos == helpMoves[k])
-							return true;
-					}
+					if (currPos == helpMoves[k])
+						return true;
 				}
 			}
 		}
@@ -395,6 +389,11 @@ bool Board::KillCheck(Position p, EColor color) const
 {
 	Position toKill;
 	int x = p.first, y = p.second;
+	
+	if (!m_board[x][y])
+	{
+		return false;
+	}
 
 	for (int i = 0; i < 8; i++)
 	{
@@ -405,10 +404,14 @@ bool Board::KillCheck(Position p, EColor color) const
 				PositionList moves = GetMoves({ i, j });
 				for (int k = 0; k < moves.size(); k++)
 					if (moves[k] == p)
-						toKill = { i, j };
+					{
+						toKill = std::make_pair(i, j);
+						break;
+					}
 			}
 		}
 	}
+
 	int killX = toKill.first, killY = toKill.second;
 
 	for (int i = 0; i < 8; i++)
@@ -419,7 +422,7 @@ bool Board::KillCheck(Position p, EColor color) const
 			{
 				PositionList moves = GetMoves({ i, j });
 				for (int k = 0; k < moves.size(); k++)
-					if (moves[k] == p)
+					if (moves[k] == toKill)
 						return true;
 			}
 		}

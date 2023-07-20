@@ -393,6 +393,7 @@ TEST(IsCheckMateTest, FindHelpTest4)
 	{{2, 7}, Piece::Produce(EPieceType::Rook, EColor::Black)},
 	{{2, 5}, Piece::Produce(EPieceType::Queen, EColor::White)},
 	{{7, 5}, Piece::Produce(EPieceType::Rook, EColor::White)},
+	{{0, 6}, Piece::Produce(EPieceType::Rook, EColor::Black)},
 	};
 
 	Board b(m1);
