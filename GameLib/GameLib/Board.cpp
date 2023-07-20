@@ -377,7 +377,13 @@ bool Board::FindHelp(Position p, EColor color) const
 				for (int k = 0; k < helpMoves.size(); k++)
 				{
 					if (currPos == helpMoves[k])
-						return true;
+					{
+						if (m_board[i][j]->GetType() != EPieceType::Pawn || (m_board[i][j]->GetType() == EPieceType::Pawn && !m_board[helpMoves[k].first][helpMoves[k].second]))
+						{
+							return true;
+						}
+
+					}
 				}
 			}
 		}
@@ -389,7 +395,7 @@ bool Board::KillCheck(Position p, EColor color) const
 {
 	Position toKill;
 	int x = p.first, y = p.second;
-	
+
 	if (!m_board[x][y])
 	{
 		return false;
@@ -413,6 +419,7 @@ bool Board::KillCheck(Position p, EColor color) const
 	}
 
 	int killX = toKill.first, killY = toKill.second;
+	EColor notColor = m_board[toKill.first][toKill.second]->GetColor();
 
 	for (int i = 0; i < 8; i++)
 	{
@@ -422,8 +429,17 @@ bool Board::KillCheck(Position p, EColor color) const
 			{
 				PositionList moves = GetMoves({ i, j });
 				for (int k = 0; k < moves.size(); k++)
+				{
 					if (moves[k] == toKill)
+					{
+						if (m_board[i][j]->GetType() == EPieceType::King && IsDefended(toKill, notColor))
+						{
+							break;
+						}
+
 						return true;
+					}
+				}
 			}
 		}
 	}
