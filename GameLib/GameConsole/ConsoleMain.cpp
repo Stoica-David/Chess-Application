@@ -1,4 +1,5 @@
 #include <iostream>
+#include <string>
 
 #include "IGame.h"
 #include "GameExceptions.h"
@@ -155,9 +156,24 @@ void PrintBoard(const IGamePtr& game)
 	std::cout << "\n\n";
 }
 
+bool VerifyInput(std::string input)
+{
+	return((isalpha(input[0]) && isdigit(input[1]) && isalpha(input[2]) && isdigit(input[3])) || (input == "Draw"));
+}
+
+std::string DeleteSpaces(std::string input)
+{
+	for(int i = 0; i < input.size(); i++)
+		if (input[i] == ' ')
+		{
+			input.erase(input.begin() + i);
+		}
+	return input;
+}
+
 void Play(const IGamePtr& game)
 {
-	char x1, y1, x2, y2;
+	std::string input;
 	PrintBoard(game);
 
 	do
@@ -172,12 +188,24 @@ void Play(const IGamePtr& game)
 				std::cout << color_black <<"[Black]";
 
 			std::cout << "Enter move: ";
-			std::cin >> y1 >> x1 >> y2 >> x2;
+			std::getline(std::cin, input);
+
+			input = DeleteSpaces(input);
+			while (!VerifyInput(input))
+			{
+				system("PAUSE");
+				system("CLS");
+				std::cout << color_red  << "[ERROR] Invalid move\n";
+				PrintBoard(game);
+				std::cout << "Enter move: ";
+				std::getline(std::cin, input);
+				input = DeleteSpaces(input);
+			}
 
 			system("PAUSE");
 			system("CLS");
 
-			game->Move({ 8 - (x1 - '0'), y1 - 'A'}, {8 - (x2 - '0'), y2 - 'A'});
+			game->Move({ 8 - (input[1] - '0'), input[0] - 'A'}, {8 - (input[3] - '0'), input[2] - 'A'});
 		}
 		catch (ChessException e)
 		{

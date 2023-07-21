@@ -18,5 +18,7 @@ public:
 
 	virtual bool IsOver() const = 0;
 
+	virtual void ProposeDraw() = 0;
+
 	virtual ~IGame() = default;
 };

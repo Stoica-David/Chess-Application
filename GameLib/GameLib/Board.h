@@ -28,7 +28,7 @@ public:
 	bool IsCheck(Position p, EColor color) const;
 	bool IsSameWay(Position p1, Position p2, EColor color) const;
 	bool IsCheckMate(Position p, EColor color) const;
-	bool IsDraw() const;
+	bool IsDraw(const char c = 0) const;
 
 	Position FindCheck(Position p, EColor color) const;
 	Position FindKing(EColor) const;

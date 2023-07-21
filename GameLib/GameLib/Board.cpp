@@ -193,8 +193,11 @@ bool Board::IsCheckMate(Position p, EColor color) const
 	return true;
 }
 
-bool Board::IsDraw() const
+bool Board::IsDraw(const char c) const
 {
+	if (c == 'y')
+		return true;
+
 	PieceVector remaining = RemainingPieces();
 
 	if (remaining.size() == 2)

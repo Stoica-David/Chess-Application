@@ -15,9 +15,11 @@ public:
 
 	// IGame methods
 	void Move(Position p1, Position p2) override;
-	
+	void ProposeDraw() override;
+
 	IPieceInfoPtr GetPieceInfo(Position) const override;
 	EColor GetTurn() const override;
+
 
 	bool IsOver() const override;
 

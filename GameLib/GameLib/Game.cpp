@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "GameExceptions.h"
+#include <iostream>
 
 IGamePtr IGame::Produce()
 {
@@ -46,6 +47,20 @@ void Game::Move(Position p1, Position p2)
 	m_gameboard.Move(p1, p2);
 
 	SwitchTurn();
+}
+
+void Game::ProposeDraw() 
+{
+	char c = 0;
+
+	SwitchTurn();
+	std::cout << "Agree to Draw? y/n\n";
+	std::cin >> c;
+	
+	if (c == 'y')
+		m_gameboard.IsDraw(c);
+	else
+		SwitchTurn();
 }
 
 IPieceInfoPtr Game::GetPieceInfo(Position p) const
