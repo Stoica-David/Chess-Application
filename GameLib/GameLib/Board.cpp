@@ -228,6 +228,13 @@ bool Board::IsDraw() const
 	return false;
 }
 
+bool Board::Stalemate(EColor color) const
+{
+	//Position kingPos = ;
+
+	return true;
+}
+
 Position Board::FindCheck(Position p, EColor color) const
 {
 	PositionList currList;
@@ -292,7 +299,11 @@ void Board::Move(Position p1, Position p2)
 
 	if (!currPiece->IsMoveRegular(p1, p2))
 	{
-		throw MoveException("The move cannot be done by the piece!");
+		if (!currPiece->Is(EPieceType::Pawn) || (currPiece->Is(EPieceType::Pawn) && PawnGoesDiagonally(p1, p2) && (!nextPiece)))
+		{
+			//throw PawnDiagonallyException("The pawn cannot go diagonally!");
+			throw MoveException("The move cannot be done by the piece!");
+		}
 	}
 
 	if (!VerifyTheWay(p1, p2))
@@ -303,11 +314,6 @@ void Board::Move(Position p1, Position p2)
 	if (nextPiece && currPiece->SameColor(nextPiece))
 	{
 		throw SameColorException("The pieces have the same color");
-	}
-
-	if (currPiece->Is(EPieceType::Pawn) && PawnGoesDiagonally(p1, p2) && (!nextPiece))
-	{
-		throw PawnDiagonallyException("The pawn cannot go diagonally!");
 	}
 
 	(*this)[p2] = currPiece;

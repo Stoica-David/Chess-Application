@@ -29,6 +29,7 @@ public:
 	bool IsSameWay(Position p1, Position p2, EColor color) const;
 	bool IsCheckMate(Position p, EColor color) const;
 	bool IsDraw() const;
+	bool Stalemate(EColor color) const;
 
 	Position FindCheck(Position p, EColor color) const;
 	Position FindKing(EColor) const;
