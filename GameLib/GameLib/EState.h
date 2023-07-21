@@ -4,8 +4,8 @@ enum class EState
 {
 	Playing,
 	Draw,
-	WhiteCheckmate,
-	BlackCheckmate,
+	WhiteWon,
+	BlackWon,
 	DrawIsProposed,
 	ChoosePiece
 };

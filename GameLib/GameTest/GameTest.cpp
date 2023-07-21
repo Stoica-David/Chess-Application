@@ -133,21 +133,6 @@ TEST(MoveTest, BishopMove)
 	EXPECT_THROW(g.Move({ 6,6 }, { 5,6 }), DoesntExistException);
 }
 
-TEST(IsOverTest, RookCheckmate)
-{
-	PiecePairVector v = {
-		{{0, 0}, Piece::Produce(EPieceType::King, EColor::White)},
-		{{7, 0}, Piece::Produce(EPieceType::Rook, EColor::Black)},
-		{{7, 1}, Piece::Produce(EPieceType::Rook, EColor::Black)},
-	};
-	Board b(v);
-
-	Game g(b);
-
-	EXPECT_EQ(g.IsOver(), true);
-}
-
-
 TEST(IsOverTest, KingVKing)
 {
 	PiecePairVector v = {
@@ -158,7 +143,7 @@ TEST(IsOverTest, KingVKing)
 
 	Game g(b);
 
-	EXPECT_EQ(g.IsOver(), true);
+	EXPECT_EQ(g.IsDraw(), true);
 }
 
 TEST(IsOverTest, KingVKingKnight)
@@ -172,7 +157,7 @@ TEST(IsOverTest, KingVKingKnight)
 
 	Game g(b);
 
-	EXPECT_EQ(g.IsOver(), true);
+	EXPECT_EQ(g.IsDraw(), true);
 }
 
 TEST(IsOverTest, KingVKingBishop)
@@ -186,7 +171,7 @@ TEST(IsOverTest, KingVKingBishop)
 
 	Game g(b);
 
-	EXPECT_EQ(g.IsOver(), true);
+	EXPECT_EQ(g.IsDraw(), true);
 }
 
 TEST(IsOverTest, KingBishopVKingBishop)
@@ -201,7 +186,7 @@ TEST(IsOverTest, KingBishopVKingBishop)
 
 	Game g(b);
 
-	EXPECT_EQ(g.IsOver(), true);
+	EXPECT_EQ(g.IsDraw(), true);
 }
 
 TEST(IsOverTest, DRookCheckMate)

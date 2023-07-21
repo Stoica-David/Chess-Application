@@ -48,9 +48,9 @@ PiecesPtr& Board::operator[](Position p)
 
 bool Board::IsOver(EColor color) const
 {
-	Position whiteKingPos = FindKing(color);
+	Position KingPos = FindKing(color);
 
-	return (IsCheckMate(whiteKingPos, color));
+	return (IsCheckMate(KingPos, color));
 }
 
 IPieceInfoPtr Board::GetPieceInfo(Position p) const
@@ -193,11 +193,8 @@ bool Board::IsCheckMate(Position p, EColor color) const
 	return true;
 }
 
-bool Board::IsDraw(const char c) const
+bool Board::IsDraw() const
 {
-	if (c == 'y')
-		return true;
-
 	PieceVector remaining = RemainingPieces();
 
 	if (remaining.size() == 2)

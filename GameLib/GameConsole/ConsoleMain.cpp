@@ -45,6 +45,7 @@ void Enter()
 void PrintBoard(const IGamePtr& game)
 {
 	char c;
+
 	PrintMinus();
 	PrintVerticalLine();
 	PrintSpace();
@@ -163,7 +164,7 @@ bool VerifyInput(std::string input)
 
 std::string DeleteSpaces(std::string input)
 {
-	for(int i = 0; i < input.size(); i++)
+	for (int i = 0; i < input.size(); i++)
 		if (input[i] == ' ')
 		{
 			input.erase(input.begin() + i);
@@ -174,42 +175,78 @@ std::string DeleteSpaces(std::string input)
 void Play(const IGamePtr& game)
 {
 	std::string input;
+	bool clear = false;
+
 	PrintBoard(game);
 
 	do
 	{
 		try
 		{
+			clear = false;
 			EColor currTurn = game->GetTurn();
 
 			if (currTurn == EColor::White)
 				std::cout << color_white << "[White]";
 			else
-				std::cout << color_black <<"[Black]";
+				std::cout << color_black << "[Black]";
 
-			std::cout << "Enter move: ";
-			std::getline(std::cin, input);
-
-			input = DeleteSpaces(input);
-			while (!VerifyInput(input))
+			if (!game->IsDrawProposed())
 			{
-				system("PAUSE");
-				system("CLS");
-				std::cout << color_red  << "[ERROR] Invalid move\n";
-				PrintBoard(game);
 				std::cout << "Enter move: ";
+
 				std::getline(std::cin, input);
+
 				input = DeleteSpaces(input);
+
+				if (VerifyInput(input))
+				{
+					if (input == "Draw")
+					{
+						game->ProposeDraw();
+					}
+					else
+					{
+						game->Move({ 8 - (input[1] - '0'), input[0] - 'A' }, { 8 - (input[3] - '0'), input[2] - 'A' });
+					}
+				}
+				else if (input.size() != 0)
+				{
+					std::cout << color_red << "[ERROR] Invalid string given";
+				}
+				else
+				{
+					system("CLS");
+					clear = true;
+				}
 			}
+			else
+			{
+				std::string response;
 
-			system("PAUSE");
-			system("CLS");
+				std::cout << "Agree to Draw? (yes/no): ";
 
-			game->Move({ 8 - (input[1] - '0'), input[0] - 'A'}, {8 - (input[3] - '0'), input[2] - 'A'});
+				std::cin >> response;
+
+				if (response == "yes")
+				{
+					game->DrawResponse(1);
+				}
+				if (response == "no")
+				{
+					game->DrawResponse(0);
+				}
+			}
 		}
 		catch (ChessException e)
 		{
-			std::cout << color_red << "[EXCEPTION]" << e.what() << "!\n" << color_white;
+			std::cout << "\n" << color_red << "[EXCEPTION]" << e.what() << "!\n\n" << color_white;
+		}
+
+		if (!clear)
+		{
+			system("PAUSE");
+			system("CLS");
 		}
 
 		PrintBoard(game);

@@ -78,6 +78,9 @@
     <ClCompile Include="StillCheckException.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="DrawProposedException.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -162,6 +165,9 @@
       <Filter>Header Files\API</Filter>
     </ClInclude>
     <ClInclude Include="EState.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="DrawProposedException.h">
       <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
