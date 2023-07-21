@@ -26,7 +26,6 @@ public:
 	bool IsDraw() const;
 	bool IsOver() const override;
 	bool IsDrawProposed() const override;
-	void SetDraw();
 
 	//Other methods
 	PiecesPtr GetPiece(Position) const;

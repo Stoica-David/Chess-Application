@@ -415,4 +415,3 @@ TEST(IsCheckMateTest, IsSameWayTest)
 
 	EXPECT_EQ(b.IsCheckMate({ 4,0 }, EColor::White), false);
 }
-
