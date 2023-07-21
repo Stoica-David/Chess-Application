@@ -26,6 +26,7 @@ public:
 	bool IsDraw() const;
 	bool IsOver() const override;
 	bool IsDrawProposed() const override;
+	void PromoteTo(const std::string& string, Position p) override;
 
 	//Other methods
 	PiecesPtr GetPiece(Position) const;
@@ -34,6 +35,7 @@ public:
 
 private:
 	void SwitchTurn();
+	void UpdatePiece(EPieceType type, Position p);
 
 private:
 	Board m_gameboard;

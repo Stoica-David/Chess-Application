@@ -231,7 +231,7 @@ bool Board::IsDraw() const
 bool Board::Stalemate(EColor color) const
 {
 	Position kingPos = FindKing(color);
-	
+
 	if (IsCheck(kingPos, color))
 	{
 		return false;
@@ -314,7 +314,7 @@ void Board::Move(Position p1, Position p2)
 
 	if (!currPiece->IsMoveRegular(p1, p2))
 	{
-		if (!currPiece->Is(EPieceType::Pawn) || (currPiece->Is(EPieceType::Pawn) && (!PawnGoesDiagonally(p1,p2) || (PawnGoesDiagonally(p1, p2) && (!nextPiece)))))
+		if (!currPiece->Is(EPieceType::Pawn) || (currPiece->Is(EPieceType::Pawn) && (!PawnGoesDiagonally(p1, p2) || (PawnGoesDiagonally(p1, p2) && (!nextPiece)))))
 		{
 			throw MoveException("The move cannot be done by the piece!");
 		}
@@ -330,8 +330,24 @@ void Board::Move(Position p1, Position p2)
 		throw SameColorException("The pieces have the same color");
 	}
 
-	(*this)[p2] = currPiece;
-	(*this)[p1] = {};
+	if (currPiece->Is(EPieceType::Pawn) && currPiece->GetColor() == EColor::White && p2.first == 0)
+	{
+		(*this)[p2] = Piece::Produce(EPieceType::Queen, EColor::White);
+		(*this)[p1] = {};
+
+		return;
+	}else if (currPiece->Is(EPieceType::Pawn) && currPiece->GetColor() == EColor::Black && p2.first == 7)
+	{
+		(*this)[p2] = Piece::Produce(EPieceType::Queen, EColor::Black);
+		(*this)[p1] = {};
+
+		return;
+	}
+	else
+	{
+		(*this)[p2] = currPiece;
+		(*this)[p1] = {};
+	}
 
 	Position kingPos = FindKing(currPiece->GetColor());
 
@@ -347,9 +363,9 @@ void Board::Move(Position p1, Position p2)
 
 bool Board::PawnGoesDiagonally(Position p1, Position p2)
 {
-	int x1 = p1.first, 
-		y1 = p1.second, 
-		x2 = p2.first, 
+	int x1 = p1.first,
+		y1 = p1.second,
+		x2 = p2.first,
 		y2 = p2.second;
 
 	return (std::abs(x2 - x1) == 1 && std::abs(y2 - y1) == 1);
@@ -359,7 +375,7 @@ bool Board::PawnGoesDiagonally(Position p1, Position p2)
 bool Board::FindHelp(Position p, EColor color) const
 {
 	PositionList kingMoves = GetMoves(p);
-	
+
 	PositionList attackMoves;
 	PiecesPtr attackPiece;
 	Position attackPos;
@@ -438,7 +454,7 @@ bool Board::KillCheck(Position p, EColor color) const
 				{
 					if (moves[k] == p)
 					{
-						toKill = {i, j};
+						toKill = { i, j };
 						break;
 					}
 				}
@@ -569,7 +585,7 @@ PositionList Board::GetMoves(Position p) const
 	}
 
 	PositionMatrix currMoves = initialPiece->AllMoves(p);
-	
+
 	PositionList newList;
 
 	for (int i = 0; i < currMoves.size(); i++)

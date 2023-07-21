@@ -33,7 +33,8 @@ PositionMatrix Pawn::AllMoves(Position p) const
 
 	if (IsColor(EColor::White))
 	{
-		newMatrix[0].push_back(UpOne);
+		if(IsInTable(UpOne))
+			newMatrix[0].push_back(UpOne);
 
 		if (x == 6)
 			newMatrix[1].push_back(UpTwo);
@@ -47,7 +48,8 @@ PositionMatrix Pawn::AllMoves(Position p) const
 
 	if (IsColor(EColor::Black))
 	{
-		newMatrix[0].push_back(DownOne);
+		if (IsInTable(DownOne))
+			newMatrix[0].push_back(DownOne);
 
 		if (x == 1)
 			newMatrix[1].push_back(DownTwo);

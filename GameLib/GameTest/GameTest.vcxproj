@@ -159,6 +159,11 @@
   <ItemGroup>
     <None Include="packages.config" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\GameLib\GameLib.vcxproj">
+      <Project>{5be5ac16-7a1d-496a-8262-1ed966ab7be6}</Project>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
     <Import Project="..\packages\google-testmock.1.13.0\build\native\google-testmock.targets" Condition="Exists('..\packages\google-testmock.1.13.0\build\native\google-testmock.targets')" />

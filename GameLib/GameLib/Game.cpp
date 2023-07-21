@@ -67,7 +67,7 @@ void Game::Move(Position p1, Position p2)
 	}
 }
 
-void Game::ProposeDraw() 
+void Game::ProposeDraw()
 {
 	UpdateState(EState::DrawIsProposed);
 	SwitchTurn();
@@ -121,9 +121,27 @@ bool Game::IsDrawProposed() const
 	return (m_state == EState::DrawIsProposed);
 }
 
+void Game::PromoteTo(const std::string& string, Position p)
+{
+	if (string == "Queen")
+		UpdatePiece(EPieceType::Queen, p);
+	if (string == "Rook")
+		UpdatePiece(EPieceType::Rook, p);
+	if (string == "Bishop")
+		UpdatePiece(EPieceType::Bishop, p);
+	if (string == "Knight")
+		UpdatePiece(EPieceType::Knight, p);
+}
+
 void Game::SwitchTurn()
 {
 	m_turn = m_turn == EColor::Black ? EColor::White : EColor::Black;
+}
+
+void Game::UpdatePiece(EPieceType type, Position p)
+{
+	m_gameboard[p] = {};
+	m_gameboard[p] = Piece::Produce(type, m_turn);
 }
 
 bool Game::Stalemate() const

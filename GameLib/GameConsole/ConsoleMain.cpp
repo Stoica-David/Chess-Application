@@ -201,6 +201,8 @@ void Play(const IGamePtr& game)
 
 				if (VerifyInput(input))
 				{
+					//TODO
+
 					if (input == "Draw")
 					{
 						game->ProposeDraw();
@@ -208,6 +210,14 @@ void Play(const IGamePtr& game)
 					else
 					{
 						game->Move({ 8 - (input[1] - '0'), input[0] - 'A' }, { 8 - (input[3] - '0'), input[2] - 'A' });
+					}
+
+					if ((8 - (input[3] - '0') == 7 || (8 - (input[3] - '0') == 0)))
+					{
+						std::string pieceName;
+						std::cout << "Type piece you want to promote to:";
+						std::cin >> pieceName; std::cin.ignore();
+						game->PromoteTo(pieceName, { 8 - (input[3] - '0'),  8 - (input[3] - '0') });
 					}
 				}
 				else if (input.size() != 0)

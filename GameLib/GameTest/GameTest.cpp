@@ -242,6 +242,20 @@ TEST(StalemateTest, Stalematee)
 	EXPECT_EQ(g.Stalemate(), true);
 }
 
+TEST(PromotionTest, WhitePromotesTest)
+{
+	PiecePairVector v = {
+		{{1, 5}, Piece::Produce(EPieceType::Pawn, EColor::White)},
+		{{6, 5}, Piece::Produce(EPieceType::King, EColor::White)},
+		{{1, 0}, Piece::Produce(EPieceType::King, EColor::Black)},
+	};
+	Board b(v);
+
+	Game g(b);
+
+	EXPECT_NO_THROW(g.Move({ 1, 5 }, { 0, 5 }));
+	EXPECT_EQ(g.GetPiece({ 0, 5 })->GetType(), EPieceType::Queen);
+}
 
 //TEST(CastleMoveTest, Castle1)
 //{

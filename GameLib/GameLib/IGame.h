@@ -2,6 +2,7 @@
 
 #include "IPieceInfo.h"
 #include "Position.h"
+#include <string>
 
 using IGamePtr = std::shared_ptr<class IGame>;
 
@@ -21,6 +22,8 @@ public:
 	virtual void ProposeDraw() = 0;
 	virtual bool IsDrawProposed()const = 0;
 	virtual void DrawResponse(bool) = 0;
+
+	virtual void PromoteTo(const std::string&, Position) = 0;
 
 	virtual ~IGame() = default;
 };
