@@ -54,7 +54,7 @@ PositionMatrix King::AllMoves(Position p) const
 		newMatrix[3].push_back(left);
 	}
 
-	if (IsInTable(right))
+    if (IsInTable(right))
 	{
 		newMatrix[4].push_back(right);
 	}

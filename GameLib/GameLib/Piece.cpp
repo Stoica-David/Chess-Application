@@ -11,6 +11,7 @@ Piece::Piece(EPieceType type, EColor color)
 {
 	m_type = type;
 	m_color = color;
+	m_hasMoved = false;
 }
 
 PiecesPtr Piece::Produce(EPieceType type, EColor color)
@@ -41,6 +42,16 @@ EPieceType Piece::GetType() const
 EColor Piece::GetColor() const
 {
 	return m_color;
+}
+
+bool Piece::HasMoved() const
+{
+	return m_hasMoved;
+}
+
+void Piece::SetHasMoved(bool hasMoved)
+{
+	m_hasMoved = hasMoved;
 }
 
 bool Piece::IsMoveRegular(Position p1, Position p2) const

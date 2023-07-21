@@ -19,6 +19,10 @@ public:
 	// Getters
 	EPieceType GetType() const;
 	EColor GetColor() const;
+	bool HasMoved() const;
+
+	// Setters
+	void SetHasMoved(bool);
 
 	// IPiece methods
 	bool IsMoveRegular(Position p1, Position p2) const override;
@@ -47,4 +51,5 @@ protected:
 protected:
 	EPieceType m_type;
 	EColor m_color;
+	bool m_hasMoved;
 };

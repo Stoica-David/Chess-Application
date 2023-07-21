@@ -23,7 +23,7 @@ private:
 			x2 = p2.first,
 			y2 = p2.second;
 
-		return (AbsValue(x2, x1) == 1 && AbsValue(y2, y1) == 0);
+		return (AbsValue(x2, x1) == 0 && AbsValue(y2, y1) == 1);
 	}
 
     static bool Vertical(Position p1, Position p2)
@@ -33,7 +33,8 @@ private:
 			x2 = p2.first,
 			y2 = p2.second;
 
-		return (AbsValue(x2, x1) == 0 && AbsValue(y2, y1) == 1);
+
+		return (AbsValue(x2, x1) == 1 && AbsValue(y2, y1) == 0);
 	}
 
     static bool Diagonal(Position p1, Position p2)
@@ -46,5 +47,14 @@ private:
 		return (AbsValue(x2, x1) == 1 && AbsValue(y2, y1) == 1);
 	}
 
+	static bool CastleMove(Position p1, Position p2)
+	{
+		int x1 = p1.first,
+			y1 = p1.second,
+			x2 = p2.first,
+			y2 = p2.second;
+
+		return (AbsValue(y2, y1) == 2);
+	}
 };
 
