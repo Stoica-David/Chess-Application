@@ -30,6 +30,7 @@ public:
 	//Other methods
 	PiecesPtr GetPiece(Position) const;
 	void UpdateState(EState);
+	bool Stalemate() const;
 
 private:
 	void SwitchTurn();

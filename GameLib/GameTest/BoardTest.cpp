@@ -1,4 +1,5 @@
 #include "Board.h"
+#include "BoardExceptions.h"
 #include "gtest/gtest.h"
 
 TEST(VerifyTheWayTest, PawnTest)
@@ -414,4 +415,31 @@ TEST(IsCheckMateTest, IsSameWayTest)
 	Board b(m1);
 
 	EXPECT_EQ(b.IsCheckMate({ 4,0 }, EColor::White), false);
+}
+
+TEST(StalemateTest , Stalemate1)
+{
+	PiecePairVector m1 = {
+		{{0, 0}, Piece::Produce(EPieceType::King, EColor::White)},
+		{{1, 7}, Piece::Produce(EPieceType::Rook, EColor::Black)},
+		{{7, 1}, Piece::Produce(EPieceType::Rook, EColor::Black)},
+		{{7, 7}, Piece::Produce(EPieceType::King, EColor::Black)},
+	};
+
+	Board b(m1);
+
+	EXPECT_EQ(b.Stalemate(EColor::White), true);
+}
+
+TEST(PawnDiagonalTest, Diagonal1)
+{
+	PiecePairVector m1 = {
+	{{0, 0}, Piece::Produce(EPieceType::King, EColor::White)},
+	{{6, 1}, Piece::Produce(EPieceType::Pawn, EColor::Black)},
+	{{7, 7}, Piece::Produce(EPieceType::King, EColor::Black)},
+	};
+
+	Board b(m1);
+
+	EXPECT_THROW(b.Move({ 6,1 }, { 3,1 }), MoveException);
 }

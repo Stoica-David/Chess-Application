@@ -230,7 +230,22 @@ bool Board::IsDraw() const
 
 bool Board::Stalemate(EColor color) const
 {
-	//Position kingPos = ;
+	Position kingPos = FindKing(color);
+	
+	if (IsCheck(kingPos, color))
+	{
+		return false;
+	}
+
+	PositionList kingMoves = GetMoves(kingPos);
+
+	for (const auto& currMove : kingMoves)
+	{
+		if (!IsCheck(currMove, color))
+		{
+			return false;
+		}
+	}
 
 	return true;
 }
@@ -299,9 +314,8 @@ void Board::Move(Position p1, Position p2)
 
 	if (!currPiece->IsMoveRegular(p1, p2))
 	{
-		if (!currPiece->Is(EPieceType::Pawn) || (currPiece->Is(EPieceType::Pawn) && PawnGoesDiagonally(p1, p2) && (!nextPiece)))
+		if (!currPiece->Is(EPieceType::Pawn) || (currPiece->Is(EPieceType::Pawn) && (!PawnGoesDiagonally(p1,p2) || (PawnGoesDiagonally(p1, p2) && (!nextPiece)))))
 		{
-			//throw PawnDiagonallyException("The pawn cannot go diagonally!");
 			throw MoveException("The move cannot be done by the piece!");
 		}
 	}

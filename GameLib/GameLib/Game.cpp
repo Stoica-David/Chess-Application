@@ -108,7 +108,7 @@ EColor Game::GetTurn() const
 
 bool Game::IsDraw() const
 {
-	return (m_gameboard.IsDraw() || m_state == EState::Draw);
+	return (m_gameboard.IsDraw() || m_state == EState::Draw || Stalemate());
 }
 
 bool Game::IsOver() const
@@ -126,4 +126,8 @@ void Game::SwitchTurn()
 	m_turn = m_turn == EColor::Black ? EColor::White : EColor::Black;
 }
 
+bool Game::Stalemate() const
+{
+	return (m_gameboard.Stalemate(EColor::White) || m_gameboard.Stalemate(EColor::Black));
+}
 
