@@ -46,13 +46,6 @@ PiecesPtr& Board::operator[](Position p)
 	return m_board[p.first][p.second];
 }
 
-bool Board::IsOver(EColor color) const
-{
-	Position KingPos = FindKing(color);
-
-	return (IsCheckMate(KingPos, color));
-}
-
 IPieceInfoPtr Board::GetPieceInfo(Position p) const
 {
 	if (auto piece = GetPiece(p))
@@ -66,6 +59,13 @@ IPieceInfoPtr Board::GetPieceInfo(Position p) const
 PiecesPtr Board::GetPiece(Position p) const
 {
 	return m_board[p.first][p.second];
+}
+
+bool Board::IsOver(EColor color) const
+{
+	Position KingPos = FindKing(color);
+
+	return (IsCheckMate(KingPos, color));
 }
 
 bool Board::VerifyTheWay(Position p1, Position p2) const

@@ -18,13 +18,12 @@ public:
 	// Setters
 	PiecesPtr& operator[](Position p);
 
-	bool IsOver(EColor color) const;
-
 	// Getters
 	IPieceInfoPtr GetPieceInfo(Position p) const;
 	PiecesPtr GetPiece(Position p) const;
 
 	// Functions
+	bool IsOver(EColor color) const;
 	bool VerifyTheWay(Position p1, Position p2) const;
 	bool IsCheck(Position p, EColor color) const;
 	bool IsSameWay(Position p1, Position p2, EColor color) const;
