@@ -312,30 +312,45 @@ PieceVector Board::RemainingPieces() const
 	return newList;
 }
 
-void Board::PromoteTo(const std::string& string, Position p1, Position p2, EColor color) 
+void Board::PromoteTo(const std::string& string, Position p, EColor color) 
 {
-	if (!m_board[p2.first][p2.second]->Is(EPieceType::Pawn) || ((p2.first != 0) && (p2.first != 7)))
+	Position prevPos;
+	if (p.first == 0)
 	{
+		prevPos.first = p.first + 1;
+	}
+	else if (p.first == 7)
+	{
+		prevPos.first = p.first - 1;
+	}
+		else
+			throw PromoteException("Can't promote!\n");
+
+	prevPos.second = p.second;
+
+	if (!m_board[p.first][p.second]->Is(EPieceType::Pawn))
+	{
+		throw PromoteException("Can't Promote yet!");
 		return;
 	}
 
-	m_board[p1.first][p1.second] = {};
+	m_board[prevPos.first][prevPos.second] = {};
 
 	if (string == "Queen")
 	{
-		UpdatePiece(EPieceType::Queen, p2, color);
+		UpdatePiece(EPieceType::Queen, p, color);
 	}
 	if (string == "Rook")
 	{
-		UpdatePiece(EPieceType::Rook, p2, color);
+		UpdatePiece(EPieceType::Rook, p, color);
 	}
 	if (string == "Bishop")
 	{
-		UpdatePiece(EPieceType::Bishop, p2, color);
+		UpdatePiece(EPieceType::Bishop, p, color);
 	}
 	if (string == "Knight")
 	{
-		UpdatePiece(EPieceType::Knight, p2, color);
+		UpdatePiece(EPieceType::Knight, p, color);
 	}
 }
 

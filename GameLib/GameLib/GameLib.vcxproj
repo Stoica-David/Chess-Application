@@ -163,6 +163,7 @@
     <ClCompile Include="Piece.cpp" />
     <ClCompile Include="PieceInfo.cpp" />
     <ClCompile Include="PositionException.cpp" />
+    <ClCompile Include="PromoteException.cpp" />
     <ClCompile Include="Queen.cpp" />
     <ClCompile Include="Rook.cpp" />
     <ClCompile Include="SameColorException.cpp" />
@@ -194,6 +195,7 @@
     <ClInclude Include="PieceInfo.h" />
     <ClInclude Include="Position.h" />
     <ClInclude Include="PositionException.h" />
+    <ClInclude Include="PromoteException.h" />
     <ClInclude Include="Queen.h" />
     <ClInclude Include="Rook.h" />
     <ClInclude Include="SameColorException.h" />

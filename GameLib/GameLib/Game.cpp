@@ -132,9 +132,9 @@ bool Game::ChoosePiece() const
 	return (m_state == EState::ChoosePiece);
 }
 
-void Game::PromoteTo(const std::string& string, Position p1, Position p2)
+void Game::PromoteTo(const std::string& string, Position p)
 {
-	m_gameboard.PromoteTo(string, p1, p2, m_turn);
+	m_gameboard.PromoteTo(string, p, m_turn);
 
 	UpdateState(EState::Playing);
 	SwitchTurn();

@@ -8,3 +8,4 @@
 #include "PawnDiagonallyException.h"
 #include "StillCheckException.h"
 #include "SameColorException.h"
+#include "PromoteException.h"

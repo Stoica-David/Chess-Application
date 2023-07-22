@@ -254,7 +254,7 @@ void Play(const IGamePtr& game)
 
 				if (VerifyPieceName(pieceName))
 				{
-					game->PromoteTo(pieceName, { 8 - (input[1] - '0'), input[0] - 'A' }, { 8 - (input[3] - '0'), input[2] - 'A' });
+					game->PromoteTo(pieceName,  { 8 - (input[3] - '0'), input[2] - 'A' });
 				}
 			}
 		}
