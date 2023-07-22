@@ -307,6 +307,38 @@ PieceVector Board::RemainingPieces() const
 	return newList;
 }
 
+void Board::PromoteTo(const std::string& string, Position p1, Position p2, EColor color) 
+{
+	if (!m_board[p2.first][p2.second]->Is(EPieceType::Pawn))
+	{
+		return;
+	}
+
+	m_board[p1.first][p1.second] = {};
+
+	if (string == "Queen")
+	{
+		UpdatePiece(EPieceType::Queen, p2, color);
+	}
+	if (string == "Rook")
+	{
+		UpdatePiece(EPieceType::Rook, p2, color);
+	}
+	if (string == "Bishop")
+	{
+		UpdatePiece(EPieceType::Bishop, p2, color);
+	}
+	if (string == "Knight")
+	{
+		UpdatePiece(EPieceType::Knight, p2, color);
+	}
+}
+
+void Board::UpdatePiece(EPieceType type, Position p, EColor color)
+{
+	m_board[p.first][p.second] = Piece::Produce(type, color);
+}
+
 void Board::Move(Position p1, Position p2)
 {
 	PiecesPtr currPiece = GetPiece(p1);
@@ -330,24 +362,8 @@ void Board::Move(Position p1, Position p2)
 		throw SameColorException("The pieces have the same color");
 	}
 
-	if (currPiece->Is(EPieceType::Pawn) && currPiece->GetColor() == EColor::White && p2.first == 0)
-	{
-		(*this)[p2] = Piece::Produce(EPieceType::Queen, EColor::White);
-		(*this)[p1] = {};
-
-		return;
-	}else if (currPiece->Is(EPieceType::Pawn) && currPiece->GetColor() == EColor::Black && p2.first == 7)
-	{
-		(*this)[p2] = Piece::Produce(EPieceType::Queen, EColor::Black);
-		(*this)[p1] = {};
-
-		return;
-	}
-	else
-	{
-		(*this)[p2] = currPiece;
-		(*this)[p1] = {};
-	}
+	(*this)[p2] = currPiece;
+	(*this)[p1] = {};
 
 	Position kingPos = FindKing(currPiece->GetColor());
 

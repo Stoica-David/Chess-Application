@@ -23,7 +23,8 @@ public:
 	virtual bool IsDrawProposed()const = 0;
 	virtual void DrawResponse(bool) = 0;
 
-	virtual void PromoteTo(const std::string&, Position) = 0;
+	virtual bool ChoosePiece()const = 0;
+	virtual void PromoteTo(const std::string&, Position, Position) = 0;
 
 	virtual ~IGame() = default;
 };

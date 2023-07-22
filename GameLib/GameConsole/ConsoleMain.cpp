@@ -157,9 +157,14 @@ void PrintBoard(const IGamePtr& game)
 	std::cout << "\n\n";
 }
 
-bool VerifyInput(std::string input)
+bool VerifyInput(const std::string& input)
 {
 	return((isalpha(input[0]) && isdigit(input[1]) && isalpha(input[2]) && isdigit(input[3])) || (input == "Draw"));
+}
+
+bool VerifyPieceName(const std::string& input)
+{
+	return (input == "Queen" || input == "Rook" || input == "Bishop" || input == "Knight");
 }
 
 std::string DeleteSpaces(std::string input)
@@ -191,7 +196,7 @@ void Play(const IGamePtr& game)
 			else
 				std::cout << color_black << "[Black]";
 
-			if (!game->IsDrawProposed())
+			if (!game->IsDrawProposed() && !game->ChoosePiece())
 			{
 				std::cout << "Enter move: ";
 
@@ -211,14 +216,6 @@ void Play(const IGamePtr& game)
 					{
 						game->Move({ 8 - (input[1] - '0'), input[0] - 'A' }, { 8 - (input[3] - '0'), input[2] - 'A' });
 					}
-
-					if ((8 - (input[3] - '0') == 7 || (8 - (input[3] - '0') == 0)))
-					{
-						std::string pieceName;
-						std::cout << "Type piece you want to promote to:";
-						std::cin >> pieceName; std::cin.ignore();
-						game->PromoteTo(pieceName, { 8 - (input[3] - '0'),  8 - (input[3] - '0') });
-					}
 				}
 				else if (input.size() != 0)
 				{
@@ -230,7 +227,7 @@ void Play(const IGamePtr& game)
 					clear = true;
 				}
 			}
-			else
+			else if(game->IsDrawProposed())
 			{
 				std::string response;
 
@@ -245,6 +242,19 @@ void Play(const IGamePtr& game)
 				if (response == "no")
 				{
 					game->DrawResponse(0);
+				}
+			}
+			else 
+			{
+				std::string pieceName;
+
+				std::cout << "Type piece you want to promote to:";
+				
+				std::cin >> pieceName; std::cin.ignore();
+
+				if (VerifyPieceName(pieceName))
+				{
+					game->PromoteTo(pieceName, { 8 - (input[1] - '0'), input[0] - 'A' }, { 8 - (input[3] - '0'), input[2] - 'A' });
 				}
 			}
 		}

@@ -64,6 +64,12 @@ void Game::Move(Position p1, Position p2)
 		}
 
 		SwitchTurn();
+		
+		if (m_gameboard[p2]->Is(EPieceType::Pawn) && (p2.first == 0 || p2.first == 7))
+		{
+			UpdateState(EState::ChoosePiece);
+			SwitchTurn();
+		}
 	}
 }
 
@@ -121,27 +127,22 @@ bool Game::IsDrawProposed() const
 	return (m_state == EState::DrawIsProposed);
 }
 
-void Game::PromoteTo(const std::string& string, Position p)
+bool Game::ChoosePiece() const
 {
-	if (string == "Queen")
-		UpdatePiece(EPieceType::Queen, p);
-	if (string == "Rook")
-		UpdatePiece(EPieceType::Rook, p);
-	if (string == "Bishop")
-		UpdatePiece(EPieceType::Bishop, p);
-	if (string == "Knight")
-		UpdatePiece(EPieceType::Knight, p);
+	return (m_state == EState::ChoosePiece);
+}
+
+void Game::PromoteTo(const std::string& string, Position p1, Position p2)
+{
+	m_gameboard.PromoteTo(string, p1, p2, m_turn);
+
+	UpdateState(EState::Playing);
+	SwitchTurn();
 }
 
 void Game::SwitchTurn()
 {
 	m_turn = m_turn == EColor::Black ? EColor::White : EColor::Black;
-}
-
-void Game::UpdatePiece(EPieceType type, Position p)
-{
-	m_gameboard[p] = {};
-	m_gameboard[p] = Piece::Produce(type, m_turn);
 }
 
 bool Game::Stalemate() const

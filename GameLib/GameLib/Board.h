@@ -4,6 +4,7 @@
 #include "IPieceInfo.h"
 
 #include<array>
+#include<string>
 
 using ChessBoard = std::array<std::array<PiecesPtr, 8>, 8>;
 
@@ -34,6 +35,9 @@ public:
 	Position FindCheck(Position p, EColor color) const;
 	Position FindKing(EColor) const;
 	PieceVector RemainingPieces() const;
+
+	void PromoteTo(const std::string& string, Position p1, Position p2, EColor color);
+	void UpdatePiece(EPieceType type, Position p, EColor color);
 	
 	void Move(Position p1, Position p2);
 	
