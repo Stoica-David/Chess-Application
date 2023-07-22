@@ -43,6 +43,7 @@ public:
 	
 private:
 	static bool PawnGoesDiagonally(Position p1, Position p2);
+	bool OnlyKing(EColor color)const;
 	bool FindHelp(Position p, EColor color) const;
 	bool KillCheck(Position p, EColor color) const;
 	bool IsDefended(Position p, EColor color) const;

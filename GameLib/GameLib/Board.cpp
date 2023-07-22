@@ -232,6 +232,11 @@ bool Board::Stalemate(EColor color) const
 {
 	Position kingPos = FindKing(color);
 
+	if (!OnlyKing(color))
+	{
+		return false;
+	}
+
 	if (IsCheck(kingPos, color))
 	{
 		return false;
@@ -309,7 +314,7 @@ PieceVector Board::RemainingPieces() const
 
 void Board::PromoteTo(const std::string& string, Position p1, Position p2, EColor color) 
 {
-	if (!m_board[p2.first][p2.second]->Is(EPieceType::Pawn))
+	if (!m_board[p2.first][p2.second]->Is(EPieceType::Pawn) || ((p2.first != 0) && (p2.first != 7)))
 	{
 		return;
 	}
@@ -385,6 +390,22 @@ bool Board::PawnGoesDiagonally(Position p1, Position p2)
 		y2 = p2.second;
 
 	return (std::abs(x2 - x1) == 1 && std::abs(y2 - y1) == 1);
+}
+
+bool Board::OnlyKing(EColor color) const
+{
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			if (m_board[i][j] && m_board[i][j]->GetColor() == color && !m_board[i][j]->Is(EPieceType::King))
+			{
+				return false;
+			}
+		}
+	}
+
+	return true;
 }
 
 
@@ -613,9 +634,12 @@ PositionList Board::GetMoves(Position p) const
 
 			if (auto currPiece = m_board[x][y])
 			{
-				if (currPiece && (currPiece->GetColor() != initialPiece->GetColor()))
+				if (currPiece->GetColor() != initialPiece->GetColor())
 				{
-					newList.push_back({ x , y });
+					if (!initialPiece->Is(EPieceType::Pawn) || (PawnGoesDiagonally(p, {x,y})))
+					{
+						newList.push_back({ x , y });
+					}
 				}
 
 				break;
