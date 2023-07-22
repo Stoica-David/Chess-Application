@@ -323,15 +323,16 @@ void Board::PromoteTo(const std::string& string, Position p, EColor color)
 	{
 		prevPos.first = p.first - 1;
 	}
-		else
-			throw PromoteException("Can't promote!\n");
+	else
+	{
+		throw PromoteException("Can't promote!\n");
+	}
 
 	prevPos.second = p.second;
 
 	if (!m_board[p.first][p.second]->Is(EPieceType::Pawn))
 	{
 		throw PromoteException("Can't Promote yet!");
-		return;
 	}
 
 	m_board[prevPos.first][prevPos.second] = {};
@@ -423,7 +424,6 @@ bool Board::OnlyKing(EColor color) const
 	return true;
 }
 
-
 bool Board::FindHelp(Position p, EColor color) const
 {
 	PositionList kingMoves = GetMoves(p);
@@ -444,6 +444,7 @@ bool Board::FindHelp(Position p, EColor color) const
 			}
 
 			attackMoves = GetMoves({ i, j });
+			
 			for (int k = 0; k < attackMoves.size(); k++)
 				if (attackMoves[k] == p)
 				{
