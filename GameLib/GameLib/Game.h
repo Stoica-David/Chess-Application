@@ -8,12 +8,15 @@
 #include<vector>
 #include<memory>
 
+
 class Game : public IGame
 {
 public:
 	// Constructor
 	Game();
 	Game(const Board& b, EColor color = EColor::White);
+	Game(const CharMatrix& matrix, EColor color = EColor::White);
+	
 
 	// IGame methods
 	void Move(Position p1, Position p2) override;

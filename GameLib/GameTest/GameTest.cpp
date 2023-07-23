@@ -258,6 +258,26 @@ TEST(PromotionTest, WhitePromotesTest)
 	EXPECT_EQ(g.GetPiece({ 0, 5 })->GetType(), EPieceType::Queen);
 }
 
+TEST(CheckmateTest, CheckmateVariation8)
+{
+	CharMatrix m = { {
+	{'r', 'h', 'b', 'q', 'k', 'b', 'h', 'r'},
+	{'p', 'p', 'p', 'p', '-', 'p', 'p', 'p'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', 'p', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', 'P', '-'},
+	{'-', '-', '-', '-', '-', 'P', '-', '-'},
+	{'P', 'P', 'P', 'P', 'P', '-', '-', 'P'},
+	{'R', 'H', 'B', 'Q', 'K', 'B', 'H', 'R'}
+	} };
+
+	Game g(m, EColor::Black);
+
+	g.Move({ 0, 3 }, { 4, 7 });
+
+	EXPECT_EQ(g.IsOver(), true);
+}
+
 //TEST(CastleMoveTest, Castle1)
 //{
 //	PiecePairVector v = {

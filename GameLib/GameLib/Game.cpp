@@ -1,5 +1,6 @@
 #include "Game.h"
 #include "GameExceptions.h"
+#include <iostream>
 
 IGamePtr IGame::Produce()
 {
@@ -18,6 +19,101 @@ Game::Game(const Board& b, EColor color /*=EColor::White*/)
 	, m_state(EState::Playing)
 {
 }
+
+Game::Game(const CharMatrix& matrix, EColor color) : m_turn(color), m_state(EState::Playing)
+{
+
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			switch (matrix[i][j])
+			{
+			case 'P':
+			{
+				m_gameboard[{i, j}] = Piece::Produce(EPieceType::Pawn, EColor::White);
+				break;
+			}
+
+			case 'p':
+			{
+				m_gameboard[{i, j}] = Piece::Produce(EPieceType::Pawn, EColor::Black);
+				break;
+			}
+
+			case 'R':
+			{
+				m_gameboard[{i, j}] = Piece::Produce(EPieceType::Rook, EColor::White);
+				break;
+			}
+
+			case 'r':
+			{
+				m_gameboard[{i, j}] = Piece::Produce(EPieceType::Rook, EColor::Black);
+				break;
+			}
+
+			case 'B':
+			{
+				m_gameboard[{i, j}] = Piece::Produce(EPieceType::Bishop, EColor::White);
+				break;
+			}
+
+			case 'b':
+			{
+				m_gameboard[{i, j}] = Piece::Produce(EPieceType::Bishop, EColor::Black);
+				break;
+			}
+
+			case 'H':
+			{
+				m_gameboard[{i, j}] = Piece::Produce(EPieceType::Knight, EColor::White);
+				break;
+			}
+
+			case 'h':
+			{
+				m_gameboard[{i, j}] = Piece::Produce(EPieceType::Knight, EColor::Black);
+				break;
+			}
+
+			case 'Q':
+			{
+				m_gameboard[{i, j}] = Piece::Produce(EPieceType::Queen, EColor::White);
+				break;
+			}
+
+			case 'q':
+			{
+				m_gameboard[{i, j}] = Piece::Produce(EPieceType::Queen, EColor::Black);
+				break;
+			}
+
+			case 'K':
+			{
+				m_gameboard[{i, j}] = Piece::Produce(EPieceType::King, EColor::White);
+				break;
+			}
+
+			case 'k':
+			{
+				m_gameboard[{i, j}] = Piece::Produce(EPieceType::King, EColor::Black);
+				break;
+			}
+
+			case '-':
+			{
+				m_gameboard[{i, j}] = {};
+				break;
+			}
+	
+			}
+		}
+	}
+}
+
+
+
 
 static bool IsPositionValid(Position p)
 {
