@@ -31,7 +31,7 @@ Board::Board()
 // For creating different type of boards for testing
 Board::Board(const PiecePairVector& v)
 {
-	for (auto curr : v)
+	for (const auto& curr : v)
 	{
 		int x = curr.first.first;
 		int y = curr.first.second;
@@ -70,17 +70,25 @@ bool Board::IsOver(EColor color) const
 
 bool Board::VerifyTheWay(Position p1, Position p2) const
 {
-	int x1 = p1.first, y1 = p1.second, x2 = p2.first, y2 = p2.second;
+	int x1 = p1.first,
+		y1 = p1.second,
+		x2 = p2.first,
+		y2 = p2.second;
 
-	PositionList piecePattern = m_board[x1][y1]->DeterminePattern(p1, p2);
+	PiecesPtr initialPiece = m_board[x1][y1];
+
+	PositionList piecePattern = initialPiece->DeterminePattern(p1, p2);
 
 	for (const auto& currPos : piecePattern)
 	{
 		int currX = currPos.first,
 			currY = currPos.second;
-		if (m_board[currX][currY])
+
+		PiecesPtr currPiece = m_board[currX][currY];
+
+		if (currPiece)
 		{
-			if ((currPos != p2) || (currPos == p2 && m_board[currX][currY] && (m_board[x1][y1]->GetColor() == m_board[currX][currY]->GetColor())))
+			if ((currPos != p2) || (currPos == p2 && (initialPiece->GetColor() == currPiece->GetColor())))
 			{
 				return false;
 			}
@@ -98,7 +106,9 @@ bool Board::IsCheck(Position p, EColor color) const
 	{
 		for (int j = 0; j < m_board[i].size(); j++)
 		{
-			if ((!m_board[i][j]) || (m_board[i][j]->GetColor() == color))
+			PiecesPtr currPiece = m_board[i][j];
+
+			if ((!currPiece) || (currPiece->GetColor() == color))
 			{
 				continue;
 			}
@@ -107,12 +117,11 @@ bool Board::IsCheck(Position p, EColor color) const
 				moves = GetMoves({ i, j });
 			}
 
-			for (int k = 0; k < moves.size(); k++)
+			auto it = std::find(moves.begin(), moves.end(), p);
+
+			if (it != moves.end())
 			{
-				if (moves[k] == p)
-				{
-					return true;
-				}
+				return true;
 			}
 		}
 	}
@@ -123,31 +132,35 @@ bool Board::IsSameWay(Position p1, Position p2, EColor color) const
 {
 	Position checkPos = FindCheck(p1, color);
 
-	PositionList checkList = m_board[checkPos.first][checkPos.second]->DeterminePattern(checkPos, p1);
+	PiecesPtr attackPiece = m_board[checkPos.first][checkPos.second];
+
+	PositionList checkList = attackPiece->DeterminePattern(checkPos, p1);
 
 	Position pos1 = checkPos, pos2 = checkList[0];
-	int xp1 = pos1.first,
-		yp1 = pos1.second,
-		xp2 = pos2.first,
-		yp2 = pos2.second;
+	int x1Check = pos1.first,
+		y1Check = pos1.second,
+		x2Check = pos2.first,
+		y2Check = pos2.second;
 
-	int d1 = xp2 - xp1;
-	int d2 = yp2 - yp1;
+	int d1 = x2Check - x1Check;
+	int d2 = y2Check - y1Check;
 
-	int x1 = p1.first,
-		y1 = p1.second,
-		x2 = p2.first,
-		y2 = p2.second;
+	int x1King = p1.first,
+		y1King = p1.second,
+		x2King = p2.first,
+		y2King = p2.second;
 
-	int d3 = x2 - x1;
-	int d4 = y2 - y1;
+	int d3 = x2King - x1King;
+	int d4 = y2King - y1King;
 
 	return ((d1 == d3) && (d2 == d4));
 }
 
 bool Board::IsCheckMate(Position p, EColor color) const
 {
-	if (!m_board[p.first][p.second])
+	PiecesPtr King = m_board[p.first][p.second];
+
+	if (!King)
 	{
 		return false;
 	}
@@ -163,14 +176,7 @@ bool Board::IsCheckMate(Position p, EColor color) const
 	{
 		if (!IsCheck(currMoves[i], color))
 		{
-			EColor notColor;
-
-			if (color == EColor::Black)
-				notColor = EColor::White;
-			else
-				notColor = EColor::Black;
-
-			if (!IsDefended(currMoves[i], notColor))
+			if (!IsDefended(currMoves[i], OppositeColor(color)))
 			{
 				if (!IsSameWay(p, currMoves[i], color))
 				{
@@ -205,11 +211,6 @@ bool Board::IsDraw() const
 	if (remaining.size() <= 4)
 	{
 		if (Find(remaining, EPieceType::Rook) == 1)
-		{
-			return true;
-		}
-
-		if (Find(remaining, EPieceType::Pawn) == 1)
 		{
 			return true;
 		}
@@ -257,31 +258,31 @@ bool Board::Stalemate(EColor color) const
 
 Position Board::FindCheck(Position p, EColor color) const
 {
-	PositionList currList;
-	Position checkPos;
+	PositionList currMoves;
 
 	for (int i = 0; i < 8; i++)
 	{
 		for (int j = 0; j < 8; j++)
 		{
-			if ((!m_board[i][j]) || (m_board[i][j]->GetColor() == color))
+			PiecesPtr currPiece = m_board[i][j];
+
+			if ((!currPiece) || (currPiece->GetColor() == color))
 			{
 				continue;
 			}
 
-			currList = GetMoves({ i,j });
+			currMoves = GetMoves({ i,j });
 
-			for (int k = 0; k < currList.size(); k++)
+			auto it = std::find(currMoves.begin(), currMoves.end(), p);
+
+			if (it != currMoves.end())
 			{
-				if (currList[k] == p)
-				{
-					return { i, j };
-				}
+				return { i, j };
 			}
 		}
 	}
 
-	return {};
+	return {-1, -1};
 }
 
 Position Board::FindKing(EColor color) const
@@ -289,8 +290,14 @@ Position Board::FindKing(EColor color) const
 	for (int i = 0; i < 8; i++)
 	{
 		for (int j = 0; j < 8; j++)
-			if (m_board[i][j] && (m_board[i][j]->GetType() == EPieceType::King) && (m_board[i][j]->GetColor() == color))
+		{
+			PiecesPtr currPiece = m_board[i][j];
+
+			if (currPiece && (currPiece->GetType() == EPieceType::King) && (currPiece->GetColor() == color))
+			{
 				return { i, j };
+			}
+		}
 	}
 	return { -1, -1 };
 }
@@ -303,9 +310,11 @@ PieceVector Board::RemainingPieces() const
 	{
 		for (int j = 0; j < 8; j++)
 		{
-			if (m_board[i][j])
+			PiecesPtr currPiece = m_board[i][j];
+
+			if (currPiece)
 			{
-				newList.push_back(m_board[i][j]);
+				newList.push_back(currPiece);
 			}
 		}
 	}
@@ -315,6 +324,7 @@ PieceVector Board::RemainingPieces() const
 void Board::PromoteTo(const std::string& string, Position p, EColor color) 
 {
 	Position prevPos;
+
 	if (p.first == 0)
 	{
 		prevPos.first = p.first + 1;
@@ -367,7 +377,7 @@ void Board::Move(Position p1, Position p2)
 
 	if (!currPiece->IsMoveRegular(p1, p2))
 	{
-		if (!currPiece->Is(EPieceType::Pawn) || (currPiece->Is(EPieceType::Pawn) && (!PawnGoesDiagonally(p1, p2) || (PawnGoesDiagonally(p1, p2) && (!nextPiece)))))
+		if (!currPiece->Is(EPieceType::Pawn) || PawnException(p1, p2))
 		{
 			throw MoveException("The move cannot be done by the piece!");
 		}
@@ -414,7 +424,9 @@ bool Board::OnlyKing(EColor color) const
 	{
 		for (int j = 0; j < 8; j++)
 		{
-			if (m_board[i][j] && m_board[i][j]->GetColor() == color && !m_board[i][j]->Is(EPieceType::King))
+			PiecesPtr currPiece = m_board[i][j];
+
+			if (currPiece && currPiece->GetColor() == color && !currPiece->Is(EPieceType::King))
 			{
 				return false;
 			}
@@ -432,25 +444,29 @@ bool Board::FindHelp(Position p, EColor color) const
 	PiecesPtr attackPiece;
 	Position attackPos;
 
-	int x = p.first, y = p.second;
+	int x = p.first,
+		y = p.second;
 
 	for (int i = 0; i < 8; i++)
 	{
 		for (int j = 0; j < 8; j++)
 		{
-			if (!m_board[i][j] || (m_board[i][j]->GetColor() == color))
+			PiecesPtr currPiece = m_board[i][j];
+
+			if (!currPiece || (currPiece->GetColor() == color))
 			{
 				continue;
 			}
 
 			attackMoves = GetMoves({ i, j });
-			
-			for (int k = 0; k < attackMoves.size(); k++)
-				if (attackMoves[k] == p)
-				{
-					attackPiece = m_board[i][j];
-					attackPos = { i, j };
-				}
+
+			auto it = std::find(attackMoves.begin(), attackMoves.end(), p);
+
+			if (it != attackMoves.end())
+			{
+				attackPiece = currPiece;
+				attackPos = { i, j };
+			}
 		}
 	}
 
@@ -463,24 +479,25 @@ bool Board::FindHelp(Position p, EColor color) const
 		{
 			for (int j = 0; j < 8; j++)
 			{
-				if (!m_board[i][j] || (m_board[i][j]->GetColor() != color) || (m_board[i][j]->GetType() == EPieceType::King))
+				PiecesPtr currPiece = m_board[i][j];
+
+				if (!currPiece || (currPiece->GetColor() != color) || (currPiece->GetType() == EPieceType::King))
 				{
 					continue;
 				}
 
 				helpMoves = GetMoves({ i, j });
 
-				for (int k = 0; k < helpMoves.size(); k++)
-				{
-					if (currPos == helpMoves[k])
-					{
-						if (m_board[i][j]->GetType() == EPieceType::Pawn && !m_board[helpMoves[k].first][helpMoves[k].second])
-						{
-							break;
-						}
+				auto it = std::find(helpMoves.begin(), helpMoves.end(), currPos);
 
-						return true;
+				if (it != helpMoves.end())
+				{
+					if (currPiece->GetType() == EPieceType::Pawn && !m_board[(*it).first][(*it).second])
+					{
+						break;
 					}
+
+					return true;
 				}
 			}
 		}
@@ -491,7 +508,8 @@ bool Board::FindHelp(Position p, EColor color) const
 
 bool Board::KillCheck(Position p, EColor color) const
 {
-	int x = p.first, y = p.second;
+	int x = p.first,
+		y = p.second;
 
 	Position toKill;
 
@@ -499,48 +517,52 @@ bool Board::KillCheck(Position p, EColor color) const
 	{
 		for (int j = 0; j < 8; j++)
 		{
-			if (m_board[i][j] && (m_board[i][j]->GetColor() != color))
+			PiecesPtr currPiece = m_board[i][j];
+
+			if (currPiece && (currPiece->GetColor() != color))
 			{
 				PositionList moves = GetMoves({ i, j });
 
-				for (int k = 0; k < moves.size(); k++)
+				auto it = std::find(moves.begin(), moves.end(), p);
+
+				if (it != moves.end())
 				{
-					if (moves[k] == p)
-					{
-						toKill = { i, j };
-						break;
-					}
+					toKill = { i, j };
+					break;
 				}
 			}
 		}
 	}
 
 	int killX = toKill.first, killY = toKill.second;
+
 	EColor notColor = m_board[killX][killY]->GetColor();
 
 	for (int i = 0; i < 8; i++)
 	{
 		for (int j = 0; j < 8; j++)
 		{
-			if (m_board[i][j] && (m_board[i][j]->GetColor() != m_board[killX][killY]->GetColor()))
+			PiecesPtr currPiece = m_board[i][j];
+
+			if (currPiece && (currPiece->GetColor() != m_board[killX][killY]->GetColor()))
 			{
 				PositionList moves = GetMoves({ i, j });
-				for (int k = 0; k < moves.size(); k++)
+
+				auto it = std::find(moves.begin(), moves.end(), toKill);
+
+				if (it != moves.end())
 				{
-					if (moves[k] == toKill)
+					if (currPiece->GetType() == EPieceType::King && IsDefended(toKill, notColor))
 					{
-						if (m_board[i][j]->GetType() == EPieceType::King && IsDefended(toKill, notColor))
-						{
-							break;
-						}
-
-						if (m_board[i][j]->GetType() == EPieceType::Pawn && !PawnGoesDiagonally({ i,j }, moves[0]))
-						{
-							break;
-						}
-
-						return true;
+						break;
 					}
+
+					if (currPiece->GetType() == EPieceType::Pawn && !PawnGoesDiagonally({ i,j }, moves[0]))
+					{
+						break;
+					}
+
+					return true;
 				}
 			}
 		}
@@ -556,19 +578,20 @@ bool Board::IsDefended(Position p, EColor color) const
 	{
 		for (int j = 0; j < 8; j++)
 		{
-			if (!m_board[i][j] || (m_board[i][j]->GetColor() != color))
+			PiecesPtr currPiece = m_board[i][j];
+
+			if (!currPiece || (currPiece->GetColor() != color))
 			{
 				continue;
 			}
 
 			currList = DefendedPositions({ i, j }, color);
 
-			for (int k = 0; k < currList.size(); k++)
+			auto it = std::find(currList.begin(), currList.end(), p);
+
+			if (it != currList.end())
 			{
-				if (currList[k] == p)
-				{
-					return true;
-				}
+				return true;
 			}
 		}
 	}
@@ -585,12 +608,18 @@ bool Board::SameBishop() const
 	{
 		for (int j = 0; j < 8; j++)
 		{
-			if (m_board[i][j] && m_board[i][j]->Is(EPieceType::Bishop))
+			PiecesPtr currPiece = m_board[i][j];
+
+			if (currPiece && currPiece->Is(EPieceType::Bishop))
 			{
 				if (!firstBishop)
+				{
 					firstBishop = GetPiece({ i, j }).get();
+				}
 				else
+				{
 					secondBishop = GetPiece({ i, j }).get();
+				}
 			}
 		}
 	}
@@ -598,16 +627,24 @@ bool Board::SameBishop() const
 	return (firstBishop && secondBishop && firstBishop->GetColor() == secondBishop->GetColor());
 }
 
+bool Board::PawnException(Position p1, Position p2) const
+{
+	PiecesPtr currPiece = m_board[p1.first][p1.second];
+	PiecesPtr nextPiece = m_board[p2.first][p2.second];
+
+	return (currPiece->Is(EPieceType::Pawn) && (!PawnGoesDiagonally(p1, p2) || (PawnGoesDiagonally(p1, p2) && (!nextPiece))));
+}
+
 PositionList Board::DefendedPositions(Position p, EColor color) const
 {
-	PositionList newList = {};
-
-	if (!m_board[p.first][p.second])
+	PositionList newList;
+	PiecesPtr initialPiece = m_board[p.first][p.second];
+	if (!initialPiece)
 	{
 		return {};
 	}
 
-	PositionMatrix m = m_board[p.first][p.second]->AllMoves(p);
+	PositionMatrix m = initialPiece->AllMoves(p);
 
 	for (int i = 0; i < m.size(); i++)
 	{
@@ -616,7 +653,9 @@ PositionList Board::DefendedPositions(Position p, EColor color) const
 			int currX = m[i][j].first;
 			int currY = m[i][j].second;
 
-			if (!m_board[currX][currY] || (m_board[currX][currY]->GetColor() != color))
+			PiecesPtr currPiece = m_board[currX][currY];
+
+			if (!currPiece || (currPiece->GetColor() != color))
 			{
 				continue;
 			}

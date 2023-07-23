@@ -48,11 +48,19 @@ private:
 	bool KillCheck(Position p, EColor color) const;
 	bool IsDefended(Position p, EColor color) const;
 	bool SameBishop()const;
+	bool PawnException(Position p1, Position p2)const;
 	
 	PositionList DefendedPositions(Position p, EColor color) const;
 	PositionList GetMoves(Position p) const;
 	
 	int Find(PieceVector v, EPieceType Piece) const;
+
+	static EColor OppositeColor(EColor color)
+	{
+		if (color == EColor::White)
+			return EColor::Black;
+		return EColor::White;
+	}
 
 
 private:
