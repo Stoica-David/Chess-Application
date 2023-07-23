@@ -152,6 +152,10 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="ConsoleMain.cpp" />
+    <ClCompile Include="MainMethods.cpp" />
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="MainMethods.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
