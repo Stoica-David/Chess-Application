@@ -408,6 +408,7 @@ void Board::Move(Position p1, Position p2)
 	{
 		(*this)[p2] = currPiece;
 		(*this)[p1] = {};
+		(*this)[p2]->SetHasMoved(true);
 	}
 	else
 	{
@@ -420,6 +421,8 @@ void Board::Move(Position p1, Position p2)
 	{
 		(*this)[p1] = currPiece;
 		(*this)[p2] = nextPiece;
+
+		currPiece->SetHasMoved(false);
 
 		throw StillCheckException("The king is still in check!");
 	}
@@ -667,6 +670,11 @@ bool Board::IsCastle(Position p1, Position p2)
 		return false;
 	}
 
+	if (initialPiece->HasMoved() || finalPiece->HasMoved())
+	{
+		return false;
+	}
+
 	if (initialPiece->GetColor() != finalPiece->GetColor())
 	{
 		return false;
@@ -723,6 +731,10 @@ void Board::Castle(Position p1, Position p2)
 
 	m_board[p2.first][newSecondKing] = currPiece;
 	m_board[p2.first][newSecondRook] = nextPiece;
+
+	currPiece->SetHasMoved(true);
+	nextPiece->SetHasMoved(true);
+
 	(*this)[p1] = {};
 	(*this)[p2] = {};
 }
