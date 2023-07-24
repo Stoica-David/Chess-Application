@@ -245,15 +245,12 @@ bool Board::Stalemate(EColor color) const
 
 	PositionList kingMoves = GetMoves(kingPos);
 
-	for (const auto& currMove : kingMoves)
+	auto NotInCheck = [&](const Position& p)
 	{
-		if (!IsCheck(currMove, color))
-		{
-			return false;
-		}
-	}
+		return !IsCheck(p, color);
+	};
 
-	return true;
+	return std::find_if(kingMoves.begin(), kingMoves.end(), NotInCheck) == kingMoves.end();
 }
 
 Position Board::FindCheck(Position p, EColor color) const
@@ -700,7 +697,10 @@ PositionList Board::GetMoves(Position p) const
 				break;
 			}
 
-			newList.push_back({ x , y });
+			if (!initialPiece->Is(EPieceType::Pawn) || (!PawnGoesDiagonally(p, { x,y })))
+			{
+				newList.push_back({ x , y });
+			}
 		}
 	}
 

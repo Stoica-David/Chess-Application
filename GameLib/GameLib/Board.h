@@ -39,6 +39,7 @@ public:
 	void UpdatePiece(EPieceType type, Position p, EColor color);
 	
 	void Move(Position p1, Position p2);
+	PositionList GetMoves(Position p) const;
 	
 private:
 	static bool PawnGoesDiagonally(Position p1, Position p2);
@@ -51,7 +52,6 @@ private:
 	bool PawnException(Position p1, Position p2)const;
 	
 	PositionList DefendedPositions(Position p, EColor color) const;
-	PositionList GetMoves(Position p) const;
 	
 	int Find(PieceVector v, EPieceType Piece) const;
 

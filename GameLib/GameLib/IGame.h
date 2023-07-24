@@ -27,5 +27,7 @@ public:
 	virtual bool ChoosePiece()const = 0;
 	virtual void PromoteTo(const std::string&, Position) = 0;
 
+	virtual PositionList GetMoves(Position p)const = 0;
+
 	virtual ~IGame() = default;
 };

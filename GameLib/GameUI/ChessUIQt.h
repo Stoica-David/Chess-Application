@@ -8,9 +8,16 @@
 #include <QLabel>
 #include <QListWidget>
 
+#include "IGame.h"
+
+using PairMatrix = std::array<std::array<std::pair<PieceType, PieceColor>, 8>, 8>;
+
 class ChessUIQt : public QMainWindow
 {
     Q_OBJECT
+
+private:
+    PairMatrix GetBoard() const;
 
 public:
     ChessUIQt(QWidget *parent = nullptr);
@@ -30,7 +37,7 @@ public:
     void HighlightPossibleMoves(const std::vector<std::pair<int, int>>& possibleMoves);
     //Modify or delete
     void StartGame();
-    void ShowPromoteOptions();
+    void ShowPromoteOptions(const Position&);
 
 public slots:
     void OnButtonClicked(const std::pair<int, int>& position);
@@ -50,8 +57,10 @@ private:
     std::array<std::array<GridButton*, 8>, 8> m_grid;
     std::optional<std::pair<int, int>> m_selectedCell;
     QLabel* m_MessageLabel;
+    QLabel* m_ExceptionLabel;
     QListWidget* m_MovesList;
     QLabel* m_BlackTimer, *m_WhiteTimer;
+    IGamePtr m_game;
 };
 
 //TODO REMOVE THIS AFTER IMPLEMENTATION
@@ -62,26 +71,26 @@ public:
         for (int rank = 0; rank < 8; ++rank) {
             for (int file = 0; file < 8; ++file) {
                 if (rank == 0 || rank == 7) {
-                    PieceColor color = (rank == 0) ? PieceColor::black : PieceColor::white;
+                    PieceColor color = (rank == 0) ? PieceColor::Black : PieceColor::White;
                     PieceType type;
                     switch (file) {
                     case 0:
                     case 7:
-                        type = PieceType::rook;
+                        type = PieceType::Rook;
                         break;
                     case 1:
                     case 6:
-                        type = PieceType::knight;
+                        type = PieceType::Knight;
                         break;
                     case 2:
                     case 5:
-                        type = PieceType::bishop;
+                        type = PieceType::Bishop;
                         break;
                     case 3:
-                        type = PieceType::queen;
+                        type = PieceType::Queen;
                         break;
                     case 4:
-                        type = PieceType::king;
+                        type = PieceType::King;
                         break;
                     default:
                         type = PieceType::none;
@@ -91,8 +100,8 @@ public:
                 }
                 else if (rank == 1 || rank == 6) {
                     // Set up the pawns row with black and white pawns respectively
-                    PieceColor color = (rank == 1) ? PieceColor::black : PieceColor::white;
-                    board[rank][file] = std::make_pair(PieceType::pawn, color);
+                    PieceColor color = (rank == 1) ? PieceColor::Black : PieceColor::White;
+                    board[rank][file] = std::make_pair(PieceType::Pawn, color);
                 }
                 else {
                     // Empty squares for the rest of the board

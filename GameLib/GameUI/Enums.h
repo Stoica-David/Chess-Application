@@ -1,8 +1,8 @@
 #pragma once
 enum class PieceType {
-	none, king, rook, bishop, queen, knight, pawn
+	none, King, Rook, Bishop, Queen, Knight, Pawn
 };
 
 enum class PieceColor {
-	none, black, white
+	none, Black, White
 };

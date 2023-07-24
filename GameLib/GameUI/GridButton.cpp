@@ -15,10 +15,10 @@ void GridButton::updatePiece()
 	case PieceColor::none:
 		imagePath += "empty";
 		break;
-	case PieceColor::black:
+	case PieceColor::Black:
 		imagePath += "b";
 		break;
-	case PieceColor::white:
+	case PieceColor::White:
 		imagePath += "w";
 		break;
 	}
@@ -27,22 +27,22 @@ void GridButton::updatePiece()
 	{
 	case PieceType::none:
 		break;
-	case PieceType::king:
+	case PieceType::King:
 		imagePath += "k";
 		break;
-	case PieceType::rook:
+	case PieceType::Rook:
 		imagePath += "r";
 		break;
-	case PieceType::bishop:
+	case PieceType::Bishop:
 		imagePath += "b";
 		break;
-	case PieceType::queen:
+	case PieceType::Queen:
 		imagePath += "q";
 		break;
-	case PieceType::knight:
+	case PieceType::Knight:
 		imagePath += "h";
 		break;
-	case PieceType::pawn:
+	case PieceType::Pawn:
 		imagePath += "p";
 		break;
 	default:

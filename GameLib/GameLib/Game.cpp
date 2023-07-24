@@ -246,3 +246,8 @@ bool Game::Stalemate() const
 	return (m_gameboard.Stalemate(EColor::White) || m_gameboard.Stalemate(EColor::Black));
 }
 
+PositionList Game::GetMoves(Position p) const
+{
+	return m_gameboard.GetMoves(p);
+}
+

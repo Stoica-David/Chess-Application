@@ -38,6 +38,8 @@ public:
 	void UpdateState(EState);
 	bool Stalemate() const;
 
+	PositionList GetMoves(Position p)const override;
+
 private:
 	void SwitchTurn();
 
