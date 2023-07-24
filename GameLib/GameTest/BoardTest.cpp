@@ -101,10 +101,18 @@ TEST(VerifyTheWayTest, KnightTest)
 
 TEST(IsCheckTest, WBishopBoard)
 {
-	PiecePairVector m1 = {
-		{ {2,5}, Piece::Produce(EPieceType::King, EColor::White)},
-		{ {0,7}, Piece::Produce(EPieceType::Bishop, EColor::White)} };
-	Board b(m1);
+	CharMatrix m = {
+	{{'-', '-', '-', '-', '-', '-', '-', 'B'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', 'K', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'}}
+	};
+
+	Board b(m);
 
 	EXPECT_EQ(b.IsCheck({ 2,5 }, EColor::White), false);
 	EXPECT_EQ(b.IsCheck({ 1,6 }, EColor::Black), true);
@@ -115,30 +123,58 @@ TEST(IsCheckTest, WBishopBoard)
 
 TEST(IsCheckTest, BBishopBoard)
 {
-	PiecePairVector m1 = {
-		{ {2,5}, Piece::Produce(EPieceType::King,  EColor::White)},
-		{ {7,0}, Piece::Produce(EPieceType::Bishop, EColor::Black)} };
-	Board b(m1);
+
+	CharMatrix m = {
+	{{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', 'K', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'b', '-', '-', '-', '-', '-', '-', '-'}}
+	};
+
+	Board b(m);
 
 	EXPECT_EQ(b.IsCheck({ 2,5 }, EColor::White), true);
 }
 
 TEST(IsCheckTest, WRookBoard)
 {
-	PiecePairVector m1 = {
-		{ {2,5}, Piece::Produce(EPieceType::King, EColor::White)},
-		{ {2,7}, Piece::Produce(EPieceType::Rook, EColor::White)} };
-	Board b(m1);
+
+	CharMatrix m = {
+	{{'-', '-', '-', '-', '-', 'K', '-', 'R'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'}}
+	};
+
+
+	Board b(m);
 
 	EXPECT_EQ(b.IsCheck({ 2,5 }, EColor::White), false);
 }
 
 TEST(IsCheckTest, BRookBoard)
 {
-	PiecePairVector m1 = {
-		{ {2,5}, Piece::Produce(EPieceType::King, EColor::White)},
-		{ {2,7}, Piece::Produce(EPieceType::Rook, EColor::Black)} };
-	Board b(m1);
+	CharMatrix m = {
+	{{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', 'K', '-', 'r'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'}}
+	};
+
+
+	Board b(m);
 
 	EXPECT_EQ(b.IsCheck({ 2,5 }, EColor::White), true);
 	EXPECT_EQ(b.IsCheck({ 5,6 }, EColor::Black), false);
@@ -150,110 +186,192 @@ TEST(IsCheckTest, BRookBoard)
 
 TEST(IsCheckTest, WQueenBoard)
 {
-	PiecePairVector m1 = {
-		{ {2,5}, Piece::Produce(EPieceType::King, EColor::Black)},
-		{ {7,0}, Piece::Produce(EPieceType::Queen, EColor::White)} };
-	Board b(m1);
+
+	CharMatrix m = {
+	{{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', 'k', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'Q', '-', '-', '-', '-', '-', '-', '-'}}
+	};
+
+	Board b(m);
 
 	EXPECT_EQ(b.IsCheck({ 2,5 }, EColor::Black), true);
 }
 
 TEST(IsCheckTest, BQueenBoard)
 {
-	PiecePairVector m1 = {
-		{ {2,5}, Piece::Produce(EPieceType::King, EColor::White)},
-		{ {7,0}, Piece::Produce(EPieceType::Queen, EColor::Black)} };
-	Board b(m1);
+
+	CharMatrix m = {
+	{{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', 'K', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'q', '-', '-', '-', '-', '-', '-', '-'}}
+	};
+
+	Board b(m);
 
 	EXPECT_EQ(b.IsCheck({ 2,5 }, EColor::White), true);
 }
 
 TEST(IsCheckTest, WPawnBoard)
 {
-	PiecePairVector m1 = {
-		{ {2,5}, Piece::Produce(EPieceType::King, EColor::Black)},
-		{ {3,4}, Piece::Produce(EPieceType::Pawn, EColor::White)} };
-	Board b(m1);
+
+	CharMatrix m = {
+	{{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', 'k', '-', '-'},
+	{'-', '-', '-', '-', 'P', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'}}
+	};
+
+
+	Board b(m);
 
 	EXPECT_EQ(b.IsCheck({ 2,5 }, EColor::Black), true);
 }
 
 TEST(IsCheckTest, BPawnBoard)
 {
-	PiecePairVector m1 = {
-		{ {2,5}, Piece::Produce(EPieceType::King, EColor::Black)},
-		{ {3,4}, Piece::Produce(EPieceType::Pawn, EColor::Black)} };
-	Board b(m1);
+
+	CharMatrix m = {
+	{{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', 'k', '-', '-'},
+	{'-', '-', '-', '-', 'p', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'}}
+	};
+
+	Board b(m);
 
 	EXPECT_EQ(b.IsCheck({ 2,5 }, EColor::Black), false);
 }
 
 TEST(IsCheckTest, WKnightBoard)
 {
-	PiecePairVector m1 = {
-		{ {2,5}, Piece::Produce(EPieceType::King, EColor::Black)},
-		{ {1,3}, Piece::Produce(EPieceType::Knight, EColor::White)} };
-	Board b(m1);
+
+	CharMatrix m = {
+	{{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', 'H', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', 'k', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'}}
+	};
+
+
+	Board b(m);
 
 	EXPECT_EQ(b.IsCheck({ 2,5 }, EColor::Black), true);
 }
 
 TEST(IsCheckMateTest, BishopBoard)
 {
+	CharMatrix m = {
+	{{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', 'K', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'B', '-', '-', '-', '-', '-', '-', '-'}}
+	};
 
-	PiecePairVector m1 = {
-		{ {2,5},  Piece::Produce(EPieceType::King, EColor::White)} ,
-		{ {7,0},  Piece::Produce(EPieceType::Bishop, EColor::Black)} };
-	Board b(m1);
+	Board b(m);
 
 	EXPECT_EQ(b.IsCheckMate(EColor::White), false);
 }
 
 TEST(IsCheckMateTest, MultipleBishopBoard)
 {
-	PiecePairVector m1 = {
-		{ {7,2}, Piece::Produce(EPieceType::King, EColor::White)},
-		{ {6,0}, Piece::Produce(EPieceType::Bishop, EColor::Black)},
-		{ {5,0}, Piece::Produce(EPieceType::Bishop, EColor::Black)},
-		{ {4,0}, Piece::Produce(EPieceType::Bishop, EColor::Black)},
-		{ {3,0}, Piece::Produce(EPieceType::Bishop, EColor::Black)} };
-	Board b(m1);
+
+	CharMatrix m = {
+	{{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'b', '-', '-', '-', '-', '-', '-', '-'},
+	{'b', '-', '-', '-', '-', '-', '-', '-'},
+	{'b', '-', '-', '-', '-', '-', '-', '-'},
+	{'b', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', 'K', '-', '-', '-', '-', '-'}}
+	};
+
+
+	Board b(m);
 
 	EXPECT_EQ(b.IsCheckMate(EColor::White), true);
 }
 
 TEST(IsCheckMateTest, DRookMate)
 {
-	PiecePairVector m1 = {
-		{ {0,0}, Piece::Produce(EPieceType::King, EColor::White)},
-		{ {0,6}, Piece::Produce(EPieceType::Rook, EColor::Black)},
-		{ {1,7}, Piece::Produce(EPieceType::Rook, EColor::Black)}
+	CharMatrix m = {
+	{{'K', '-', '-', '-', '-', '-', 'r', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', 'r'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'}}
 	};
-	Board b(m1);
+
+
+	Board b(m);
 
 	EXPECT_EQ(b.IsCheckMate(EColor::White), true);
 }
 
 TEST(IsCheckMateTest, KillCheckRook)
 {
-	PiecePairVector m1 = {
-		{{0, 0}, Piece::Produce(EPieceType::King, EColor::White)},
-		{{7,7}, Piece::Produce(EPieceType::Bishop, EColor::Black)},
-		{{0,7}, Piece::Produce(EPieceType::Rook, EColor::Black)}
+
+	CharMatrix m = {
+	{{'K', '-', '-', '-', '-', '-', '-', 'R'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', 'B'}}
 	};
-	Board b(m1);
+
+
+	Board b(m);
 
 	EXPECT_EQ(b.IsCheckMate(EColor::White), false);
 }
 
 TEST(IsCheckMateTest, KillCheckPawn)
 {
-	PiecePairVector m1 = {
-		{{1, 1}, Piece::Produce(EPieceType::King, EColor::White)},
-		{{0,7}, Piece::Produce(EPieceType::Rook, EColor::White)},
-		{{0,0}, Piece::Produce(EPieceType::Pawn, EColor::Black)}
+	CharMatrix m = {
+	{{'p', '-', '-', '-', '-', '-', '-', 'R'},
+	{'-', 'K', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'}}
 	};
-	Board b(m1);
+
+	Board b(m);
 
 	EXPECT_EQ(b.IsCheck({ 1,1 }, EColor::White), true);
 	EXPECT_EQ(b.IsCheckMate(EColor::White), false);
@@ -261,130 +379,176 @@ TEST(IsCheckMateTest, KillCheckPawn)
 
 TEST(IsCheckMateTest, CheckmateVariation1)
 {
-	PiecePairVector m1 = {
-		{{0, 7}, Piece::Produce(EPieceType::King, EColor::White)},
-		{{0, 5}, Piece::Produce(EPieceType::Bishop, EColor::Black)},
-		{{1, 6}, Piece::Produce(EPieceType::Queen, EColor::Black)}
+
+	CharMatrix m = {
+	{{'-', '-', '-', '-', '-', 'b', '-', 'K'},
+	{'-', '-', '-', '-', '-', '-', 'q', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'}}
 	};
 
-	Board b(m1);
+
+	Board b(m);
 
 	EXPECT_EQ(b.IsCheckMate(EColor::White), true);
 }
 
 TEST(IsCheckMateTest, CheckmateVariation2)
 {
-	PiecePairVector m1 = {
-	{{0, 0}, Piece::Produce(EPieceType::King, EColor::White)},
-	{{0, 2}, Piece::Produce(EPieceType::King, EColor::Black)},
-	{{7, 0}, Piece::Produce(EPieceType::Rook, EColor::Black)},
+	CharMatrix m = {
+	{{'K', '-', 'k', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'r', '-', '-', '-', '-', '-', '-', '-'}}
 	};
 
-	Board b(m1);
+	Board b(m);
 
 	EXPECT_EQ(b.IsCheckMate(EColor::White), true);
 }
 
 TEST(IsCheckMateTest, CheckmateVariation3)
 {
-	PiecePairVector m1 = {
-		{{0, 7}, Piece::Produce(EPieceType::King, EColor::White)},
-		{{0, 6}, Piece::Produce(EPieceType::Rook, EColor::Black)},
-		{{2, 5}, Piece::Produce(EPieceType::Knight, EColor::Black)},
+
+	CharMatrix m = {
+	{{'-', '-', '-', '-', '-', '-', 'r', 'K'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', 'h', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'}}
 	};
 
-	Board b(m1);
+
+	Board b(m);
 
 	EXPECT_EQ(b.IsCheckMate(EColor::White), true);
 }
 
 TEST(IsCheckMateTest, CheckmateVariation4)
 {
-	PiecePairVector m1 = {
-	{{7, 4}, Piece::Produce(EPieceType::King, EColor::White)},
-	{{6, 4}, Piece::Produce(EPieceType::Pawn, EColor::White)},
-	{{6, 3}, Piece::Produce(EPieceType::Pawn, EColor::White)},
-	{{7, 3}, Piece::Produce(EPieceType::Queen, EColor::White)},
-	{{7, 5}, Piece::Produce(EPieceType::Bishop, EColor::White)},
-	{{4, 7}, Piece::Produce(EPieceType::Queen, EColor::Black)},
+
+	CharMatrix m = {
+	{{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', 'q'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', 'P', 'P', '-', '-', '-'},
+	{'-', '-', '-', 'Q', 'K', 'B', '-', '-'}}
 	};
 
-	Board b(m1);
+
+	Board b(m);
 
 	EXPECT_EQ(b.IsCheckMate(EColor::White), true);
 }
 
 TEST(IsCheckMateTest, CheckmateVariation5)
 {
-	PiecePairVector m1 = {
-	{{0, 2}, Piece::Produce(EPieceType::King, EColor::Black)},
-	{{0, 3}, Piece::Produce(EPieceType::Rook, EColor::Black)},
-	{{1, 3}, Piece::Produce(EPieceType::Pawn, EColor::Black)},
-	{{2, 0}, Piece::Produce(EPieceType::Bishop, EColor::White)},
-	{{6, 7}, Piece::Produce(EPieceType::Bishop, EColor::White)},
+
+	CharMatrix m = {
+	{{'-', '-', 'k', 'r', '-', '-', '-', '-'},
+	{'-', '-', '-', 'p', '-', '-', '-', '-'},
+	{'B', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', 'B'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'}}
 	};
 
-	Board b(m1);
+	Board b(m);
 
 	EXPECT_EQ(b.IsCheckMate(EColor::Black), true);
 }
 
 TEST(IsCheckMateTest, CheckmateVariation6)
 {
-	PiecePairVector m1 = {
-	{{1, 6}, Piece::Produce(EPieceType::King, EColor::Black)},
-	{{1, 7}, Piece::Produce(EPieceType::Pawn, EColor::Black)},
-	{{2, 7}, Piece::Produce(EPieceType::Rook, EColor::Black)},
-	{{2, 5}, Piece::Produce(EPieceType::Queen, EColor::White)},
-	{{7, 5}, Piece::Produce(EPieceType::Rook, EColor::White)},
-	{{0, 6}, Piece::Produce(EPieceType::Rook, EColor::Black)},
+	CharMatrix m = {
+	{{'-', '-', '-', '-', '-', '-', 'k', 'r'},
+	{'-', '-', '-', '-', '-', '-', 'p', '-'},
+	{'-', '-', '-', '-', '-', 'Q', '-', 'r'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', 'R', '-', '-'}}
 	};
 
-	Board b(m1);
+
+	Board b(m);
 
 	EXPECT_EQ(b.IsCheckMate(EColor::Black), false);
 }
 
 TEST(IsCheckMateTest, CheckmateVariation7)
 {
-	PiecePairVector m1 = {
-	{{1, 6}, Piece::Produce(EPieceType::King, EColor::Black)},
-	{{1, 7}, Piece::Produce(EPieceType::Pawn, EColor::Black)},
-	{{2, 5}, Piece::Produce(EPieceType::Queen, EColor::White)},
-	{{7, 5}, Piece::Produce(EPieceType::Rook, EColor::White)},
-	{{0, 6}, Piece::Produce(EPieceType::Rook, EColor::Black)},
+	CharMatrix m = {{
+	{'-', '-', '-', '-', '-', '-', 'p', 'r'},
+	{'-', '-', '-', '-', '-', '-', 'k', '-'},
+	{'-', '-', '-', '-', '-', 'Q', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', 'R', '-', '-'}}
 	};
 
-	Board b(m1);
 
-	EXPECT_EQ(b.IsCheckMate(EColor::Black), true);
+	Board b(m);
+
+	EXPECT_EQ(b.IsCheckMate(EColor::Black), false);
 }
 
 
 
 TEST(IsCheckMateTest, FindHelpTest1)
 {
-	PiecePairVector m1 = {
-		{{0, 7}, Piece::Produce(EPieceType::King, EColor::White)},
-		{{0, 6}, Piece::Produce(EPieceType::Queen, EColor::White)},
-		{{2, 5}, Piece::Produce(EPieceType::Bishop, EColor::Black)}
+	CharMatrix m = {
+	{{'-', '-', '-', '-', '-', '-', 'Q', 'K'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', 'b', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'}}
 	};
 
-	Board b(m1);
+
+	Board b(m);
 
 	EXPECT_EQ(b.IsCheckMate(EColor::White), false);
 }
 
 TEST(IsCheckMateTest, FindHelpTest2)
 {
-	PiecePairVector m1 = {
-		{{4, 0}, Piece::Produce(EPieceType::King, EColor::White)},
-		{{7, 0}, Piece::Produce(EPieceType::Rook, EColor::Black)},
-		{{7, 1}, Piece::Produce(EPieceType::Rook, EColor::Black)},
-		{{4, 1}, Piece::Produce(EPieceType::Bishop, EColor::White)},
+
+	CharMatrix m = {
+	{{'K', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'B', 'R', '-', '-', '-', '-', '-', '-'},
+	{'-', 'R', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'}}
 	};
 
-	Board b(m1);
+
+	Board b(m);
 
 	EXPECT_EQ(b.IsCheckMate(EColor::White), false);
 }
@@ -392,54 +556,77 @@ TEST(IsCheckMateTest, FindHelpTest2)
 
 TEST(IsCheckMateTest, FindHelpTest3)
 {
-	PiecePairVector m1 = {
-		{{0, 7}, Piece::Produce(EPieceType::King, EColor::White)},
-		{{0, 6}, Piece::Produce(EPieceType::Queen, EColor::White)},
-		{{2, 5}, Piece::Produce(EPieceType::Bishop, EColor::Black)}
+
+	CharMatrix m = {
+	{{'-', '-', '-', '-', '-', '-', 'Q', 'K'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', 'b', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'}}
 	};
 
-	Board b(m1);
+
+	Board b(m);
 
 	EXPECT_EQ(b.IsCheckMate(EColor::White), false);
 }
 
 TEST(IsCheckMateTest, IsSameWayTest)
 {
-	PiecePairVector m1 = {
-		{{4, 0}, Piece::Produce(EPieceType::King, EColor::White)},
-		{{7, 0}, Piece::Produce(EPieceType::Rook, EColor::Black)},
-		{{7, 1}, Piece::Produce(EPieceType::Rook, EColor::Black)},
-		{{4, 1}, Piece::Produce(EPieceType::Bishop, EColor::White)},
+
+	CharMatrix m = {
+	{{'K', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', 'b', '-', '-'},
+	{'-', '-', '-', '-', '-', 'R', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'}}
 	};
 
-	Board b(m1);
+
+	Board b(m);
 
 	EXPECT_EQ(b.IsCheckMate(EColor::White), false);
 }
 
-TEST(StalemateTest , Stalemate1)
+TEST(StalemateTest, Stalemate1)
 {
-	PiecePairVector m1 = {
-		{{0, 0}, Piece::Produce(EPieceType::King, EColor::White)},
-		{{1, 7}, Piece::Produce(EPieceType::Rook, EColor::Black)},
-		{{7, 1}, Piece::Produce(EPieceType::Rook, EColor::Black)},
-		{{7, 7}, Piece::Produce(EPieceType::King, EColor::Black)},
+
+	CharMatrix m = {
+	{{'K', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', 'r'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', 'r', '-', '-', '-', '-', '-', 'k'}}
 	};
 
-	Board b(m1);
+	Board b(m);
 
 	EXPECT_EQ(b.Stalemate(EColor::White), true);
 }
 
 TEST(PawnDiagonalTest, Diagonal1)
 {
-	PiecePairVector m1 = {
-	{{0, 0}, Piece::Produce(EPieceType::King, EColor::White)},
-	{{6, 1}, Piece::Produce(EPieceType::Pawn, EColor::Black)},
-	{{7, 7}, Piece::Produce(EPieceType::King, EColor::Black)},
+	CharMatrix m = {
+	{{'K', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', 'P', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', 'k'}}
 	};
 
-	Board b(m1);
+	Board b(m);
 
 	EXPECT_THROW(b.Move({ 6,1 }, { 3,1 }), MoveException);
 }

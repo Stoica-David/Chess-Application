@@ -28,16 +28,81 @@ Board::Board()
 	}
 }
 
-// For creating different type of boards for testing
-Board::Board(const PiecePairVector& v)
+Board::Board(const CharMatrix& matrix)
 {
-	for (const auto& curr : v)
+	for (int i = 0; i < 8; i++)
 	{
-		int x = curr.first.first;
-		int y = curr.first.second;
-		PiecesPtr currPiece = curr.second;
-
-		m_board[x][y] = currPiece;
+		for (int j = 0; j < 8; j++)
+		{
+			switch (matrix[i][j])
+			{
+			case 'P':
+			{
+				m_board[i][j] = Piece::Produce(EPieceType::Pawn, EColor::White);
+				break;
+			}
+			case 'p':
+			{
+				m_board[i][j] = Piece::Produce(EPieceType::Pawn, EColor::Black);
+				break;
+			}
+			case 'R':
+			{
+				m_board[i][j] = Piece::Produce(EPieceType::Rook, EColor::White);
+				break;
+			}
+			case 'r':
+			{
+				m_board[i][j] = Piece::Produce(EPieceType::Rook, EColor::Black);
+				break;
+			}
+			case 'B':
+			{
+				m_board[i][j] = Piece::Produce(EPieceType::Bishop, EColor::White);
+				break;
+			}
+			case 'b':
+			{
+				m_board[i][j] = Piece::Produce(EPieceType::Bishop, EColor::Black);
+				break;
+			}
+			case 'H':
+			{
+				m_board[i][j] = Piece::Produce(EPieceType::Knight, EColor::White);
+				break;
+			}
+			case 'h':
+			{
+				m_board[i][j] = Piece::Produce(EPieceType::Knight, EColor::Black);
+				break;
+			}
+			case 'Q':
+			{
+				m_board[i][j] = Piece::Produce(EPieceType::Queen, EColor::White);
+				break;
+			}
+			case 'q':
+			{
+				m_board[i][j] = Piece::Produce(EPieceType::Queen, EColor::Black);
+				break;
+			}
+			case 'K':
+			{
+				m_board[i][j] = Piece::Produce(EPieceType::King, EColor::White);
+				break;
+			}
+			case 'k':
+			{
+				m_board[i][j] = Piece::Produce(EPieceType::King, EColor::Black);
+				break;
+			}
+			case '-':
+			{
+				m_board[i][j] = {};
+				break;
+			}
+			}
+		}
 	}
 }
 
@@ -68,7 +133,7 @@ bool Board::IsOver(EColor color) const
 	return (IsCheckMate(color));
 }
 
-bool Board::VerifyTheWay(Position p1, Position p2) 
+bool Board::VerifyTheWay(Position p1, Position p2)
 {
 	if (IsCastle(p1, p2))
 	{
@@ -293,7 +358,7 @@ Position Board::FindCheck(Position p, EColor color) const
 		}
 	}
 
-	return {-1, -1};
+	return { -1, -1 };
 }
 
 Position Board::FindKing(EColor color) const
@@ -332,7 +397,7 @@ PieceVector Board::RemainingPieces() const
 	return newList;
 }
 
-void Board::PromoteTo(const std::string& string, Position p, EColor color) 
+void Board::PromoteTo(const std::string& string, Position p, EColor color)
 {
 	Position prevPos;
 
@@ -655,7 +720,7 @@ bool Board::PawnException(Position p1, Position p2) const
 	return (currPiece->Is(EPieceType::Pawn) && (!PawnGoesDiagonally(p1, p2) || (PawnGoesDiagonally(p1, p2) && (!nextPiece))));
 }
 
-bool Board::IsCastle(Position p1, Position p2) 
+bool Board::IsCastle(Position p1, Position p2)
 {
 	PiecesPtr initialPiece = m_board[p1.first][p1.second];
 	PiecesPtr finalPiece = m_board[p2.first][p2.second];
@@ -795,7 +860,7 @@ PositionList Board::GetMoves(Position p) const
 			{
 				if (currPiece->GetColor() != initialPiece->GetColor())
 				{
-					if (!initialPiece->Is(EPieceType::Pawn) || (PawnGoesDiagonally(p, {x,y})))
+					if (!initialPiece->Is(EPieceType::Pawn) || (PawnGoesDiagonally(p, { x,y })))
 					{
 						newList.push_back({ x , y });
 					}

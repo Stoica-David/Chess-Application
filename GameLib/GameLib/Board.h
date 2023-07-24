@@ -7,13 +7,14 @@
 #include<string>
 
 using ChessBoard = std::array<std::array<PiecesPtr, 8>, 8>;
+using CharMatrix = std::array<std::array<char, 8>, 8>;
 
 class Board
 {
 public:
 	// Constructors
 	Board();
-	Board(const PiecePairVector&);
+	Board(const CharMatrix&);
 
 	// Setters
 	PiecesPtr& operator[](Position p);

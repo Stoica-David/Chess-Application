@@ -135,72 +135,95 @@ TEST(MoveTest, BishopMove)
 
 TEST(IsOverTest, KingVKing)
 {
-	PiecePairVector v = {
-		{{4, 0}, Piece::Produce(EPieceType::King, EColor::White)},
-		{{1, 0}, Piece::Produce(EPieceType::King, EColor::Black)},
-	};
-	Board b(v);
 
-	Game g(b);
+	CharMatrix m = {
+	{{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'k', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'K', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'}}
+	};
+
+	Game g(m);
 
 	EXPECT_EQ(g.IsDraw(), true);
 }
 
 TEST(IsOverTest, KingVKingKnight)
 {
-	PiecePairVector v = {
-		{{4, 0}, Piece::Produce(EPieceType::King, EColor::White)},
-		{{1, 0}, Piece::Produce(EPieceType::King, EColor::Black)},
-		{{2, 7}, Piece::Produce(EPieceType::Knight, EColor::Black)},
-	};
-	Board b(v);
 
-	Game g(b);
+	CharMatrix m = {
+	{{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'k', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', 'H'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'K', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'} }
+	};
+
+	Game g(m);
 
 	EXPECT_EQ(g.IsDraw(), true);
 }
 
 TEST(IsOverTest, KingVKingBishop)
 {
-	PiecePairVector v = {
-		{{4, 0}, Piece::Produce(EPieceType::King, EColor::White)},
-		{{1, 0}, Piece::Produce(EPieceType::King, EColor::Black)},
-		{{2, 7}, Piece::Produce(EPieceType::Bishop, EColor::Black)},
-	};
-	Board b(v);
 
-	Game g(b);
+	CharMatrix m = {
+	{{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'k', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', 'B'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'K', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'}}
+	};
+
+	Game g(m);
 
 	EXPECT_EQ(g.IsDraw(), true);
 }
 
 TEST(IsOverTest, KingBishopVKingBishop)
 {
-	PiecePairVector v = {
-		{{4, 0}, Piece::Produce(EPieceType::King, EColor::White)},
-		{{1, 0}, Piece::Produce(EPieceType::King, EColor::Black)},
-		{{2, 7}, Piece::Produce(EPieceType::Bishop, EColor::Black)},
-		{{5, 2}, Piece::Produce(EPieceType::Bishop, EColor::White)},
-	};
-	Board b(v);
 
-	Game g(b);
+	CharMatrix m = {
+	{{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'k', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', 'b'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'K', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', 'B', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'}}
+	};
+
+	Game g(m);
 
 	EXPECT_EQ(g.IsDraw(), true);
 }
 
 TEST(IsOverTest, DRookCheckMate)
 {
-	PiecePairVector v = {
-		{{4, 0}, Piece::Produce(EPieceType::King, EColor::White)},
-		{{7, 0}, Piece::Produce(EPieceType::Rook, EColor::Black)},
-		{{7, 1}, Piece::Produce(EPieceType::Rook, EColor::Black)},
-		{{5, 0}, Piece::Produce(EPieceType::Rook, EColor::White)},
-		{{7, 7}, Piece::Produce(EPieceType::King, EColor::Black)}
-	};
-	Board b(v);
 
-	Game g(b);
+	CharMatrix m = {
+	{{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'K', '-', '-', '-', '-', '-', '-', '-'},
+	{'R', '-', '-', '-', '-', '-', '-', '-'},
+	{'R', 'R', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', 'k'}}
+	};
+
+	Game g(m);
 
 	EXPECT_EQ(g.IsOver(), false);
 }
@@ -286,64 +309,95 @@ TEST(CheckmateTest, CheckmateVariation8)
 
 TEST(CastleMoveTest, Castle1)
 {
-	PiecePairVector v = {
-		{{7, 0}, Piece::Produce(EPieceType::Rook, EColor::White)},
-		{{7, 7}, Piece::Produce(EPieceType::Rook, EColor::White)},
-		{{7, 4}, Piece::Produce(EPieceType::King, EColor::White)},
-		{{0, 4}, Piece::Produce(EPieceType::King, EColor::Black)}
-	};
+	CharMatrix m = { {
+	{'-', '-', '-', '-', 'k', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'R', '-', '-', '-', 'K', '-', '-', 'R'}
+	} };
 
-	Board b(v);
-
-	Game g(b);
+	Game g(m);
 
 	EXPECT_NO_THROW(g.Move({ 7,4 }, { 7,7 }));
 }
 
 TEST(CastleMoveTest, Castle2)
 {
-	PiecePairVector v = {
-		{{7, 0}, Piece::Produce(EPieceType::Rook, EColor::White)},
-		{{7, 7}, Piece::Produce(EPieceType::Rook, EColor::White)},
-		{{7, 4}, Piece::Produce(EPieceType::King, EColor::White)},
-		{{0, 4}, Piece::Produce(EPieceType::King, EColor::Black)}
-	};
+	CharMatrix m = { {
+	{'-', '-', '-', '-', 'k', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'R', '-', '-', '-', 'K', '-', '-', 'R'}
+	} };
 
-	Board b(v);
-
-	Game g(b);
+	Game g(m);
 
 	EXPECT_NO_THROW(g.Move({ 7,4 }, { 7,0 }));
 }
 
 TEST(CastleMoveTest, Castle3)
 {
-	PiecePairVector v = {
-		{{0, 0}, Piece::Produce(EPieceType::Rook, EColor::Black)},
-		{{0, 7}, Piece::Produce(EPieceType::Rook, EColor::Black)},
-		{{7, 4}, Piece::Produce(EPieceType::King, EColor::White)},
-		{{0, 4}, Piece::Produce(EPieceType::King, EColor::Black)}
-	};
+	CharMatrix m = { {
+	{'r', '-', '-', '-', 'k', '-', '-', 'r'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', 'K', '-', '-', '-'}
+	} };
 
-	Board b(v);
-
-	Game g(b, EColor::Black);
+	Game g(m, EColor::Black);
 
 	EXPECT_NO_THROW(g.Move({ 0,4 }, { 0,7 }));
 }
 
 TEST(CastleMoveTest, Castle4)
 {
-	PiecePairVector v = {
-		{{0, 0}, Piece::Produce(EPieceType::Rook, EColor::Black)},
-		{{0, 7}, Piece::Produce(EPieceType::Rook, EColor::Black)},
-		{{7, 4}, Piece::Produce(EPieceType::King, EColor::White)},
-		{{0, 4}, Piece::Produce(EPieceType::King, EColor::Black)}
-	};
+	CharMatrix m = { {
+	{'r', '-', '-', '-', 'k', '-', '-', 'r'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', 'K', '-', '-', '-'}
+	} };
 
-	Board b(v);
-
-	Game g(b, EColor::Black);
+	Game g(m, EColor::Black);
 
 	EXPECT_NO_THROW(g.Move({ 0,4 }, { 0,0 }));
+}
+
+TEST(CastleMoveTest, Castle5)
+{
+	CharMatrix m = { {
+	{'r', '-', '-', '-', 'k', '-', '-', 'r'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', 'K', '-', '-', '-'}
+	} };
+
+	Game g(m, EColor::Black);
+
+	g.Move({ 0,7 }, { 0,6 });
+	g.Move({ 7,4 }, { 7,3 });
+	g.Move({ 0,6 }, { 0,7 });
+	g.Move({ 7,3 }, { 7,4 });
+
+	EXPECT_THROW(g.Move({ 0,4 }, { 0,7 }), MoveException);
 }
