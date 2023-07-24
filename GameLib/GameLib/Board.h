@@ -27,7 +27,7 @@ public:
 
 	// Functions
 	bool IsOver(EColor color) const;
-	bool VerifyTheWay(Position p1, Position p2) ;
+	bool VerifyTheWay(Position p1, Position p2);
 	bool IsCheck(Position p, EColor color) const;
 	bool IsSameWay(Position p1, Position p2, EColor color) const;
 	bool IsCheckMate(EColor color) const;
@@ -40,12 +40,12 @@ public:
 
 	void PromoteTo(const std::string& string, Position p, EColor color);
 	void UpdatePiece(EPieceType type, Position p, EColor color);
-	
+
 	void Move(Position p1, Position p2);
 	PositionList GetMoves(Position p) const;
 
 	bool Check3Fold(const Array& array) const;
-	
+
 private:
 	static bool PawnGoesDiagonally(Position p1, Position p2);
 
@@ -58,9 +58,9 @@ private:
 	bool IsCastle(Position p1, Position p2);
 
 	void Castle(Position p1, Position p2);
-	
+
 	PositionList DefendedPositions(Position p, EColor color) const;
-	
+
 	int Find(PieceVector v, EPieceType Piece) const;
 
 	static EColor OppositeColor(EColor color)
@@ -75,6 +75,9 @@ private:
 	Array GetCurrentPosition() const;
 
 	void UpdatePrevPositions();
+
+	void InitializeWhite(char c, Position p);
+	void InitializeBlack(char c, Position p);
 
 
 private:

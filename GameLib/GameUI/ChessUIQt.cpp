@@ -240,7 +240,7 @@ void ChessUIQt::OnButtonClicked(const std::pair<int, int>& position)
 					m_game->DrawResponse(true);
 
 					QMessageBox::StandardButton drawMessage;
-					drawMessage = QMessageBox::information(this, "Draw!", " The players agreed to draw!");
+					drawMessage = QMessageBox::information(this, "Draw!", " The game concluded as a draw!");
 					m_MessageLabel->setText("Draw!");
 				}
 				else if (m_game->IsOver())

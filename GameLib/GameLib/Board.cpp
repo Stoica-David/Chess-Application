@@ -47,73 +47,17 @@ Board::Board(const CharMatrix& matrix)
 	{
 		for (int j = 0; j < 8; j++)
 		{
-			switch (matrix[i][j])
-			{
-			case 'P':
-			{
-				m_board[i][j] = Piece::Produce(EPieceType::Pawn, EColor::White);
-				break;
-			}
-			case 'p':
-			{
-				m_board[i][j] = Piece::Produce(EPieceType::Pawn, EColor::Black);
-				break;
-			}
-			case 'R':
-			{
-				m_board[i][j] = Piece::Produce(EPieceType::Rook, EColor::White);
-				break;
-			}
-			case 'r':
-			{
-				m_board[i][j] = Piece::Produce(EPieceType::Rook, EColor::Black);
-				break;
-			}
-			case 'B':
-			{
-				m_board[i][j] = Piece::Produce(EPieceType::Bishop, EColor::White);
-				break;
-			}
-			case 'b':
-			{
-				m_board[i][j] = Piece::Produce(EPieceType::Bishop, EColor::Black);
-				break;
-			}
-			case 'H':
-			{
-				m_board[i][j] = Piece::Produce(EPieceType::Knight, EColor::White);
-				break;
-			}
-			case 'h':
-			{
-				m_board[i][j] = Piece::Produce(EPieceType::Knight, EColor::Black);
-				break;
-			}
-			case 'Q':
-			{
-				m_board[i][j] = Piece::Produce(EPieceType::Queen, EColor::White);
-				break;
-			}
-			case 'q':
-			{
-				m_board[i][j] = Piece::Produce(EPieceType::Queen, EColor::Black);
-				break;
-			}
-			case 'K':
-			{
-				m_board[i][j] = Piece::Produce(EPieceType::King, EColor::White);
-				break;
-			}
-			case 'k':
-			{
-				m_board[i][j] = Piece::Produce(EPieceType::King, EColor::Black);
-				break;
-			}
-			case '-':
+			if (matrix[i][j] == '-')
 			{
 				m_board[i][j] = {};
-				break;
 			}
+			else if (isupper(matrix[i][j]))
+			{
+				InitializeWhite(matrix[i][j], { i,j });
+			}
+			else if (islower(matrix[i][j]))
+			{
+				InitializeBlack(matrix[i][j], { i,j });
 			}
 		}
 	}
@@ -985,12 +929,14 @@ Array Board::GetCurrentPosition() const
 		{
 			if (!m_board[i][j])
 			{
-				continue;
+				newArray.push_back(-1);
 			}
+			else
+			{
+				int currValue = Convert({ i, j });
 
-			int currValue = Convert({ i, j });
-
-			newArray.push_back(currValue);
+				newArray.push_back(currValue);
+			}
 		}
 	}
 
@@ -1031,4 +977,82 @@ bool Board::Check3Fold(const Array& array) const
 void Board::UpdatePrevPositions()
 {
 	m_prevPositions.push_back(GetCurrentPosition());
+}
+
+void Board::InitializeWhite(char c, Position p)
+{
+	int i = p.first, j = p.second;
+
+	switch (c)
+	{
+	case 'P':
+	{
+		m_board[i][j] = Piece::Produce(EPieceType::Pawn, EColor::White);
+		break;
+	}
+	case 'R':
+	{
+		m_board[i][j] = Piece::Produce(EPieceType::Rook, EColor::White);
+		break;
+	}
+	case 'B':
+	{
+		m_board[i][j] = Piece::Produce(EPieceType::Bishop, EColor::White);
+		break;
+	}
+	case 'H':
+	{
+		m_board[i][j] = Piece::Produce(EPieceType::Knight, EColor::White);
+		break;
+	}
+	case 'Q':
+	{
+		m_board[i][j] = Piece::Produce(EPieceType::Queen, EColor::White);
+		break;
+	}
+	case 'K':
+	{
+		m_board[i][j] = Piece::Produce(EPieceType::King, EColor::White);
+		break;
+	}
+	}
+}
+
+void Board::InitializeBlack(char c, Position p)
+{
+	int i = p.first, j = p.second;
+
+	switch (c)
+	{
+	case 'p':
+	{
+		m_board[i][j] = Piece::Produce(EPieceType::Pawn, EColor::Black);
+		break;
+	}
+	case 'r':
+	{
+		m_board[i][j] = Piece::Produce(EPieceType::Rook, EColor::Black);
+		break;
+	}
+	case 'b':
+	{
+		m_board[i][j] = Piece::Produce(EPieceType::Bishop, EColor::Black);
+		break;
+	}
+	case 'h':
+	{
+		m_board[i][j] = Piece::Produce(EPieceType::Knight, EColor::Black);
+		break;
+	}
+	case 'q':
+	{
+		m_board[i][j] = Piece::Produce(EPieceType::Queen, EColor::Black);
+		break;
+	}
+	case 'k':
+	{
+		m_board[i][j] = Piece::Produce(EPieceType::King, EColor::Black);
+		break;
+	}
+	}
 }
