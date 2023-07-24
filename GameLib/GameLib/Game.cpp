@@ -198,6 +198,11 @@ PiecesPtr Game::GetPiece(Position p) const
 	return m_gameboard.GetPiece(p);
 }
 
+PositionList Game::GetMoves(const Position& p) const
+{
+	return m_gameboard.GetMoves(p);
+}
+
 void Game::UpdateState(EState state)
 {
 	m_state = state;

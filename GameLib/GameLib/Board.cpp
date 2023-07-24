@@ -92,6 +92,8 @@ bool Board::VerifyTheWay(Position p1, Position p2) const
 			{
 				return false;
 			}
+			if ((initialPiece->Is(EPieceType::Pawn) && m_board[currX][currY] && !PawnGoesDiagonally(p1, p2)))
+				return false;
 		}
 	}
 
@@ -393,8 +395,9 @@ void Board::Move(Position p1, Position p2)
 		throw SameColorException("The pieces have the same color");
 	}
 
-	(*this)[p2] = currPiece;
-	(*this)[p1] = {};
+		(*this)[p2] = currPiece;
+		(*this)[p1] = {};
+
 
 	Position kingPos = FindKing(currPiece->GetColor());
 
@@ -691,7 +694,7 @@ PositionList Board::GetMoves(Position p) const
 			{
 				if (currPiece->GetColor() != initialPiece->GetColor())
 				{
-					if (!initialPiece->Is(EPieceType::Pawn) || (PawnGoesDiagonally(p, {x,y})))
+					if (!initialPiece->Is(EPieceType::Pawn) || (PawnGoesDiagonally(p, { x,y }) ))
 					{
 						newList.push_back({ x , y });
 					}
@@ -699,7 +702,7 @@ PositionList Board::GetMoves(Position p) const
 
 				break;
 			}
-
+			if(!(initialPiece->Is(EPieceType::Pawn) && PawnGoesDiagonally(p, { x,y })))
 			newList.push_back({ x , y });
 		}
 	}

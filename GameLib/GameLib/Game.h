@@ -35,6 +35,7 @@ public:
 
 	//Other methods
 	PiecesPtr GetPiece(Position) const;
+	PositionList GetMoves(const Position& p)const override;
 	void UpdateState(EState);
 	bool Stalemate() const;
 
