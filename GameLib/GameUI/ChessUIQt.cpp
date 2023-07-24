@@ -202,15 +202,6 @@ void ChessUIQt::OnButtonClicked(const std::pair<int, int>& position)
 		return;
 	}
 
-	if (m_game->GetTurn() == EColor::Black)
-	{
-		m_MessageLabel->setText("Waiting for black player");
-	}
-	else
-	{
-		m_MessageLabel->setText("Waiting for white player");
-	}
-
 	try
 	{
 		//At second click
@@ -232,6 +223,15 @@ void ChessUIQt::OnButtonClicked(const std::pair<int, int>& position)
 				}
 
 				UpdateBoard(GetBoard());
+
+				if (m_game->GetTurn() == EColor::Black)
+				{
+					m_MessageLabel->setText("Waiting for black player");
+				}
+				else
+				{
+					m_MessageLabel->setText("Waiting for white player");
+				}
 
 				if (m_game->IsOver())
 				{
