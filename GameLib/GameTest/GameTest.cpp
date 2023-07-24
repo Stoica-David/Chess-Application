@@ -228,30 +228,36 @@ TEST(GetTurnTest, Normal)
 
 TEST(StalemateTest, Stalematee)
 {
-	PiecePairVector m1 = {
-		{{0, 0}, Piece::Produce(EPieceType::King, EColor::White)},
-		{{1, 7}, Piece::Produce(EPieceType::Rook, EColor::Black)},
-		{{7, 1}, Piece::Produce(EPieceType::Rook, EColor::Black)},
-		{{7, 7}, Piece::Produce(EPieceType::King, EColor::Black)},
-	};
+	CharMatrix m1 = { {
+	{'K', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', 'r'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', 'r', '-', '-', '-', '-', '-', 'k'}
+	} };
 
-	Board b(m1);
-
-	Game g(b);
+	Game g(m1);
 
 	EXPECT_EQ(g.Stalemate(), true);
 }
 
 TEST(PromotionTest, WhitePromotesTest)
 {
-	PiecePairVector v = {
-		{{1, 5}, Piece::Produce(EPieceType::Pawn, EColor::White)},
-		{{6, 5}, Piece::Produce(EPieceType::King, EColor::White)},
-		{{1, 0}, Piece::Produce(EPieceType::King, EColor::Black)},
-	};
-	Board b(v);
+	CharMatrix m = { {
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'k', '-', '-', '-', '-', 'P', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', 'K', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'}
+	} };
 
-	Game g(b);
+	Game g(m);
 
 	EXPECT_NO_THROW(g.Move({ 1, 5 }, { 0, 5 }));
 	EXPECT_NO_THROW(g.PromoteTo("Queen", { 0, 5 }));
