@@ -206,7 +206,7 @@ TEST(IsCheckMateTest, BishopBoard)
 		{ {7,0},  Piece::Produce(EPieceType::Bishop, EColor::Black)} };
 	Board b(m1);
 
-	EXPECT_EQ(b.IsCheckMate({ 2,5 }, EColor::White), false);
+	EXPECT_EQ(b.IsCheckMate(EColor::White), false);
 }
 
 TEST(IsCheckMateTest, MultipleBishopBoard)
@@ -219,7 +219,7 @@ TEST(IsCheckMateTest, MultipleBishopBoard)
 		{ {3,0}, Piece::Produce(EPieceType::Bishop, EColor::Black)} };
 	Board b(m1);
 
-	EXPECT_EQ(b.IsCheckMate({ 7,2 }, EColor::White), true);
+	EXPECT_EQ(b.IsCheckMate(EColor::White), true);
 }
 
 TEST(IsCheckMateTest, DRookMate)
@@ -231,7 +231,7 @@ TEST(IsCheckMateTest, DRookMate)
 	};
 	Board b(m1);
 
-	EXPECT_EQ(b.IsCheckMate({ 0,0 }, EColor::White), true);
+	EXPECT_EQ(b.IsCheckMate(EColor::White), true);
 }
 
 TEST(IsCheckMateTest, KillCheckRook)
@@ -243,7 +243,7 @@ TEST(IsCheckMateTest, KillCheckRook)
 	};
 	Board b(m1);
 
-	EXPECT_EQ(b.IsCheckMate({ 0,0 }, EColor::White), false);
+	EXPECT_EQ(b.IsCheckMate(EColor::White), false);
 }
 
 TEST(IsCheckMateTest, KillCheckPawn)
@@ -256,7 +256,7 @@ TEST(IsCheckMateTest, KillCheckPawn)
 	Board b(m1);
 
 	EXPECT_EQ(b.IsCheck({ 1,1 }, EColor::White), true);
-	EXPECT_EQ(b.IsCheckMate({ 1,1 }, EColor::White), false);
+	EXPECT_EQ(b.IsCheckMate(EColor::White), false);
 }
 
 TEST(IsCheckMateTest, CheckmateVariation1)
@@ -269,7 +269,7 @@ TEST(IsCheckMateTest, CheckmateVariation1)
 
 	Board b(m1);
 
-	EXPECT_EQ(b.IsCheckMate({ 0,7 }, EColor::White), true);
+	EXPECT_EQ(b.IsCheckMate(EColor::White), true);
 }
 
 TEST(IsCheckMateTest, CheckmateVariation2)
@@ -282,7 +282,7 @@ TEST(IsCheckMateTest, CheckmateVariation2)
 
 	Board b(m1);
 
-	EXPECT_EQ(b.IsCheckMate({ 0,0 }, EColor::White), true);
+	EXPECT_EQ(b.IsCheckMate(EColor::White), true);
 }
 
 TEST(IsCheckMateTest, CheckmateVariation3)
@@ -295,7 +295,7 @@ TEST(IsCheckMateTest, CheckmateVariation3)
 
 	Board b(m1);
 
-	EXPECT_EQ(b.IsCheckMate({ 0,7 }, EColor::White), true);
+	EXPECT_EQ(b.IsCheckMate(EColor::White), true);
 }
 
 TEST(IsCheckMateTest, CheckmateVariation4)
@@ -311,7 +311,7 @@ TEST(IsCheckMateTest, CheckmateVariation4)
 
 	Board b(m1);
 
-	EXPECT_EQ(b.IsCheckMate({ 7, 4 }, EColor::White), true);
+	EXPECT_EQ(b.IsCheckMate(EColor::White), true);
 }
 
 TEST(IsCheckMateTest, CheckmateVariation5)
@@ -326,7 +326,7 @@ TEST(IsCheckMateTest, CheckmateVariation5)
 
 	Board b(m1);
 
-	EXPECT_EQ(b.IsCheckMate({ 0, 2 }, EColor::Black), true);
+	EXPECT_EQ(b.IsCheckMate(EColor::Black), true);
 }
 
 TEST(IsCheckMateTest, CheckmateVariation6)
@@ -342,7 +342,7 @@ TEST(IsCheckMateTest, CheckmateVariation6)
 
 	Board b(m1);
 
-	EXPECT_EQ(b.IsCheckMate({ 1, 6 }, EColor::Black), false);
+	EXPECT_EQ(b.IsCheckMate(EColor::Black), false);
 }
 
 TEST(IsCheckMateTest, CheckmateVariation7)
@@ -357,7 +357,7 @@ TEST(IsCheckMateTest, CheckmateVariation7)
 
 	Board b(m1);
 
-	EXPECT_EQ(b.IsCheckMate({ 1, 6 }, EColor::Black), true);
+	EXPECT_EQ(b.IsCheckMate(EColor::Black), true);
 }
 
 
@@ -372,7 +372,7 @@ TEST(IsCheckMateTest, FindHelpTest1)
 
 	Board b(m1);
 
-	EXPECT_EQ(b.IsCheckMate({ 0,7 }, EColor::White), false);
+	EXPECT_EQ(b.IsCheckMate(EColor::White), false);
 }
 
 TEST(IsCheckMateTest, FindHelpTest2)
@@ -386,7 +386,7 @@ TEST(IsCheckMateTest, FindHelpTest2)
 
 	Board b(m1);
 
-	EXPECT_EQ(b.IsCheckMate({ 4,0 }, EColor::White), false);
+	EXPECT_EQ(b.IsCheckMate(EColor::White), false);
 }
 
 
@@ -400,7 +400,7 @@ TEST(IsCheckMateTest, FindHelpTest3)
 
 	Board b(m1);
 
-	EXPECT_EQ(b.IsCheckMate({ 0,7 }, EColor::White), false);
+	EXPECT_EQ(b.IsCheckMate(EColor::White), false);
 }
 
 TEST(IsCheckMateTest, IsSameWayTest)
@@ -414,7 +414,7 @@ TEST(IsCheckMateTest, IsSameWayTest)
 
 	Board b(m1);
 
-	EXPECT_EQ(b.IsCheckMate({ 4,0 }, EColor::White), false);
+	EXPECT_EQ(b.IsCheckMate(EColor::White), false);
 }
 
 TEST(StalemateTest , Stalemate1)

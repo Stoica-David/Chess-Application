@@ -233,11 +233,11 @@ void Game::PromoteTo(const std::string& string, Position p)
 {
 	m_gameboard.PromoteTo(string, p, m_turn);
 
-	if (m_gameboard.IsCheckMate(m_gameboard.FindKing(EColor::White), EColor::White))
+	if (m_gameboard.IsCheckMate(EColor::White))
 	{
 		UpdateState(EState::BlackWon);
 	}
-	else if (m_gameboard.IsCheckMate(m_gameboard.FindKing(EColor::Black), EColor::Black))
+	else if (m_gameboard.IsCheckMate(EColor::Black))
 	{
 		UpdateState(EState::WhiteWon);
 	}

@@ -65,7 +65,7 @@ bool Board::IsOver(EColor color) const
 {
 	Position KingPos = FindKing(color);
 
-	return (IsCheckMate(KingPos, color));
+	return (IsCheckMate(color));
 }
 
 bool Board::VerifyTheWay(Position p1, Position p2) 
@@ -100,7 +100,7 @@ bool Board::VerifyTheWay(Position p1, Position p2)
 
 		if (currPiece)
 		{
-			if ((currPos != p2) || (currPos == p2 && (initialPiece->GetColor() == currPiece->GetColor())))
+			if ((currPos != p2) || (currPos == p2 && (initialPiece->GetColor() == currPiece->GetColor())) || (initialPiece->Is(EPieceType::Pawn) && !PawnGoesDiagonally(p1, p2)))
 			{
 				return false;
 			}
@@ -168,8 +168,10 @@ bool Board::IsSameWay(Position p1, Position p2, EColor color) const
 	return ((d1 == d3) && (d2 == d4));
 }
 
-bool Board::IsCheckMate(Position p, EColor color) const
+bool Board::IsCheckMate(EColor color) const
 {
+	Position p = FindKing(color);
+
 	PiecesPtr King = m_board[p.first][p.second];
 
 	if (!King)
@@ -661,6 +663,11 @@ bool Board::IsCastle(Position p1, Position p2)
 	}
 
 	if (!initialPiece->Is(EPieceType::King) || !finalPiece->Is(EPieceType::Rook))
+	{
+		return false;
+	}
+
+	if (initialPiece->GetColor() != finalPiece->GetColor())
 	{
 		return false;
 	}

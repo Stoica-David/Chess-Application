@@ -315,3 +315,35 @@ TEST(CastleMoveTest, Castle2)
 
 	EXPECT_NO_THROW(g.Move({ 7,4 }, { 7,0 }));
 }
+
+TEST(CastleMoveTest, Castle3)
+{
+	PiecePairVector v = {
+		{{0, 0}, Piece::Produce(EPieceType::Rook, EColor::Black)},
+		{{0, 7}, Piece::Produce(EPieceType::Rook, EColor::Black)},
+		{{7, 4}, Piece::Produce(EPieceType::King, EColor::White)},
+		{{0, 4}, Piece::Produce(EPieceType::King, EColor::Black)}
+	};
+
+	Board b(v);
+
+	Game g(b, EColor::Black);
+
+	EXPECT_NO_THROW(g.Move({ 0,4 }, { 0,7 }));
+}
+
+TEST(CastleMoveTest, Castle4)
+{
+	PiecePairVector v = {
+		{{0, 0}, Piece::Produce(EPieceType::Rook, EColor::Black)},
+		{{0, 7}, Piece::Produce(EPieceType::Rook, EColor::Black)},
+		{{7, 4}, Piece::Produce(EPieceType::King, EColor::White)},
+		{{0, 4}, Piece::Produce(EPieceType::King, EColor::Black)}
+	};
+
+	Board b(v);
+
+	Game g(b, EColor::Black);
+
+	EXPECT_NO_THROW(g.Move({ 0,4 }, { 0,0 }));
+}

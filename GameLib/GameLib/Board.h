@@ -27,7 +27,7 @@ public:
 	bool VerifyTheWay(Position p1, Position p2) ;
 	bool IsCheck(Position p, EColor color) const;
 	bool IsSameWay(Position p1, Position p2, EColor color) const;
-	bool IsCheckMate(Position p, EColor color) const;
+	bool IsCheckMate(EColor color) const;
 	bool IsDraw() const;
 	bool Stalemate(EColor color) const;
 
