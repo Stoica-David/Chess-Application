@@ -284,19 +284,34 @@ TEST(CheckmateTest, CheckmateVariation8)
 	EXPECT_EQ(g.IsOver(), true);
 }
 
-//TEST(CastleMoveTest, Castle1)
-//{
-//	PiecePairVector v = {
-//		{{7, 0}, Piece::Produce(EPieceType::Rook, EColor::White)},
-//		{{7, 7}, Piece::Produce(EPieceType::Rook, EColor::White)},
-//		{{7, 4}, Piece::Produce(EPieceType::King, EColor::White)},
-//		{{0, 4}, Piece::Produce(EPieceType::King, EColor::Black)}
-//	};
-//
-//	Board b(v);
-//
-//	Game g(b);
-//
-//	EXPECT_NO_THROW(g.Move({ 7,4 }, { 7,7 }));
-//	EXPECT_NO_THROW(g.Move({ 7,4 }, { 7,0 }));
-//}
+TEST(CastleMoveTest, Castle1)
+{
+	PiecePairVector v = {
+		{{7, 0}, Piece::Produce(EPieceType::Rook, EColor::White)},
+		{{7, 7}, Piece::Produce(EPieceType::Rook, EColor::White)},
+		{{7, 4}, Piece::Produce(EPieceType::King, EColor::White)},
+		{{0, 4}, Piece::Produce(EPieceType::King, EColor::Black)}
+	};
+
+	Board b(v);
+
+	Game g(b);
+
+	EXPECT_NO_THROW(g.Move({ 7,4 }, { 7,7 }));
+}
+
+TEST(CastleMoveTest, Castle2)
+{
+	PiecePairVector v = {
+		{{7, 0}, Piece::Produce(EPieceType::Rook, EColor::White)},
+		{{7, 7}, Piece::Produce(EPieceType::Rook, EColor::White)},
+		{{7, 4}, Piece::Produce(EPieceType::King, EColor::White)},
+		{{0, 4}, Piece::Produce(EPieceType::King, EColor::Black)}
+	};
+
+	Board b(v);
+
+	Game g(b);
+
+	EXPECT_NO_THROW(g.Move({ 7,4 }, { 7,0 }));
+}

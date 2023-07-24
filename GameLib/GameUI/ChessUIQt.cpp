@@ -202,6 +202,8 @@ void ChessUIQt::OnButtonClicked(const std::pair<int, int>& position)
 		return;
 	}
 
+	m_ExceptionLabel->setText("");
+
 	try
 	{
 		//At second click
@@ -248,6 +250,7 @@ void ChessUIQt::OnButtonClicked(const std::pair<int, int>& position)
 						m_MessageLabel->setText("Black player won!");
 					}
 
+					m_ExceptionLabel->setText("");
 				}
 
 				//Unselect prev. pressed button
@@ -381,4 +384,3 @@ void ChessUIQt::ShowPromoteOptions(const Position& p)
 		notification.exec();
 	}
 }
-

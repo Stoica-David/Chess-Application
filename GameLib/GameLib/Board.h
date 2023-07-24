@@ -24,7 +24,7 @@ public:
 
 	// Functions
 	bool IsOver(EColor color) const;
-	bool VerifyTheWay(Position p1, Position p2) const;
+	bool VerifyTheWay(Position p1, Position p2) ;
 	bool IsCheck(Position p, EColor color) const;
 	bool IsSameWay(Position p1, Position p2, EColor color) const;
 	bool IsCheckMate(Position p, EColor color) const;
@@ -50,6 +50,9 @@ private:
 	bool IsDefended(Position p, EColor color) const;
 	bool SameBishop()const;
 	bool PawnException(Position p1, Position p2)const;
+	bool IsCastle(Position p1, Position p2);
+
+	void Castle(Position p1, Position p2);
 	
 	PositionList DefendedPositions(Position p, EColor color) const;
 	

@@ -158,12 +158,13 @@ void Game::Move(Position p1, Position p2)
 		{
 			UpdateState(EState::Draw);
 		}
-
-		SwitchTurn();
 		
-		if (m_gameboard[p2]->Is(EPieceType::Pawn) && (p2.first == 0 || p2.first == 7))
+		if (m_gameboard[p2] && m_gameboard[p2]->Is(EPieceType::Pawn) && (p2.first == 0 || p2.first == 7))
 		{
 			UpdateState(EState::ChoosePiece);
+		}
+		else
+		{
 			SwitchTurn();
 		}
 	}
@@ -232,6 +233,15 @@ void Game::PromoteTo(const std::string& string, Position p)
 {
 	m_gameboard.PromoteTo(string, p, m_turn);
 
+	if (m_gameboard.IsCheckMate(m_gameboard.FindKing(EColor::White), EColor::White))
+	{
+		UpdateState(EState::BlackWon);
+	}
+	else if (m_gameboard.IsCheckMate(m_gameboard.FindKing(EColor::Black), EColor::Black))
+	{
+		UpdateState(EState::WhiteWon);
+	}
+
 	UpdateState(EState::Playing);
 	SwitchTurn();
 }
@@ -243,7 +253,7 @@ void Game::SwitchTurn()
 
 bool Game::Stalemate() const
 {
-	return (m_gameboard.Stalemate(EColor::White) || m_gameboard.Stalemate(EColor::Black));
+	return (m_gameboard.Stalemate(m_turn));
 }
 
 PositionList Game::GetMoves(Position p) const

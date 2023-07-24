@@ -68,8 +68,20 @@ bool Board::IsOver(EColor color) const
 	return (IsCheckMate(KingPos, color));
 }
 
-bool Board::VerifyTheWay(Position p1, Position p2) const
+bool Board::VerifyTheWay(Position p1, Position p2) 
 {
+	if (IsCastle(p1, p2))
+	{
+		if (p1.second > p2.second)
+		{
+			return VerifyTheWay(p1, { p2.first, p2.second + 2 });
+		}
+		else
+		{
+			return VerifyTheWay(p1, { p2.first, p2.second - 1 });
+		}
+	}
+
 	int x1 = p1.first,
 		y1 = p1.second,
 		x2 = p2.first,
@@ -372,7 +384,7 @@ void Board::Move(Position p1, Position p2)
 	PiecesPtr currPiece = GetPiece(p1);
 	PiecesPtr nextPiece = GetPiece(p2);
 
-	if (!currPiece->IsMoveRegular(p1, p2))
+	if (!currPiece->IsMoveRegular(p1, p2) && !IsCastle(p1, p2))
 	{
 		if (!currPiece->Is(EPieceType::Pawn) || PawnException(p1, p2))
 		{
@@ -385,13 +397,20 @@ void Board::Move(Position p1, Position p2)
 		throw InTheWayException("There is a piece in the way");
 	}
 
-	if (nextPiece && currPiece->SameColor(nextPiece))
+	if (nextPiece && currPiece->SameColor(nextPiece) && !IsCastle(p1, p2))
 	{
 		throw SameColorException("The pieces have the same color");
 	}
 
-	(*this)[p2] = currPiece;
-	(*this)[p1] = {};
+	if (!IsCastle(p1, p2))
+	{
+		(*this)[p2] = currPiece;
+		(*this)[p1] = {};
+	}
+	else
+	{
+		Castle(p1, p2);
+	}
 
 	Position kingPos = FindKing(currPiece->GetColor());
 
@@ -402,7 +421,6 @@ void Board::Move(Position p1, Position p2)
 
 		throw StillCheckException("The king is still in check!");
 	}
-
 }
 
 bool Board::PawnGoesDiagonally(Position p1, Position p2)
@@ -630,6 +648,76 @@ bool Board::PawnException(Position p1, Position p2) const
 	PiecesPtr nextPiece = m_board[p2.first][p2.second];
 
 	return (currPiece->Is(EPieceType::Pawn) && (!PawnGoesDiagonally(p1, p2) || (PawnGoesDiagonally(p1, p2) && (!nextPiece))));
+}
+
+bool Board::IsCastle(Position p1, Position p2) 
+{
+	PiecesPtr initialPiece = m_board[p1.first][p1.second];
+	PiecesPtr finalPiece = m_board[p2.first][p2.second];
+
+	if (!initialPiece || !finalPiece)
+	{
+		return false;
+	}
+
+	if (!initialPiece->Is(EPieceType::King) || !finalPiece->Is(EPieceType::Rook))
+	{
+		return false;
+	}
+
+	if (p1.first != 0 && p1.first != 7)
+	{
+		return false;
+	}
+
+	if (p1.first != p2.first)
+	{
+		return false;
+	}
+
+	if (p1.second - p2.second != 4 && p2.second - p1.second != 3)
+	{
+		return false;
+	}
+
+	PositionList castleTiles = initialPiece->DeterminePattern(p1, p2);
+
+	auto IsCheckCastle = [&](Position p) {
+		return IsCheck(p, (m_board[p.first][p.second])->GetColor());
+	};
+
+	auto it = std::find_if(castleTiles.begin(), castleTiles.end(), IsCheckCastle);
+
+	if (it != castleTiles.end())
+	{
+		return false;
+	}
+
+	return true;
+}
+
+void Board::Castle(Position p1, Position p2)
+{
+	PiecesPtr currPiece = m_board[p1.first][p1.second];
+	PiecesPtr nextPiece = m_board[p2.first][p2.second];
+
+	int newSecondKing, newSecondRook;
+
+	if (p1.second > p2.second)
+	{
+		newSecondKing = p2.second + 2;
+		newSecondRook = p1.second - 1;
+	}
+	else
+	{
+		newSecondKing = p2.second - 1;
+		newSecondRook = p1.second + 1;
+	}
+
+	m_board[p2.first][newSecondKing] = currPiece;
+	m_board[p2.first][newSecondRook] = nextPiece;
+	(*this)[p1] = {};
+	(*this)[p2] = {};
 }
 
 PositionList Board::DefendedPositions(Position p, EColor color) const
