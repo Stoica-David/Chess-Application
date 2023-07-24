@@ -19,6 +19,7 @@ public:
 	virtual EColor GetTurn() const = 0;
 
 	virtual bool IsOver() const = 0;
+	virtual bool IsDraw() const = 0;
 
 	virtual void ProposeDraw() = 0;
 	virtual bool IsDrawProposed()const = 0;

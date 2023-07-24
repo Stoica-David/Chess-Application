@@ -26,7 +26,7 @@ public:
 	IPieceInfoPtr GetPieceInfo(Position) const override;
 	EColor GetTurn() const override;
 
-	bool IsDraw() const;
+	bool IsDraw() const override;
 	bool IsOver() const override;
 	bool IsDrawProposed() const override;
 
@@ -35,13 +35,13 @@ public:
 
 	//Other methods
 	PiecesPtr GetPiece(Position) const;
-	void UpdateState(EState);
 	bool Stalemate() const;
 
 	PositionList GetMoves(Position p)const override;
 
 private:
 	void SwitchTurn();
+	void UpdateState(EState);
 
 private:
 	Board m_gameboard;

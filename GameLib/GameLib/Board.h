@@ -8,6 +8,8 @@
 
 using ChessBoard = std::array<std::array<PiecesPtr, 8>, 8>;
 using CharMatrix = std::array<std::array<char, 8>, 8>;
+using Matrix = std::vector<std::vector<int>>;
+using Array = std::vector<int>;
 
 class Board
 {
@@ -41,6 +43,8 @@ public:
 	
 	void Move(Position p1, Position p2);
 	PositionList GetMoves(Position p) const;
+
+	bool Check3Fold(const Array& array) const;
 	
 private:
 	static bool PawnGoesDiagonally(Position p1, Position p2);
@@ -66,7 +70,14 @@ private:
 		return EColor::White;
 	}
 
+	int Convert(Position p) const;
+
+	Array GetCurrentPosition() const;
+
+	void UpdatePrevPositions();
+
 
 private:
 	ChessBoard m_board;
+	Matrix m_prevPositions;
 };

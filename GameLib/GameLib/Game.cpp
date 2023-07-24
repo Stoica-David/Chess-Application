@@ -112,9 +112,6 @@ Game::Game(const CharMatrix& matrix, EColor color) : m_turn(color), m_state(ESta
 	}
 }
 
-
-
-
 static bool IsPositionValid(Position p)
 {
 	return (p.first >= 0 && p.first < 8) && (p.second >= 0 && p.second < 8);

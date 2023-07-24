@@ -26,6 +26,19 @@ Board::Board()
 		m_board[1][i] = Piece::Produce(EPieceType::Pawn, EColor::Black);
 		m_board[6][i] = Piece::Produce(EPieceType::Pawn, EColor::White);
 	}
+
+	std::vector<int> initialArray = {
+		1, 513, 257, 769, 1025, 513, 257, 1,
+		1281, 1281, 1281, 1281, 1281, 1281, 1281, 1281,
+		-1, -1, -1, -1, -1, -1, -1, -1,
+		-1, -1, -1, -1, -1, -1, -1, -1,
+		-1, -1, -1, -1, -1, -1, -1, -1,
+		-1, -1, -1, -1, -1, -1, -1, -1,
+		1280, 1280, 1280, 1280, 1280, 1280, 1280, 1280,
+		0, 256, 512, 768, 1024, 512, 256, 0
+	};
+
+	m_prevPositions.push_back(initialArray);
 }
 
 Board::Board(const CharMatrix& matrix)
@@ -305,6 +318,11 @@ bool Board::IsDraw() const
 		}
 	}
 
+	if (Check3Fold(GetCurrentPosition()))
+	{
+		return true;
+	}
+
 	return false;
 }
 
@@ -491,6 +509,8 @@ void Board::Move(Position p1, Position p2)
 
 		throw StillCheckException("The king is still in check!");
 	}
+
+	UpdatePrevPositions();
 }
 
 bool Board::PawnGoesDiagonally(Position p1, Position p2)
@@ -892,4 +912,123 @@ int Board::Find(PieceVector v, EPieceType Piece) const
 	}
 
 	return tmp;
+}
+
+int Board::Convert(Position p)const
+{
+	PiecesPtr currPiece = m_board[p.first][p.second];
+
+	int first8 = 0, last8 = 0;
+
+	switch (currPiece->GetType())
+	{
+	case EPieceType::Rook:
+	{
+		first8 = 0;
+		break;
+	}
+	case EPieceType::Knight:
+	{
+		first8 = 256;
+		break;
+	}
+	case EPieceType::Bishop:
+	{
+		first8 = 512;
+		break;
+	}
+	case EPieceType::Queen:
+	{
+		first8 = 768;
+		break;
+	}
+	case EPieceType::King:
+	{
+		first8 = 1024;
+		break;
+	}
+	case EPieceType::Pawn:
+	{
+		first8 = 1280;
+		break;
+	}
+	default:
+		break;
+	}
+
+	switch (currPiece->GetColor())
+	{
+	case EColor::White:
+	{
+		last8 = 0;
+		break;
+	}
+	case EColor::Black:
+	{
+		last8 = 1;
+		break;
+	}
+	default:
+		break;
+	}
+
+	return first8 + last8;
+}
+
+Array Board::GetCurrentPosition() const
+{
+	Array newArray;
+
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			if (!m_board[i][j])
+			{
+				continue;
+			}
+
+			int currValue = Convert({ i, j });
+
+			newArray.push_back(currValue);
+		}
+	}
+
+	return newArray;
+}
+
+static bool operator==(const std::vector<int>& v1, const std::vector<int>& v2)
+{
+	if (v1.size() != v2.size())
+	{
+		return false;
+	}
+
+	for (int i = 0; i < v1.size(); i++)
+	{
+		if (v1[i] != v2[i])
+			return false;
+	}
+
+	return true;
+}
+
+bool Board::Check3Fold(const Array& array) const
+{
+	int nrAppearences = 0;
+
+	for (int i = 0; i < m_prevPositions.size(); i++)
+	{
+		if (m_prevPositions[i] == array)
+		{
+			nrAppearences++;
+		}
+	}
+
+	return (nrAppearences == 3);
+}
+
+void Board::UpdatePrevPositions()
+{
+	m_prevPositions.push_back(GetCurrentPosition());
 }

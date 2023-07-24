@@ -197,7 +197,7 @@ void ChessUIQt::InitializeBoard(QGridLayout* mainGridLayout)
 
 void ChessUIQt::OnButtonClicked(const std::pair<int, int>& position)
 {
-	if (m_game->IsOver())
+	if (m_game->IsOver() || m_game->IsDraw())
 	{
 		return;
 	}
@@ -235,7 +235,15 @@ void ChessUIQt::OnButtonClicked(const std::pair<int, int>& position)
 					m_MessageLabel->setText("Waiting for white player");
 				}
 
-				if (m_game->IsOver())
+				if (m_game->IsDraw())
+				{
+					m_game->DrawResponse(true);
+
+					QMessageBox::StandardButton drawMessage;
+					drawMessage = QMessageBox::information(this, "Draw!", " The players agreed to draw!");
+					m_MessageLabel->setText("Draw!");
+				}
+				else if (m_game->IsOver())
 				{
 					QMessageBox::StandardButton wonMessage;
 

@@ -2,6 +2,6 @@
 
 enum class EColor
 {
-	Black,
-	White
+	White,
+	Black
 };
