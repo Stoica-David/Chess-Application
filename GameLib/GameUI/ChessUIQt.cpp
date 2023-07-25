@@ -3,6 +3,7 @@
 #include <QInputDialog>
 #include <QMessageBox>
 #include "IGame.h"
+#include <list>
 
 static PieceColor GetColor(IPieceInfoPtr pieceInfo)
 {
@@ -37,10 +38,16 @@ static PieceType GetType(IPieceInfoPtr pieceInfo)
 
 void ChessUIQt::UpdateMessageLabel()
 {
-	if(m_game->GetTurn() == EColor::Black)
+	if (m_game->GetTurn() == EColor::Black)
 		m_MessageLabel->setText("Waiting for black player");
 	else
 		m_MessageLabel->setText("Waiting for white player");
+
+	if (m_game->IsDraw())
+	{
+		m_ExceptionLabel->setText("Draw");
+	}
+
 }
 
 PairMatrix ChessUIQt::GetBoard()
@@ -94,6 +101,7 @@ void ChessUIQt::InitializeMessage(QGridLayout* mainGridLayout)
 {
 	m_MessageLabel = new QLabel();
 	m_ExceptionLabel = new QLabel();
+	m_WinnerLabel = new QLabel();
 
 	m_MessageLabel->setText("Waiting for white player");
 	m_MessageLabel->setAlignment(Qt::AlignCenter);
@@ -103,8 +111,13 @@ void ChessUIQt::InitializeMessage(QGridLayout* mainGridLayout)
 	m_ExceptionLabel->setAlignment(Qt::AlignCenter);
 	m_ExceptionLabel->setStyleSheet("font-size: 20px; font-weight: bold;");
 
+	m_WinnerLabel->setText("");
+	m_ExceptionLabel->setAlignment(Qt::AlignCenter);
+	m_ExceptionLabel->setStyleSheet("font-size: 20px; font-weight: bold;");
+
 	mainGridLayout->addWidget(m_MessageLabel, 0, 1, 1, 1);
 	mainGridLayout->addWidget(m_ExceptionLabel, 1, 1, 1, 1);
+	mainGridLayout->addWidget(m_WinnerLabel, 2, 1, 1, 1);
 }
 
 void ChessUIQt::InitializeButtons(QGridLayout* mainGridLayout)
@@ -154,7 +167,7 @@ void ChessUIQt::InitializeTimers(QGridLayout* mainGridLayout)
 	timerGrid->addWidget(m_WhiteTimer, 0, 4);
 
 	timerContainer->setLayout(timerGrid);
-	mainGridLayout->addWidget(timerContainer, 3, 0, 1, 2, Qt::AlignCenter);
+	mainGridLayout->addWidget(timerContainer, 4, 0, 1, 2, Qt::AlignCenter);
 }
 
 void ChessUIQt::InitializeHistory(QGridLayout* mainGridLayout)
@@ -181,42 +194,45 @@ void ChessUIQt::InitializeBoard(QGridLayout* mainGridLayout)
 	}
 
 	board->setLayout(chessGridLayout);
-	mainGridLayout->addWidget(board, 2, 1, 1, 1);
+	mainGridLayout->addWidget(board, 3, 1, 1, 1);
 }
 
 void ChessUIQt::OnButtonClicked(const std::pair<int, int>& position)
 {
 	//At second click
+	if(!m_game->IsOver())
 	try
 	{
-		m_ExceptionLabel->setText("");
-		if (m_selectedCell.has_value())
-		{
-			if (m_selectedCell.value() == position)
+			m_ExceptionLabel->setText("");
+			if (m_selectedCell.has_value())
 			{
-				m_grid[m_selectedCell->first][m_selectedCell->second]->setSelected(false);
-				m_selectedCell.reset();
-				UpdateBoard(GetBoard());
-			}
-			else
-			{
-				m_game->Move(m_selectedCell.value(), position);
-				UpdateBoard(GetBoard());
-				UpdateMessageLabel();
+				if (m_selectedCell.value() == position)
+				{
+					m_grid[m_selectedCell->first][m_selectedCell->second]->setSelected(false);
+					m_selectedCell.reset();
+					UpdateBoard(GetBoard());
+				}
+				else
+				{
+					m_game->Move(m_selectedCell.value(), position);
+					if ((position.first == 7 || position.first == 0) && GetType(m_game->GetPieceInfo(position)) == PieceType::pawn)
+						ShowPromoteOptions(position);
+					UpdateBoard(GetBoard());
+					UpdateMessageLabel();
 
-				//Unselect prev. pressed button
-				m_grid[m_selectedCell.value().first][m_selectedCell.value().second]->setSelected(false);
-				m_selectedCell.reset();
+					//Unselect prev. pressed button
+					m_grid[m_selectedCell.value().first][m_selectedCell.value().second]->setSelected(false);
+					m_selectedCell.reset();
+				}
 			}
-		}
 			//At first click
-		else {
-			m_selectedCell = position;
-			m_grid[position.first][position.second]->setSelected(true);
+			else {
+				m_selectedCell = position;
+				m_grid[position.first][position.second]->setSelected(true);
 
-			
-			HighlightPossibleMoves(m_game->GetMoves(position));
-		}
+
+				HighlightPossibleMoves(m_game->GetMoves(position));
+			}
 		}
 		catch (ChessException e)
 		{
@@ -241,20 +257,29 @@ void ChessUIQt::OnLoadButtonClicked()
 
 void ChessUIQt::OnRestartButtonClicked()
 {
-	//TODO ...
+	m_game = IGame::Produce();
+	StartGame();
 }
 
 void ChessUIQt::OnDrawButtonClicked()
 {
 	//TODO MODIFY ME
-
+	m_game->IsDrawProposed();
 	QMessageBox::StandardButton reply;
 	reply = QMessageBox::question(this, "Draw proposal", "Do you accept a draw?", QMessageBox::Yes | QMessageBox::No);
 
-	if (reply == QMessageBox::Yes) {
-		//TODO ...
-		//game.Draw(...);
+	if (reply == QMessageBox::Yes) 
+	{
+		m_game->DrawResponse(true);
+		UpdateMessageLabel();
+	   
 	}
+	else
+	{
+		m_game->DrawResponse(false);
+		UpdateMessageLabel();
+	}
+	UpdateMessageLabel();
 }
 
 void ChessUIQt::OnHistoryClicked(QListWidgetItem* item)
@@ -298,10 +323,11 @@ void ChessUIQt::StartGame()
 	UpdateBoard(GetBoard());
 }
 
-void ChessUIQt::ShowPromoteOptions()
+void ChessUIQt::ShowPromoteOptions(const std::pair<int, int>& position)
 {
 	QInputDialog dialog;
 	QList<QString> options;
+
 	options.append("Rook");
 	options.append("Bishop");
 	options.append("Queen");
@@ -316,8 +342,14 @@ void ChessUIQt::ShowPromoteOptions()
 
 	if (ok && !item.isEmpty())
 	{
-		//TODO
 		//game.promotePawn(parseQStringToPieceType(item))
+
+		auto it = std::find(options.begin(), options.end(), item);
+		if (it != options.end())
+		{
+			m_game->PromoteTo(it->toStdString(), position);
+		}
+
 
 		//TODO DELETE ME...
 		QMessageBox notification;

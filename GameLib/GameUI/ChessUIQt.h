@@ -36,7 +36,7 @@ public:
     void HighlightPossibleMoves(const std::vector<std::pair<int, int>>& possibleMoves);
     //Modify or delete
     void StartGame();
-    void ShowPromoteOptions();
+    void ShowPromoteOptions(const std::pair<int, int>& position);
 
 public slots:
     void OnButtonClicked(const std::pair<int, int>& position);
@@ -61,6 +61,7 @@ private:
     std::optional<std::pair<int, int>> m_selectedCell;
     QLabel* m_MessageLabel;
     QLabel* m_ExceptionLabel;
+    QLabel* m_WinnerLabel;
     IGamePtr m_game;
     QListWidget* m_MovesList;
     QLabel* m_BlackTimer, *m_WhiteTimer;
