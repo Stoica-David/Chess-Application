@@ -18,7 +18,6 @@ public:
 	virtual void Move(Position, Position) = 0;
 	
 	virtual EColor GetTurn() const = 0;
-	virtual EState GetState() const = 0;
 
 	virtual bool IsOver() const = 0;
 	virtual bool IsDraw() = 0;

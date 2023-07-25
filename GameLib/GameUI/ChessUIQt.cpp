@@ -487,7 +487,10 @@ void ChessUIQt::OnCopyButtonClicked()
 	}
 	chessBoard += "}};\n";
 
-	InitializeExtraInfo(chessBoard, m_game->GetState(), m_game->GetTurn());
+	if (m_game->GetTurn() == EColor::Black)
+		chessBoard += "Turn: Black\n";
+	else
+		chessBoard += "Turn: White\n";
 
 	QString qChessBoard = QString::fromStdString(chessBoard);
 

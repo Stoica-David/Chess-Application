@@ -25,7 +25,6 @@ public:
 
 	IPieceInfoPtr GetPieceInfo(Position) const override;
 	EColor GetTurn() const override;
-	EState GetState() const override;
 
 	bool IsDraw() override;
 	bool IsOver() const override;

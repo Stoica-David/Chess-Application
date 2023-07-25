@@ -796,7 +796,7 @@ PositionList Board::DefendedPositions(Position p, EColor color) const
 	return newList;
 }
 
-PositionList Board::GetMoves(Position p)
+PositionList Board::GetMoves(Position p) 
 {
 	auto initialPiece = m_board[p.first][p.second];
 
