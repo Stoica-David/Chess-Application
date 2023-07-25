@@ -10,7 +10,7 @@
 #include <QClipboard>
 
 
-void InitializeWhite(std::string &m, EPieceType type, Position p)
+void InitializeWhite(std::string& m, EPieceType type, Position p)
 {
 	switch (type)
 	{
@@ -31,20 +31,20 @@ void InitializeWhite(std::string &m, EPieceType type, Position p)
 	}
 	case EPieceType::Queen:
 	{	m += "\'Q\', ";
-		break;
+	break;
 	}
 	case EPieceType::King:
 	{	m += "\'K\', ";
-		break;
+	break;
 	}
 	case EPieceType::Pawn:
 	{	m += "\'P\', ";
-		break;
+	break;
 	}
 	}
 }
 
-void InitializeBlack(std::string &m, EPieceType type, Position p)
+void InitializeBlack(std::string& m, EPieceType type, Position p)
 {
 	switch (type)
 	{
@@ -121,7 +121,6 @@ void InitializeExtraInfo(std::string& m, EState state, EColor turn)
 	}
 	}
 }
-
 
 static PieceType GetType(IPieceInfoPtr currPiece)
 {
@@ -329,6 +328,9 @@ void ChessUIQt::OnButtonClicked(const std::pair<int, int>& position)
 		//At second click
 		if (m_selectedCell.has_value())
 		{
+			int x = m_selectedCell.value().first;
+			int y = m_selectedCell.value().first;
+
 			if (m_selectedCell.value() == position)
 			{
 				m_grid[m_selectedCell.value().first][m_selectedCell.value().second]->setSelected(false);
@@ -387,19 +389,14 @@ void ChessUIQt::OnButtonClicked(const std::pair<int, int>& position)
 			}
 		}
 		//At first click
-		else {
+		else if (m_game->GetPieceInfo(position) && m_game->GetPieceInfo(position)->GetColor() == m_game->GetTurn()) {
 			m_selectedCell = position;
 			m_grid[position.first][position.second]->setSelected(true);
-
-			//TODO Show possible moves here
 			HighlightPossibleMoves(m_game->GetMoves(position));
 		}
 	}
 	catch (ChessException E)
 	{
-		/*QMessageBox::StandardButton exceptionMessage;
-		exceptionMessage = QMessageBox::critical(this, "Exception!", E.what());*/
-		
 		m_ExceptionLabel->setText(E.what());
 
 		m_selectedCell.reset();
@@ -466,7 +463,7 @@ void ChessUIQt::OnCopyButtonClicked()
 					chessBoard.erase(chessBoard.end() - 1);
 				continue;
 			}
-			
+
 			if (m_game->GetPieceInfo(currPos)->GetColor() == EColor::White)
 			{
 				EPieceType currType = m_game->GetPieceInfo(currPos)->GetType();
@@ -553,7 +550,6 @@ void ChessUIQt::ShowPromoteOptions(const Position& p)
 
 	if (ok && !item.isEmpty())
 	{
-		//TODO
 		m_game->PromoteTo(item.toStdString(), p);
 		//TODO DELETE ME...
 		QMessageBox notification;
