@@ -47,6 +47,7 @@ public slots:
     void OnRestartButtonClicked();
     void OnDrawButtonClicked();
     void OnHistoryClicked(QListWidgetItem* item);
+    void OnCopyButtonClicked();
     
 
 signals:

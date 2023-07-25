@@ -6,6 +6,123 @@
 #include "BoardExceptions.h"
 #include "GameExceptions.h"
 
+#include <array>
+#include <QClipboard>
+
+
+void InitializeWhite(std::string &m, EPieceType type, Position p)
+{
+	switch (type)
+	{
+	case EPieceType::Rook:
+	{
+		m += "\'R\', ";
+		break;
+	}
+	case EPieceType::Knight:
+	{
+		m += "\'H\', ";
+		break;
+	}
+	case EPieceType::Bishop:
+	{
+		m += "\'B\', ";
+		break;
+	}
+	case EPieceType::Queen:
+	{	m += "\'Q\', ";
+		break;
+	}
+	case EPieceType::King:
+	{	m += "\'K\', ";
+		break;
+	}
+	case EPieceType::Pawn:
+	{	m += "\'P\', ";
+		break;
+	}
+	}
+}
+
+void InitializeBlack(std::string &m, EPieceType type, Position p)
+{
+	switch (type)
+	{
+	case EPieceType::Rook:
+	{
+		m += "\'r\', ";
+		break;
+	}
+	case EPieceType::Knight:
+	{
+		m += "\'r\', ";
+		break;
+	}
+	case EPieceType::Bishop:
+	{
+		m += "\'b\', ";
+		break;
+	}
+	case EPieceType::Queen:
+	{	m += "\'q\', ";
+	break;
+	}
+	case EPieceType::King:
+	{	m += "\'k\', ";
+	break;
+	}
+	case EPieceType::Pawn:
+	{	m += "\'p\', ";
+	break;
+	}
+	}
+}
+
+void InitializeExtraInfo(std::string& m, EState state, EColor turn)
+{
+	if (turn == EColor::Black)
+		m += "Turn: Black\n";
+	else
+		m += "Turn: White\n";
+
+	m += "State: ";
+
+	switch (state)
+	{
+	case EState::BlackWon:
+	{
+		m += "Black won\n";
+		break;
+	}
+	case EState::ChoosePiece:
+	{
+		m += "Choose piece\n";
+		break;
+	}
+	case EState::Draw:
+	{
+		m += "Draw\n";
+		break;
+	}
+	case EState::DrawIsProposed:
+	{
+		m += "DrawIsProposed\n";
+		break;
+	}
+	case EState::Playing:
+	{
+		m += "Playing\n";
+		break;
+	}
+	case EState::WhiteWon:
+	{
+		m += "White won\n";
+		break;
+	}
+	}
+}
+
+
 static PieceType GetType(IPieceInfoPtr currPiece)
 {
 	if (!currPiece)
@@ -124,6 +241,7 @@ void ChessUIQt::InitializeButtons(QGridLayout* mainGridLayout)
 	QPushButton* loadButton = new QPushButton("Load");
 	QPushButton* restartButton = new QPushButton("Restart");
 	QPushButton* drawButton = new QPushButton("Draw");
+	QPushButton* copyButton = new QPushButton("Copy");
 
 	QWidget* buttonContainer = new QWidget();
 	QGridLayout* btnGrid = new QGridLayout();
@@ -132,11 +250,13 @@ void ChessUIQt::InitializeButtons(QGridLayout* mainGridLayout)
 	btnGrid->addWidget(loadButton, 0, 1);
 	btnGrid->addWidget(restartButton, 0, 2);
 	btnGrid->addWidget(drawButton, 0, 3);
+	btnGrid->addWidget(copyButton, 1, 0, 1, 4);
 
 	connect(saveButton, &QPushButton::pressed, this, &ChessUIQt::OnSaveButtonClicked);
 	connect(loadButton, &QPushButton::pressed, this, &ChessUIQt::OnLoadButtonClicked);
 	connect(restartButton, &QPushButton::pressed, this, &ChessUIQt::OnRestartButtonClicked);
 	connect(drawButton, &QPushButton::pressed, this, &ChessUIQt::OnDrawButtonClicked);
+	connect(copyButton, &QPushButton::pressed, this, &ChessUIQt::OnCopyButtonClicked);
 
 	buttonContainer->setLayout(btnGrid);
 	mainGridLayout->addWidget(buttonContainer, 0, 0, 1, 1);
@@ -314,9 +434,7 @@ void ChessUIQt::OnDrawButtonClicked()
 	if (reply == QMessageBox::Yes)
 	{
 		m_game->DrawResponse(true);
-
-		QMessageBox::StandardButton drawMessage;
-		drawMessage = QMessageBox::information(this, "Draw!", " The players agreed to draw!");
+		m_MessageLabel->setText("Draw! The players agreed to draw\n");
 	}
 	else
 	{
@@ -329,6 +447,54 @@ void ChessUIQt::OnHistoryClicked(QListWidgetItem* item)
 	int index = m_MovesList->currentRow();
 
 	//TODO ...
+}
+
+void ChessUIQt::OnCopyButtonClicked()
+{
+	std::string chessBoard = "{ {\n";
+	for (int i = 0; i < 8; i++)
+	{
+		chessBoard += '{';
+		for (int j = 0; j < 8; j++)
+		{
+			Position currPos = { i, j };
+
+			if (!m_game->GetPieceInfo(currPos))
+			{
+				chessBoard += "\'-\', ";
+				if (j == 7)
+					chessBoard.erase(chessBoard.end() - 1);
+				continue;
+			}
+			
+			if (m_game->GetPieceInfo(currPos)->GetColor() == EColor::White)
+			{
+				EPieceType currType = m_game->GetPieceInfo(currPos)->GetType();
+
+				InitializeWhite(chessBoard, currType, currPos);
+			}
+			else
+			{
+				EPieceType currType = m_game->GetPieceInfo(currPos)->GetType();
+
+				InitializeBlack(chessBoard, currType, currPos);
+
+			}
+			if (j == 7)
+				chessBoard.erase(chessBoard.end() - 1);
+		}
+		chessBoard += "},\n";
+	}
+	chessBoard += "}};\n";
+
+	InitializeExtraInfo(chessBoard, m_game->GetState(), m_game->GetTurn());
+
+	QString qChessBoard = QString::fromStdString(chessBoard);
+
+	QClipboard* clipboard = QApplication::clipboard();
+
+	clipboard->setText(qChessBoard);
+
 }
 
 void ChessUIQt::UpdateHistory()
