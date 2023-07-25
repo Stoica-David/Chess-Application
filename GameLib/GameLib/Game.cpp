@@ -243,6 +243,11 @@ void Game::PromoteTo(const std::string& string, Position p)
 	SwitchTurn();
 }
 
+void Game::Restart()
+{
+	*this = Game();
+}
+
 void Game::SwitchTurn()
 {
 	m_turn = m_turn == EColor::Black ? EColor::White : EColor::Black;

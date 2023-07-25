@@ -434,7 +434,7 @@ void ChessUIQt::OnLoadButtonClicked()
 
 void ChessUIQt::OnRestartButtonClicked()
 {
-	m_game = IGame::Produce();
+	m_game->Restart();
 	m_MessageLabel->setText("Waiting for white player");
 	m_ExceptionLabel->setText("");
 	StartGame();

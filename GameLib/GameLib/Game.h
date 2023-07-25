@@ -33,6 +33,8 @@ public:
 	bool ChoosePiece() const override;
 	void PromoteTo(const std::string& string, Position p) override;
 
+	void Restart() override;
+
 	//Other methods
 	PiecesPtr GetPiece(Position) const;
 	bool Stalemate();

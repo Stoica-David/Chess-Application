@@ -30,5 +30,7 @@ public:
 
 	virtual PositionList GetMoves(Position p) = 0;
 
+	virtual void Restart() = 0;
+
 	virtual ~IGame() = default;
 };
