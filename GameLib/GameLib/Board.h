@@ -5,11 +5,12 @@
 
 #include<array>
 #include<string>
+#include<bitset>
 
 using ChessBoard = std::array<std::array<PiecesPtr, 8>, 8>;
 using CharMatrix = std::array<std::array<char, 8>, 8>;
-using Matrix = std::vector<std::vector<int>>;
-using Array = std::vector<int>;
+using BitMatrix = std::vector<std::bitset<256>>;
+using Bitset = std::bitset<256>;
 
 class Board
 {
@@ -44,7 +45,7 @@ public:
 	void Move(Position p1, Position p2);
 	PositionList GetMoves(Position p);
 
-	bool Check3Fold(const Array& array) const;
+	bool Check3Fold(const Bitset& bitset) const;
 
 private:
 	static bool PawnGoesDiagonally(Position p1, Position p2);
@@ -70,9 +71,7 @@ private:
 		return EColor::White;
 	}
 
-	int Convert(Position p) const;
-
-	Array GetCurrentPosition() const;
+	Bitset GetCurrentPosition() const;
 
 	void UpdatePrevPositions();
 
@@ -82,5 +81,5 @@ private:
 
 private:
 	ChessBoard m_board;
-	Matrix m_prevPositions;
+	BitMatrix m_prevPositions;
 };
