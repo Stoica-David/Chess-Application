@@ -26,15 +26,15 @@ public:
 	PiecesPtr GetPiece(Position p) const;
 
 	// Functions
-	bool IsOver(EColor color) const;
+	bool IsOver(EColor color);
 	bool VerifyTheWay(Position p1, Position p2);
-	bool IsCheck(Position p, EColor color) const;
-	bool IsSameWay(Position p1, Position p2, EColor color) const;
-	bool IsCheckMate(EColor color) const;
+	bool IsCheck(Position p, EColor color);
+	bool IsSameWay(Position p1, Position p2, EColor color);
+	bool IsCheckMate(EColor color);
 	bool IsDraw() const;
-	bool Stalemate(EColor color) const;
+	bool Stalemate(EColor color);
 
-	Position FindCheck(Position p, EColor color) const;
+	Position FindCheck(Position p, EColor color);
 	Position FindKing(EColor) const;
 	PieceVector RemainingPieces() const;
 
@@ -42,7 +42,7 @@ public:
 	void UpdatePiece(EPieceType type, Position p, EColor color);
 
 	void Move(Position p1, Position p2);
-	PositionList GetMoves(Position p) const;
+	PositionList GetMoves(Position p);
 
 	bool Check3Fold(const Array& array) const;
 
@@ -50,8 +50,8 @@ private:
 	static bool PawnGoesDiagonally(Position p1, Position p2);
 
 	bool OnlyKing(EColor color)const;
-	bool FindHelp(Position p, EColor color) const;
-	bool KillCheck(Position p, EColor color) const;
+	bool FindHelp(Position p, EColor color);
+	bool KillCheck(Position p, EColor color);
 	bool IsDefended(Position p, EColor color) const;
 	bool SameBishop()const;
 	bool PawnException(Position p1, Position p2)const;

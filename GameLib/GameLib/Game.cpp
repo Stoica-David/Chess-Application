@@ -206,7 +206,7 @@ EColor Game::GetTurn() const
 	return m_turn;
 }
 
-bool Game::IsDraw() const
+bool Game::IsDraw() 
 {
 	return (m_gameboard.IsDraw() || m_state == EState::Draw || Stalemate());
 }
@@ -248,12 +248,12 @@ void Game::SwitchTurn()
 	m_turn = m_turn == EColor::Black ? EColor::White : EColor::Black;
 }
 
-bool Game::Stalemate() const
+bool Game::Stalemate() 
 {
 	return (m_gameboard.Stalemate(m_turn));
 }
 
-PositionList Game::GetMoves(Position p) const
+PositionList Game::GetMoves(Position p) 
 {
 	return m_gameboard.GetMoves(p);
 }

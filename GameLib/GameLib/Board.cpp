@@ -83,7 +83,7 @@ PiecesPtr Board::GetPiece(Position p) const
 	return m_board[p.first][p.second];
 }
 
-bool Board::IsOver(EColor color) const
+bool Board::IsOver(EColor color) 
 {
 	Position KingPos = FindKing(color);
 
@@ -132,7 +132,7 @@ bool Board::VerifyTheWay(Position p1, Position p2)
 	return true;
 }
 
-bool Board::IsCheck(Position p, EColor color) const
+bool Board::IsCheck(Position p, EColor color) 
 {
 	PositionList moves;
 
@@ -162,7 +162,7 @@ bool Board::IsCheck(Position p, EColor color) const
 	return false;
 }
 
-bool Board::IsSameWay(Position p1, Position p2, EColor color) const
+bool Board::IsSameWay(Position p1, Position p2, EColor color)
 {
 	Position checkPos = FindCheck(p1, color);
 
@@ -190,7 +190,7 @@ bool Board::IsSameWay(Position p1, Position p2, EColor color) const
 	return ((d1 == d3) && (d2 == d4));
 }
 
-bool Board::IsCheckMate(EColor color) const
+bool Board::IsCheckMate(EColor color) 
 {
 	Position p = FindKing(color);
 
@@ -270,7 +270,7 @@ bool Board::IsDraw() const
 	return false;
 }
 
-bool Board::Stalemate(EColor color) const
+bool Board::Stalemate(EColor color) 
 {
 	Position kingPos = FindKing(color);
 
@@ -294,7 +294,7 @@ bool Board::Stalemate(EColor color) const
 	return std::find_if(kingMoves.begin(), kingMoves.end(), NotInCheck) == kingMoves.end();
 }
 
-Position Board::FindCheck(Position p, EColor color) const
+Position Board::FindCheck(Position p, EColor color) 
 {
 	PositionList currMoves;
 
@@ -485,7 +485,7 @@ bool Board::OnlyKing(EColor color) const
 	return true;
 }
 
-bool Board::FindHelp(Position p, EColor color) const
+bool Board::FindHelp(Position p, EColor color) 
 {
 	PositionList kingMoves = GetMoves(p);
 
@@ -522,6 +522,7 @@ bool Board::FindHelp(Position p, EColor color) const
 	PositionList attackPattern = attackPiece->DeterminePattern(attackPos, p);
 
 	PositionList helpMoves;
+
 	for (auto currPos : attackPattern)
 	{
 		for (int i = 0; i < 8; i++)
@@ -555,7 +556,7 @@ bool Board::FindHelp(Position p, EColor color) const
 	return false;
 }
 
-bool Board::KillCheck(Position p, EColor color) const
+bool Board::KillCheck(Position p, EColor color) 
 {
 	int x = p.first,
 		y = p.second;
@@ -709,7 +710,7 @@ bool Board::IsCastle(Position p1, Position p2)
 		return false;
 	}
 
-	if (p1.first != 0 && p1.first != 7)
+	if ((p1.first != 0 && p1.first != 7) || (p2.first != 0 && p2.first != 7))
 	{
 		return false;
 	}
@@ -724,17 +725,14 @@ bool Board::IsCastle(Position p1, Position p2)
 		return false;
 	}
 
-	PositionList castleTiles = initialPiece->DeterminePattern(p1, p2);
+	PositionList castleTiles = finalPiece->DeterminePattern(p2, p1);
 
-	auto IsCheckCastle = [&](Position p) {
-		return IsCheck(p, (m_board[p.first][p.second])->GetColor());
-	};
-
-	auto it = std::find_if(castleTiles.begin(), castleTiles.end(), IsCheckCastle);
-
-	if (it != castleTiles.end())
+	for (int i = 0; i < castleTiles.size(); i++)
 	{
-		return false;
+		if (IsCheck(castleTiles[i], m_board[p1.first][p1.second]->GetColor()))
+		{
+			return false;
+		}
 	}
 
 	return true;
@@ -766,6 +764,15 @@ void Board::Castle(Position p1, Position p2)
 
 	(*this)[p1] = {};
 	(*this)[p2] = {};
+
+	if (IsCheck({ p2.first, newSecondKing }, m_board[p2.first][newSecondKing]->GetColor()))
+	{
+		m_board[p2.first][newSecondKing] = {};
+		m_board[p2.first][newSecondRook] = {};
+
+		(*this)[p1] = currPiece;
+		(*this)[p2] = nextPiece;
+	}
 }
 
 PositionList Board::DefendedPositions(Position p, EColor color) const
@@ -800,7 +807,7 @@ PositionList Board::DefendedPositions(Position p, EColor color) const
 	return newList;
 }
 
-PositionList Board::GetMoves(Position p) const
+PositionList Board::GetMoves(Position p)
 {
 	auto initialPiece = m_board[p.first][p.second];
 
