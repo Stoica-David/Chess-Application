@@ -883,8 +883,8 @@ Bitset Board::GetCurrentPosition() const
 
 				newBitset[4 * k + 3] = ((int)currType / 4) % 2;
 
-				k++;
 			}
+			k++;
 		}
 	}
 

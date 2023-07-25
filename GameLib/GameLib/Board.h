@@ -78,7 +78,6 @@ private:
 	void InitializeWhite(char c, Position p);
 	void InitializeBlack(char c, Position p);
 
-
 private:
 	ChessBoard m_board;
 	BitMatrix m_prevPositions;
