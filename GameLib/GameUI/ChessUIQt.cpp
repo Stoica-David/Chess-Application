@@ -9,8 +9,8 @@
 #include <array>
 #include <QClipboard>
 
+void InitializeWhite(std::string &m, EPieceType type, Position p)
 
-void InitializeWhite(std::string& m, EPieceType type, Position p)
 {
 	switch (type)
 	{
@@ -78,47 +78,64 @@ void InitializeBlack(std::string& m, EPieceType type, Position p)
 	}
 }
 
-void InitializeExtraInfo(std::string& m, EState state, EColor turn)
+void InitializeExtraInfo(std::string& m, IGamePtr game)
 {
-	if (turn == EColor::Black)
-		m += "Turn: Black\n";
-	else
-		m += "Turn: White\n";
+	if (game->GetTurn() == EColor::Black)
+	{
+		if (game->IsDraw())
+		{
+			m += "Game g(m, EColor::Black, EState::Draw);";
+			return;
+		}
 
-	m += "State: ";
+		if (game->IsDrawProposed())
+		{
+			m += "Game g(m, EColor::Black, EState::DrawIsProposed);";
+			return;
+		}
 
-	switch (state)
-	{
-	case EState::BlackWon:
-	{
-		m += "Black won\n";
-		break;
+		if (game->IsOver())
+		{
+			m += "Game g(m, EColor::Black, EState::BlackWon);";
+			return;
+		}
+
+		if (game->ChoosePiece())
+		{
+			m += "Game g(m, EColor::Black, EState::ChoosePiece);";
+			return;
+		}
+
+		m += "Game g(m, EColor::Black, EState::Playing);";
 	}
-	case EState::ChoosePiece:
+
+	if (game->GetTurn() == EColor::White)
 	{
-		m += "Choose piece\n";
-		break;
-	}
-	case EState::Draw:
-	{
-		m += "Draw\n";
-		break;
-	}
-	case EState::DrawIsProposed:
-	{
-		m += "DrawIsProposed\n";
-		break;
-	}
-	case EState::Playing:
-	{
-		m += "Playing\n";
-		break;
-	}
-	case EState::WhiteWon:
-	{
-		m += "White won\n";
-		break;
-	}
+		if (game->IsDraw())
+		{
+			m += "Game g(m, EColor::White, EState::Draw);";
+			return;
+		}
+
+		if (game->IsDrawProposed())
+		{
+			m += "Game g(m, EColor::White, EState::DrawIsProposed);";
+			return;
+		}
+
+		if (game->IsOver())
+		{
+			m += "Game g(m, EColor::White, EState::WhiteWon);";
+			return;
+		}
+
+		if (game->ChoosePiece())
+		{
+			m += "Game g(m, EColor::White, EState::ChoosePiece);";
+			return;
+		}
+
+		m += "Game g(m, EColor::White, EState::Playing);";
 	}
 }
 
@@ -448,7 +465,8 @@ void ChessUIQt::OnHistoryClicked(QListWidgetItem* item)
 
 void ChessUIQt::OnCopyButtonClicked()
 {
-	std::string chessBoard = "{ {\n";
+	std::string chessBoard = "m = { {\n";
+
 	for (int i = 0; i < 8; i++)
 	{
 		chessBoard += '{';
@@ -482,12 +500,9 @@ void ChessUIQt::OnCopyButtonClicked()
 		}
 		chessBoard += "},\n";
 	}
-	chessBoard += "}};\n";
+	chessBoard += "}};\n\n";
 
-	if (m_game->GetTurn() == EColor::Black)
-		chessBoard += "Turn: Black\n";
-	else
-		chessBoard += "Turn: White\n";
+	InitializeExtraInfo(chessBoard, m_game);
 
 	QString qChessBoard = QString::fromStdString(chessBoard);
 

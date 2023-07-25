@@ -3,7 +3,6 @@
 #include "IPieceInfo.h"
 #include "Position.h"
 #include <string>
-#include "EState.h"
 
 using IGamePtr = std::shared_ptr<class IGame>;
 using CharMatrix = std::array<std::array<char, 8>, 8>;
