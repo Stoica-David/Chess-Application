@@ -8,7 +8,6 @@
 #include<vector>
 #include<memory>
 
-
 class Game : public IGame
 {
 public:
@@ -34,12 +33,21 @@ public:
 	void PromoteTo(const std::string& string, Position p) override;
 
 	void Restart() override;
+	
+	void AddListener(IGameListener*) override;
+	void RemoveListener(IGameListener*) override;
+
+	void NotifyMove() override;
+	void NotifyGameOver() override;
+	void NotifyDraw() override;
+	void NotifyChoosePiece(Position) override;
 
 	//Other methods
 	PiecesPtr GetPiece(Position) const;
 	bool Stalemate();
 
 	PositionList GetMoves(Position p) override;
+
 
 private:
 	void SwitchTurn();
@@ -49,4 +57,5 @@ private:
 	Board m_gameboard;
 	EColor m_turn;
 	EState m_state;
+	ListenersList m_listeners;
 };

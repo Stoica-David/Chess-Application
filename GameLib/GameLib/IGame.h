@@ -2,10 +2,12 @@
 
 #include "IPieceInfo.h"
 #include "Position.h"
+#include "IGameListener.h"
 #include <string>
 
 using IGamePtr = std::shared_ptr<class IGame>;
 using CharMatrix = std::array<std::array<char, 8>, 8>;
+using ListenersList = std::vector<IGameListener*>;
 
 class IGame
 {
@@ -31,6 +33,14 @@ public:
 	virtual PositionList GetMoves(Position p) = 0;
 
 	virtual void Restart() = 0;
+
+	virtual void AddListener(IGameListener*) = 0;
+	virtual void RemoveListener(IGameListener*) = 0;
+	
+	virtual void NotifyMove() = 0;
+	virtual void NotifyGameOver() = 0;
+	virtual void NotifyDraw() = 0;
+	virtual void NotifyChoosePiece(Position) = 0;
 
 	virtual ~IGame() = default;
 };

@@ -225,10 +225,14 @@ ChessUIQt::ChessUIQt(QWidget* parent)
 	this->setCentralWidget(mainWidget);
 
 	m_game = IGame::Produce();
+
+	m_game->AddListener(this);
 }
 
 ChessUIQt::~ChessUIQt()
 {
+	m_game->RemoveListener(this);
+
 	//No delete?
 	//https://doc.qt.io/qt-6/objecttrees.html
 }
@@ -358,48 +362,6 @@ void ChessUIQt::OnButtonClicked(const std::pair<int, int>& position)
 			{
 				m_game->Move(m_selectedCell.value(), position);
 
-				if (m_game->ChoosePiece())
-				{
-					ShowPromoteOptions(position);
-				}
-
-				UpdateBoard(GetBoard());
-
-				if (m_game->GetTurn() == EColor::Black)
-				{
-					m_MessageLabel->setText("Waiting for black player");
-				}
-				else
-				{
-					m_MessageLabel->setText("Waiting for white player");
-				}
-
-				if (m_game->IsDraw())
-				{
-					m_game->DrawResponse(true);
-
-					QMessageBox::StandardButton drawMessage;
-					drawMessage = QMessageBox::information(this, "Draw!", " The game concluded as a draw!");
-					m_MessageLabel->setText("Draw!");
-				}
-				else if (m_game->IsOver())
-				{
-					QMessageBox::StandardButton wonMessage;
-
-					if (m_game->GetTurn() == EColor::White)
-					{
-						wonMessage = QMessageBox::information(this, "Congrats!", "White player won.");
-						m_MessageLabel->setText("White player won!");
-					}
-					else
-					{
-						wonMessage = QMessageBox::information(this, "Congrats!", "Black player won.");
-						m_MessageLabel->setText("Black player won!");
-					}
-
-					m_ExceptionLabel->setText("");
-				}
-
 				//Unselect prev. pressed button
 				m_grid[m_selectedCell.value().first][m_selectedCell.value().second]->setSelected(false);
 				m_selectedCell.reset();
@@ -435,6 +397,7 @@ void ChessUIQt::OnLoadButtonClicked()
 void ChessUIQt::OnRestartButtonClicked()
 {
 	m_game->Restart();
+	m_game->AddListener(this);
 	m_MessageLabel->setText("Waiting for white player");
 	m_ExceptionLabel->setText("");
 	StartGame();
@@ -570,5 +533,62 @@ void ChessUIQt::ShowPromoteOptions(const Position& p)
 		QMessageBox notification;
 		notification.setText("You selected " + item);
 		notification.exec();
+	}
+}
+
+void ChessUIQt::OnMove()
+{
+	UpdateBoard(GetBoard());
+
+	if (m_game->GetTurn() == EColor::Black)
+	{
+		m_MessageLabel->setText("Waiting for black player");
+	}
+	else
+	{
+		m_MessageLabel->setText("Waiting for white player");
+	}
+}
+
+void ChessUIQt::OnGameOver()
+{
+	QMessageBox::StandardButton wonMessage;
+
+	if (m_game->GetTurn() == EColor::White)
+	{
+		wonMessage = QMessageBox::information(this, "End!", " White player won!");
+
+		m_MessageLabel->setText("White player won!");
+	}
+	else
+	{
+		wonMessage = QMessageBox::information(this, "End!", " Black player won!");
+
+		m_MessageLabel->setText("Black player won!");
+	}
+
+	m_ExceptionLabel->setText("");
+}
+
+void ChessUIQt::OnDraw()
+{
+	if (m_game->IsDraw())
+	{
+		m_game->DrawResponse(true);
+
+		QMessageBox::StandardButton drawMessage;
+		
+		drawMessage = QMessageBox::information(this, "Draw!", " The game concluded as a draw!");
+
+		m_MessageLabel->setText("Draw!");
+	}
+}
+
+void ChessUIQt::OnChoosePiece(Position position)
+{
+
+	if (m_game->ChoosePiece())
+	{
+		ShowPromoteOptions(position);
 	}
 }

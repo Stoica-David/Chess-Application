@@ -4,10 +4,11 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    ChessUIQt w;
-    w.show();
-    w.StartGame();
+    std::shared_ptr<ChessUIQt> w = std::make_shared<ChessUIQt>();
 
-    QObject::connect(&w, &ChessUIQt::Exit, &a, &QApplication::quit);
+    w->show();
+    w->StartGame();
+
+    QObject::connect(w.get(), &ChessUIQt::Exit, &a, &QApplication::quit);
     return a.exec();
 }

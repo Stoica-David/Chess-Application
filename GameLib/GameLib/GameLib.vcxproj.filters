@@ -16,6 +16,9 @@
     <Filter Include="Header Files\API">
       <UniqueIdentifier>{1eb00721-fbae-44fd-a9a3-d1fe2f1bd528}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\API\Exceptions">
+      <UniqueIdentifier>{5d51eebc-52bd-4af8-b71c-7ad023f6d1af}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Main.cpp">
@@ -119,18 +122,6 @@
     <ClInclude Include="Pawn.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="ChessException.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="MoveException.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PositionException.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="InTheWayException.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="Position.h">
       <Filter>Header Files\API</Filter>
     </ClInclude>
@@ -146,35 +137,50 @@
     <ClInclude Include="PieceInfo.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="DoesntExistException.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="TurnException.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="SameColorException.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="PawnDiagonallyException.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="StillCheckException.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="GameExceptions.h">
-      <Filter>Header Files\API</Filter>
-    </ClInclude>
-    <ClInclude Include="BoardExceptions.h">
-      <Filter>Header Files\API</Filter>
-    </ClInclude>
     <ClInclude Include="EState.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="BoardExceptions.h">
+      <Filter>Header Files\API\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="GameExceptions.h">
+      <Filter>Header Files\API\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="DoesntExistException.h">
+      <Filter>Header Files\API\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="ChessException.h">
+      <Filter>Header Files\API\Exceptions</Filter>
+    </ClInclude>
     <ClInclude Include="DrawProposedException.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\API\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="InTheWayException.h">
+      <Filter>Header Files\API\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="MoveException.h">
+      <Filter>Header Files\API\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="PawnDiagonallyException.h">
+      <Filter>Header Files\API\Exceptions</Filter>
     </ClInclude>
     <ClInclude Include="PromoteException.h">
-      <Filter>Header Files</Filter>
+      <Filter>Header Files\API\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="PositionException.h">
+      <Filter>Header Files\API\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="SameColorException.h">
+      <Filter>Header Files\API\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="StillCheckException.h">
+      <Filter>Header Files\API\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="TurnException.h">
+      <Filter>Header Files\API\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="IGameListener.h">
+      <Filter>Header Files\API</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
