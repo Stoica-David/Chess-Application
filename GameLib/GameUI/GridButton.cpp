@@ -65,7 +65,7 @@ void GridButton::updateBackgroundColor()
 	if (defaultColorBlack && !m_Highlighted)
 		backColor = "#464e53";
 	if (defaultColorBlack && m_Highlighted)
-		backColor = "#3f4224";
+		backColor = "#f8ff94";
 	if (!defaultColorBlack && !m_Highlighted)
 		backColor = "#d6d6d6";
 	if (!defaultColorBlack && m_Highlighted)
