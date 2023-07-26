@@ -177,6 +177,7 @@
     <ClInclude Include="DoesntExistException.h" />
     <ClInclude Include="DrawProposedException.h" />
     <ClInclude Include="EColor.h" />
+    <ClInclude Include="EOverState.h" />
     <ClInclude Include="EPieceType.h" />
     <ClInclude Include="ChessException.h" />
     <ClInclude Include="EState.h" />

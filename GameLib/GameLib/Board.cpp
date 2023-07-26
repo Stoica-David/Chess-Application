@@ -4,30 +4,7 @@
 
 Board::Board()
 {
-	std::vector<EPieceType> TYPES = {
-		EPieceType::Rook,
-		EPieceType::Knight,
-		EPieceType::Bishop,
-		EPieceType::Queen,
-		EPieceType::King,
-		EPieceType::Bishop,
-		EPieceType::Knight,
-		EPieceType::Rook
-	};
-
-	for (int i = 0; i < TYPES.size(); i++)
-	{
-		m_board[0][i] = Piece::Produce(TYPES[i], EColor::Black);
-		m_board[7][i] = Piece::Produce(TYPES[i], EColor::White);
-	}
-
-	for (int i = 0; i < 8; i++)
-	{
-		m_board[1][i] = Piece::Produce(EPieceType::Pawn, EColor::Black);
-		m_board[6][i] = Piece::Produce(EPieceType::Pawn, EColor::White);
-	}
-
-	UpdatePrevPositions();
+	Reset();
 }
 
 Board::Board(const CharMatrix& matrix)
@@ -905,6 +882,37 @@ bool Board::Check3Fold(const Bitset& bitset) const
 	}
 
 	return (nrAppearences == 3);
+}
+
+void Board::Reset()
+{
+	std::vector<EPieceType> TYPES = {
+	EPieceType::Rook,
+	EPieceType::Knight,
+	EPieceType::Bishop,
+	EPieceType::Queen,
+	EPieceType::King,
+	EPieceType::Bishop,
+	EPieceType::Knight,
+	EPieceType::Rook
+	};
+
+	for (int i = 0; i < TYPES.size(); i++)
+	{
+		m_board[0][i] = Piece::Produce(TYPES[i], EColor::Black);
+		m_board[7][i] = Piece::Produce(TYPES[i], EColor::White);
+	}
+
+	for (int i = 0; i < 8; i++)
+	{
+		m_board[1][i] = Piece::Produce(EPieceType::Pawn, EColor::Black);
+		m_board[6][i] = Piece::Produce(EPieceType::Pawn, EColor::White);
+	}
+}
+
+bool Board::IsPromotePossible(Position p) const
+{
+	return (m_board[p.first][p.second] && m_board[p.first][p.second]->Is(EPieceType::Pawn) && (p.first == 0 || p.first == 7));
 }
 
 void Board::UpdatePrevPositions()

@@ -182,5 +182,8 @@
     <ClInclude Include="IGameListener.h">
       <Filter>Header Files\API</Filter>
     </ClInclude>
+    <ClInclude Include="EOverState.h">
+      <Filter>Header Files\API</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

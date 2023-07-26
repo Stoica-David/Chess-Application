@@ -47,6 +47,10 @@ public:
 
 	bool Check3Fold(const Bitset& bitset) const;
 
+	void Reset();
+
+	bool IsPromotePossible(Position p) const;
+
 private:
 	static bool PawnGoesDiagonally(Position p1, Position p2);
 

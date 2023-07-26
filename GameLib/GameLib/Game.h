@@ -31,7 +31,7 @@ public:
 	bool IsOver() const override;
 	bool IsDrawProposed() const override;
 
-	bool ChoosePiece() const override;
+	bool IsPromoting() const override;
 	void PromoteTo(EPieceType pieceType, Position p) override;
 
 	void Restart() override;

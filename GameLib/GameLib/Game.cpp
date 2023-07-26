@@ -141,7 +141,7 @@ void Game::Move(Position p1, Position p2)
 
 		m_gameboard.Move(p1, p2);
 
-		if (m_gameboard[p2] && m_gameboard[p2]->Is(EPieceType::Pawn) && (p2.first == 0 || p2.first == 7))
+		if(m_gameboard.IsPromotePossible(p2))
 		{
 			UpdateState(EState::ChoosePiece);
 			NotifyChoosePiece(p2);
@@ -230,7 +230,7 @@ bool Game::IsDrawProposed() const
 	return (m_state == EState::DrawIsProposed);
 }
 
-bool Game::ChoosePiece() const
+bool Game::IsPromoting() const
 {
 	return (m_state == EState::ChoosePiece);
 }
@@ -254,11 +254,9 @@ void Game::PromoteTo(EPieceType pieceType, Position p)
 
 void Game::Restart()
 {
-	ListenersList oldList = m_listeners;
-
-	*this = Game();
-
-	m_listeners = oldList;
+	m_turn = EColor::White;
+	m_state = EState::Playing;
+	m_gameboard.Reset();
 }
 
 void Game::SwitchTurn()

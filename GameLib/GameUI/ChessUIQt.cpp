@@ -100,7 +100,7 @@ void InitializeExtraInfo(std::string& m, IGamePtr game)
 			return;
 		}
 
-		if (game->ChoosePiece())
+		if (game->IsPromoting())
 		{
 			m += "Game g(m, EColor::Black, EState::ChoosePiece);";
 			return;
@@ -129,7 +129,7 @@ void InitializeExtraInfo(std::string& m, IGamePtr game)
 			return;
 		}
 
-		if (game->ChoosePiece())
+		if (game->IsPromoting())
 		{
 			m += "Game g(m, EColor::White, EState::ChoosePiece);";
 			return;
@@ -604,7 +604,7 @@ void ChessUIQt::OnDraw()
 
 void ChessUIQt::OnChoosePiece(Position position)
 {
-	if (m_game->ChoosePiece())
+	if (m_game->IsPromoting())
 	{
 		ShowPromoteOptions(position);
 	}

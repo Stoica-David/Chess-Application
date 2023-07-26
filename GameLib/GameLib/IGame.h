@@ -3,6 +3,7 @@
 #include "IPieceInfo.h"
 #include "Position.h"
 #include "IGameListener.h"
+#include "EOverState.h"
 #include <string>
 
 using IGamePtr = std::shared_ptr<class IGame>;
@@ -29,7 +30,7 @@ public:
 	virtual bool IsDrawProposed()const = 0;
 	virtual void DrawResponse(bool) = 0;
 
-	virtual bool ChoosePiece()const = 0;
+	virtual bool IsPromoting()const = 0;
 	virtual void PromoteTo(EPieceType, Position) = 0;
 
 	virtual PositionList GetMoves(Position p) = 0;
