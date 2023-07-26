@@ -41,6 +41,7 @@ public:
 	virtual void NotifyGameOver() = 0;
 	virtual void NotifyDraw() = 0;
 	virtual void NotifyChoosePiece(Position) = 0;
+	virtual void NotifyCheck() = 0;
 
 	virtual ~IGame() = default;
 };

@@ -43,6 +43,7 @@ public:
     void OnGameOver() override;
     void OnDraw() override;
     void OnChoosePiece(Position) override;
+    void OnCheck() override;
 
 public slots:
     void OnButtonClicked(const std::pair<int, int>& position);

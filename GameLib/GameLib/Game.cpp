@@ -153,7 +153,12 @@ void Game::Move(Position p1, Position p2)
 
 		NotifyMove();
 
-		if (m_gameboard.IsOver(EColor::White))
+		if (m_gameboard.IsCheck(p2, m_turn))
+		{
+			UpdateState(EState::Check);
+			NotifyCheck();
+		}
+		else if (m_gameboard.IsOver(EColor::White))
 		{
 			UpdateState(EState::BlackWon);
 			NotifyGameOver();
@@ -182,6 +187,7 @@ void Game::DrawResponse(bool draw)
 	if (draw)
 	{
 		m_state = EState::Draw;
+		NotifyDraw();
 	}
 	else
 	{
@@ -249,7 +255,11 @@ void Game::PromoteTo(const std::string& string, Position p)
 
 void Game::Restart()
 {
+	ListenersList oldList = m_listeners;
+
 	*this = Game();
+
+	m_listeners = oldList;
 }
 
 void Game::SwitchTurn()
@@ -280,6 +290,14 @@ void Game::NotifyChoosePiece(Position p)
 	for (const auto& x : m_listeners)
 	{
 		x->OnChoosePiece(p);
+	}
+}
+
+void Game::NotifyCheck()
+{
+	for (const auto& x : m_listeners)
+	{
+		x->OnDraw();
 	}
 }
 

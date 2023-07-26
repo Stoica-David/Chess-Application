@@ -4,6 +4,7 @@ enum class EState
 {
 	Playing,
 	Draw,
+	Check,
 	WhiteWon,
 	BlackWon,
 	DrawIsProposed,

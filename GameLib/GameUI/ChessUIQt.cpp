@@ -586,9 +586,13 @@ void ChessUIQt::OnDraw()
 
 void ChessUIQt::OnChoosePiece(Position position)
 {
-
 	if (m_game->ChoosePiece())
 	{
 		ShowPromoteOptions(position);
 	}
+}
+
+void ChessUIQt::OnCheck()
+{
+
 }

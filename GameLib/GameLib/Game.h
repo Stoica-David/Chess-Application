@@ -41,6 +41,7 @@ public:
 	void NotifyGameOver() override;
 	void NotifyDraw() override;
 	void NotifyChoosePiece(Position) override;
+	void NotifyCheck() override;
 
 	//Other methods
 	PiecesPtr GetPiece(Position) const;
