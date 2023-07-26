@@ -3,9 +3,13 @@
 #include "IPieceInfo.h"
 #include "Position.h"
 #include <string>
+#include "IGameListener.h"
 
 using IGamePtr = std::shared_ptr<class IGame>;
+using IGameListenerPtr = std::shared_ptr<IGameListener>;
+using IGameListenerWeakPtr = std::weak_ptr<IGameListener>;
 using CharMatrix = std::array<std::array<char, 8>, 8>;
+using ListenersList = std::vector<std::weak_ptr<IGameListener>>;
 
 class IGame
 {
@@ -31,6 +35,14 @@ public:
 	virtual PositionList GetMoves(Position p) = 0;
 
 	virtual void Restart() = 0;
+
+	virtual void AddListener(IGameListenerPtr) = 0;
+	virtual void RemoveListener(IGameListener*) = 0;
+
+	virtual void NotifyMove() = 0;
+	virtual void NotifyGameOver() = 0;
+	virtual void NotifyDraw() = 0;
+	virtual void NotifyChoosePiece(Position p) = 0;
 
 	virtual ~IGame() = default;
 };

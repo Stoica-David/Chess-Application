@@ -141,28 +141,32 @@ void Game::Move(Position p1, Position p2)
 
 		m_gameboard.Move(p1, p2);
 
-		if (m_gameboard.IsOver(EColor::White))
-		{
-			UpdateState(EState::BlackWon);
-		}
-
-		if (m_gameboard.IsOver(EColor::Black))
-		{
-			UpdateState(EState::WhiteWon);
-		}
-
-		if (m_gameboard.IsDraw())
-		{
-			UpdateState(EState::Draw);
-		}
-		
 		if (m_gameboard[p2] && m_gameboard[p2]->Is(EPieceType::Pawn) && (p2.first == 0 || p2.first == 7))
 		{
 			UpdateState(EState::ChoosePiece);
+			NotifyChoosePiece(p2);
 		}
 		else
 		{
 			SwitchTurn();
+		}
+
+		NotifyMove();
+
+		if (m_gameboard.IsOver(EColor::White))
+		{
+			UpdateState(EState::BlackWon);
+			NotifyGameOver();
+		}
+		else if (m_gameboard.IsOver(EColor::Black))
+		{
+			UpdateState(EState::WhiteWon);
+			NotifyGameOver();
+		}
+		else if (m_gameboard.IsDraw())
+		{
+			UpdateState(EState::Draw);
+			NotifyDraw();
 		}
 	}
 }
@@ -261,5 +265,58 @@ bool Game::Stalemate()
 PositionList Game::GetMoves(Position p)
 {
 	return m_gameboard.GetMoves(p);
+}
+
+void Game::AddListener(IGameListenerPtr listener)
+{
+	m_listeners.push_back(listener);
+}
+
+void Game::RemoveListener(IGameListener* listener)
+{
+	auto func = [listener](IGameListenerWeakPtr& weak)
+	{
+		auto sp = weak.lock();
+
+		return !sp || sp.get() == listener;
+	};
+
+	m_listeners.erase(std::remove_if(m_listeners.begin(), m_listeners.end(), func));
+}
+
+void Game::NotifyMove()
+{
+	for (const auto& x : m_listeners)
+	{
+		auto sp = x.lock();
+		sp->OnMove();
+	}
+}
+
+void Game::NotifyGameOver()
+{
+	for (const auto& x : m_listeners)
+	{
+		auto sp = x.lock();
+		sp->OnGameOver();
+	}
+}
+
+void Game::NotifyDraw()
+{
+	for (const auto& x : m_listeners)
+	{
+		auto sp = x.lock();
+		sp->OnDraw();
+	}
+}
+
+void Game::NotifyChoosePiece(Position p)
+{
+	for (const auto& x : m_listeners)
+	{
+		auto sp = x.lock();
+		sp->OnChoosePiece(p);
+	}
 }
 

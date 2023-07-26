@@ -12,7 +12,7 @@
 
 using PairMatrix = std::array<std::array<std::pair<PieceType, PieceColor>, 8>, 8>;
 
-class ChessUIQt : public QMainWindow
+class ChessUIQt : public QMainWindow, public IGameListener
 {
     Q_OBJECT
 
@@ -22,6 +22,8 @@ private:
 public:
     ChessUIQt(QWidget *parent = nullptr);
     ~ChessUIQt() override;
+
+    void setGame(IGamePtr);
 
     void InitializeMessage(QGridLayout* mainGridLayout);
     void InitializeButtons(QGridLayout* mainGridLayout);
@@ -41,6 +43,11 @@ public:
 
 public slots:
     void OnButtonClicked(const std::pair<int, int>& position);
+
+	void OnMove() override;
+	void OnGameOver() override;
+	void OnDraw() override;
+	void OnChoosePiece(Position) override;
 
     void OnSaveButtonClicked();
     void OnLoadButtonClicked();

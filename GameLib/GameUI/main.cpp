@@ -4,10 +4,17 @@
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    ChessUIQt w;
-    w.show();
-    w.StartGame();
 
-    QObject::connect(&w, &ChessUIQt::Exit, &a, &QApplication::quit);
+    IGamePtr game = IGame::Produce();
+
+    auto ui = std::make_shared<ChessUIQt>();
+
+    game->AddListener(ui);
+
+    ui->setGame(game);
+    ui->show();
+    ui->StartGame();
+
+    QObject::connect(ui.get(), &ChessUIQt::Exit, &a, &QApplication::quit);
     return a.exec();
 }

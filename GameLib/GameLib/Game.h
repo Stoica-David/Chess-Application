@@ -41,6 +41,16 @@ public:
 
 	PositionList GetMoves(Position p) override;
 
+
+	void AddListener(IGameListenerPtr) override;
+	void RemoveListener(IGameListener*) override;
+
+
+	void NotifyMove() override;
+	void NotifyGameOver() override;
+	void NotifyDraw() override;
+	void NotifyChoosePiece(Position p) override;
+
 private:
 	void SwitchTurn();
 	void UpdateState(EState);
@@ -49,4 +59,5 @@ private:
 	Board m_gameboard;
 	EColor m_turn;
 	EState m_state;
+	ListenersList m_listeners;
 };
