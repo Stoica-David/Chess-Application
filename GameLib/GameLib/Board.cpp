@@ -61,7 +61,7 @@ IPieceInfoPtr Board::GetPieceInfo(Position p) const
 {
 	if (auto piece = GetPiece(p))
 	{
-		return PieceInfo::Produce(piece->GetType(), piece->GetColor());
+		return std::make_shared<PieceInfo>(piece->GetType(), piece->GetColor());
 	}
 
 	return {};
@@ -121,7 +121,7 @@ bool Board::VerifyTheWay(Position p1, Position p2)
 	return true;
 }
 
-bool Board::IsCheck(Position p, EColor color)
+bool Board::IsCheck(Position p, EColor color) const
 {
 	PositionList moves;
 
@@ -259,7 +259,7 @@ bool Board::IsDraw() const
 	return false;
 }
 
-bool Board::Stalemate(EColor color)
+bool Board::Stalemate(EColor color) const
 {
 	Position kingPos = FindKing(color);
 
@@ -797,7 +797,7 @@ PositionList Board::DefendedPositions(Position p, EColor color) const
 	return newList;
 }
 
-PositionList Board::GetMoves(Position p)
+PositionList Board::GetMoves(Position p) const
 {
 	auto initialPiece = m_board[p.first][p.second];
 

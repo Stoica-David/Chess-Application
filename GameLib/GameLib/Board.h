@@ -29,11 +29,11 @@ public:
 	// Functions
 	bool IsOver(EColor color);
 	bool VerifyTheWay(Position p1, Position p2);
-	bool IsCheck(Position p, EColor color);
+	bool IsCheck(Position p, EColor color) const;
 	bool IsSameWay(Position p1, Position p2, EColor color);
 	bool IsCheckMate(EColor color);
 	bool IsDraw() const;
-	bool Stalemate(EColor color);
+	bool Stalemate(EColor color) const;
 
 	Position FindCheck(Position p, EColor color);
 	Position FindKing(EColor) const;
@@ -43,7 +43,7 @@ public:
 	void UpdatePiece(EPieceType type, Position p, EColor color);
 
 	void Move(Position p1, Position p2);
-	PositionList GetMoves(Position p);
+	PositionList GetMoves(Position p) const;
 
 	bool Check3Fold(const Bitset& bitset) const;
 

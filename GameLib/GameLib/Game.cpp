@@ -187,7 +187,6 @@ void Game::DrawResponse(bool draw)
 	if (draw)
 	{
 		m_state = EState::Draw;
-		NotifyDraw();
 	}
 	else
 	{
@@ -216,7 +215,7 @@ EColor Game::GetTurn() const
 	return m_turn;
 }
 
-bool Game::IsDraw()
+bool Game::IsDraw() const
 {
 	return (m_gameboard.IsDraw() || m_state == EState::Draw || Stalemate());
 }
@@ -267,7 +266,7 @@ void Game::SwitchTurn()
 	m_turn = m_turn == EColor::Black ? EColor::White : EColor::Black;
 }
 
-bool Game::Stalemate()
+bool Game::Stalemate() const
 {
 	return (m_gameboard.Stalemate(m_turn));
 }
@@ -277,7 +276,7 @@ PositionList Game::GetMoves(Position p)
 	return m_gameboard.GetMoves(p);
 }
 
-bool Game::IsCheck()
+bool Game::IsCheck() const
 {
 	return m_state == EState::Check;
 }
@@ -315,7 +314,7 @@ void Game::NotifyCheck()
 	}
 }
 
-void Game::AddListener(IGameListenerSharedPtr newListener)
+void Game::AddListener(IGameListenerPtr newListener)
 {
 	m_listeners.push_back(newListener);
 }

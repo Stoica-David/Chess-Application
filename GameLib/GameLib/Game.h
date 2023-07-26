@@ -27,7 +27,7 @@ public:
 	IPieceInfoPtr GetPieceInfo(Position) const override;
 	EColor GetTurn() const override;
 
-	bool IsDraw() override;
+	bool IsDraw() const override;
 	bool IsOver() const override;
 	bool IsDrawProposed() const override;
 
@@ -36,22 +36,22 @@ public:
 
 	void Restart() override;
 	
-	void AddListener(IGameListenerSharedPtr) override;
+	void AddListener(IGameListenerPtr) override;
 	void RemoveListener(IGameListener*) override;
 
-	void NotifyMove() override;
-	void NotifyGameOver() override;
-	void NotifyDraw() override;
-	void NotifyChoosePiece(Position) override;
-	void NotifyCheck() override;
-
 	//Other methods
+	void NotifyMove();
+	void NotifyGameOver();
+	void NotifyDraw();
+	void NotifyChoosePiece(Position);
+	void NotifyCheck();
+
 	PiecesPtr GetPiece(Position) const;
-	bool Stalemate();
+	bool Stalemate() const;
 
 	PositionList GetMoves(Position p) override;
 
-	bool IsCheck() override;
+	bool IsCheck() const override;
 
 private:
 	void SwitchTurn();
