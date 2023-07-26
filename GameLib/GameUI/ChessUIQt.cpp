@@ -503,6 +503,26 @@ void ChessUIQt::StartGame()
 	UpdateBoard(GetBoard());
 }
 
+static EPieceType ConvertToEnum(const std::string& pieceType)
+{
+	if (pieceType == "Queen")
+	{
+		return EPieceType::Queen;
+	}
+	if (pieceType == "Rook")
+	{
+		return EPieceType::Rook;
+	}
+	if (pieceType == "Bishop")
+	{
+		return EPieceType::Bishop;
+	}
+	if (pieceType == "Knight")
+	{
+		return EPieceType::Knight;
+	}
+}
+
 void ChessUIQt::ShowPromoteOptions(const Position& p)
 {
 	QInputDialog dialog;
@@ -521,7 +541,7 @@ void ChessUIQt::ShowPromoteOptions(const Position& p)
 
 	if (ok && !item.isEmpty())
 	{
-		m_game->PromoteTo(item.toStdString(), p);
+		m_game->PromoteTo(ConvertToEnum(item.toStdString()), p);
 		//TODO DELETE ME...
 		QMessageBox notification;
 		notification.setText("You selected " + item);

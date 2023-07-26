@@ -39,7 +39,7 @@ public:
 	Position FindKing(EColor) const;
 	PieceVector RemainingPieces() const;
 
-	void PromoteTo(const std::string& string, Position p, EColor color);
+	void PromoteTo(EPieceType pieceType, Position p, EColor color);
 	void UpdatePiece(EPieceType type, Position p, EColor color);
 
 	void Move(Position p1, Position p2);

@@ -348,7 +348,7 @@ PieceVector Board::RemainingPieces() const
 	return newList;
 }
 
-void Board::PromoteTo(const std::string& string, Position p, EColor color)
+void Board::PromoteTo(EPieceType pieceType, Position p, EColor color)
 {
 	Position prevPos;
 
@@ -374,21 +374,22 @@ void Board::PromoteTo(const std::string& string, Position p, EColor color)
 
 	m_board[prevPos.first][prevPos.second] = {};
 
-	if (string == "Queen")
+	switch (pieceType)
 	{
-		UpdatePiece(EPieceType::Queen, p, color);
-	}
-	if (string == "Rook")
-	{
+	case EPieceType::Rook:
 		UpdatePiece(EPieceType::Rook, p, color);
-	}
-	if (string == "Bishop")
-	{
-		UpdatePiece(EPieceType::Bishop, p, color);
-	}
-	if (string == "Knight")
-	{
+		break;
+	case EPieceType::Knight:
 		UpdatePiece(EPieceType::Knight, p, color);
+		break;
+	case EPieceType::Bishop:
+		UpdatePiece(EPieceType::Bishop, p, color);
+		break;
+	case EPieceType::Queen:
+		UpdatePiece(EPieceType::Queen, p, color);
+		break;
+	default:
+		break;
 	}
 }
 

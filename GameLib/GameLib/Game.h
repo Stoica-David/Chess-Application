@@ -32,7 +32,7 @@ public:
 	bool IsDrawProposed() const override;
 
 	bool ChoosePiece() const override;
-	void PromoteTo(const std::string& string, Position p) override;
+	void PromoteTo(EPieceType pieceType, Position p) override;
 
 	void Restart() override;
 	

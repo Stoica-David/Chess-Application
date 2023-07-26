@@ -236,9 +236,9 @@ bool Game::ChoosePiece() const
 	return (m_state == EState::ChoosePiece);
 }
 
-void Game::PromoteTo(const std::string& string, Position p)
+void Game::PromoteTo(EPieceType pieceType, Position p)
 {
-	m_gameboard.PromoteTo(string, p, m_turn);
+	m_gameboard.PromoteTo(pieceType, p, m_turn);
 
 	if (m_gameboard.IsCheckMate(EColor::White))
 	{
