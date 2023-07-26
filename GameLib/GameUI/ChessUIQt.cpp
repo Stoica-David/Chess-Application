@@ -55,7 +55,7 @@ void InitializeBlack(std::string& m, EPieceType type, Position p)
 	}
 	case EPieceType::Knight:
 	{
-		m += "\'r\', ";
+		m += "\'h\', ";
 		break;
 	}
 	case EPieceType::Bishop:
