@@ -539,7 +539,7 @@ void ChessUIQt::ShowPromoteOptions(const Position& p)
 	if (ok && !item.isEmpty())
 	{
 		m_game->PromoteTo(ConvertToEnum(item.toStdString()));
-		//TODO DELETE ME...
+
 		QMessageBox notification;
 		notification.setText("You selected " + item);
 		notification.exec();

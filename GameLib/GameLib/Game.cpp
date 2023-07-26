@@ -81,7 +81,7 @@ void Game::Move(Position p1, Position p2)
 			UpdateState(EState::Check);
 			NotifyCheck();
 		}
-		else if (m_gameboard.IsDraw())
+		else if (IsDraw())
 		{
 			UpdateState(EState::Draw);
 			NotifyGameOver(EOverState::Draw);
