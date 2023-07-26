@@ -24,7 +24,7 @@ public:
 	virtual void DrawResponse(bool) = 0;
 	virtual void AddListener(IGameListenerPtr) = 0;
 	virtual void RemoveListener(IGameListener*) = 0;
-	
+
 	virtual EColor GetTurn() const = 0;
 
 	virtual PositionList GetMoves(Position p) = 0;

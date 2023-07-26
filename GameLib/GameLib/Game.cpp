@@ -20,7 +20,7 @@ Game::Game(const Board& b, EColor color /*=EColor::White*/)
 {
 }
 
-Game::Game(const CharMatrix& matrix, EColor color) : m_turn(color), m_state(EState::Playing)
+Game::Game(const CharMatrix& matrix, EColor color, EState state) : m_turn(color), m_state(state)
 {
 	m_gameboard = Board::Board(matrix);
 }

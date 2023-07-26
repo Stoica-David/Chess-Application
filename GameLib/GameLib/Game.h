@@ -16,9 +16,8 @@ public:
 	// Constructor
 	Game();
 	Game(const Board& b, EColor color = EColor::White);
-	Game(const CharMatrix& matrix, EColor color = EColor::White);
+	Game(const CharMatrix& matrix, EColor color = EColor::White, EState state = EState::Playing);
 	
-
 	// IGame methods
 	void Move(Position p1, Position p2) override;
 	void ProposeDraw() override;
@@ -30,14 +29,17 @@ public:
 	bool IsDraw() const override;
 	bool IsOver() const override;
 	bool IsDrawProposed() const override;
-
+	bool IsCheck() const override;
 	bool IsPromoting() const override;
+
 	void PromoteTo(EPieceType pieceType) override;
 
 	void Restart() override;
 	
 	void AddListener(IGameListenerPtr) override;
 	void RemoveListener(IGameListener*) override;
+
+	PositionList GetMoves(Position p) override;
 
 	//Other methods
 	void NotifyMove();
@@ -48,10 +50,6 @@ public:
 
 	PiecesPtr GetPiece(Position) const;
 	bool Stalemate() const;
-
-	PositionList GetMoves(Position p) override;
-
-	bool IsCheck() const override;
 
 private:
 	void SwitchTurn();
