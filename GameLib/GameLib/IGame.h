@@ -7,7 +7,8 @@
 
 using IGamePtr = std::shared_ptr<class IGame>;
 using CharMatrix = std::array<std::array<char, 8>, 8>;
-using ListenersList = std::vector<IGameListener*>;
+using IGameListenerWeakPtr = std::weak_ptr<IGameListener>;
+using IGameListenerSharedPtr = std::shared_ptr<IGameListener>;
 
 class IGame
 {
@@ -35,7 +36,7 @@ public:
 
 	virtual void Restart() = 0;
 
-	virtual void AddListener(IGameListener*) = 0;
+	virtual void AddListener(IGameListenerSharedPtr) = 0;
 	virtual void RemoveListener(IGameListener*) = 0;
 	
 	virtual void NotifyMove() = 0;

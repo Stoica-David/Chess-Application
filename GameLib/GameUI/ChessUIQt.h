@@ -39,6 +39,8 @@ public:
     void StartGame();
     void ShowPromoteOptions(const Position&);
 
+    void SetGame(IGamePtr game);
+
     void OnMove() override;
     void OnGameOver() override;
     void OnDraw() override;

@@ -8,6 +8,8 @@
 #include<vector>
 #include<memory>
 
+using ListenersList = std::vector<IGameListenerWeakPtr>;
+
 class Game : public IGame
 {
 public:
@@ -34,7 +36,7 @@ public:
 
 	void Restart() override;
 	
-	void AddListener(IGameListener*) override;
+	void AddListener(IGameListenerSharedPtr) override;
 	void RemoveListener(IGameListener*) override;
 
 	void NotifyMove() override;

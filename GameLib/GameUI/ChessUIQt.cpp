@@ -223,16 +223,10 @@ ChessUIQt::ChessUIQt(QWidget* parent)
 
 	mainWidget->setLayout(mainGridLayout);
 	this->setCentralWidget(mainWidget);
-
-	m_game = IGame::Produce();
-
-	m_game->AddListener(this);
 }
 
 ChessUIQt::~ChessUIQt()
 {
-	m_game->RemoveListener(this);
-
 	//No delete?
 	//https://doc.qt.io/qt-6/objecttrees.html
 }
@@ -397,7 +391,6 @@ void ChessUIQt::OnLoadButtonClicked()
 void ChessUIQt::OnRestartButtonClicked()
 {
 	m_game->Restart();
-	m_game->AddListener(this);
 	m_MessageLabel->setText("Waiting for white player");
 	m_ExceptionLabel->setText("");
 	StartGame();
@@ -534,6 +527,11 @@ void ChessUIQt::ShowPromoteOptions(const Position& p)
 		notification.setText("You selected " + item);
 		notification.exec();
 	}
+}
+
+void ChessUIQt::SetGame(IGamePtr game)
+{
+	m_game = game;
 }
 
 void ChessUIQt::OnMove()

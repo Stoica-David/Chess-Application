@@ -72,7 +72,7 @@ PiecesPtr Board::GetPiece(Position p) const
 	return m_board[p.first][p.second];
 }
 
-bool Board::IsOver(EColor color) 
+bool Board::IsOver(EColor color)
 {
 	Position KingPos = FindKing(color);
 
@@ -121,7 +121,7 @@ bool Board::VerifyTheWay(Position p1, Position p2)
 	return true;
 }
 
-bool Board::IsCheck(Position p, EColor color) 
+bool Board::IsCheck(Position p, EColor color)
 {
 	PositionList moves;
 
@@ -179,7 +179,7 @@ bool Board::IsSameWay(Position p1, Position p2, EColor color)
 	return ((d1 == d3) && (d2 == d4));
 }
 
-bool Board::IsCheckMate(EColor color) 
+bool Board::IsCheckMate(EColor color)
 {
 	Position p = FindKing(color);
 
@@ -259,7 +259,7 @@ bool Board::IsDraw() const
 	return false;
 }
 
-bool Board::Stalemate(EColor color) 
+bool Board::Stalemate(EColor color)
 {
 	Position kingPos = FindKing(color);
 
@@ -283,7 +283,7 @@ bool Board::Stalemate(EColor color)
 	return std::find_if(kingMoves.begin(), kingMoves.end(), NotInCheck) == kingMoves.end();
 }
 
-Position Board::FindCheck(Position p, EColor color) 
+Position Board::FindCheck(Position p, EColor color)
 {
 	PositionList currMoves;
 
@@ -474,7 +474,7 @@ bool Board::OnlyKing(EColor color) const
 	return true;
 }
 
-bool Board::FindHelp(Position p, EColor color) 
+bool Board::FindHelp(Position p, EColor color)
 {
 	PositionList kingMoves = GetMoves(p);
 
@@ -545,7 +545,7 @@ bool Board::FindHelp(Position p, EColor color)
 	return false;
 }
 
-bool Board::KillCheck(Position p, EColor color) 
+bool Board::KillCheck(Position p, EColor color)
 {
 	int x = p.first,
 		y = p.second;
@@ -796,7 +796,7 @@ PositionList Board::DefendedPositions(Position p, EColor color) const
 	return newList;
 }
 
-PositionList Board::GetMoves(Position p) 
+PositionList Board::GetMoves(Position p)
 {
 	auto initialPiece = m_board[p.first][p.second];
 

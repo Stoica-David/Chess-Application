@@ -106,7 +106,7 @@ Game::Game(const CharMatrix& matrix, EColor color) : m_turn(color), m_state(ESta
 				m_gameboard[{i, j}] = {};
 				break;
 			}
-	
+
 			}
 		}
 	}
@@ -119,7 +119,7 @@ static bool IsPositionValid(Position p)
 
 void Game::Move(Position p1, Position p2)
 {
-	if (m_state == EState::Playing)
+	if (m_state == EState::Playing || m_state == EState::Check)
 	{
 		if (!IsPositionValid(p1) || !IsPositionValid(p2))
 		{
@@ -153,12 +153,7 @@ void Game::Move(Position p1, Position p2)
 
 		NotifyMove();
 
-		if (m_gameboard.IsCheck(m_gameboard.FindKing(m_turn), m_turn))
-		{
-			UpdateState(EState::Check);
-			NotifyCheck();
-		}
-		else if (m_gameboard.IsOver(EColor::White))
+		if (m_gameboard.IsOver(EColor::White))
 		{
 			UpdateState(EState::BlackWon);
 			NotifyGameOver();
@@ -167,7 +162,12 @@ void Game::Move(Position p1, Position p2)
 		{
 			UpdateState(EState::WhiteWon);
 			NotifyGameOver();
-		} 
+		}
+		else if (m_gameboard.IsCheck(m_gameboard.FindKing(m_turn), m_turn))
+		{
+			UpdateState(EState::Check);
+			NotifyCheck();
+		}
 		else if (m_gameboard.IsDraw())
 		{
 			UpdateState(EState::Draw);
@@ -284,9 +284,12 @@ bool Game::IsCheck()
 
 void Game::NotifyDraw()
 {
-	for (const auto& x : m_listeners)
+	for (auto& x : m_listeners)
 	{
-		x->OnDraw();
+		if (auto sp = x.lock())
+		{
+			sp->OnDraw();
+		}
 	}
 }
 
@@ -294,7 +297,10 @@ void Game::NotifyChoosePiece(Position p)
 {
 	for (const auto& x : m_listeners)
 	{
-		x->OnChoosePiece(p);
+		if (auto sp = x.lock())
+		{
+			sp->OnChoosePiece(p);
+		}
 	}
 }
 
@@ -302,20 +308,25 @@ void Game::NotifyCheck()
 {
 	for (const auto& x : m_listeners)
 	{
-		x->OnCheck();
+		if (auto sp = x.lock())
+		{
+			sp->OnCheck();
+		}
 	}
 }
 
-void Game::AddListener(IGameListener* newListener)
+void Game::AddListener(IGameListenerSharedPtr newListener)
 {
 	m_listeners.push_back(newListener);
 }
 
 void Game::RemoveListener(IGameListener* listener)
 {
-	auto func = [listener](IGameListener* el)
-	{
-		return listener == el;
+	auto func = [listener](IGameListenerWeakPtr el)
+	{ 
+		auto sp = el.lock();
+
+		return !sp || listener == sp.get();
 	};
 
 	m_listeners.erase(std::remove_if(m_listeners.begin(), m_listeners.end(), func));
@@ -325,7 +336,10 @@ void Game::NotifyMove()
 {
 	for (const auto& x : m_listeners)
 	{
-		x->OnMove();
+		if (auto sp = x.lock())
+		{
+			sp->OnMove();
+		}
 	}
 }
 
@@ -333,7 +347,10 @@ void Game::NotifyGameOver()
 {
 	for (const auto& x : m_listeners)
 	{
-		x->OnGameOver();
+		if (auto sp = x.lock())
+		{
+			sp->OnGameOver();
+		}
 	}
 }
 
