@@ -495,7 +495,7 @@ TEST(IsCheckMateTest, CheckmateVariation6)
 
 TEST(IsCheckMateTest, CheckmateVariation7)
 {
-	CharMatrix m = {{
+	CharMatrix m = { {
 	{'-', '-', '-', '-', '-', '-', 'p', 'r'},
 	{'-', '-', '-', '-', '-', '-', 'k', '-'},
 	{'-', '-', '-', '-', '-', 'Q', '-', '-'},
@@ -629,4 +629,35 @@ TEST(PawnDiagonalTest, Diagonal1)
 	Board b(m);
 
 	EXPECT_THROW(b.Move({ 6,1 }, { 3,1 }), MoveException);
+}
+
+TEST(Check3FoldTest, First3Fold)
+{
+	CharMatrix m = {
+	{{'K', '-', '-', '-', '-', '-', '-', 'B'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'b', '-', '-', '-', '-', '-', '-', 'k'}}
+	};
+
+	Board b(m);
+
+	b.Move({ 0, 7 }, { 1, 6 });
+	b.Move({ 7, 0 }, { 6, 1 });
+	b.Move({ 1, 6 }, { 0, 7 });
+	b.Move({ 6, 1 }, { 7, 0 });
+	b.Move({ 0, 7 }, { 1, 6 });
+	b.Move({ 7, 0 }, { 6, 1 });
+	b.Move({ 1, 6 }, { 0, 7 });
+	b.Move({ 6, 1 }, { 7, 0 });
+	b.Move({ 0, 7 }, { 1, 6 });
+	b.Move({ 7, 0 }, { 6, 1 });
+	b.Move({ 1, 6 }, { 0, 7 });
+	b.Move({ 6, 1 }, { 7, 0 });
+
+	EXPECT_EQ(b.IsDraw(), true);
 }

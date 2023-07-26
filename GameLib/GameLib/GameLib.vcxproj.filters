@@ -60,25 +60,16 @@
     <ClCompile Include="DoesntExistException.cpp">
       <Filter>Source Files\Exceptions</Filter>
     </ClCompile>
-    <ClCompile Include="DrawProposedException.cpp">
-      <Filter>Source Files\Exceptions</Filter>
-    </ClCompile>
     <ClCompile Include="InTheWayException.cpp">
       <Filter>Source Files\Exceptions</Filter>
     </ClCompile>
     <ClCompile Include="MoveException.cpp">
       <Filter>Source Files\Exceptions</Filter>
     </ClCompile>
-    <ClCompile Include="PawnDiagonallyException.cpp">
-      <Filter>Source Files\Exceptions</Filter>
-    </ClCompile>
     <ClCompile Include="PositionException.cpp">
       <Filter>Source Files\Exceptions</Filter>
     </ClCompile>
     <ClCompile Include="PromoteException.cpp">
-      <Filter>Source Files\Exceptions</Filter>
-    </ClCompile>
-    <ClCompile Include="SameColorException.cpp">
       <Filter>Source Files\Exceptions</Filter>
     </ClCompile>
     <ClCompile Include="StillCheckException.cpp">
@@ -125,13 +116,7 @@
     <ClInclude Include="GameExceptions.h">
       <Filter>Header Files\API\Exceptions</Filter>
     </ClInclude>
-    <ClInclude Include="DoesntExistException.h">
-      <Filter>Header Files\API\Exceptions</Filter>
-    </ClInclude>
     <ClInclude Include="ChessException.h">
-      <Filter>Header Files\API\Exceptions</Filter>
-    </ClInclude>
-    <ClInclude Include="DrawProposedException.h">
       <Filter>Header Files\API\Exceptions</Filter>
     </ClInclude>
     <ClInclude Include="InTheWayException.h">
@@ -140,16 +125,10 @@
     <ClInclude Include="MoveException.h">
       <Filter>Header Files\API\Exceptions</Filter>
     </ClInclude>
-    <ClInclude Include="PawnDiagonallyException.h">
-      <Filter>Header Files\API\Exceptions</Filter>
-    </ClInclude>
     <ClInclude Include="PromoteException.h">
       <Filter>Header Files\API\Exceptions</Filter>
     </ClInclude>
     <ClInclude Include="PositionException.h">
-      <Filter>Header Files\API\Exceptions</Filter>
-    </ClInclude>
-    <ClInclude Include="SameColorException.h">
       <Filter>Header Files\API\Exceptions</Filter>
     </ClInclude>
     <ClInclude Include="StillCheckException.h">
@@ -190,6 +169,9 @@
     </ClInclude>
     <ClInclude Include="IPiece.h">
       <Filter>Header Files\Pieces</Filter>
+    </ClInclude>
+    <ClInclude Include="DoesntExistException.h">
+      <Filter>Header Files\API\Exceptions</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

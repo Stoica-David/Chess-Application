@@ -369,7 +369,7 @@ void Board::PromoteTo(EPieceType pieceType, EColor color)
 
 	if (!found)
 	{
-		return;
+		throw PromoteException("Can't promote!\n");
 	}
 
 	if (p.first == 0)
@@ -434,11 +434,6 @@ void Board::Move(Position p1, Position p2)
 	if (!VerifyTheWay(p1, p2))
 	{
 		throw InTheWayException("There is a piece in the way");
-	}
-
-	if (nextPiece && currPiece->SameColor(nextPiece) && !IsCastle(p1, p2))
-	{
-		throw SameColorException("The pieces have the same color");
 	}
 
 	if (!IsCastle(p1, p2))
