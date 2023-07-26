@@ -1,12 +1,11 @@
 #pragma once
-
+#include "EOverState.h"
 class IGameListener
 {
 public:
 	virtual void OnMove() = 0;
 
-	virtual void OnGameOver() = 0;
-	virtual void OnDraw() = 0;
+	virtual void OnGameOver(EOverState) = 0;
 	
 	virtual void OnChoosePiece(Position) = 0;
 	

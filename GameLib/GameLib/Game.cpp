@@ -156,12 +156,12 @@ void Game::Move(Position p1, Position p2)
 		if (m_gameboard.IsOver(EColor::White))
 		{
 			UpdateState(EState::BlackWon);
-			NotifyGameOver();
+			NotifyGameOver(EOverState::BlackWon);
 		}
 		else if (m_gameboard.IsOver(EColor::Black))
 		{
 			UpdateState(EState::WhiteWon);
-			NotifyGameOver();
+			NotifyGameOver(EOverState::WhiteWon);
 		}
 		else if (m_gameboard.IsCheck(m_gameboard.FindKing(m_turn), m_turn))
 		{
@@ -171,7 +171,7 @@ void Game::Move(Position p1, Position p2)
 		else if (m_gameboard.IsDraw())
 		{
 			UpdateState(EState::Draw);
-			NotifyDraw();
+			NotifyGameOver(EOverState::Draw);
 		}
 	}
 }
@@ -279,16 +279,16 @@ bool Game::IsCheck() const
 	return m_state == EState::Check;
 }
 
-void Game::NotifyDraw()
-{
-	for (auto& x : m_listeners)
-	{
-		if (auto sp = x.lock())
-		{
-			sp->OnDraw();
-		}
-	}
-}
+//void Game::NotifyDraw()
+//{
+//	for (auto& x : m_listeners)
+//	{
+//		if (auto sp = x.lock())
+//		{
+//			sp->OnGameOver(EOverState::Draw);
+//		}
+//	}
+//}
 
 void Game::NotifyChoosePiece(Position p)
 {
@@ -340,13 +340,13 @@ void Game::NotifyMove()
 	}
 }
 
-void Game::NotifyGameOver()
+void Game::NotifyGameOver(EOverState state)
 {
 	for (const auto& x : m_listeners)
 	{
 		if (auto sp = x.lock())
 		{
-			sp->OnGameOver();
+			sp->OnGameOver(state);
 		}
 	}
 }

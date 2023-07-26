@@ -3,7 +3,6 @@
 #include "IPieceInfo.h"
 #include "Position.h"
 #include "IGameListener.h"
-#include "EOverState.h"
 #include <string>
 
 using IGamePtr = std::shared_ptr<class IGame>;

@@ -9,7 +9,7 @@
 #include <array>
 #include <QClipboard>
 
-void InitializeWhite(std::string &m, EPieceType type, Position p)
+void InitializeWhite(std::string& m, EPieceType type, Position p)
 
 {
 	switch (type)
@@ -568,38 +568,34 @@ void ChessUIQt::OnMove()
 	}
 }
 
-void ChessUIQt::OnGameOver()
+void ChessUIQt::OnGameOver(EOverState state)
 {
 	QMessageBox::StandardButton wonMessage;
 
-	if (m_game->GetTurn() == EColor::White)
+	if (state == EOverState::WhiteWon)
 	{
-		wonMessage = QMessageBox::information(this, "End!", " White player won!");
+			wonMessage = QMessageBox::information(this, "End!", " White player won!");
 
-		m_MessageLabel->setText("White player won!");
+			m_MessageLabel->setText("White player won!");
 	}
-	else
+	else if (state == EOverState::BlackWon)
 	{
 		wonMessage = QMessageBox::information(this, "End!", " Black player won!");
 
 		m_MessageLabel->setText("Black player won!");
 	}
-
-	m_ExceptionLabel->setText("");
-}
-
-void ChessUIQt::OnDraw()
-{
-	if (m_game->IsDraw())
+	else if (state == EOverState::Draw)
 	{
 		m_game->DrawResponse(true);
 
 		QMessageBox::StandardButton drawMessage;
-		
+
 		drawMessage = QMessageBox::information(this, "Draw!", " The game concluded as a draw!");
 
 		m_MessageLabel->setText("Draw!");
 	}
+
+	m_ExceptionLabel->setText("");
 }
 
 void ChessUIQt::OnChoosePiece(Position position)

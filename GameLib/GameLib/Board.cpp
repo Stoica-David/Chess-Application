@@ -886,6 +886,14 @@ bool Board::Check3Fold(const Bitset& bitset) const
 
 void Board::Reset()
 {
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			m_board[i][j] = {};
+		}
+	}
+
 	std::vector<EPieceType> TYPES = {
 	EPieceType::Rook,
 	EPieceType::Knight,

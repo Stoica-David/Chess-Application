@@ -42,8 +42,8 @@ public:
     void SetGame(IGamePtr game);
 
     void OnMove() override;
-    void OnGameOver() override;
-    void OnDraw() override;
+    void OnGameOver(EOverState) override;
+
     void OnChoosePiece(Position) override;
     void OnCheck() override;
 
