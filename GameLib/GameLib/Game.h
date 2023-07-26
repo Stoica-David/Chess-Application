@@ -32,7 +32,7 @@ public:
 	bool IsDrawProposed() const override;
 
 	bool IsPromoting() const override;
-	void PromoteTo(EPieceType pieceType, Position p) override;
+	void PromoteTo(EPieceType pieceType) override;
 
 	void Restart() override;
 	

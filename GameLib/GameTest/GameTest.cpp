@@ -283,7 +283,7 @@ TEST(PromotionTest, WhitePromotesTest)
 	Game g(m);
 
 	EXPECT_NO_THROW(g.Move({ 1, 5 }, { 0, 5 }));
-	EXPECT_NO_THROW(g.PromoteTo(EPieceType::Queen, { 0, 5 }));
+	EXPECT_NO_THROW(g.PromoteTo(EPieceType::Queen));
 	EXPECT_EQ(g.GetPiece({ 0, 5 })->GetType(), EPieceType::Queen);
 }
 

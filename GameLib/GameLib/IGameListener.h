@@ -1,5 +1,7 @@
 #pragma once
+
 #include "EOverState.h"
+
 class IGameListener
 {
 public:

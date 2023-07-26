@@ -19,7 +19,8 @@ public:
 	// Getters
 	EPieceType GetType() const;
 	EColor GetColor() const;
-	bool HasMoved() const;
+
+	bool GetHasMoved() const;
 
 	// Setters
 	void SetHasMoved(bool);

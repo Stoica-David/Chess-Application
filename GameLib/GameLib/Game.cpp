@@ -148,9 +148,9 @@ bool Game::IsPromoting() const
 	return (m_state == EState::ChoosePiece);
 }
 
-void Game::PromoteTo(EPieceType pieceType, Position p)
+void Game::PromoteTo(EPieceType pieceType)
 {
-	m_gameboard.PromoteTo(pieceType, p, m_turn);
+	m_gameboard.PromoteTo(pieceType, m_turn);
 
 	if (m_gameboard.IsCheckMate(EColor::White))
 	{
@@ -179,7 +179,7 @@ void Game::SwitchTurn()
 
 bool Game::Stalemate() const
 {
-	return (m_gameboard.Stalemate(m_turn));
+	return (m_gameboard.IsStalemate(m_turn));
 }
 
 PositionList Game::GetMoves(Position p)

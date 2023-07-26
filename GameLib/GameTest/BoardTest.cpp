@@ -610,7 +610,7 @@ TEST(StalemateTest, Stalemate1)
 
 	Board b(m);
 
-	EXPECT_EQ(b.Stalemate(EColor::White), true);
+	EXPECT_EQ(b.IsStalemate(EColor::White), true);
 }
 
 TEST(PawnDiagonalTest, Diagonal1)

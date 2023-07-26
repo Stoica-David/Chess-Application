@@ -156,7 +156,6 @@
     <ClCompile Include="InTheWayException.cpp" />
     <ClCompile Include="King.cpp" />
     <ClCompile Include="Knight.cpp" />
-    <ClCompile Include="Main.cpp" />
     <ClCompile Include="MoveException.cpp" />
     <ClCompile Include="Pawn.cpp" />
     <ClCompile Include="PawnDiagonallyException.cpp" />

@@ -44,7 +44,7 @@ EColor Piece::GetColor() const
 	return m_color;
 }
 
-bool Piece::HasMoved() const
+bool Piece::GetHasMoved() const
 {
 	return m_hasMoved;
 }

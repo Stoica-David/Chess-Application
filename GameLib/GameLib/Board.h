@@ -27,42 +27,38 @@ public:
 	PiecesPtr GetPiece(Position p) const;
 
 	// Functions
-	bool IsOver(EColor color);
-	bool VerifyTheWay(Position p1, Position p2);
+	bool IsOver(EColor color) const;
+	bool VerifyTheWay(Position p1, Position p2) const;
 	bool IsCheck(Position p, EColor color) const;
-	bool IsSameWay(Position p1, Position p2, EColor color);
-	bool IsCheckMate(EColor color);
+	bool IsSameWay(Position p1, Position p2, EColor color) const;
+	bool IsCheckMate(EColor color) const;
 	bool IsDraw() const;
-	bool Stalemate(EColor color) const;
+	bool IsStalemate(EColor color) const;
+	bool Is3Fold(const Bitset& bitset) const;
+	bool IsPromotePossible(Position p) const;
 
-	Position FindCheck(Position p, EColor color);
+	Position FindCheck(Position p, EColor color) const;
 	Position FindKing(EColor) const;
+
 	PieceVector RemainingPieces() const;
 
-	void PromoteTo(EPieceType pieceType, Position p, EColor color);
+	void PromoteTo(EPieceType pieceType, EColor color);
 	void UpdatePiece(EPieceType type, Position p, EColor color);
-
 	void Move(Position p1, Position p2);
-	PositionList GetMoves(Position p) const;
-
-	bool Check3Fold(const Bitset& bitset) const;
-
 	void Reset();
 
-	bool IsPromotePossible(Position p) const;
+	PositionList GetMoves(Position p) const;
 
 private:
 	static bool PawnGoesDiagonally(Position p1, Position p2);
 
 	bool OnlyKing(EColor color)const;
-	bool FindHelp(Position p, EColor color);
-	bool KillCheck(Position p, EColor color);
+	bool FindHelp(Position p, EColor color) const;
+	bool KillCheck(Position p, EColor color) const;
 	bool IsDefended(Position p, EColor color) const;
 	bool SameBishop()const;
 	bool PawnException(Position p1, Position p2)const;
-	bool IsCastle(Position p1, Position p2);
-
-	void Castle(Position p1, Position p2);
+	bool IsCastle(Position p1, Position p2) const;
 
 	PositionList DefendedPositions(Position p, EColor color) const;
 
@@ -77,8 +73,8 @@ private:
 
 	Bitset GetCurrentPosition() const;
 
+	void Castle(Position p1, Position p2);
 	void UpdatePrevPositions();
-
 	void InitializeWhite(char c, Position p);
 	void InitializeBlack(char c, Position p);
 
