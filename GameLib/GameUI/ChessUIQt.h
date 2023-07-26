@@ -43,9 +43,9 @@ public:
 
     void OnMove() override;
     void OnGameOver(EOverState) override;
-
     void OnChoosePiece(Position) override;
     void OnCheck() override;
+    void OnRestart() override;
 
 public slots:
     void OnButtonClicked(const std::pair<int, int>& position);

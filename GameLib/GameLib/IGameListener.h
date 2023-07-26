@@ -13,5 +13,7 @@ public:
 	
 	virtual void OnCheck() = 0;
 
+	virtual void OnRestart() = 0;
+
 	virtual ~IGameListener() = default;
 };

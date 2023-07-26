@@ -391,9 +391,6 @@ void ChessUIQt::OnLoadButtonClicked()
 void ChessUIQt::OnRestartButtonClicked()
 {
 	m_game->Restart();
-	m_MessageLabel->setText("Waiting for white player");
-	m_ExceptionLabel->setText("");
-	StartGame();
 }
 
 void ChessUIQt::OnDrawButtonClicked()
@@ -616,4 +613,11 @@ void ChessUIQt::OnCheck()
 
 		m_MessageLabel->setText("Check!");
 	}
+}
+
+void ChessUIQt::OnRestart()
+{
+	m_MessageLabel->setText("Waiting for white player");
+	m_ExceptionLabel->setText("");
+	StartGame();
 }

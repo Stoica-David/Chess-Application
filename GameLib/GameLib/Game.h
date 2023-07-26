@@ -44,6 +44,7 @@ public:
 	void NotifyGameOver(EOverState);
 	void NotifyChoosePiece(Position);
 	void NotifyCheck();
+	void NotifyRestart();
 
 	PiecesPtr GetPiece(Position) const;
 	bool Stalemate() const;

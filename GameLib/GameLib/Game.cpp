@@ -170,6 +170,7 @@ void Game::Restart()
 	m_turn = EColor::White;
 	m_state = EState::Playing;
 	m_gameboard.Reset();
+	NotifyRestart();
 }
 
 void Game::SwitchTurn()
@@ -210,6 +211,17 @@ void Game::NotifyCheck()
 		if (auto sp = x.lock())
 		{
 			sp->OnCheck();
+		}
+	}
+}
+
+void Game::NotifyRestart()
+{
+	for (const auto& x : m_listeners)
+	{
+		if (auto sp = x.lock())
+		{
+			sp->OnRestart();
 		}
 	}
 }
