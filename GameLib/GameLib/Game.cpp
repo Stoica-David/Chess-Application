@@ -153,7 +153,7 @@ void Game::Move(Position p1, Position p2)
 
 		NotifyMove();
 
-		if (m_gameboard.IsCheck(p2, m_turn))
+		if (m_gameboard.IsCheck(m_gameboard.FindKing(m_turn), m_turn))
 		{
 			UpdateState(EState::Check);
 			NotifyCheck();
@@ -277,6 +277,11 @@ PositionList Game::GetMoves(Position p)
 	return m_gameboard.GetMoves(p);
 }
 
+bool Game::IsCheck()
+{
+	return m_state == EState::Check;
+}
+
 void Game::NotifyDraw()
 {
 	for (const auto& x : m_listeners)
@@ -297,7 +302,7 @@ void Game::NotifyCheck()
 {
 	for (const auto& x : m_listeners)
 	{
-		x->OnDraw();
+		x->OnCheck();
 	}
 }
 

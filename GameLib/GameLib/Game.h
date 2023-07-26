@@ -49,6 +49,7 @@ public:
 
 	PositionList GetMoves(Position p) override;
 
+	bool IsCheck() override;
 
 private:
 	void SwitchTurn();

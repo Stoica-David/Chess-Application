@@ -594,5 +594,12 @@ void ChessUIQt::OnChoosePiece(Position position)
 
 void ChessUIQt::OnCheck()
 {
+	if (m_game->IsCheck())
+	{
+		QMessageBox::StandardButton checkMessage;
 
+		checkMessage = QMessageBox::information(this, "Check!", " The king is in check!");
+
+		m_MessageLabel->setText("Check!");
+	}
 }

@@ -22,6 +22,7 @@ public:
 
 	virtual bool IsOver() const = 0;
 	virtual bool IsDraw() = 0;
+	virtual bool IsCheck() = 0;
 
 	virtual void ProposeDraw() = 0;
 	virtual bool IsDrawProposed()const = 0;
