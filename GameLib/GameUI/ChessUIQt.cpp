@@ -341,13 +341,13 @@ void ChessUIQt::InitializeDeadWhitePieces(QGridLayout* mainGridLayout)
 	{
 		if (i <= 8)
 		{
-			m_whiteGrid[0][i] = new GridButton({0, i}, PieceType::Rook, PieceColor::Black);
+			m_whiteGrid[0][i] = new GridButton({ 0, i }, PieceType::Rook, PieceColor::Black);
 			chessGridLayout->addWidget(m_grid[0][i], 0, i, 1, 1);
 			connect(m_grid[0][i], &GridButton::Clicked, this, &ChessUIQt::OnButtonClicked);
 		}
 		else
 		{
-			m_whiteGrid[1][i] = new GridButton({1, i}, PieceType::none, PieceColor::none);
+			m_whiteGrid[1][i] = new GridButton({ 1, i }, PieceType::none, PieceColor::none);
 			chessGridLayout->addWidget(m_grid[1][i], 1, i, 1, 1);
 			connect(m_grid[1][i], &GridButton::Clicked, this, &ChessUIQt::OnButtonClicked);
 		}
@@ -413,14 +413,16 @@ void ChessUIQt::OnButtonClicked(const std::pair<int, int>& position)
 			else
 			{
 				m_game->Move(m_selectedCell.value(), position);
-
-				//Unselect prev. pressed button
-				m_grid[m_selectedCell.value().first][m_selectedCell.value().second]->setSelected(false);
-				m_selectedCell.reset();
+				if (m_selectedCell.has_value())
+				{
+					m_grid[m_selectedCell.value().first][m_selectedCell.value().second]->setSelected(false);
+					m_selectedCell.reset();
+				}
 			}
 		}
 		//At first click
 		else if (m_game->GetPieceInfo(position) && m_game->GetPieceInfo(position)->GetColor() == m_game->GetTurn() && m_game->GetMoves(position) != nullVector) {
+
 			m_selectedCell = position;
 			m_grid[position.first][position.second]->setSelected(true);
 			HighlightPossibleMoves(m_game->GetMoves(position));
@@ -629,9 +631,9 @@ void ChessUIQt::OnGameOver(EOverState state)
 
 	if (state == EOverState::WhiteWon)
 	{
-			wonMessage = QMessageBox::information(this, "End!", " White player won!");
+		wonMessage = QMessageBox::information(this, "End!", " White player won!");
 
-			m_MessageLabel->setText("White player won!");
+		m_MessageLabel->setText("White player won!");
 	}
 	else if (state == EOverState::BlackWon)
 	{

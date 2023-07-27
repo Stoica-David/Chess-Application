@@ -1,6 +1,7 @@
 #include "GridButton.h"
 #include <QVBoxLayout>
 #include <QLabel>
+#include <QPainter>
 
 void GridButton::mouseReleaseEvent(QMouseEvent* event)
 {
@@ -67,14 +68,14 @@ void GridButton::updateBackgroundColor()
 	if (defaultColorBlack && !m_Highlighted)
 		backColor = "#7A6C5D";
 	if (defaultColorBlack && m_Highlighted)
-		backColor = "#C17C74";
+		backColor = "#491B1D";
 	if (!defaultColorBlack && !m_Highlighted)
-		backColor = "#DDC9B4";
+		backColor = "#D2C4B5";
 	if (!defaultColorBlack && m_Highlighted)
-		backColor = "#C17C74";
+		backColor = "#491B1D";
 
 	if (m_Selected)
-		backColor = "#2A3D45";
+		backColor = "#491B1D";
 
 	setStyleSheet("background-color: " + backColor + "; border: none;");
 }
@@ -99,6 +100,35 @@ void GridButton::setSelected(bool selected)
 	updateBackgroundColor();
 }
 
+void GridButton::paintEvent(QPaintEvent* event)
+{
+	QPushButton::paintEvent(event);
+	QPainter painter(this);
+	QColor penColor;
+	QFont font = painter.font();
+
+	font.setBold(true);
+	painter.setFont(font);
+
+	bool defaultColorBlack = (m_Position.first + m_Position.second) % 2;
+	defaultColorBlack == true ? penColor = "#D2C4B5" : penColor = "#7A6C5D";
+
+	int textX = 5;
+	int textY = 5;
+
+	painter.setRenderHint(QPainter::TextAntialiasing, true);
+	painter.setPen(penColor);
+
+	if (m_Position.first == 7)
+	{
+		painter.drawText(textX, textY, width() - 2 * textX, height() - 2 * textY, Qt::AlignBottom | Qt::AlignRight, QChar((char)'a' + m_Position.second));
+	}
+	if (m_Position.second == 0)
+	{
+		painter.drawText(textX, textY, width() - 2 * textX, height() - 2 * textY, Qt::AlignTop | Qt::AlignLeft, QString::number(8 - m_Position.first));
+	}
+}
+
 GridButton::GridButton(const std::pair<int, int>& boardPosition, PieceType pieceType, PieceColor pieceColor, QWidget* parent)
 	: m_Position(boardPosition), m_PieceType(pieceType), m_PieceColor(pieceColor), m_Highlighted(false), m_Selected(false)
 {
@@ -107,37 +137,4 @@ GridButton::GridButton(const std::pair<int, int>& boardPosition, PieceType piece
 	updateBackgroundColor();
 
 	updatePiece();
-
-	int row = m_Position.first + 1;
-	int col = m_Position.second + 1;
-
-	QLabel* topLabel = new QLabel;
-	topLabel->setAlignment(Qt::AlignTop | Qt::AlignLeft);
-	topLabel->setStyleSheet("background-color: rgba(0, 0, 0, 0);");
-
-	QLabel* bottomLabel = new QLabel;
-	bottomLabel->setAlignment(Qt::AlignBottom | Qt::AlignRight);
-	bottomLabel->setStyleSheet("background-color: rgba(0, 0, 0, 0);");
-
-	if (m_Position.first == 7 && m_Position.second == 0) {
-		QString topTileNumber = QString::number(row);
-		QString bottomTileNumber = QChar('A' + col - 1);
-		topLabel->setText(topTileNumber);
-		bottomLabel->setText(bottomTileNumber);
-	}
-	else if (m_Position.second == 0) {
-		topLabel->setText(QString::number(row));
-	}
-	else if (m_Position.first == 7) {
-		bottomLabel->setText(QChar('A' + col - 1));
-	}
-
-	QVBoxLayout* layout = new QVBoxLayout(this);
-	layout->addWidget(topLabel);
-	layout->addWidget(this); 
-	layout->addWidget(bottomLabel);
-	layout->setContentsMargins(0, 0, 0, 0); 
-	layout->setSpacing(0); 
-
-	setLayout(layout);
 }

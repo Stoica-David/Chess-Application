@@ -1,6 +1,8 @@
 #pragma once
-#include <QPushButton>
 #include "Enums.h"
+#include <QPushButton>
+#include <QVBoxLayout>
+#include <QLabel>
 
 class GridButton : public QPushButton
 {
@@ -19,6 +21,9 @@ public:
 	void setHighlighted(bool highlighted);
 	void setSelected(bool selected);
 
+
+protected:
+	void paintEvent(QPaintEvent* event) override;
 signals:
 	void Clicked(const std::pair<int, int>& position);
 
