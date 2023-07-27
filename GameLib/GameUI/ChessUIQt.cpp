@@ -308,7 +308,7 @@ void ChessUIQt::InitializeHistory(QGridLayout* mainGridLayout)
 	m_MovesList->setMinimumWidth(250);
 	m_MovesList->setMaximumWidth(350);
 	connect(m_MovesList, &QListWidget::itemActivated, this, &ChessUIQt::OnHistoryClicked);
-	mainGridLayout->addWidget(m_MovesList, 1, 0, 2, 1);
+	mainGridLayout->addWidget(m_MovesList, 2, 0, 1, 1);
 }
 
 void ChessUIQt::InitializeBoard(QGridLayout* mainGridLayout)
@@ -401,9 +401,6 @@ void ChessUIQt::OnButtonClicked(const std::pair<int, int>& position)
 		//At second click
 		if (m_selectedCell.has_value())
 		{
-			int x = m_selectedCell.value().first;
-			int y = m_selectedCell.value().first;
-
 			if (m_selectedCell.value() == position)
 			{
 				m_grid[m_selectedCell.value().first][m_selectedCell.value().second]->setSelected(false);
@@ -413,6 +410,7 @@ void ChessUIQt::OnButtonClicked(const std::pair<int, int>& position)
 			else
 			{
 				m_game->Move(m_selectedCell.value(), position);
+				
 				if (m_selectedCell.has_value())
 				{
 					m_grid[m_selectedCell.value().first][m_selectedCell.value().second]->setSelected(false);

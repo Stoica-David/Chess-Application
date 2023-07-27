@@ -34,7 +34,7 @@ public:
 	bool IsCheckMate(EColor color) const;
 	bool IsDraw() const;
 	bool IsStalemate(EColor color) const;
-	bool Is3Fold(const Bitset& bitset) const;
+	bool Is3Fold() const;
 	bool IsPromotePossible(Position p) const;
 	bool IsPinned(Position p) const;
 

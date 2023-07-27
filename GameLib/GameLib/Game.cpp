@@ -71,6 +71,11 @@ void Game::Move(Position p1, Position p2)
 			UpdateState(EState::BlackWon);
 			NotifyGameOver(EOverState::BlackWon);
 		}
+		else if (Stalemate() || m_gameboard.IsDraw() || m_gameboard.Is3Fold())
+		{
+			UpdateState(EState::Draw);
+			NotifyGameOver(EOverState::Draw);
+		}
 		else if (m_gameboard.IsOver(EColor::Black))
 		{
 			UpdateState(EState::WhiteWon);

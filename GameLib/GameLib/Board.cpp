@@ -234,7 +234,7 @@ bool Board::IsDraw() const
 		}
 	}
 
-	if (Is3Fold(GetCurrentPosition()))
+	if (Is3Fold())
 	{
 		return true;
 	}
@@ -266,9 +266,16 @@ bool Board::IsStalemate(EColor color) const
 	return std::find_if(kingMoves.begin(), kingMoves.end(), NotInCheck) == kingMoves.end();
 }
 
-bool Board::Is3Fold(const Bitset& bitset) const
+bool Board::Is3Fold() const
 {
 	int nrAppearences = 0;
+
+	if (!m_prevPositions.size())
+	{
+		return false;
+	}
+
+	Bitset bitset = m_prevPositions[m_prevPositions.size() - 1];
 
 	for (int i = 0; i < m_prevPositions.size(); i++)
 	{
