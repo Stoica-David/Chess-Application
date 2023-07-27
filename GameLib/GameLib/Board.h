@@ -36,6 +36,7 @@ public:
 	bool IsStalemate(EColor color) const;
 	bool Is3Fold(const Bitset& bitset) const;
 	bool IsPromotePossible(Position p) const;
+	bool IsPinned(Position p) const;
 
 	Position FindCheck(Position p, EColor color) const;
 	Position FindKing(EColor) const;
@@ -50,6 +51,7 @@ public:
 	PositionList GetMoves(Position p) const;
 	PositionList GetMovesNormal(Position p) const;
 	PositionList GetMovesCheck(Position p) const;
+	PositionList GetMovesPinned(Position p) const;
 
 	const IPieceInfoVector& GetWhiteDead() const;
 	const IPieceInfoVector& GetBlackDead() const;
@@ -87,7 +89,6 @@ private:
 private:
 	ChessBoard m_board;
 	BitMatrix m_prevPositions;
-
 	IPieceInfoVector m_whiteDead;
 	IPieceInfoVector m_blackDead;
 };

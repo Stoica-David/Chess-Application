@@ -286,6 +286,54 @@ bool Board::IsPromotePossible(Position p) const
 	return (m_board[p.first][p.second] && m_board[p.first][p.second]->Is(EPieceType::Pawn) && (p.first == 0 || p.first == 7));
 }
 
+bool Board::IsPinned(Position p) const
+{
+	EColor currColor = m_board[p.first][p.second]->GetColor();
+
+	Position kingPos = FindKing(currColor);
+	
+	Position checkPos = FindCheck(p, currColor);
+
+	if (checkPos == Position(-1, -1))
+	{
+		return false;
+	}
+
+	PositionList behindCurr = m_board[checkPos.first][checkPos.second]->DeterminePattern(p, kingPos);
+
+	for (int i = 0; i < behindCurr.size(); i++)
+	{
+		auto [currX, currY] = behindCurr[i];
+
+		if (m_board[currX][currY] && behindCurr[i] != kingPos)
+		{
+			return false;
+		}
+	}
+
+	PositionMatrix checkMoves = m_board[checkPos.first][checkPos.second]->AllMoves(checkPos);
+
+	bool kingFound = false, currFound = false;
+
+	for (int i = 0; i < checkMoves.size(); i++)
+	{
+		for (int j = 0; j < checkMoves[i].size(); j++)
+		{
+			if (checkMoves[i][j] == kingPos)
+			{
+				kingFound = true;
+			}
+
+			if (checkMoves[i][j] == p)
+			{
+				currFound = true;
+			}
+		}
+	}
+
+	return kingFound && currFound;
+}
+
 Position Board::FindCheck(Position p, EColor color) const
 {
 	PositionList currMoves;
@@ -554,6 +602,10 @@ PositionList Board::GetMoves(Position p) const
 	{
 		newList = GetMovesCheck(p);
 	}
+	else if(IsPinned(p))
+	{
+		newList = GetMovesPinned(p);
+	}
 	else
 	{
 		newList = GetMovesNormal(p);
@@ -655,6 +707,33 @@ PositionList Board::GetMovesCheck(Position p) const
 		for (int i = 0; i < currMoves.size(); i++)
 		{
 			if (checkPos == currMoves[i])
+			{
+				newList.push_back(currMoves[i]);
+			}
+		}
+	}
+
+	return newList;
+}
+
+PositionList Board::GetMovesPinned(Position p) const
+{
+	EColor currColor = m_board[p.first][p.second]->GetColor();
+
+	PositionList newList;
+
+	Position kingPos = FindKing(currColor);
+	Position checkPos = FindCheck(p, currColor);
+
+	PositionList checkPattern = m_board[checkPos.first][checkPos.second]->DeterminePattern(checkPos, p);
+
+	PositionList currMoves = GetMovesNormal(p);
+
+	for (int i = 0; i < currMoves.size(); i++)
+	{
+		for (int j = 0; j < checkPattern.size(); j++)
+		{
+			if (currMoves[i] == checkPattern[j])
 			{
 				newList.push_back(currMoves[i]);
 			}

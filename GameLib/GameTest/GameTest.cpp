@@ -448,3 +448,25 @@ TEST(GetMovesCheckTest, Case1)
 	EXPECT_EQ(g.GetMoves({ 7,0 }), rookMoves);
 	EXPECT_EQ(g.GetMoves({ 6,1 }), pawnMoves);
 }
+
+TEST(PinnedTest, Case1)
+{
+	CharMatrix m = { {
+	{'r', 'h', 'b', '-', 'k', 'b', 'h', 'r',},
+	{'p', 'p', '-', 'p', 'p', 'p', 'p', 'p',},
+	{'-', '-', 'p', '-', '-', '-', '-', '-',},
+	{'q', '-', '-', '-', '-', '-', '-', '-',},
+	{'-', '-', '-', 'P', '-', '-', '-', '-',},
+	{'-', '-', 'H', '-', 'P', '-', '-', '-',},
+	{'P', 'P', 'P', '-', '-', 'P', 'P', 'P',},
+	{'R', '-', 'B', 'Q', 'K', 'B', 'H', 'R',},
+	} };
+
+	Game g(m, EColor::Black, EState::Playing);
+
+	g.Move({ 1, 0 }, { 2, 0 });
+
+	PositionList null = {};
+
+	EXPECT_EQ(g.GetMoves({ 5,2 }), null);
+}
