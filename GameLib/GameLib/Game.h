@@ -52,10 +52,8 @@ public:
 	bool Stalemate() const;
 
 
-	PiecesVector GetWhiteDead() const override;
-
-
-	PiecesVector GetBlackDead() const override;
+	PiecesVector GetWhiteDeadPieces() const override;
+	PiecesVector GetBlackDeadPieces() const override;
 
 private:
 	void SwitchTurn();

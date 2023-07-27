@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IPieceInfo.h"
+#include "Pieces.h"
 #include "Position.h"
 #include "IGameListener.h"
 #include <string>
@@ -35,8 +36,8 @@ public:
 	virtual bool IsDrawProposed() const = 0;
 	virtual bool IsPromoting() const = 0;
 
-	virtual PiecesVector GetWhiteDead() const = 0;
-	virtual PiecesVector GetBlackDead() const = 0;
+	virtual PiecesVector GetWhiteDeadPieces() const = 0;
+	virtual PiecesVector GetBlackDeadPieces() const = 0;
 
 	virtual ~IGame() = default;
 };

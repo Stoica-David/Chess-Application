@@ -11,7 +11,6 @@ using ChessBoard = std::array<std::array<PiecesPtr, 8>, 8>;
 using CharMatrix = std::array<std::array<char, 8>, 8>;
 using BitMatrix = std::vector<std::bitset<256>>;
 using Bitset = std::bitset<256>;
-using PiecesVector = std::vector<PiecesPtr>;
 
 class Board
 {

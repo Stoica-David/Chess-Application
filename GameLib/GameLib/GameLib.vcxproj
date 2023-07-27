@@ -159,6 +159,7 @@
     <ClCompile Include="Pawn.cpp" />
     <ClCompile Include="Piece.cpp" />
     <ClCompile Include="PieceInfo.cpp" />
+    <ClCompile Include="Pieces.h" />
     <ClCompile Include="PositionException.cpp" />
     <ClCompile Include="PromoteException.cpp" />
     <ClCompile Include="Queen.cpp" />

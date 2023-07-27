@@ -4,6 +4,7 @@
 #include "EColor.h"
 
 #include <memory>
+#include <vector>
 
 using IPieceInfoPtr = std::shared_ptr<class IPieceInfo>;
 
