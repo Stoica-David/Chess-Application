@@ -520,7 +520,7 @@ static EPieceType ConvertToEnum(const std::string& pieceType)
 	}
 }
 
-void ChessUIQt::ShowPromoteOptions(const Position& p)
+void ChessUIQt::ShowPromoteOptions()
 {
 	QInputDialog dialog;
 	QList<QString> options;
@@ -595,11 +595,11 @@ void ChessUIQt::OnGameOver(EOverState state)
 	m_ExceptionLabel->setText("");
 }
 
-void ChessUIQt::OnChoosePiece(Position position)
+void ChessUIQt::OnChoosePiece()
 {
 	if (m_game->IsPromoting())
 	{
-		ShowPromoteOptions(position);
+		ShowPromoteOptions();
 	}
 }
 

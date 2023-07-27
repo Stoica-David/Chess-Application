@@ -12,7 +12,7 @@ class MockGame : public IGameListener
 public:
 	MOCK_METHOD(void, OnMove, (), (override));
 	MOCK_METHOD(void, OnGameOver, (EOverState state), (override));
-	MOCK_METHOD(void, OnChoosePiece, (Position pos), (override));
+	MOCK_METHOD(void, OnChoosePiece, (), (override));
 	MOCK_METHOD(void, OnCheck, (), (override));
 	MOCK_METHOD(void, OnRestart, (), (override));
 };
@@ -500,7 +500,7 @@ TEST(ChoosePieceMock, Choose1)
 
 	myGame.AddListener(mock);
 
-	EXPECT_CALL(*mock, OnChoosePiece(_));
+	EXPECT_CALL(*mock, OnChoosePiece());
 	EXPECT_CALL(*mock, OnMove());
 
 	myGame.Move({ 1,7 }, { 0,7 });
@@ -527,7 +527,7 @@ TEST(ChoosePieceMock, Choose2)
 
 	myGame.AddListener(mock);
 
-	EXPECT_CALL(*mock, OnChoosePiece(_));
+	EXPECT_CALL(*mock, OnChoosePiece());
 	EXPECT_CALL(*mock, OnMove());
 
 	myGame.Move({ 1,3 }, { 0,3 });
@@ -555,7 +555,7 @@ TEST(ChoosePieceMock, Choose3)
 
 	myGame.AddListener(mock);
 
-	EXPECT_CALL(*mock, OnChoosePiece(_));
+	EXPECT_CALL(*mock, OnChoosePiece());
 	EXPECT_CALL(*mock, OnMove());
 	EXPECT_CALL(*mock, OnGameOver(EOverState::WhiteWon));
 

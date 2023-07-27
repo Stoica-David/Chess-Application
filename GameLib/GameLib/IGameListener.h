@@ -9,7 +9,7 @@ public:
 
 	virtual void OnGameOver(EOverState) = 0;
 	
-	virtual void OnChoosePiece(Position) = 0;
+	virtual void OnChoosePiece() = 0;
 	
 	virtual void OnCheck() = 0;
 

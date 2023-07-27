@@ -37,13 +37,13 @@ public:
     void HighlightPossibleMoves(const std::vector<std::pair<int, int>>& possibleMoves);
     //Modify or delete
     void StartGame();
-    void ShowPromoteOptions(const Position&);
+    void ShowPromoteOptions();
 
     void SetGame(IGamePtr game);
 
     void OnMove() override;
     void OnGameOver(EOverState) override;
-    void OnChoosePiece(Position) override;
+    void OnChoosePiece() override;
     void OnCheck() override;
     void OnRestart() override;
 

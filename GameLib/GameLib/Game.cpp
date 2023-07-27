@@ -32,6 +32,11 @@ static bool IsPositionValid(Position p)
 
 void Game::Move(Position p1, Position p2)
 {
+	static int t = 0;
+	t++;
+	if (t == 98)
+		t = t;
+
 	if (m_state == EState::Playing || m_state == EState::Check)
 	{
 		if (!IsPositionValid(p1) || !IsPositionValid(p2))
@@ -57,7 +62,7 @@ void Game::Move(Position p1, Position p2)
 		if(m_gameboard.IsPromotePossible(p2))
 		{
 			UpdateState(EState::ChoosePiece);
-			NotifyChoosePiece(p2);
+			NotifyChoosePiece();
 		}
 		else
 		{
@@ -195,13 +200,13 @@ bool Game::IsCheck() const
 	return m_state == EState::Check;
 }
 
-void Game::NotifyChoosePiece(Position p)
+void Game::NotifyChoosePiece()
 {
 	for (const auto& x : m_listeners)
 	{
 		if (auto sp = x.lock())
 		{
-			sp->OnChoosePiece(p);
+			sp->OnChoosePiece();
 		}
 	}
 }

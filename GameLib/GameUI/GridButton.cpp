@@ -65,14 +65,14 @@ void GridButton::updateBackgroundColor()
 	if (defaultColorBlack && !m_Highlighted)
 		backColor = "#464e53";
 	if (defaultColorBlack && m_Highlighted)
-		backColor = "#f8ff94";
+		backColor = "#800080";
 	if (!defaultColorBlack && !m_Highlighted)
 		backColor = "#d6d6d6";
 	if (!defaultColorBlack && m_Highlighted)
-		backColor = "#f8ff94";
+		backColor = "#800080";
 
 	if (m_Selected)
-		backColor = "#ff9494";
+		backColor = "#8F00FF";
 
 	setStyleSheet("background-color: " + backColor + "; border: none;");
 }

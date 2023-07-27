@@ -401,3 +401,21 @@ TEST(CastleMoveTest, Castle5)
 
 	EXPECT_THROW(g.Move({ 0,4 }, { 0,7 }), MoveException);
 }
+
+TEST(PawnTwoException, Case1)
+{
+	CharMatrix m ={{
+	{'r', 'h', 'b', 'q', 'k', 'b', '-', '-',},
+	{'p', 'p', 'p', 'p', 'p', 'p', '-', '-',},
+	{'-', '-', '-', '-', '-', 'Q', '-', '-',},
+	{'-', '-', '-', '-', '-', '-', 'r', '-',},
+	{'-', '-', '-', '-', '-', '-', '-', '-',},
+	{'-', '-', '-', '-', '-', '-', '-', '-',},
+	{'P', 'P', 'P', 'P', 'P', 'P', '-', '-',},
+	{'R', 'H', 'B', 'Q', 'K', 'B', 'H', 'R',},
+	}};
+
+	Game g(m, EColor::Black, EState::Playing);
+
+	EXPECT_THROW(g.Move({ 1,5 }, { 3,5 }), InTheWayException);
+}

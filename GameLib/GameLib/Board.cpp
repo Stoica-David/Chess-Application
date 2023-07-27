@@ -93,6 +93,17 @@ bool Board::VerifyTheWay(Position p1, Position p2) const
 				return false;
 			}
 		}
+		
+		if(!currPiece)
+		{
+			int intermediateX = IntermediatePosition(p1).first;
+			int intermediateY = IntermediatePosition(p1).second;
+
+			if (initialPiece->Is(EPieceType::Pawn) && (m_board[intermediateX][intermediateY]) && std::abs(x1 - x2) == 2)
+			{
+				return false;
+			}
+		}
 	}
 
 	return true;
@@ -530,6 +541,17 @@ PositionList Board::GetMoves(Position p) const
 				}
 
 				break;
+			}
+
+			if (initialPiece->Is(EPieceType::Pawn) && std::abs(p.first - x) == 2)
+			{
+				int intermediateX = IntermediatePosition(p).first;
+				int intermediateY = IntermediatePosition(p).second;
+
+				if (m_board[intermediateX][intermediateY])
+				{
+					break;
+				}
 			}
 
 			if (!initialPiece->Is(EPieceType::Pawn) || (!PawnGoesDiagonally(p, { x,y })))
@@ -1025,4 +1047,26 @@ void Board::InitializeBlack(char c, Position p)
 		break;
 	}
 	}
+}
+
+Position Board::IntermediatePosition(Position p) const
+{
+	PiecesPtr currPiece = m_board[p.first][p.second];
+	Position intermediate = { -1, -1 };
+
+	if (!currPiece->Is(EPieceType::Pawn))
+	{
+		return intermediate;
+	}
+
+	if (currPiece->GetColor() == EColor::White)
+	{
+		intermediate = { 5, p.second };
+	}
+	else
+	{
+		intermediate = { 2, p.second };
+	}
+
+	return intermediate;
 }

@@ -44,7 +44,7 @@ public:
 	//Other methods
 	void NotifyMove();
 	void NotifyGameOver(EOverState);
-	void NotifyChoosePiece(Position);
+	void NotifyChoosePiece();
 	void NotifyCheck();
 	void NotifyRestart();
 
