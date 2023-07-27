@@ -11,6 +11,7 @@ using ChessBoard = std::array<std::array<PiecesPtr, 8>, 8>;
 using CharMatrix = std::array<std::array<char, 8>, 8>;
 using BitMatrix = std::vector<std::bitset<256>>;
 using Bitset = std::bitset<256>;
+using PiecesVector = std::vector<PiecesPtr>;
 
 class Board
 {
@@ -47,9 +48,12 @@ public:
 	void Move(Position p1, Position p2);
 	void Reset();
 
-	PositionList GetMoves(Position p)const;
+	PositionList GetMoves(Position p) const;
 	PositionList GetMovesNormal(Position p) const;
 	PositionList GetMovesCheck(Position p) const;
+
+	PiecesVector GetWhiteDead() const;
+	PiecesVector GetBlackDead() const;
 
 private:
 	static bool PawnGoesDiagonally(Position p1, Position p2);
@@ -84,4 +88,6 @@ private:
 private:
 	ChessBoard m_board;
 	BitMatrix m_prevPositions;
+	PiecesVector m_whiteDead;
+	PiecesVector m_blackDead;
 };

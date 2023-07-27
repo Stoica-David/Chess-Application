@@ -51,6 +51,12 @@ public:
 	PiecesPtr GetPiece(Position) const;
 	bool Stalemate() const;
 
+
+	PiecesVector GetWhiteDead() const override;
+
+
+	PiecesVector GetBlackDead() const override;
+
 private:
 	void SwitchTurn();
 	void UpdateState(EState);

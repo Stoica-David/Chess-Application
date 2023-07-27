@@ -27,6 +27,10 @@ Board::Board(const CharMatrix& matrix)
 			}
 		}
 	}
+
+	m_whiteDead = { };
+	m_blackDead = { };
+	m_prevPositions = { };
 }
 
 PiecesPtr& Board::operator[](Position p)
@@ -449,9 +453,22 @@ void Board::Move(Position p1, Position p2)
 
 	if (!IsCastle(p1, p2))
 	{
+		if ((*this)[p2])
+		{
+			if ((*this)[p2]->GetColor() == EColor::White)
+			{
+				m_whiteDead.push_back((*this)[p2]);
+			}
+			else
+			{
+				m_blackDead.push_back((*this)[p2]);
+			}
+		}
+
 		(*this)[p2] = currPiece;
 		(*this)[p1] = {};
 		(*this)[p2]->SetHasMoved(true);
+
 	}
 	else
 	{
@@ -464,6 +481,21 @@ void Board::Move(Position p1, Position p2)
 	{
 		(*this)[p1] = currPiece;
 		(*this)[p2] = nextPiece;
+
+		if ((*this)[p2] && (*this)[p2]->GetColor() == EColor::White)
+		{
+			if (m_whiteDead.size())
+			{
+				m_whiteDead.pop_back();
+			}
+		}
+		else
+		{
+			if (m_blackDead.size())
+			{
+				m_blackDead.pop_back();
+			}
+		}
 
 		currPiece->SetHasMoved(false);
 
@@ -508,6 +540,10 @@ void Board::Reset()
 		m_board[1][i] = Piece::Produce(EPieceType::Pawn, EColor::Black);
 		m_board[6][i] = Piece::Produce(EPieceType::Pawn, EColor::White);
 	}
+
+	m_whiteDead = { };
+	m_blackDead = { };
+	m_prevPositions = { };
 }
 
 PositionList Board::GetMoves(Position p) const
@@ -622,9 +658,27 @@ PositionList Board::GetMovesCheck(Position p) const
 				}
 			}
 		}
+
+		for (int i = 0; i < currMoves.size(); i++)
+		{
+			if (checkPos == currMoves[i])
+			{
+				newList.push_back(currMoves[i]);
+			}
+		}
 	}
 
 	return newList;
+}
+
+PiecesVector Board::GetWhiteDead() const
+{
+	return m_whiteDead;
+}
+
+PiecesVector Board::GetBlackDead() const
+{
+	return m_blackDead;
 }
 
 bool Board::PawnGoesDiagonally(Position p1, Position p2)

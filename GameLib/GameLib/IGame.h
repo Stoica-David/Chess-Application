@@ -35,5 +35,8 @@ public:
 	virtual bool IsDrawProposed() const = 0;
 	virtual bool IsPromoting() const = 0;
 
+	virtual PiecesVector GetWhiteDead() const = 0;
+	virtual PiecesVector GetBlackDead() const = 0;
+
 	virtual ~IGame() = default;
 };

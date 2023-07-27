@@ -435,7 +435,15 @@ TEST(GetMovesCheckTest, Case1)
 
 	Game g(m, EColor::White, EState::Playing);
 
-	PositionList moves = { {6, 4}, {4,1}, {5,2}, {6,3} };
+	PositionList kingMoves = {{6, 4}};
+	PositionList knightMoves = { {5, 2}, {6,3} };
+	PositionList bishopMoves = {{6, 3}};
+	PositionList rookMoves = {};
+	PositionList pawnMoves = { {4, 1} };
 
-	EXPECT_EQ(g.GetMoves({ 7,4 }), moves);
+	EXPECT_EQ(g.GetMoves({ 7,4 }), kingMoves);
+	EXPECT_EQ(g.GetMoves({ 7,1 }), knightMoves);
+	EXPECT_EQ(g.GetMoves({ 7,2 }), bishopMoves);
+	EXPECT_EQ(g.GetMoves({ 7,0 }), rookMoves);
+	EXPECT_EQ(g.GetMoves({ 6,1 }), pawnMoves);
 }

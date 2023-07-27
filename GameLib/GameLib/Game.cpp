@@ -190,6 +190,16 @@ bool Game::Stalemate() const
 	return (m_gameboard.IsStalemate(m_turn));
 }
 
+PiecesVector Game::GetWhiteDead() const
+{
+	return m_gameboard.GetWhiteDead();
+}
+
+PiecesVector Game::GetBlackDead() const
+{
+	return m_gameboard.GetBlackDead();
+}
+
 PositionList Game::GetMoves(Position p)
 {
 	return m_gameboard.GetMoves(p);
