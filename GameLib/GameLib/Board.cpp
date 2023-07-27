@@ -733,7 +733,7 @@ PositionList Board::GetMovesPinned(Position p) const
 	{
 		for (int j = 0; j < checkPattern.size(); j++)
 		{
-			if (currMoves[i] == checkPattern[j])
+			if (currMoves[i] == checkPattern[j] || currMoves[i] == checkPos)
 			{
 				newList.push_back(currMoves[i]);
 			}
