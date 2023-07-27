@@ -104,6 +104,114 @@ TEST(MoveMock, RegularMove4)
 	myGame.RemoveListener(mock.get());
 }
 
+TEST(MoveMock, MultipleListeners)
+{
+	CharMatrix m = { {
+	{'r', 'r', 'b', 'q', 'k', 'b', 'r', 'r',},
+	{'p', 'p', 'p', 'p', '-', '-', 'p', 'p',},
+	{'-', '-', '-', '-', '-', 'p', '-', '-',},
+	{'-', '-', '-', '-', 'p', '-', '-', '-',},
+	{'Q', '-', 'P', '-', '-', '-', '-', '-',},
+	{'-', '-', '-', '-', '-', 'P', '-', '-',},
+	{'P', 'P', '-', 'P', 'P', '-', 'P', 'P',},
+	{'R', 'H', 'B', '-', 'K', 'B', 'H', 'R',},
+	} };
+
+	Game myGame(m, EColor::White, EState::Playing);
+
+	auto mock1 = std::make_shared<MockGame>(),
+		 mock2 = std::make_shared<MockGame>(),
+		 mock3 = std::make_shared<MockGame>();
+
+	myGame.AddListener(mock1);
+	myGame.AddListener(mock2);
+	myGame.AddListener(mock3);
+
+	EXPECT_CALL(*mock1, OnMove());
+	EXPECT_CALL(*mock2, OnMove());
+	EXPECT_CALL(*mock3, OnMove());
+	
+	myGame.Move({ 6,0 }, { 5,0 });
+
+	myGame.RemoveListener(mock1.get());
+	myGame.RemoveListener(mock2.get());
+	myGame.RemoveListener(mock3.get());
+}
+
+TEST(MoveMock, AfterRemove)
+{
+	CharMatrix m = { {
+	{'r', 'r', 'b', 'q', 'k', 'b', 'r', 'r',},
+	{'p', 'p', 'p', 'p', '-', '-', 'p', 'p',},
+	{'-', '-', '-', '-', '-', 'p', '-', '-',},
+	{'-', '-', '-', '-', 'p', '-', '-', '-',},
+	{'Q', '-', 'P', '-', '-', '-', '-', '-',},
+	{'-', '-', '-', '-', '-', 'P', '-', '-',},
+	{'P', 'P', '-', 'P', 'P', '-', 'P', 'P',},
+	{'R', 'H', 'B', '-', 'K', 'B', 'H', 'R',},
+	} };
+
+	Game myGame(m, EColor::White, EState::Playing);
+
+	auto mock1 = std::make_shared<MockGame>(),
+		mock2 = std::make_shared<MockGame>(),
+		mock3 = std::make_shared<MockGame>();
+
+	myGame.AddListener(mock1);
+	myGame.AddListener(mock2);
+	myGame.AddListener(mock3);
+
+	EXPECT_CALL(*mock1, OnMove());
+	EXPECT_CALL(*mock2, OnMove());
+	EXPECT_CALL(*mock3, OnMove());
+
+	myGame.Move({ 6,0 }, { 5,0 });
+
+	myGame.RemoveListener(mock2.get());
+	myGame.RemoveListener(mock3.get());
+	
+	EXPECT_CALL(*mock1, OnMove());
+
+	myGame.Move({ 1,0 }, { 2,0 });
+
+	myGame.RemoveListener(mock1.get());
+}
+
+TEST(MoveMock, ImbricateTest)
+{
+	CharMatrix m = { {
+	{'r', 'r', 'b', 'q', 'k', 'b', 'r', 'r',},
+	{'p', 'p', 'p', 'p', '-', '-', 'p', 'p',},
+	{'-', '-', '-', '-', '-', 'p', '-', '-',},
+	{'-', '-', '-', '-', 'p', '-', '-', '-',},
+	{'Q', '-', 'P', '-', '-', '-', '-', '-',},
+	{'-', '-', '-', '-', '-', 'P', '-', '-',},
+	{'P', 'P', '-', 'P', 'P', '-', 'P', 'P',},
+	{'R', 'H', 'B', '-', 'K', 'B', 'H', 'R',},
+	} };
+
+	Game myGame(m, EColor::White, EState::Playing);
+
+	auto mock1 = std::make_shared<MockGame>(),
+		mock2 = std::make_shared<MockGame>(),
+		mock3 = std::make_shared<MockGame>();
+
+	myGame.AddListener(mock1);
+	myGame.AddListener(mock2);
+	myGame.AddListener(mock3);
+
+	EXPECT_CALL(*mock1, OnMove());
+	EXPECT_CALL(*mock2, OnMove());
+	EXPECT_CALL(*mock3, OnMove()).Times(0);
+
+	myGame.RemoveListener(mock3.get());
+
+	myGame.Move({ 6,0 }, { 5,0 });
+
+	myGame.RemoveListener(mock2.get());
+	myGame.RemoveListener(mock1.get());
+}
+
 TEST(MoveMock, InTheWayExceptionMove)
 {
 	CharMatrix m = { {

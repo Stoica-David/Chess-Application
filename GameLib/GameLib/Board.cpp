@@ -459,7 +459,10 @@ void Board::Move(Position p1, Position p2)
 		throw StillCheckException("The king is still in check!");
 	}
 
-	UpdatePrevPositions();
+	if (currPiece->GetColor() == EColor::Black)
+	{
+		UpdatePrevPositions();
+	}
 }
 
 void Board::Reset()
