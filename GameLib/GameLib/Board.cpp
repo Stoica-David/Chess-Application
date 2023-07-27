@@ -93,8 +93,8 @@ bool Board::VerifyTheWay(Position p1, Position p2) const
 				return false;
 			}
 		}
-		
-		if(!currPiece)
+
+		if (!currPiece)
 		{
 			int intermediateX = IntermediatePosition(p1).first;
 			int intermediateY = IntermediatePosition(p1).second;
@@ -125,7 +125,7 @@ bool Board::IsCheck(Position p, EColor color) const
 			}
 			else
 			{
-				moves = GetMoves({ i, j });
+				moves = GetMovesNormal({ i, j });
 			}
 
 			auto it = std::find(moves.begin(), moves.end(), p);
@@ -178,7 +178,7 @@ bool Board::IsCheckMate(EColor color) const
 		return false;
 	}
 
-	PositionList currMoves = GetMoves(p);
+	PositionList currMoves = GetMovesNormal(p);
 
 	if (!IsCheck(p, color))
 	{
@@ -261,7 +261,7 @@ bool Board::IsStalemate(EColor color) const
 		return false;
 	}
 
-	PositionList kingMoves = GetMoves(kingPos);
+	PositionList kingMoves = GetMovesNormal(kingPos);
 
 	auto NotInCheck = [&](const Position& p)
 	{
@@ -306,7 +306,7 @@ Position Board::FindCheck(Position p, EColor color) const
 				continue;
 			}
 
-			currMoves = GetMoves({ i,j });
+			currMoves = GetMovesNormal({ i,j });
 
 			auto it = std::find(currMoves.begin(), currMoves.end(), p);
 
@@ -512,12 +512,30 @@ void Board::Reset()
 
 PositionList Board::GetMoves(Position p) const
 {
-	auto initialPiece = m_board[p.first][p.second];
+	PiecesPtr currPiece = m_board[p.first][p.second];
 
-	if (!initialPiece)
+	PositionList newList;
+
+	if (!currPiece)
 	{
 		return {};
 	}
+
+	if (IsCheck(FindKing(currPiece->GetColor()), currPiece->GetColor()))
+	{
+		newList = GetMovesCheck(p);
+	}
+	else
+	{
+		newList = GetMovesNormal(p);
+	}
+
+	return newList;
+}
+
+PositionList Board::GetMovesNormal(Position p) const
+{
+	auto initialPiece = m_board[p.first][p.second];
 
 	PositionMatrix currMoves = initialPiece->AllMoves(p);
 
@@ -554,9 +572,54 @@ PositionList Board::GetMoves(Position p) const
 				}
 			}
 
-			if (!initialPiece->Is(EPieceType::Pawn) || (!PawnGoesDiagonally(p, { x,y })))
+			if ((!initialPiece->Is(EPieceType::Pawn) || (!PawnGoesDiagonally(p, { x,y }))))
 			{
 				newList.push_back({ x , y });
+			}
+		}
+	}
+
+	return newList;
+}
+
+PositionList Board::GetMovesCheck(Position p) const
+{
+	PiecesPtr currPiece = m_board[p.first][p.second];
+	EColor currColor = m_board[p.first][p.second]->GetColor();
+	PositionList newList;
+
+	if (currPiece->Is(EPieceType::King))
+	{
+		newList = GetMovesNormal(p);
+
+		for (int i = 0; i < newList.size(); i++)
+		{
+			if (IsCheck(newList[i], currColor))
+			{
+				newList.erase(newList.begin() + i);
+			}
+		}
+	}
+	else
+	{
+		Position kingPos = FindKing(currColor);
+		PiecesPtr king = m_board[kingPos.first][kingPos.second];
+
+		Position checkPos = FindCheck(kingPos, currColor);
+		PiecesPtr checkPiece = m_board[checkPos.first][checkPos.second];
+
+		PositionList checkPattern = checkPiece->DeterminePattern(checkPos, kingPos);
+
+		PositionList currMoves = GetMovesNormal(p);
+
+		for (int i = 0; i < currMoves.size(); i++)
+		{
+			for (int j = 0; j < checkPattern.size(); j++)
+			{
+				if (currMoves[i] == checkPattern[j])
+				{
+					newList.push_back(currMoves[i]);
+				}
 			}
 		}
 	}
@@ -594,7 +657,7 @@ bool Board::OnlyKing(EColor color) const
 
 bool Board::FindHelp(Position p, EColor color) const
 {
-	PositionList kingMoves = GetMoves(p);
+	PositionList kingMoves = GetMovesNormal(p);
 
 	PositionList attackMoves;
 	PiecesPtr attackPiece;
@@ -614,7 +677,7 @@ bool Board::FindHelp(Position p, EColor color) const
 				continue;
 			}
 
-			attackMoves = GetMoves({ i, j });
+			attackMoves = GetMovesNormal({ i, j });
 
 			auto it = std::find(attackMoves.begin(), attackMoves.end(), p);
 
@@ -643,7 +706,7 @@ bool Board::FindHelp(Position p, EColor color) const
 					continue;
 				}
 
-				helpMoves = GetMoves({ i, j });
+				helpMoves = GetMovesNormal({ i, j });
 
 				auto it = std::find(helpMoves.begin(), helpMoves.end(), currPos);
 
@@ -678,7 +741,7 @@ bool Board::KillCheck(Position p, EColor color) const
 
 			if (currPiece && (currPiece->GetColor() != color))
 			{
-				PositionList moves = GetMoves({ i, j });
+				PositionList moves = GetMovesNormal({ i, j });
 
 				auto it = std::find(moves.begin(), moves.end(), p);
 
@@ -703,7 +766,7 @@ bool Board::KillCheck(Position p, EColor color) const
 
 			if (currPiece && (currPiece->GetColor() != m_board[killX][killY]->GetColor()))
 			{
-				PositionList moves = GetMoves({ i, j });
+				PositionList moves = GetMovesNormal({ i, j });
 
 				auto it = std::find(moves.begin(), moves.end(), toKill);
 

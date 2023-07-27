@@ -47,7 +47,9 @@ public:
 	void Move(Position p1, Position p2);
 	void Reset();
 
-	PositionList GetMoves(Position p) const;
+	PositionList GetMoves(Position p)const;
+	PositionList GetMovesNormal(Position p) const;
+	PositionList GetMovesCheck(Position p) const;
 
 private:
 	static bool PawnGoesDiagonally(Position p1, Position p2);

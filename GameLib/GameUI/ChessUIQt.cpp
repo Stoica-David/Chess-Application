@@ -338,6 +338,8 @@ void ChessUIQt::OnButtonClicked(const std::pair<int, int>& position)
 
 	m_ExceptionLabel->setText("");
 
+	PositionList nullVector = {};
+
 	try
 	{
 		//At second click
@@ -362,7 +364,7 @@ void ChessUIQt::OnButtonClicked(const std::pair<int, int>& position)
 			}
 		}
 		//At first click
-		else if (m_game->GetPieceInfo(position) && m_game->GetPieceInfo(position)->GetColor() == m_game->GetTurn()) {
+		else if (m_game->GetPieceInfo(position) && m_game->GetPieceInfo(position)->GetColor() == m_game->GetTurn() && m_game->GetMoves(position) != nullVector) {
 			m_selectedCell = position;
 			m_grid[position.first][position.second]->setSelected(true);
 			HighlightPossibleMoves(m_game->GetMoves(position));
@@ -418,7 +420,7 @@ void ChessUIQt::OnHistoryClicked(QListWidgetItem* item)
 
 void ChessUIQt::OnCopyButtonClicked()
 {
-	std::string chessBoard = "m = { {\n";
+	std::string chessBoard = "CharMatrix m = { {\n";
 
 	for (int i = 0; i < 8; i++)
 	{

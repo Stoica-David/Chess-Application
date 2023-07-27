@@ -419,3 +419,23 @@ TEST(PawnTwoException, Case1)
 
 	EXPECT_THROW(g.Move({ 1,5 }, { 3,5 }), InTheWayException);
 }
+
+TEST(GetMovesCheckTest, Case1)
+{
+	CharMatrix m = { {
+	{'r', 'h', 'b', '-', 'k', 'b', 'h', 'r',},
+	{'p', 'p', '-', 'p', 'p', 'p', 'p', 'p',},
+	{'-', '-', '-', '-', '-', '-', '-', '-',},
+	{'q', '-', 'p', '-', '-', '-', '-', '-',},
+	{'-', '-', '-', 'P', '-', '-', '-', '-',},
+	{'-', '-', '-', '-', 'P', '-', '-', '-',},
+	{'P', 'P', 'P', '-', '-', 'P', 'P', 'P',},
+	{'R', 'H', 'B', 'Q', 'K', 'B', 'H', 'R',},
+	} };
+
+	Game g(m, EColor::White, EState::Playing);
+
+	PositionList moves = { {6, 4}, {4,1}, {5,2}, {6,3} };
+
+	EXPECT_EQ(g.GetMoves({ 7,4 }), moves);
+}
