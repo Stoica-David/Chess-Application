@@ -27,7 +27,7 @@ Board::Board(const CharMatrix& matrix)
 			}
 		}
 	}
-
+	
 	m_whiteDead = { };
 	m_blackDead = { };
 	m_prevPositions = { };
@@ -85,25 +85,16 @@ bool Board::VerifyTheWay(Position p1, Position p2) const
 
 	for (const auto& currPos : piecePattern)
 	{
-		int currX = currPos.first,
-			currY = currPos.second;
-
-		PiecesPtr currPiece = m_board[currX][currY];
-
-		if (currPiece)
+		if (auto currPiece = m_board[currPos.first][currPos.second])
 		{
 			if ((currPos != p2) || (currPos == p2 && (initialPiece->GetColor() == currPiece->GetColor())) || (initialPiece->Is(EPieceType::Pawn) && !PawnGoesDiagonally(p1, p2)))
 			{
 				return false;
 			}
 		}
-
-		if (!currPiece)
+		else
 		{
-			int intermediateX = IntermediatePosition(p1).first;
-			int intermediateY = IntermediatePosition(p1).second;
-
-			if (initialPiece->Is(EPieceType::Pawn) && (m_board[intermediateX][intermediateY]) && std::abs(x1 - x2) == 2)
+			if (initialPiece->Is(EPieceType::Pawn) && (GetPiece(IntermediatePosition(p1))) && std::abs(x1 - x2) == 2)
 			{
 				return false;
 			}
@@ -455,13 +446,15 @@ void Board::Move(Position p1, Position p2)
 	{
 		if ((*this)[p2])
 		{
+			IPieceInfoPtr ip = GetPieceInfo(p2);
+
 			if ((*this)[p2]->GetColor() == EColor::White)
 			{
-				m_whiteDead.push_back((*this)[p2]);
+				m_whiteDead.push_back(ip);
 			}
 			else
 			{
-				m_blackDead.push_back((*this)[p2]);
+				m_blackDead.push_back(ip);
 			}
 		}
 
@@ -671,12 +664,12 @@ PositionList Board::GetMovesCheck(Position p) const
 	return newList;
 }
 
-PiecesVector Board::GetWhiteDead() const
+const IPieceInfoVector& Board::GetWhiteDead() const
 {
 	return m_whiteDead;
 }
 
-PiecesVector Board::GetBlackDead() const
+const IPieceInfoVector& Board::GetBlackDead() const
 {
 	return m_blackDead;
 }

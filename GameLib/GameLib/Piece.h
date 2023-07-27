@@ -1,11 +1,11 @@
 #pragma once
 
 #include "IPiece.h"
-#include "Pieces.h"
 #include<memory>
 #include <cmath>
 
-
+using PiecesPtr = std::shared_ptr<class Piece>;
+using PiecesVector = std::vector<PiecesPtr>;
 using PiecePairVector = std::vector<std::pair<Position, PiecesPtr>>;
 using PieceVector = std::vector<PiecesPtr>;
 

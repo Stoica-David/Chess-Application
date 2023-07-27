@@ -32,11 +32,6 @@ static bool IsPositionValid(Position p)
 
 void Game::Move(Position p1, Position p2)
 {
-	static int t = 0;
-	t++;
-	if (t == 98)
-		t = t;
-
 	if (m_state == EState::Playing || m_state == EState::Check)
 	{
 		if (!IsPositionValid(p1) || !IsPositionValid(p2))
@@ -190,12 +185,12 @@ bool Game::Stalemate() const
 	return (m_gameboard.IsStalemate(m_turn));
 }
 
-PiecesVector Game::GetWhiteDeadPieces() const
+const IPieceInfoVector& Game::GetWhiteDeadPieces() const
 {
 	return m_gameboard.GetWhiteDead();
 }
 
-PiecesVector Game::GetBlackDeadPieces() const
+const IPieceInfoVector& Game::GetBlackDeadPieces() const
 {
 	return m_gameboard.GetBlackDead();
 }

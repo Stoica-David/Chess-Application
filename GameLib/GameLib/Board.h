@@ -51,8 +51,8 @@ public:
 	PositionList GetMovesNormal(Position p) const;
 	PositionList GetMovesCheck(Position p) const;
 
-	PiecesVector GetWhiteDead() const;
-	PiecesVector GetBlackDead() const;
+	const IPieceInfoVector& GetWhiteDead() const;
+	const IPieceInfoVector& GetBlackDead() const;
 
 private:
 	static bool PawnGoesDiagonally(Position p1, Position p2);
@@ -87,6 +87,7 @@ private:
 private:
 	ChessBoard m_board;
 	BitMatrix m_prevPositions;
-	PiecesVector m_whiteDead;
-	PiecesVector m_blackDead;
+
+	IPieceInfoVector m_whiteDead;
+	IPieceInfoVector m_blackDead;
 };

@@ -7,6 +7,7 @@
 #include <vector>
 
 using IPieceInfoPtr = std::shared_ptr<class IPieceInfo>;
+using IPieceInfoVector = std::vector<IPieceInfoPtr>;
 
 class IPieceInfo
 {

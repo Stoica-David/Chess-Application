@@ -1,5 +1,6 @@
 #include "gtest/gtest.h"
 #include "Game.h"
+#include "PieceInfo.h"
 #include "BoardExceptions.h"
 #include "GameExceptions.h"
 

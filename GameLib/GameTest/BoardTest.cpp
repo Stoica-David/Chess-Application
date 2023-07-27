@@ -676,4 +676,5 @@ TEST(Check3FoldTest, First3Fold)
 //	} };
 //
 //	Board b(m);
+//
 //}

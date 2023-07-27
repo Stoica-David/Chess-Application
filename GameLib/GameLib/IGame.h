@@ -1,10 +1,8 @@
 #pragma once
 
 #include "IPieceInfo.h"
-#include "Pieces.h"
 #include "Position.h"
 #include "IGameListener.h"
-#include <string>
 
 using IGamePtr = std::shared_ptr<class IGame>;
 using CharMatrix = std::array<std::array<char, 8>, 8>;
@@ -36,8 +34,8 @@ public:
 	virtual bool IsDrawProposed() const = 0;
 	virtual bool IsPromoting() const = 0;
 
-	virtual PiecesVector GetWhiteDeadPieces() const = 0;
-	virtual PiecesVector GetBlackDeadPieces() const = 0;
+	virtual const IPieceInfoVector& GetWhiteDeadPieces() const = 0;
+	virtual const IPieceInfoVector& GetBlackDeadPieces() const = 0;
 
 	virtual ~IGame() = default;
 };

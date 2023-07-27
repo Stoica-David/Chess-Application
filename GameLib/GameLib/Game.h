@@ -41,6 +41,9 @@ public:
 
 	PositionList GetMoves(Position p) override;
 
+	const IPieceInfoVector& GetWhiteDeadPieces() const override;
+	const IPieceInfoVector& GetBlackDeadPieces() const override;
+
 	//Other methods
 	void NotifyMove();
 	void NotifyGameOver(EOverState);
@@ -52,9 +55,6 @@ public:
 	bool Stalemate() const;
 
 
-	PiecesVector GetWhiteDeadPieces() const override;
-	PiecesVector GetBlackDeadPieces() const override;
-
 private:
 	void SwitchTurn();
 	void UpdateState(EState);
@@ -64,4 +64,5 @@ private:
 	EColor m_turn;
 	EState m_state;
 	ListenersList m_listeners;
+
 };

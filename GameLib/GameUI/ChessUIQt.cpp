@@ -335,7 +335,7 @@ void ChessUIQt::InitializeDeadWhitePieces(QGridLayout* mainGridLayout)
 
 	QWidget* white = new QWidget();
 
-	PiecesVector whiteDeadPieces = m_game->GetWhiteDeadPieces();
+	IPieceInfoVector whiteDeadPieces = m_game->GetWhiteDeadPieces();
 
 	for (int i = 0; i < whiteDeadPieces.size(); i++)
 	{
@@ -363,7 +363,7 @@ void ChessUIQt::InitializeDeadBlackPieces(QGridLayout* mainGridLayou)
 
 	QWidget* white = new QWidget();
 
-	PiecesVector whiteDeadPieces = m_game->GetWhiteDeadPieces();
+	IPieceInfoVector whiteDeadPieces = m_game->GetWhiteDeadPieces();
 
 	for (int i = 0; i < whiteDeadPieces.size(); i++)
 	{
@@ -511,7 +511,7 @@ void ChessUIQt::OnCopyButtonClicked()
 			if (j == 7)
 				chessBoard.erase(chessBoard.end() - 1);
 		}
-		chessBoard += "},\n";
+		chessBoard += "},\n\t";
 	}
 	chessBoard += "}};\n\n";
 
