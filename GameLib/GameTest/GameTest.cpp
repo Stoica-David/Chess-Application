@@ -510,4 +510,3 @@ TEST(BigGetMovesTest, Case1)
 	
 	EXPECT_EQ(g.GetMoves({ 6,4 }), v);
 }
-

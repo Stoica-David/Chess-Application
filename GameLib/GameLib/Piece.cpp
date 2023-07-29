@@ -13,6 +13,7 @@ Piece::Piece(EPieceType type, EColor color)
 	m_color = color;
 	m_hasMoved = false;
 	m_leftPassant = false;
+	m_rightPassant = false;
 }
 
 PiecesPtr Piece::Produce(EPieceType type, EColor color)
