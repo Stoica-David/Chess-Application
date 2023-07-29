@@ -59,6 +59,8 @@ public:
 private:
 	static bool PawnGoesDiagonally(Position p1, Position p2);
 
+	bool LeftPawnCheck(Position p) const;
+	bool RightPawnCheck(Position p) const;
 	bool OnlyKing(EColor color)const;
 	bool FindHelp(Position p, EColor color) const;
 	bool KillCheck(Position p, EColor color) const;
@@ -66,6 +68,7 @@ private:
 	bool SameBishop()const;
 	bool PawnException(Position p1, Position p2)const;
 	bool IsCastle(Position p1, Position p2) const;
+	bool IsEnPassant(Position p1, Position p2) const;
 
 	PositionList DefendedPositions(Position p, EColor color) const;
 
@@ -84,6 +87,8 @@ private:
 	void UpdatePrevPositions();
 	void InitializeWhite(char c, Position p);
 	void InitializeBlack(char c, Position p);
+	void EnPassant(Position p1, Position p2);
+	void ResetEnPassant();
 
 	Position IntermediatePosition(Position p) const;
 private:

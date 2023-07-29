@@ -12,6 +12,7 @@ Piece::Piece(EPieceType type, EColor color)
 	m_type = type;
 	m_color = color;
 	m_hasMoved = false;
+	m_leftPassant = false;
 }
 
 PiecesPtr Piece::Produce(EPieceType type, EColor color)
@@ -49,9 +50,29 @@ bool Piece::GetHasMoved() const
 	return m_hasMoved;
 }
 
+bool Piece::GetLeftPassant() const
+{
+	return m_leftPassant;
+}
+
+bool Piece::GetRightPassant() const
+{
+	return m_rightPassant;
+}
+
 void Piece::SetHasMoved(bool hasMoved)
 {
 	m_hasMoved = hasMoved;
+}
+
+void Piece::SetLeftPassant(bool option)
+{
+	m_leftPassant = option;
+}
+
+void Piece::SetRightPassant(bool option)
+{
+	m_rightPassant = option;
 }
 
 bool Piece::IsMoveRegular(Position p1, Position p2) const

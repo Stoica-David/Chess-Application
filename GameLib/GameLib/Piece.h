@@ -22,9 +22,13 @@ public:
 	EColor GetColor() const;
 
 	bool GetHasMoved() const;
+	bool GetLeftPassant() const;
+	bool GetRightPassant() const;
 
 	// Setters
 	void SetHasMoved(bool);
+	void SetLeftPassant(bool);
+	void SetRightPassant(bool);
 
 	// IPiece methods
 	bool IsMoveRegular(Position p1, Position p2) const override;
@@ -54,4 +58,6 @@ protected:
 	EPieceType m_type;
 	EColor m_color;
 	bool m_hasMoved;
+	bool m_leftPassant;
+	bool m_rightPassant;
 };

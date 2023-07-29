@@ -27,7 +27,7 @@ Board::Board(const CharMatrix& matrix)
 			}
 		}
 	}
-	
+
 	m_whiteDead = { };
 	m_blackDead = { };
 	m_prevPositions = { };
@@ -298,7 +298,7 @@ bool Board::IsPinned(Position p) const
 	EColor currColor = m_board[p.first][p.second]->GetColor();
 
 	Position kingPos = FindKing(currColor);
-	
+
 	Position checkPos = FindCheck(p, currColor);
 
 	if (checkPos == Position(-1, -1))
@@ -486,7 +486,7 @@ void Board::Move(Position p1, Position p2)
 
 	if (!currPiece->IsMoveRegular(p1, p2) && !IsCastle(p1, p2))
 	{
-		if (!currPiece->Is(EPieceType::Pawn) || PawnException(p1, p2))
+		if(!currPiece->Is(EPieceType::Pawn) || (PawnException(p1, p2) && !IsEnPassant(p1, p2)))
 		{
 			throw MoveException("The move cannot be done by the piece!");
 		}
@@ -497,7 +497,7 @@ void Board::Move(Position p1, Position p2)
 		throw InTheWayException("There is a piece in the way");
 	}
 
-	if (!IsCastle(p1, p2))
+	if (!IsCastle(p1, p2) && !IsEnPassant(p1,p2))
 	{
 		if ((*this)[p2])
 		{
@@ -516,7 +516,10 @@ void Board::Move(Position p1, Position p2)
 		(*this)[p2] = currPiece;
 		(*this)[p1] = {};
 		(*this)[p2]->SetHasMoved(true);
-
+	}
+	else if (IsEnPassant(p1, p2))
+	{
+		EnPassant(p1, p2);
 	}
 	else
 	{
@@ -549,10 +552,30 @@ void Board::Move(Position p1, Position p2)
 
 		throw StillCheckException("The king is still in check!");
 	}
-
-	if (currPiece->GetColor() == EColor::Black)
+	else if (currPiece->GetColor() == EColor::Black)
 	{
 		UpdatePrevPositions();
+	}
+
+	ResetEnPassant();
+
+	if ((*this)[p2])
+	{
+		if ((*this)[p2]->Is(EPieceType::Pawn) && std::abs(p2.first - p1.first) == 2 && std::abs(p2.second - p1.second) == 0)
+		{
+			Position leftPos = { p2.first, p2.second - 1 };
+			Position rightPos = { p2.first, p2.second + 1 };
+
+			if (leftPos.second >= 0 && (*this)[leftPos] && (*this)[leftPos]->Is(EPieceType::Pawn) && (*this)[leftPos]->GetColor() != (*this)[p2]->GetColor())
+			{
+				(*this)[leftPos]->SetRightPassant(true);
+			}
+
+			if (rightPos.second <= 7 && (*this)[rightPos] && (*this)[rightPos]->Is(EPieceType::Pawn) && (*this)[rightPos]->GetColor() != (*this)[p2]->GetColor())
+			{
+				(*this)[rightPos]->SetLeftPassant(true);
+			}
+		}
 	}
 }
 
@@ -609,13 +632,54 @@ PositionList Board::GetMoves(Position p) const
 	{
 		newList = GetMovesCheck(p);
 	}
-	else if(IsPinned(p))
+	else if (IsPinned(p))
 	{
 		newList = GetMovesPinned(p);
 	}
 	else
 	{
 		newList = GetMovesNormal(p);
+	}
+
+	if (m_board[p.first][p.second]->Is(EPieceType::Pawn))
+	{
+		PositionList enPassantMoves;
+
+		auto leftPos = { p.first, p.second - 1 };
+
+		if (m_board[p.first][p.second]->GetLeftPassant() == true)
+		{
+			if (LeftPawnCheck(p))
+			{
+				if (m_board[p.first][p.second]->GetColor() == EColor::White)
+				{
+					enPassantMoves.push_back({ p.first - 1, p.second - 1 });
+				}
+				else
+				{
+					enPassantMoves.push_back({ p.first + 1, p.second - 1 });
+				}
+			}
+		}
+		else if (m_board[p.first][p.second]->GetRightPassant() == true)
+		{
+			if (RightPawnCheck(p))
+			{
+				if (m_board[p.first][p.second]->GetColor() == EColor::White)
+				{
+					enPassantMoves.push_back({ p.first - 1, p.second + 1 });
+				}
+				else
+				{
+					enPassantMoves.push_back({ p.first + 1, p.second + 1 });
+				}
+			}
+		}
+
+		for (int i = 0; i < enPassantMoves.size(); i++)
+		{
+			newList.push_back(enPassantMoves[i]);
+		}
 	}
 
 	return newList;
@@ -768,6 +832,22 @@ bool Board::PawnGoesDiagonally(Position p1, Position p2)
 		y2 = p2.second;
 
 	return (std::abs(x2 - x1) == 1 && std::abs(y2 - y1) == 1);
+}
+
+bool Board::LeftPawnCheck(Position p) const
+{
+	PiecesPtr otherPiece = m_board[p.first][p.second - 1];
+	PiecesPtr currPiece = m_board[p.first][p.second];
+
+	return (p.second - 1 > 0 && otherPiece && otherPiece->Is(EPieceType::Pawn) && otherPiece->GetColor() != currPiece->GetColor());
+}
+
+bool Board::RightPawnCheck(Position p) const
+{
+	PiecesPtr otherPiece = m_board[p.first][p.second + 1];
+	PiecesPtr currPiece = m_board[p.first][p.second];
+
+	return (p.second + 1 < 7 && otherPiece && otherPiece->Is(EPieceType::Pawn) && otherPiece->GetColor() != currPiece->GetColor());
 }
 
 bool Board::OnlyKing(EColor color) const
@@ -1041,6 +1121,29 @@ bool Board::IsCastle(Position p1, Position p2) const
 	return true;
 }
 
+bool Board::IsEnPassant(Position p1, Position p2) const
+{
+	PiecesPtr currPiece = m_board[p1.first][p1.second];
+	PiecesPtr nextPiece = m_board[p2.first][p2.second];
+
+	if (!currPiece || !currPiece->Is(EPieceType::Pawn) || nextPiece)
+	{
+		return false;
+	}
+
+	if (!m_board[p1.first][p1.second]->GetLeftPassant() && !m_board[p1.first][p1.second]->GetRightPassant())
+	{
+		return false;
+	}
+
+	if (!PawnGoesDiagonally(p1, p2))
+	{
+		return false;
+	}
+
+	return true;
+}
+
 PositionList Board::DefendedPositions(Position p, EColor color) const
 {
 	PositionList newList;
@@ -1242,6 +1345,68 @@ void Board::InitializeBlack(char c, Position p)
 		m_board[i][j] = Piece::Produce(EPieceType::King, EColor::Black);
 		break;
 	}
+	}
+}
+
+void Board::EnPassant(Position p1, Position p2)
+{
+	if ((p2.second > p1.second && (*this)[p1]->GetRightPassant() == false) || (p2.second < p1.second && (*this)[p1]->GetLeftPassant() == false))
+	{
+		throw MoveException("The piece can't do this move!");
+	}
+
+	Position otherPawnPos;
+
+	if ((*this)[p1]->GetColor() == EColor::White)
+	{
+		otherPawnPos = { p2.first + 1, p2.second };
+
+		(*this)[p2] = GetPiece(p1);
+		(*this)[otherPawnPos] = {};
+		(*this)[p1] = {};
+
+		IPieceInfoPtr ip = GetPieceInfo(p2);
+
+		m_blackDead.push_back(ip);
+	}
+	else
+	{
+		otherPawnPos = { p2.first - 1, p2.second };
+
+		(*this)[p2] = GetPiece(p1);
+		(*this)[otherPawnPos] = {};
+		(*this)[p1] = {};
+
+		IPieceInfoPtr ip = GetPieceInfo(p2);
+
+		m_whiteDead.push_back(ip);
+	}
+
+	(*this)[p2]->SetLeftPassant(false);
+	(*this)[p2]->SetRightPassant(false);
+}
+
+void Board::ResetEnPassant()
+{
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			if (!m_board[i][j])
+			{
+				continue;
+			}
+
+			if (m_board[i][j]->GetLeftPassant() == true)
+			{
+				m_board[i][j]->SetLeftPassant(false);
+			}
+
+			if (m_board[i][j]->GetRightPassant() == true)
+			{
+				m_board[i][j]->SetRightPassant(false);
+			}
+		}
 	}
 }
 
