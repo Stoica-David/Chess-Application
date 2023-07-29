@@ -66,8 +66,8 @@ signals:
 private:
     Ui::ChessUIQtClass ui;
     std::array<std::array<GridButton*, 8>, 8> m_grid;
-    std::array<std::array<GridButton*, 2>, 8> m_whiteGrid;
-    std::array<std::array<GridButton*, 2>, 8> m_blackGrid;
+    //std::array<std::array<GridButton*, 2>, 8> m_whiteGrid;
+    //std::array<std::array<GridButton*, 2>, 8> m_blackGrid;
     std::optional<std::pair<int, int>> m_selectedCell;
     QLabel* m_MessageLabel;
     QLabel* m_ExceptionLabel;

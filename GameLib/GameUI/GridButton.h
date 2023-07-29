@@ -1,8 +1,6 @@
 #pragma once
 #include "Enums.h"
 #include <QPushButton>
-#include <QVBoxLayout>
-#include <QLabel>
 
 class GridButton : public QPushButton
 {

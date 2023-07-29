@@ -328,62 +328,62 @@ void ChessUIQt::InitializeBoard(QGridLayout* mainGridLayout)
 	board->setLayout(chessGridLayout);
 	mainGridLayout->addWidget(board, 2, 1, 1, 1);
 }
-
-void ChessUIQt::InitializeDeadWhitePieces(QGridLayout* mainGridLayout)
-{
-	QGridLayout* chessGridLayout = new QGridLayout();
-
-	QWidget* white = new QWidget();
-
-	IPieceInfoVector whiteDeadPieces = m_game->GetWhiteDeadPieces();
-
-	for (int i = 0; i < whiteDeadPieces.size(); i++)
-	{
-		if (i <= 8)
-		{
-			m_whiteGrid[0][i] = new GridButton({ 0, i }, PieceType::Rook, PieceColor::Black);
-			chessGridLayout->addWidget(m_grid[0][i], 0, i, 1, 1);
-			connect(m_grid[0][i], &GridButton::Clicked, this, &ChessUIQt::OnButtonClicked);
-		}
-		else
-		{
-			m_whiteGrid[1][i] = new GridButton({ 1, i }, PieceType::none, PieceColor::none);
-			chessGridLayout->addWidget(m_grid[1][i], 1, i, 1, 1);
-			connect(m_grid[1][i], &GridButton::Clicked, this, &ChessUIQt::OnButtonClicked);
-		}
-	}
-
-	white->setLayout(chessGridLayout);
-	//mainGridLayout->addWidget(white, 2, 1, 2, 1);
-}
-
-void ChessUIQt::InitializeDeadBlackPieces(QGridLayout* mainGridLayou)
-{
-	QGridLayout* chessGridLayout = new QGridLayout();
-
-	QWidget* white = new QWidget();
-
-	IPieceInfoVector whiteDeadPieces = m_game->GetWhiteDeadPieces();
-
-	for (int i = 0; i < whiteDeadPieces.size(); i++)
-	{
-		if (i <= 8)
-		{
-			m_blackGrid[0][i] = new GridButton({ 0, i }, PieceType::Rook, PieceColor::Black);
-			chessGridLayout->addWidget(m_grid[0][i], 0, i, 1, 1);
-			connect(m_grid[0][i], &GridButton::Clicked, this, &ChessUIQt::OnButtonClicked);
-		}
-		else
-		{
-			m_blackGrid[1][i] = new GridButton({ 1, i }, PieceType::none, PieceColor::none);
-			chessGridLayout->addWidget(m_grid[1][i], 1, i, 1, 1);
-			connect(m_grid[1][i], &GridButton::Clicked, this, &ChessUIQt::OnButtonClicked);
-		}
-	}
-
-	white->setLayout(chessGridLayout);
-	//mainGridLayout->addWidget(white, 2, 1, 2, 1);
-}
+//
+//void ChessUIQt::InitializeDeadWhitePieces(QGridLayout* mainGridLayout)
+//{
+//	QGridLayout* chessGridLayout = new QGridLayout();
+//
+//	QWidget* white = new QWidget();
+//
+//	IPieceInfoVector whiteDeadPieces = m_game->GetWhiteDeadPieces();
+//
+//	for (int i = 0; i < whiteDeadPieces.size(); i++)
+//	{
+//		if (i <= 8)
+//		{
+//			m_whiteGrid[0][i] = new GridButton({ 0, i }, PieceType::Rook, PieceColor::Black);
+//			chessGridLayout->addWidget(m_grid[0][i], 0, i, 1, 1);
+//			connect(m_grid[0][i], &GridButton::Clicked, this, &ChessUIQt::OnButtonClicked);
+//		}
+//		else
+//		{
+//			m_whiteGrid[1][i] = new GridButton({ 1, i }, PieceType::none, PieceColor::none);
+//			chessGridLayout->addWidget(m_grid[1][i], 1, i, 1, 1);
+//			connect(m_grid[1][i], &GridButton::Clicked, this, &ChessUIQt::OnButtonClicked);
+//		}
+//	}
+//
+//	white->setLayout(chessGridLayout);
+//	//mainGridLayout->addWidget(white, 2, 1, 2, 1);
+//}
+//
+//void ChessUIQt::InitializeDeadBlackPieces(QGridLayout* mainGridLayou)
+//{
+//	QGridLayout* chessGridLayout = new QGridLayout();
+//
+//	QWidget* white = new QWidget();
+//
+//	IPieceInfoVector whiteDeadPieces = m_game->GetWhiteDeadPieces();
+//
+//	for (int i = 0; i < whiteDeadPieces.size(); i++)
+//	{
+//		if (i <= 8)
+//		{
+//			m_blackGrid[0][i] = new GridButton({ 0, i }, PieceType::Rook, PieceColor::Black);
+//			chessGridLayout->addWidget(m_grid[0][i], 0, i, 1, 1);
+//			connect(m_grid[0][i], &GridButton::Clicked, this, &ChessUIQt::OnButtonClicked);
+//		}
+//		else
+//		{
+//			m_blackGrid[1][i] = new GridButton({ 1, i }, PieceType::none, PieceColor::none);
+//			chessGridLayout->addWidget(m_grid[1][i], 1, i, 1, 1);
+//			connect(m_grid[1][i], &GridButton::Clicked, this, &ChessUIQt::OnButtonClicked);
+//		}
+//	}
+//
+//	white->setLayout(chessGridLayout);
+//	//mainGridLayout->addWidget(white, 2, 1, 2, 1);
+//}
 
 void ChessUIQt::OnButtonClicked(const std::pair<int, int>& position)
 {

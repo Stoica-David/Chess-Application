@@ -1,6 +1,4 @@
 #include "GridButton.h"
-#include <QVBoxLayout>
-#include <QLabel>
 #include <QPainter>
 
 void GridButton::mouseReleaseEvent(QMouseEvent* event)
@@ -68,14 +66,14 @@ void GridButton::updateBackgroundColor()
 	if (defaultColorBlack && !m_Highlighted)
 		backColor = "#7A6C5D";
 	if (defaultColorBlack && m_Highlighted)
-		backColor = "#491B1D";
+		backColor = "#E2DE84";
 	if (!defaultColorBlack && !m_Highlighted)
 		backColor = "#D2C4B5";
 	if (!defaultColorBlack && m_Highlighted)
-		backColor = "#491B1D";
+		backColor = "#E2DE84";
 
 	if (m_Selected)
-		backColor = "#491B1D";
+		backColor = "#E2DE84";
 
 	setStyleSheet("background-color: " + backColor + "; border: none;");
 }
