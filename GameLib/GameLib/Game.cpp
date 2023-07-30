@@ -109,7 +109,6 @@ void Game::DrawResponse(bool draw)
 	else
 	{
 		m_state = EState::Playing;
-		SwitchTurn();
 	}
 }
 
