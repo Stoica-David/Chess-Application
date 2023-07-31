@@ -1419,18 +1419,9 @@ void Board::ResetEnPassant()
 	{
 		for (int j = 0; j < 8; j++)
 		{
-			if (!m_board[i][j])
-			{
-				continue;
-			}
-
-			if (m_board[i][j]->GetLeftPassant() == true)
+			if (m_board[i][j])
 			{
 				m_board[i][j]->SetLeftPassant(false);
-			}
-
-			if (m_board[i][j]->GetRightPassant() == true)
-			{
 				m_board[i][j]->SetRightPassant(false);
 			}
 		}
@@ -1442,18 +1433,12 @@ Position Board::IntermediatePosition(Position p) const
 	PiecesPtr currPiece = m_board[p.first][p.second];
 	Position intermediate = { -1, -1 };
 
-	if (!currPiece->Is(EPieceType::Pawn))
+	if (currPiece->Is(EPieceType::Pawn))
 	{
-		return intermediate;
-	}
+		Position pair1 = { 5, p.second };
+		Position pair2 = { 2, p.second };
 
-	if (currPiece->GetColor() == EColor::White)
-	{
-		intermediate = { 5, p.second };
-	}
-	else
-	{
-		intermediate = { 2, p.second };
+		intermediate = currPiece->GetColor() == EColor::White ? pair1 : pair2;
 	}
 
 	return intermediate;
