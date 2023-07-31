@@ -44,6 +44,57 @@ void Board::SetHistory(const MoveVector& v)
 	m_moves = v;
 }
 
+void Board::SetBoard(const String& string)
+{
+	Reset();
+
+	if (string[1] != '.')
+	{
+		int line = 0, col = 0;
+
+		for (int i = 0; i < string.size() - 2; i++)
+		{
+			if (isalpha(string[i]))
+			{
+				if (isupper(string[i]))
+				{
+					InitializeWhite(string[i], { line, col });
+				}
+				else
+				{
+					InitializeBlack(string[i], { line, col });
+				}
+			}
+			else
+			{
+				int ws = string[i] - '0';
+
+				for (int j = 0; j < ws; j++)
+				{
+					m_board[line][col] = {};
+					col++;
+				}
+
+				col--;
+			}
+
+			if (string[i] == '/')
+			{
+				line ++;
+				col = 0;
+			}
+			else
+			{
+				col++;
+			}
+		}
+	}/*
+	else
+	{
+
+	}*/
+}
+
 IPieceInfoPtr Board::GetPieceInfo(Position p) const
 {
 	if (auto piece = GetPiece(p))
@@ -1358,6 +1409,11 @@ void Board::InitializeWhite(char c, Position p)
 		m_board[i][j] = Piece::Produce(EPieceType::Knight, EColor::White);
 		break;
 	}
+	case 'N':
+	{
+		m_board[i][j] = Piece::Produce(EPieceType::Knight, EColor::White);
+		break;
+	}
 	case 'Q':
 	{
 		m_board[i][j] = Piece::Produce(EPieceType::Queen, EColor::White);
@@ -1393,6 +1449,11 @@ void Board::InitializeBlack(char c, Position p)
 		break;
 	}
 	case 'h':
+	{
+		m_board[i][j] = Piece::Produce(EPieceType::Knight, EColor::Black);
+		break;
+	}
+	case 'n':
 	{
 		m_board[i][j] = Piece::Produce(EPieceType::Knight, EColor::Black);
 		break;

@@ -3,6 +3,7 @@
 #include <QInputDialog>
 #include <QMessageBox>
 #include <QFileDialog>
+#include <QScrollArea>
 #include "IGame.h"
 #include "BoardExceptions.h"
 #include "GameExceptions.h"
@@ -313,12 +314,19 @@ void ChessUIQt::InitializeTimers(QGridLayout* mainGridLayout)
 
 void ChessUIQt::InitializeHistory(QGridLayout* mainGridLayout)
 {
+	QScrollArea* scrollArea = new QScrollArea();
+	scrollArea->setWidgetResizable(true);
+
 	m_MovesList = new QListWidget();
 	m_MovesList->setMinimumWidth(250);
 	m_MovesList->setMaximumWidth(350);
 	connect(m_MovesList, &QListWidget::itemActivated, this, &ChessUIQt::OnHistoryClicked);
-	mainGridLayout->addWidget(m_MovesList, 2, 0, 1, 1);
+
+	scrollArea->setWidget(m_MovesList);
+
+	mainGridLayout->addWidget(scrollArea, 2, 0, 1, 1);
 }
+
 
 void ChessUIQt::InitializeBoard(QGridLayout* mainGridLayout)
 {
@@ -431,7 +439,25 @@ void ChessUIQt::OnLoadButtonClicked()
 	QString data = in.readAll();
 	file.close();
 
-	m_game->SetGame(data.toStdString());
+	String dataString = data.toStdString();
+
+	if (dataString[1] != '.')
+	{
+		m_MovesList->setEditTriggers(QAbstractItemView::NoEditTriggers);
+	}
+
+	m_game->SetGame(dataString);
+	UpdateBoard(GetBoard());
+	m_MovesList->clear();
+
+	if (m_game->GetTurn() == EColor::White)
+	{
+		m_MessageLabel->setText("Waiting for white player");
+	}
+	else
+	{
+		m_MessageLabel->setText("Waiting for black player");
+	}
 }
 
 void ChessUIQt::OnRestartButtonClicked()
@@ -457,6 +483,13 @@ void ChessUIQt::OnDrawButtonClicked()
 
 void ChessUIQt::OnHistoryClicked(QListWidgetItem* item)
 {
+	QAbstractItemView::EditTriggers currentEditTriggers = m_MovesList->editTriggers();
+
+	if (currentEditTriggers == QAbstractItemView::NoEditTriggers)
+	{
+		return;
+	}
+
 	int index = m_MovesList->currentRow();
 
 	MoveVector newHistory = m_game->GetHistory(); 
@@ -529,15 +562,23 @@ void ChessUIQt::OnCopyButtonClicked()
 
 void ChessUIQt::OnSaveFENButtonClicked()
 {
-	std::string FEN;
+	QString fileName = QFileDialog::getSaveFileName(this, "Save Text File", "", "Text Files (*.txt)");
 
-	FEN = m_game->GenerateFEN();
+	if (fileName.isEmpty())
+		return;
 
-	QString qFEN = QString::fromStdString(FEN);
+	QFile file(fileName);
+	if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+	{
+		qDebug() << "Error: Could not open the file for writing.";
+		return;
+	}
 
-	QClipboard* clipboard = QApplication::clipboard();
+	QString data = QString::fromStdString(m_game->GenerateFEN());
 
-	clipboard->setText(qFEN);
+	QTextStream out(&file);
+	out << data;
+	file.close();
 }
 
 void ChessUIQt::UpdateHistory()
@@ -696,5 +737,8 @@ void ChessUIQt::OnRestart()
 {
 	m_MessageLabel->setText("Waiting for white player");
 	m_ExceptionLabel->setText("");
+	m_MovesList->clear();
+
+	m_MovesList->setEditTriggers(QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked);
 	StartGame();
 }

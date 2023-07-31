@@ -287,7 +287,16 @@ void Game::RemoveListener(IGameListener* listener)
 
 void Game::SetGame(const String& string)
 {
+	m_gameboard.SetBoard(string);
 
+	if (string[string.size() - 1] == 'w')
+	{
+		m_turn = EColor::White;
+	}
+	else
+	{
+		m_turn = EColor::Black;
+	}
 }
 
 void Game::SetHistory(const MoveVector& v)
