@@ -4,10 +4,13 @@
 #include "Position.h"
 #include "IGameListener.h"
 
+#include <string>
+
 using IGamePtr = std::shared_ptr<class IGame>;
 using CharMatrix = std::array<std::array<char, 8>, 8>;
 using IGameListenerWeakPtr = std::weak_ptr<IGameListener>;
 using IGameListenerPtr = std::shared_ptr<IGameListener>;
+using String = std::string;
 
 class IGame
 {
@@ -36,6 +39,8 @@ public:
 
 	virtual const IPieceInfoVector& GetWhiteDeadPieces() const = 0;
 	virtual const IPieceInfoVector& GetBlackDeadPieces() const = 0;
+
+	virtual String GenerateFEN()const = 0;
 
 	virtual ~IGame() = default;
 };

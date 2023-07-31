@@ -256,6 +256,7 @@ void ChessUIQt::InitializeButtons(QGridLayout* mainGridLayout)
 	QPushButton* restartButton = new QPushButton("Restart");
 	QPushButton* drawButton = new QPushButton("Draw");
 	QPushButton* copyButton = new QPushButton("Copy");
+	QPushButton* FENButton = new QPushButton("Generate");
 
 	QWidget* buttonContainer = new QWidget();
 	QGridLayout* btnGrid = new QGridLayout();
@@ -264,13 +265,15 @@ void ChessUIQt::InitializeButtons(QGridLayout* mainGridLayout)
 	btnGrid->addWidget(loadButton, 0, 1);
 	btnGrid->addWidget(restartButton, 0, 2);
 	btnGrid->addWidget(drawButton, 0, 3);
-	btnGrid->addWidget(copyButton, 1, 0, 1, 4);
+	btnGrid->addWidget(copyButton, 1, 0, 1, 2);
+	btnGrid->addWidget(FENButton, 1, 2, 1, 2);
 
 	connect(saveButton, &QPushButton::pressed, this, &ChessUIQt::OnSaveButtonClicked);
 	connect(loadButton, &QPushButton::pressed, this, &ChessUIQt::OnLoadButtonClicked);
 	connect(restartButton, &QPushButton::pressed, this, &ChessUIQt::OnRestartButtonClicked);
 	connect(drawButton, &QPushButton::pressed, this, &ChessUIQt::OnDrawButtonClicked);
 	connect(copyButton, &QPushButton::pressed, this, &ChessUIQt::OnCopyButtonClicked);
+	connect(FENButton, &QPushButton::pressed, this, &ChessUIQt::OnFENButtonClicked);
 
 	buttonContainer->setLayout(btnGrid);
 	mainGridLayout->addWidget(buttonContainer, 0, 0, 1, 1);
@@ -521,6 +524,19 @@ void ChessUIQt::OnCopyButtonClicked()
 
 	clipboard->setText(qChessBoard);
 
+}
+
+void ChessUIQt::OnFENButtonClicked()
+{
+	std::string FEN;
+
+	FEN = m_game->GenerateFEN();
+
+	QString qFEN = QString::fromStdString(FEN);
+
+	QClipboard* clipboard = QApplication::clipboard();
+
+	clipboard->setText(qFEN);
 }
 
 void ChessUIQt::UpdateHistory()

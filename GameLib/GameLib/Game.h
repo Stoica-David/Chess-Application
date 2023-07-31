@@ -44,6 +44,8 @@ public:
 	const IPieceInfoVector& GetWhiteDeadPieces() const override;
 	const IPieceInfoVector& GetBlackDeadPieces() const override;
 
+	String GenerateFEN() const override;
+
 	//Other methods
 	void NotifyMove();
 	void NotifyGameOver(EOverState);

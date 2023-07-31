@@ -199,6 +199,11 @@ const IPieceInfoVector& Game::GetBlackDeadPieces() const
 	return m_gameboard.GetBlackDead();
 }
 
+String Game::GenerateFEN() const
+{
+	return m_gameboard.GenerateFEN();
+}
+
 PositionList Game::GetMoves(Position p)
 {
 	return m_gameboard.GetMoves(p);

@@ -28,8 +28,6 @@ public:
     void InitializeTimers(QGridLayout* mainGridLayout);
     void InitializeHistory(QGridLayout* mainGridLayout);
     void InitializeBoard(QGridLayout* mainGridLayout);
-    void InitializeDeadWhitePieces(QGridLayout* mainGridLayout);
-    void InitializeDeadBlackPieces(QGridLayout* mainGridLayou); 
 
     //Modify if necessary with your history representation
     void UpdateHistory();
@@ -58,6 +56,7 @@ public slots:
     void OnDrawButtonClicked();
     void OnHistoryClicked(QListWidgetItem* item);
     void OnCopyButtonClicked();
+    void OnFENButtonClicked();
     
 
 signals:
@@ -66,8 +65,6 @@ signals:
 private:
     Ui::ChessUIQtClass ui;
     std::array<std::array<GridButton*, 8>, 8> m_grid;
-    //std::array<std::array<GridButton*, 2>, 8> m_whiteGrid;
-    //std::array<std::array<GridButton*, 2>, 8> m_blackGrid;
     std::optional<std::pair<int, int>> m_selectedCell;
     QLabel* m_MessageLabel;
     QLabel* m_ExceptionLabel;

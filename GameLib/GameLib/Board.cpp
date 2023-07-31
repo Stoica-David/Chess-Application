@@ -486,7 +486,7 @@ void Board::Move(Position p1, Position p2)
 
 	if (!currPiece->IsMoveRegular(p1, p2) && !IsCastle(p1, p2))
 	{
-		if(!currPiece->Is(EPieceType::Pawn) || (PawnException(p1, p2) && !IsEnPassant(p1, p2)))
+		if (!currPiece->Is(EPieceType::Pawn) || (PawnException(p1, p2) && !IsEnPassant(p1, p2)))
 		{
 			throw MoveException("The move cannot be done by the piece!");
 		}
@@ -497,7 +497,7 @@ void Board::Move(Position p1, Position p2)
 		throw InTheWayException("There is a piece in the way");
 	}
 
-	if (!IsCastle(p1, p2) && !IsEnPassant(p1,p2))
+	if (!IsCastle(p1, p2) && !IsEnPassant(p1, p2))
 	{
 		if ((*this)[p2])
 		{
@@ -822,6 +822,47 @@ const IPieceInfoVector& Board::GetWhiteDead() const
 const IPieceInfoVector& Board::GetBlackDead() const
 {
 	return m_blackDead;
+}
+
+String Board::GenerateFEN() const
+{
+	String FEN;	int tmp = 0;
+
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			if (!m_board[i][j])
+			{
+				tmp++;
+			}
+			else
+			{
+				if (tmp)
+				{
+					FEN.push_back('0' + tmp);
+
+					tmp = 0;
+				}
+
+				FEN.push_back(ConvertPiece(m_board[i][j]));
+			}
+		}
+
+		if (tmp)
+		{
+			FEN.push_back('0' + tmp);
+
+			tmp = 0;
+		}
+
+		if (i != 7)
+		{
+			FEN.push_back('/');
+		}
+	}
+
+	return FEN;
 }
 
 bool Board::PawnGoesDiagonally(Position p1, Position p2)
@@ -1430,4 +1471,57 @@ Position Board::IntermediatePosition(Position p) const
 	}
 
 	return intermediate;
+}
+
+char Board::ConvertPiece(PiecesPtr piece) const
+{
+	EColor currColor = piece->GetColor();
+	EPieceType currType = piece->GetType();
+
+	switch (currColor)
+	{
+	case EColor::White:
+	{
+		switch (currType)
+		{
+		case EPieceType::Rook:
+			return 'R';
+		case EPieceType::Knight:
+			return 'N';
+		case EPieceType::Bishop:
+			return 'B';
+		case EPieceType::Queen:
+			return 'Q';
+		case EPieceType::King:
+			return 'K';
+		case EPieceType::Pawn:
+			return 'P';
+		default:
+			break;
+		}
+		break;
+	}
+
+	case EColor::Black:
+	{
+		switch (currType)
+		{
+		case EPieceType::Rook:
+			return 'r';
+		case EPieceType::Knight:
+			return 'n';
+		case EPieceType::Bishop:
+			return 'b';
+		case EPieceType::Queen:
+			return 'q';
+		case EPieceType::King:
+			return 'k';
+		case EPieceType::Pawn:
+			return 'p';
+		default:
+			break;
+		}
+		break;
+	}
+	}
 }

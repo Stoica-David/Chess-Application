@@ -11,6 +11,7 @@ using ChessBoard = std::array<std::array<PiecesPtr, 8>, 8>;
 using CharMatrix = std::array<std::array<char, 8>, 8>;
 using BitMatrix = std::vector<std::bitset<256>>;
 using Bitset = std::bitset<256>;
+using String = std::string;
 
 class Board
 {
@@ -56,6 +57,8 @@ public:
 	const IPieceInfoVector& GetWhiteDead() const;
 	const IPieceInfoVector& GetBlackDead() const;
 
+	String GenerateFEN() const;
+
 private:
 	static bool PawnGoesDiagonally(Position p1, Position p2);
 
@@ -91,6 +94,9 @@ private:
 	void ResetEnPassant();
 
 	Position IntermediatePosition(Position p) const;
+
+	char ConvertPiece(PiecesPtr piece) const;
+
 private:
 	ChessBoard m_board;
 	BitMatrix m_prevPositions;
