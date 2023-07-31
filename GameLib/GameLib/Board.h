@@ -81,25 +81,18 @@ private:
 
 	int Find(PieceVector v, EPieceType Piece) const;
 
-	static EColor OppositeColor(EColor color)
-	{
-		if (color == EColor::White)
-			return EColor::Black;
-		return EColor::White;
-	}
+	static EColor OppositeColor(EColor color);
 
 	Bitset GetCurrentPosition() const;
 
 	void Castle(Position p1, Position p2);
 	void UpdatePrevPositions();
-	void InitializeWhite(char c, Position p);
-	void InitializeBlack(char c, Position p);
 	void EnPassant(Position p1, Position p2);
 	void ResetEnPassant();
 
 	Position IntermediatePosition(Position p) const;
 
-	char ConvertPiece(PiecesPtr piece) const;
+	EPieceType GetPieceType(char c);
 
 private:
 	ChessBoard m_board;

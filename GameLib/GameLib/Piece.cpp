@@ -1,4 +1,5 @@
 #include "Piece.h"
+#include <ctype.h>
 
 #include "Rook.h"
 #include "Knight.h"
@@ -109,4 +110,38 @@ bool Piece::IsColor(EColor color) const
 int Piece::AbsValue(int x, int y)
 {
 	return (std::abs(x - y));
+}
+
+char Piece::ConvertPiece() const
+{
+	char currChar = '\0';
+
+	switch (GetType())
+	{
+	case EPieceType::Rook:
+		currChar = 'R';
+		break;
+	case EPieceType::Knight:
+		currChar = 'N';
+		break;
+	case EPieceType::Bishop:
+		currChar = 'B';
+		break;
+	case EPieceType::Queen:
+		currChar = 'Q';
+		break;
+	case EPieceType::King:
+		currChar = 'K';
+		break;
+	case EPieceType::Pawn:
+		currChar = 'P';
+		break;
+	}
+
+	if (GetColor() == EColor::Black)
+	{
+		currChar = tolower(currChar);
+	}
+
+	return currChar;
 }

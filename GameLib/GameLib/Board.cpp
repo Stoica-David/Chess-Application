@@ -19,11 +19,16 @@ Board::Board(const CharMatrix& matrix)
 			}
 			else if (isupper(matrix[i][j]))
 			{
-				InitializeWhite(matrix[i][j], { i,j });
+				auto type = GetPieceType(matrix[i][j]);
+
+				m_board[i][j] = Piece::Produce(type, EColor::White);
 			}
 			else if (islower(matrix[i][j]))
 			{
-				InitializeBlack(matrix[i][j], { i,j });
+
+				auto type = GetPieceType(matrix[i][j]);
+
+				m_board[i][j] = Piece::Produce(type, EColor::Black);
 			}
 		}
 	}
@@ -58,11 +63,15 @@ void Board::SetBoard(const String& string)
 			{
 				if (isupper(string[i]))
 				{
-					InitializeWhite(string[i], { line, col });
+					auto type = GetPieceType(string[i]);
+
+					m_board[line][col] = Piece::Produce(type, EColor::White);
 				}
 				else
 				{
-					InitializeBlack(string[i], { line, col });
+					auto type = GetPieceType(string[i]);
+
+					m_board[line][col] = Piece::Produce(type, EColor::Black);
 				}
 			}
 			else
@@ -912,7 +921,7 @@ String Board::GenerateFEN() const
 					tmp = 0;
 				}
 
-				FEN.push_back(ConvertPiece(m_board[i][j]));
+				FEN.push_back(m_board[i][j]->ConvertPiece());
 			}
 		}
 
@@ -1304,6 +1313,11 @@ int Board::Find(PieceVector v, EPieceType Piece) const
 	return tmp;
 }
 
+EColor Board::OppositeColor(EColor color)
+{
+	return color == EColor::White ? EColor::Black : EColor::White;
+}
+
 Bitset Board::GetCurrentPosition() const
 {
 	Bitset newBitset;
@@ -1381,94 +1395,6 @@ void Board::Castle(Position p1, Position p2)
 void Board::UpdatePrevPositions()
 {
 	m_prevPositions.push_back(GetCurrentPosition());
-}
-
-void Board::InitializeWhite(char c, Position p)
-{
-	int i = p.first, j = p.second;
-
-	switch (c)
-	{
-	case 'P':
-	{
-		m_board[i][j] = Piece::Produce(EPieceType::Pawn, EColor::White);
-		break;
-	}
-	case 'R':
-	{
-		m_board[i][j] = Piece::Produce(EPieceType::Rook, EColor::White);
-		break;
-	}
-	case 'B':
-	{
-		m_board[i][j] = Piece::Produce(EPieceType::Bishop, EColor::White);
-		break;
-	}
-	case 'H':
-	{
-		m_board[i][j] = Piece::Produce(EPieceType::Knight, EColor::White);
-		break;
-	}
-	case 'N':
-	{
-		m_board[i][j] = Piece::Produce(EPieceType::Knight, EColor::White);
-		break;
-	}
-	case 'Q':
-	{
-		m_board[i][j] = Piece::Produce(EPieceType::Queen, EColor::White);
-		break;
-	}
-	case 'K':
-	{
-		m_board[i][j] = Piece::Produce(EPieceType::King, EColor::White);
-		break;
-	}
-	}
-}
-
-void Board::InitializeBlack(char c, Position p)
-{
-	int i = p.first, j = p.second;
-
-	switch (c)
-	{
-	case 'p':
-	{
-		m_board[i][j] = Piece::Produce(EPieceType::Pawn, EColor::Black);
-		break;
-	}
-	case 'r':
-	{
-		m_board[i][j] = Piece::Produce(EPieceType::Rook, EColor::Black);
-		break;
-	}
-	case 'b':
-	{
-		m_board[i][j] = Piece::Produce(EPieceType::Bishop, EColor::Black);
-		break;
-	}
-	case 'h':
-	{
-		m_board[i][j] = Piece::Produce(EPieceType::Knight, EColor::Black);
-		break;
-	}
-	case 'n':
-	{
-		m_board[i][j] = Piece::Produce(EPieceType::Knight, EColor::Black);
-		break;
-	}
-	case 'q':
-	{
-		m_board[i][j] = Piece::Produce(EPieceType::Queen, EColor::Black);
-		break;
-	}
-	case 'k':
-	{
-		m_board[i][j] = Piece::Produce(EPieceType::King, EColor::Black);
-		break;
-	}
-	}
 }
 
 void Board::EnPassant(Position p1, Position p2)
@@ -1555,55 +1481,37 @@ Position Board::IntermediatePosition(Position p) const
 	return intermediate;
 }
 
-char Board::ConvertPiece(PiecesPtr piece) const
+EPieceType Board::GetPieceType(char c)
 {
-	EColor currColor = piece->GetColor();
-	EPieceType currType = piece->GetType();
-
-	switch (currColor)
+	switch (tolower(c))
 	{
-	case EColor::White:
+	case 'p':
 	{
-		switch (currType)
-		{
-		case EPieceType::Rook:
-			return 'R';
-		case EPieceType::Knight:
-			return 'N';
-		case EPieceType::Bishop:
-			return 'B';
-		case EPieceType::Queen:
-			return 'Q';
-		case EPieceType::King:
-			return 'K';
-		case EPieceType::Pawn:
-			return 'P';
-		default:
-			break;
-		}
-		break;
+		return EPieceType::Pawn;
 	}
-
-	case EColor::Black:
+	case 'h':
 	{
-		switch (currType)
-		{
-		case EPieceType::Rook:
-			return 'r';
-		case EPieceType::Knight:
-			return 'n';
-		case EPieceType::Bishop:
-			return 'b';
-		case EPieceType::Queen:
-			return 'q';
-		case EPieceType::King:
-			return 'k';
-		case EPieceType::Pawn:
-			return 'p';
-		default:
-			break;
-		}
-		break;
+		return EPieceType::Knight;
+	}
+	case 'r':
+	{
+		return EPieceType::Rook;
+	}
+	case 'q':
+	{
+		return EPieceType::Queen;
+	}
+	case 'b':
+	{
+		return EPieceType::Bishop;
+	}
+	case 'k':
+	{
+		return EPieceType::King;
+	}
+	case 'n':
+	{
+		return EPieceType::Knight;
 	}
 	}
 }

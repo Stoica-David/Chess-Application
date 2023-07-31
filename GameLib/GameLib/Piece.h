@@ -40,6 +40,7 @@ public:
 	// Other methods
 	bool Is(EPieceType type) const;
 	bool SameColor(PiecesPtr piece) const;
+	char ConvertPiece() const;
 
 protected:
 	static bool IsInTable(Position p)
@@ -53,6 +54,7 @@ protected:
 	bool IsColor(EColor) const;
 
 	static int AbsValue(int, int);
+
 
 protected:
 	EPieceType m_type;
