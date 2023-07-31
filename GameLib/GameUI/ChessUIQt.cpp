@@ -213,25 +213,6 @@ static char ConvertTile(int x)
 {
 	return 'a' + x;
 }
-//
-//ChessUIQt::ChessUIQt(QWidget* parent)
-//	: QMainWindow(parent)
-//{
-//	ui.setupUi(this);
-//
-//	//Widget containing everything
-//	QWidget* mainWidget = new QWidget();
-//	QGridLayout* mainGridLayout = new QGridLayout();
-//
-//	InitializeBoard(mainGridLayout);
-//	InitializeMessage(mainGridLayout);
-//	InitializeButtons(mainGridLayout);
-//	InitializeTimers(mainGridLayout);
-//	InitializeHistory(mainGridLayout);
-//
-//	mainWidget->setLayout(mainGridLayout);
-//	this->setCentralWidget(mainWidget);
-//}
 
 void ChessUIQt::ApplyButtonStyles(QPushButton* button)
 {
@@ -246,25 +227,12 @@ void ChessUIQt::ApplyButtonStyles(QPushButton* button)
 ChessUIQt::ChessUIQt(QWidget* parent)
 	: QMainWindow(parent)
 {
-	ui.setupUi(this);
-
-	// Set the window title
 	setWindowTitle("Chess Game");
 
-	setWindowFlags(Qt::FramelessWindowHint);
-
-	TitleBar* titleBar = new TitleBar(this);
-
-	// Connect title bar signals to slots
-	connect(titleBar, &TitleBar::minimizeButtonClicked, this, &ChessUIQt::minimizeWindow);
-	connect(titleBar, &TitleBar::closeButtonClicked, this, &ChessUIQt::closeWindow);
-
-	titleBar->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+	ui.setupUi(this);
 
 	// Create the layout for the main window
 	QVBoxLayout* mainLayout = new QVBoxLayout;
-	mainLayout->addWidget(titleBar);
-
 
 	// Widget containing everything
 	QWidget* mainWidget = new QWidget();
@@ -278,10 +246,8 @@ ChessUIQt::ChessUIQt(QWidget* parent)
 
 	mainWidget->setLayout(mainGridLayout);
 	this->setCentralWidget(mainWidget);
-
-	// Set the background color of the main window to black
-	//mainWidget->setStyleSheet("background-color: black;");
 }
+
 
 ChessUIQt::~ChessUIQt()
 {
@@ -388,6 +354,8 @@ void ChessUIQt::InitializeHistory(QGridLayout* mainGridLayout)
 	connect(m_MovesList, &QListWidget::itemActivated, this, &ChessUIQt::OnHistoryClicked);
 
 	scrollArea->setWidget(m_MovesList);
+
+	scrollArea->setStyleSheet("background-color: #D2C4B5; height: 30px;");
 
 	mainGridLayout->addWidget(scrollArea, 2, 0, 1, 1);
 }

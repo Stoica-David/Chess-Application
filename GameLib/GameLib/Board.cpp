@@ -504,28 +504,6 @@ void Board::PromoteTo(EPieceType pieceType, EColor color)
 		throw PromoteException("Can't promote!\n");
 	}
 
-	if (p.first == 0)
-	{
-		prevPos.first = p.first + 1;
-	}
-	else if (p.first == 7)
-	{
-		prevPos.first = p.first - 1;
-	}
-	else
-	{
-		throw PromoteException("Can't promote!\n");
-	}
-
-	prevPos.second = p.second;
-
-	if (!m_board[p.first][p.second]->Is(EPieceType::Pawn))
-	{
-		throw PromoteException("Can't Promote yet!");
-	}
-
-	m_board[prevPos.first][prevPos.second] = {};
-
 	switch (pieceType)
 	{
 	case EPieceType::Rook:

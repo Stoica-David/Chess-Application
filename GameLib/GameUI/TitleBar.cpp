@@ -1,4 +1,8 @@
 #include "TitleBar.h"
+#include "GridButton.h"
+#include <QPushButton>
+#include <QHBoxLayout>
+#include <QMouseEvent>
 
 TitleBar::TitleBar(QWidget* parent) : QWidget(parent)
 {
@@ -6,7 +10,9 @@ TitleBar::TitleBar(QWidget* parent) : QWidget(parent)
 	createLayout();
 
 	// Set the title bar's background color and size
-	setStyleSheet("background-color: #964B00; height: 30px;");
+	setStyleSheet("background-color: #000; height: 30px;");
+
+	//QWidget::window()->setProperty("windowTitleBarColor", QColor(139, 69, 19));
 }
 
 void TitleBar::createLayout()
@@ -19,26 +25,31 @@ void TitleBar::createLayout()
 	minimizeButton->setObjectName("minimizeButton");
 	closeButton->setObjectName("closeButton");
 
+	// Set the fixed height for buttons (same as title bar height)
+	minimizeButton->setFixedHeight(40);
+	closeButton->setFixedHeight(40);
+	minimizeButton->setFixedWidth(40);
+	closeButton->setFixedWidth(40);
+
+	minimizeButton->setStyleSheet("margin: 0;");
+    closeButton->setStyleSheet("margin: 0;");
+
 	// Connect button signals to slots
 	connect(minimizeButton, &QPushButton::clicked, this, &TitleBar::minimizeButtonClicked);
 	connect(closeButton, &QPushButton::clicked, this, &TitleBar::closeButtonClicked);
 
-	// Create the left layout for dragging
-	QHBoxLayout* leftLayout = new QHBoxLayout;
-	leftLayout->addWidget(minimizeButton);
-	leftLayout->addWidget(closeButton);
-
 	// Create the right layout for pushing buttons to the right
 	QHBoxLayout* rightLayout = new QHBoxLayout;
-	rightLayout->addStretch();
-	rightLayout->addLayout(leftLayout);
-	rightLayout->setSpacing(0);
-	rightLayout->setContentsMargins(0, 0, 10, 0); // Add margin on the right
+	rightLayout->addWidget(minimizeButton);
+	rightLayout->addWidget(closeButton);
+	rightLayout->setSpacing(5);
+	rightLayout->setContentsMargins(0, 0, 0, 0); // Add margin on the right
 
 	// Create the main layout
-	QHBoxLayout* mainLayout = new QHBoxLayout(this);
-	mainLayout->setSpacing(0);
+	QVBoxLayout* mainLayout = new QVBoxLayout(this);
+	mainLayout->setSpacing(5);
 	mainLayout->setContentsMargins(0, 0, 0, 0);
+	mainLayout->addStretch();
 	mainLayout->addLayout(rightLayout);
 	setLayout(mainLayout);
 
@@ -46,10 +57,10 @@ void TitleBar::createLayout()
 	setStyleSheet(
 		"QPushButton#minimizeButton, QPushButton#closeButton {"
 		"   color: white;"
-		"   background-color: transparent;"
+		"   background-color: black;"
 		"   border: none;"
 		"   font-size: 16px;"
-		"   padding: 5px;"
+		"   padding: 0px;"
 		"   outline: none;"
 		"}"
 		"QPushButton#minimizeButton:hover, QPushButton#closeButton:hover {"

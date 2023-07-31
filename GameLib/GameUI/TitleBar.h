@@ -8,24 +8,24 @@
 
 class TitleBar : public QWidget
 {
-	Q_OBJECT
+    Q_OBJECT
 
 public:
-	explicit TitleBar(QWidget* parent = nullptr);
+    explicit TitleBar(QWidget *parent = nullptr);
 
 signals:
-	void minimizeButtonClicked();
-	void closeButtonClicked();
+    void minimizeButtonClicked();
+    void closeButtonClicked();
 
 protected:
-	void mousePressEvent(QMouseEvent* event) override;
-	void mouseMoveEvent(QMouseEvent* event) override;
+    void mousePressEvent(QMouseEvent *event) override;
+    void mouseMoveEvent(QMouseEvent *event) override;
 
 private:
-	QPoint m_lastMousePos;
-	bool m_mousePressed;
+    QPoint m_lastMousePos;
+    bool m_mousePressed;
 
-	void createLayout();
+    void createLayout();
 };
 
 #endif // TITLEBAR_H
