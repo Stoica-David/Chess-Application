@@ -507,25 +507,20 @@ void Board::PromoteTo(EPieceType pieceType, EColor color)
 	switch (pieceType)
 	{
 	case EPieceType::Rook:
-		UpdatePiece(EPieceType::Rook, p, color);
+		m_board[p.first][p.second] = Piece::Produce(EPieceType::Rook, color);
 		break;
 	case EPieceType::Knight:
-		UpdatePiece(EPieceType::Knight, p, color);
+		m_board[p.first][p.second] = Piece::Produce(EPieceType::Knight, color);
 		break;
 	case EPieceType::Bishop:
-		UpdatePiece(EPieceType::Bishop, p, color);
+		m_board[p.first][p.second] = Piece::Produce(EPieceType::Bishop, color);
 		break;
 	case EPieceType::Queen:
-		UpdatePiece(EPieceType::Queen, p, color);
+		m_board[p.first][p.second] = Piece::Produce(EPieceType::Queen, color);
 		break;
 	default:
 		break;
 	}
-}
-
-void Board::UpdatePiece(EPieceType type, Position p, EColor color)
-{
-	m_board[p.first][p.second] = Piece::Produce(type, color);
 }
 
 void Board::Move(Position p1, Position p2)

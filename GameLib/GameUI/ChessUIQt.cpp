@@ -273,7 +273,7 @@ void ChessUIQt::InitializeMessage(QGridLayout* mainGridLayout)
 	m_MessageLabel->setText("Waiting for white player");
 
 	m_MessageLabel->setAlignment(Qt::AlignCenter);
-	m_MessageLabel->setStyleSheet("font-size: 20px; font-weight: bold;");
+	m_MessageLabel->setStyleSheet("font-size: 20px; font-weight: bold; color:#7A6C5D");
 	mainGridLayout->addWidget(m_MessageLabel, 0, 1, 1, 1);
 
 	m_ExceptionLabel = new QLabel();
@@ -341,6 +341,8 @@ void ChessUIQt::InitializeTimers(QGridLayout* mainGridLayout)
 
 	timerContainer->setLayout(timerGrid);
 	mainGridLayout->addWidget(timerContainer, 3, 0, 1, 2, Qt::AlignCenter);
+
+	ApplyButtonStyles(pauseTimerBtn);
 }
 
 void ChessUIQt::InitializeHistory(QGridLayout* mainGridLayout)
@@ -349,8 +351,6 @@ void ChessUIQt::InitializeHistory(QGridLayout* mainGridLayout)
 	scrollArea->setWidgetResizable(true);
 
 	m_MovesList = new QListWidget();
-	m_MovesList->setMinimumWidth(250);
-	m_MovesList->setMaximumWidth(350);
 	connect(m_MovesList, &QListWidget::itemActivated, this, &ChessUIQt::OnHistoryClicked);
 
 	scrollArea->setWidget(m_MovesList);

@@ -48,7 +48,6 @@ public:
 	PieceVector RemainingPieces() const;
 
 	void PromoteTo(EPieceType pieceType, EColor color);
-	void UpdatePiece(EPieceType type, Position p, EColor color);
 	void Move(Position p1, Position p2);
 	void Reset();
 
