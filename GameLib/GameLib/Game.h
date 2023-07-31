@@ -39,12 +39,18 @@ public:
 	void AddListener(IGameListenerPtr) override;
 	void RemoveListener(IGameListener*) override;
 
+	void SetGame(const String&) override;
+	void SetHistory(const MoveVector&) override;
+
 	PositionList GetMoves(Position p) override;
 
 	const IPieceInfoVector& GetWhiteDeadPieces() const override;
 	const IPieceInfoVector& GetBlackDeadPieces() const override;
 
 	String GenerateFEN() const override;
+	String GeneratePGN() const override;
+
+	MoveVector GetHistory()const override;
 
 	//Other methods
 	void NotifyMove();

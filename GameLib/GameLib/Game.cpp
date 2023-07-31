@@ -201,7 +201,28 @@ const IPieceInfoVector& Game::GetBlackDeadPieces() const
 
 String Game::GenerateFEN() const
 {
-	return m_gameboard.GenerateFEN();
+	String FEN = m_gameboard.GenerateFEN();
+
+	if (m_turn == EColor::White)
+	{
+		FEN.push_back('w');
+	}
+	else
+	{
+		FEN.push_back('b');
+	}
+
+	return FEN;
+}
+
+String Game::GeneratePGN() const
+{
+	return "";
+}
+
+MoveVector Game::GetHistory() const
+{
+	return m_gameboard.GetHistory();
 }
 
 PositionList Game::GetMoves(Position p)
@@ -262,6 +283,16 @@ void Game::RemoveListener(IGameListener* listener)
 	};
 
 	m_listeners.erase(std::remove_if(m_listeners.begin(), m_listeners.end(), func));
+}
+
+void Game::SetGame(const String& string)
+{
+
+}
+
+void Game::SetHistory(const MoveVector& v)
+{
+	m_gameboard.SetHistory(v);
 }
 
 void Game::NotifyMove()

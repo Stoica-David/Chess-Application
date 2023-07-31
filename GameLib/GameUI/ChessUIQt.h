@@ -50,13 +50,13 @@ public:
 public slots:
     void OnButtonClicked(const std::pair<int, int>& position);
 
-    void OnSaveButtonClicked();
+    void OnCopyButtonClicked();
     void OnLoadButtonClicked();
     void OnRestartButtonClicked();
     void OnDrawButtonClicked();
     void OnHistoryClicked(QListWidgetItem* item);
-    void OnCopyButtonClicked();
-    void OnFENButtonClicked();
+    void OnSavePGNButtonClicked();
+    void OnSaveFENButtonClicked();
     
 
 signals:

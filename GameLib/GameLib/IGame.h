@@ -26,6 +26,8 @@ public:
 	virtual void DrawResponse(bool) = 0;
 	virtual void AddListener(IGameListenerPtr) = 0;
 	virtual void RemoveListener(IGameListener*) = 0;
+	virtual void SetGame(const String&) = 0;
+	virtual void SetHistory(const MoveVector&) = 0;
 
 	virtual EColor GetTurn() const = 0;
 
@@ -41,6 +43,9 @@ public:
 	virtual const IPieceInfoVector& GetBlackDeadPieces() const = 0;
 
 	virtual String GenerateFEN()const = 0;
+	virtual String GeneratePGN()const = 0;
+
+	virtual MoveVector GetHistory()const = 0;
 
 	virtual ~IGame() = default;
 };

@@ -31,11 +31,17 @@ Board::Board(const CharMatrix& matrix)
 	m_whiteDead = { };
 	m_blackDead = { };
 	m_prevPositions = { };
+	m_moves = { };
 }
 
 PiecesPtr& Board::operator[](Position p)
 {
 	return m_board[p.first][p.second];
+}
+
+void Board::SetHistory(const MoveVector& v)
+{
+	m_moves = v;
 }
 
 IPieceInfoPtr Board::GetPieceInfo(Position p) const
@@ -51,6 +57,11 @@ IPieceInfoPtr Board::GetPieceInfo(Position p) const
 PiecesPtr Board::GetPiece(Position p) const
 {
 	return m_board[p.first][p.second];
+}
+
+MoveVector Board::GetHistory() const
+{
+	return m_moves;
 }
 
 bool Board::IsOver(EColor color) const
@@ -526,6 +537,8 @@ void Board::Move(Position p1, Position p2)
 		Castle(p1, p2);
 	}
 
+	m_moves.push_back({ p1, p2 });
+
 	Position kingPos = FindKing(currPiece->GetColor());
 
 	if (IsCheck(kingPos, currPiece->GetColor()))
@@ -549,6 +562,8 @@ void Board::Move(Position p1, Position p2)
 		}
 
 		currPiece->SetHasMoved(false);
+
+		m_moves.pop_back();
 
 		throw StillCheckException("The king is still in check!");
 	}
@@ -615,6 +630,7 @@ void Board::Reset()
 	m_whiteDead = { };
 	m_blackDead = { };
 	m_prevPositions = { };
+	m_moves = { };
 }
 
 PositionList Board::GetMoves(Position p) const
@@ -863,6 +879,11 @@ String Board::GenerateFEN() const
 	}
 
 	return FEN;
+}
+
+String Board::GeneratePGN() const
+{
+	return "";
 }
 
 bool Board::PawnGoesDiagonally(Position p1, Position p2)

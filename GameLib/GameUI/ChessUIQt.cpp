@@ -2,6 +2,7 @@
 #include "ChessUIQt.h"
 #include <QInputDialog>
 #include <QMessageBox>
+#include <QFileDialog>
 #include "IGame.h"
 #include "BoardExceptions.h"
 #include "GameExceptions.h"
@@ -206,6 +207,11 @@ PairMatrix ChessUIQt::GetBoard() const
 	return newMatrix;
 }
 
+static char ConvertTile(int x)
+{
+	return 'a' + x;
+}
+
 ChessUIQt::ChessUIQt(QWidget* parent)
 	: QMainWindow(parent)
 {
@@ -251,29 +257,29 @@ void ChessUIQt::InitializeMessage(QGridLayout* mainGridLayout)
 
 void ChessUIQt::InitializeButtons(QGridLayout* mainGridLayout)
 {
-	QPushButton* saveButton = new QPushButton("Save");
+	QPushButton* copyButton = new QPushButton("Copy");
 	QPushButton* loadButton = new QPushButton("Load");
 	QPushButton* restartButton = new QPushButton("Restart");
 	QPushButton* drawButton = new QPushButton("Draw");
-	QPushButton* copyButton = new QPushButton("Copy");
-	QPushButton* FENButton = new QPushButton("Generate");
+	QPushButton* PGNButton = new QPushButton("Save PGN");
+	QPushButton* FENButton = new QPushButton("Save FEN");
 
 	QWidget* buttonContainer = new QWidget();
 	QGridLayout* btnGrid = new QGridLayout();
 
-	btnGrid->addWidget(saveButton, 0, 0);
+	btnGrid->addWidget(copyButton, 0, 0);
 	btnGrid->addWidget(loadButton, 0, 1);
 	btnGrid->addWidget(restartButton, 0, 2);
 	btnGrid->addWidget(drawButton, 0, 3);
-	btnGrid->addWidget(copyButton, 1, 0, 1, 2);
+	btnGrid->addWidget(PGNButton, 1, 0, 1, 2);
 	btnGrid->addWidget(FENButton, 1, 2, 1, 2);
 
-	connect(saveButton, &QPushButton::pressed, this, &ChessUIQt::OnSaveButtonClicked);
+	connect(copyButton, &QPushButton::pressed, this, &ChessUIQt::OnCopyButtonClicked);
 	connect(loadButton, &QPushButton::pressed, this, &ChessUIQt::OnLoadButtonClicked);
 	connect(restartButton, &QPushButton::pressed, this, &ChessUIQt::OnRestartButtonClicked);
 	connect(drawButton, &QPushButton::pressed, this, &ChessUIQt::OnDrawButtonClicked);
-	connect(copyButton, &QPushButton::pressed, this, &ChessUIQt::OnCopyButtonClicked);
-	connect(FENButton, &QPushButton::pressed, this, &ChessUIQt::OnFENButtonClicked);
+	connect(PGNButton, &QPushButton::pressed, this, &ChessUIQt::OnSavePGNButtonClicked);
+	connect(FENButton, &QPushButton::pressed, this, &ChessUIQt::OnSaveFENButtonClicked);
 
 	buttonContainer->setLayout(btnGrid);
 	mainGridLayout->addWidget(buttonContainer, 0, 0, 1, 1);
@@ -331,62 +337,6 @@ void ChessUIQt::InitializeBoard(QGridLayout* mainGridLayout)
 	board->setLayout(chessGridLayout);
 	mainGridLayout->addWidget(board, 2, 1, 1, 1);
 }
-//
-//void ChessUIQt::InitializeDeadWhitePieces(QGridLayout* mainGridLayout)
-//{
-//	QGridLayout* chessGridLayout = new QGridLayout();
-//
-//	QWidget* white = new QWidget();
-//
-//	IPieceInfoVector whiteDeadPieces = m_game->GetWhiteDeadPieces();
-//
-//	for (int i = 0; i < whiteDeadPieces.size(); i++)
-//	{
-//		if (i <= 8)
-//		{
-//			m_whiteGrid[0][i] = new GridButton({ 0, i }, PieceType::Rook, PieceColor::Black);
-//			chessGridLayout->addWidget(m_grid[0][i], 0, i, 1, 1);
-//			connect(m_grid[0][i], &GridButton::Clicked, this, &ChessUIQt::OnButtonClicked);
-//		}
-//		else
-//		{
-//			m_whiteGrid[1][i] = new GridButton({ 1, i }, PieceType::none, PieceColor::none);
-//			chessGridLayout->addWidget(m_grid[1][i], 1, i, 1, 1);
-//			connect(m_grid[1][i], &GridButton::Clicked, this, &ChessUIQt::OnButtonClicked);
-//		}
-//	}
-//
-//	white->setLayout(chessGridLayout);
-//	//mainGridLayout->addWidget(white, 2, 1, 2, 1);
-//}
-//
-//void ChessUIQt::InitializeDeadBlackPieces(QGridLayout* mainGridLayou)
-//{
-//	QGridLayout* chessGridLayout = new QGridLayout();
-//
-//	QWidget* white = new QWidget();
-//
-//	IPieceInfoVector whiteDeadPieces = m_game->GetWhiteDeadPieces();
-//
-//	for (int i = 0; i < whiteDeadPieces.size(); i++)
-//	{
-//		if (i <= 8)
-//		{
-//			m_blackGrid[0][i] = new GridButton({ 0, i }, PieceType::Rook, PieceColor::Black);
-//			chessGridLayout->addWidget(m_grid[0][i], 0, i, 1, 1);
-//			connect(m_grid[0][i], &GridButton::Clicked, this, &ChessUIQt::OnButtonClicked);
-//		}
-//		else
-//		{
-//			m_blackGrid[1][i] = new GridButton({ 1, i }, PieceType::none, PieceColor::none);
-//			chessGridLayout->addWidget(m_grid[1][i], 1, i, 1, 1);
-//			connect(m_grid[1][i], &GridButton::Clicked, this, &ChessUIQt::OnButtonClicked);
-//		}
-//	}
-//
-//	white->setLayout(chessGridLayout);
-//	//mainGridLayout->addWidget(white, 2, 1, 2, 1);
-//}
 
 void ChessUIQt::OnButtonClicked(const std::pair<int, int>& position)
 {
@@ -398,6 +348,8 @@ void ChessUIQt::OnButtonClicked(const std::pair<int, int>& position)
 	m_ExceptionLabel->setText("");
 
 	PositionList nullVector = {};
+
+	int nrMove = 1;
 
 	try
 	{
@@ -413,12 +365,14 @@ void ChessUIQt::OnButtonClicked(const std::pair<int, int>& position)
 			else
 			{
 				m_game->Move(m_selectedCell.value(), position);
-				
+
 				if (m_selectedCell.has_value())
 				{
 					m_grid[m_selectedCell.value().first][m_selectedCell.value().second]->setSelected(false);
 					m_selectedCell.reset();
 				}
+
+				UpdateHistory();
 			}
 		}
 		//At first click
@@ -438,15 +392,46 @@ void ChessUIQt::OnButtonClicked(const std::pair<int, int>& position)
 	}
 }
 
-void ChessUIQt::OnSaveButtonClicked()
+void ChessUIQt::OnSavePGNButtonClicked()
 {
-	//TODO ...
+	QString fileName = QFileDialog::getSaveFileName(this, "Save Text File", "", "Text Files (*.txt)");
 
+	if (fileName.isEmpty())
+		return;
+
+	QFile file(fileName);
+	if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+	{
+		qDebug() << "Error: Could not open the file for writing.";
+		return;
+	}
+
+	QString data = QString::fromStdString(m_game->GeneratePGN());
+
+	QTextStream out(&file);
+	out << data;
+	file.close();
 }
 
 void ChessUIQt::OnLoadButtonClicked()
 {
-	//TODO ...
+	QString fileName = QFileDialog::getOpenFileName(this, "Open Text File", "", "Text Files (*.txt)");
+
+	if (fileName.isEmpty())
+		return;
+
+	QFile file(fileName);
+	if (!file.open(QIODevice::ReadOnly | QIODevice::Text))
+	{
+		qDebug() << "Error: Could not open the file for reading.";
+		return;
+	}
+
+	QTextStream in(&file);
+	QString data = in.readAll();
+	file.close();
+
+	m_game->SetGame(data.toStdString());
 }
 
 void ChessUIQt::OnRestartButtonClicked()
@@ -474,7 +459,23 @@ void ChessUIQt::OnHistoryClicked(QListWidgetItem* item)
 {
 	int index = m_MovesList->currentRow();
 
-	//TODO ...
+	MoveVector newHistory = m_game->GetHistory(); 
+
+	m_game->Restart();
+
+	for (int i = 0; i <= index; i++)
+	{
+		Position start = newHistory[i].first;
+		Position end = newHistory[i].second;
+
+		m_game->Move(start, end);
+
+		QString itemText = QString("%1. %2%3 \t %4%5").arg(i + 1).arg(ConvertTile(newHistory[i].first.second)).arg(8 - newHistory[i].first.first).arg(ConvertTile(newHistory[i].second.second)).arg(8 - newHistory[i].second.first);
+
+		m_MovesList->addItem(new QListWidgetItem(itemText));
+	}
+
+	UpdateHistory();
 }
 
 void ChessUIQt::OnCopyButtonClicked()
@@ -526,7 +527,7 @@ void ChessUIQt::OnCopyButtonClicked()
 
 }
 
-void ChessUIQt::OnFENButtonClicked()
+void ChessUIQt::OnSaveFENButtonClicked()
 {
 	std::string FEN;
 
@@ -543,10 +544,12 @@ void ChessUIQt::UpdateHistory()
 {
 	m_MovesList->clear();
 
-	//TODO modify me...
-	int numMoves = 10;
-	for (int i = 0; i < numMoves; i++) {
-		m_MovesList->addItem("#1   Color: Black   Move: A1 A2");
+	MoveVector newHistory = m_game->GetHistory();
+	
+	for (int i = 0; i < newHistory.size(); i++) {
+		QString itemText = QString("%1. %2%3 \t %4%5").arg(i + 1).arg(ConvertTile(newHistory[i].first.second)).arg(8 - newHistory[i].first.first).arg(ConvertTile(newHistory[i].second.second)).arg(8 - newHistory[i].second.first);
+
+		m_MovesList->addItem(new QListWidgetItem(itemText));
 	}
 }
 

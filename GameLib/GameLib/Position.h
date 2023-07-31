@@ -5,3 +5,4 @@
 
 using Position = std::pair<int, int>;
 using PositionList = std::vector<Position>;
+using MoveVector = std::vector<std::pair<Position, Position>>;

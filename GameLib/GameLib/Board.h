@@ -22,10 +22,12 @@ public:
 
 	// Setters
 	PiecesPtr& operator[](Position p);
+	void SetHistory(const MoveVector& v);
 
 	// Getters
 	IPieceInfoPtr GetPieceInfo(Position p) const;
 	PiecesPtr GetPiece(Position p) const;
+	MoveVector GetHistory()const;
 
 	// Functions
 	bool IsOver(EColor color) const;
@@ -58,6 +60,7 @@ public:
 	const IPieceInfoVector& GetBlackDead() const;
 
 	String GenerateFEN() const;
+	String GeneratePGN() const;
 
 private:
 	static bool PawnGoesDiagonally(Position p1, Position p2);
@@ -102,4 +105,5 @@ private:
 	BitMatrix m_prevPositions;
 	IPieceInfoVector m_whiteDead;
 	IPieceInfoVector m_blackDead;
+	MoveVector m_moves;
 };
