@@ -150,6 +150,8 @@ TEST(IsOverTest, KingVKing)
 
 	Game g(m);
 
+	g.Move({ 4,0 }, { 5,0 });
+
 	EXPECT_EQ(g.IsDraw(), true);
 }
 
@@ -168,6 +170,8 @@ TEST(IsOverTest, KingVKingKnight)
 	};
 
 	Game g(m);
+
+	g.Move({ 2,7 }, { 0,6 });
 
 	EXPECT_EQ(g.IsDraw(), true);
 }
@@ -188,6 +192,8 @@ TEST(IsOverTest, KingVKingBishop)
 
 	Game g(m);
 
+	g.Move({ 2,7 }, {3,6});
+
 	EXPECT_EQ(g.IsDraw(), true);
 }
 
@@ -206,6 +212,8 @@ TEST(IsOverTest, KingBishopVKingBishop)
 	};
 
 	Game g(m);
+
+	g.Move({ 5,2 }, { 4,3 });
 
 	EXPECT_EQ(g.IsDraw(), true);
 }

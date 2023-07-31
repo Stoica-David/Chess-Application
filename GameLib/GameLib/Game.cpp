@@ -134,7 +134,7 @@ EColor Game::GetTurn() const
 
 bool Game::IsDraw() const
 {
-	return (m_gameboard.IsDraw() || m_state == EState::Draw || Stalemate());
+	return (m_state == EState::Draw);
 }
 
 bool Game::IsOver() const
