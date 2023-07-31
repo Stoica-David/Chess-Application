@@ -3,6 +3,7 @@
 #include <QtWidgets/QMainWindow>
 #include "ui_ChessUIQt.h"
 #include "GridButton.h"
+#include "TitleBar.h"
 #include <QtWidgets/qgridlayout.h>
 #include <QPushButton>
 #include <QLabel>
@@ -18,6 +19,9 @@ class ChessUIQt : public QMainWindow, public IGameListener
 
 private:
     PairMatrix GetBoard() const;
+    void ApplyButtonStyles(QPushButton* button);
+    void minimizeWindow();
+    void closeWindow();
 
 public:
     ChessUIQt(QWidget *parent = nullptr);
@@ -55,8 +59,7 @@ public slots:
     void OnRestartButtonClicked();
     void OnDrawButtonClicked();
     void OnHistoryClicked(QListWidgetItem* item);
-    void OnSavePGNButtonClicked();
-    void OnSaveFENButtonClicked();
+    void OnSaveButtonClicked();
     
 
 signals:
@@ -70,5 +73,6 @@ private:
     QLabel* m_ExceptionLabel;
     QListWidget* m_MovesList;
     QLabel* m_BlackTimer, *m_WhiteTimer;
+    TitleBar m_titleBar;
     IGamePtr m_game;
 };

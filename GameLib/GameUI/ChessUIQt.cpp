@@ -4,6 +4,7 @@
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QScrollArea>
+#include <QFileInfo>
 #include "IGame.h"
 #include "BoardExceptions.h"
 #include "GameExceptions.h"
@@ -212,13 +213,60 @@ static char ConvertTile(int x)
 {
 	return 'a' + x;
 }
+//
+//ChessUIQt::ChessUIQt(QWidget* parent)
+//	: QMainWindow(parent)
+//{
+//	ui.setupUi(this);
+//
+//	//Widget containing everything
+//	QWidget* mainWidget = new QWidget();
+//	QGridLayout* mainGridLayout = new QGridLayout();
+//
+//	InitializeBoard(mainGridLayout);
+//	InitializeMessage(mainGridLayout);
+//	InitializeButtons(mainGridLayout);
+//	InitializeTimers(mainGridLayout);
+//	InitializeHistory(mainGridLayout);
+//
+//	mainWidget->setLayout(mainGridLayout);
+//	this->setCentralWidget(mainWidget);
+//}
+
+void ChessUIQt::ApplyButtonStyles(QPushButton* button)
+{
+	// Set the background and text colors of the buttons
+	button->setStyleSheet("background-color: #7A6C5D; color: white; border-radius: 5px; padding: 5px;");
+
+	// Set the font
+	QFont buttonFont("Arial", 12);
+	button->setFont(buttonFont);
+}
 
 ChessUIQt::ChessUIQt(QWidget* parent)
 	: QMainWindow(parent)
 {
 	ui.setupUi(this);
 
-	//Widget containing everything
+	// Set the window title
+	setWindowTitle("Chess Game");
+
+	setWindowFlags(Qt::FramelessWindowHint);
+
+	TitleBar* titleBar = new TitleBar(this);
+
+	// Connect title bar signals to slots
+	connect(titleBar, &TitleBar::minimizeButtonClicked, this, &ChessUIQt::minimizeWindow);
+	connect(titleBar, &TitleBar::closeButtonClicked, this, &ChessUIQt::closeWindow);
+
+	titleBar->setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Fixed);
+
+	// Create the layout for the main window
+	QVBoxLayout* mainLayout = new QVBoxLayout;
+	mainLayout->addWidget(titleBar);
+
+
+	// Widget containing everything
 	QWidget* mainWidget = new QWidget();
 	QGridLayout* mainGridLayout = new QGridLayout();
 
@@ -230,6 +278,9 @@ ChessUIQt::ChessUIQt(QWidget* parent)
 
 	mainWidget->setLayout(mainGridLayout);
 	this->setCentralWidget(mainWidget);
+
+	// Set the background color of the main window to black
+	//mainWidget->setStyleSheet("background-color: black;");
 }
 
 ChessUIQt::~ChessUIQt()
@@ -237,6 +288,17 @@ ChessUIQt::~ChessUIQt()
 	//No delete?
 	//https://doc.qt.io/qt-6/objecttrees.html
 }
+
+void ChessUIQt::minimizeWindow()
+{
+	showMinimized();
+}
+
+void ChessUIQt::closeWindow()
+{
+	close();
+}
+
 
 void ChessUIQt::InitializeMessage(QGridLayout* mainGridLayout)
 {
@@ -262,28 +324,31 @@ void ChessUIQt::InitializeButtons(QGridLayout* mainGridLayout)
 	QPushButton* loadButton = new QPushButton("Load");
 	QPushButton* restartButton = new QPushButton("Restart");
 	QPushButton* drawButton = new QPushButton("Draw");
-	QPushButton* PGNButton = new QPushButton("Save PGN");
-	QPushButton* FENButton = new QPushButton("Save FEN");
+	QPushButton* saveButton = new QPushButton("Save");
 
 	QWidget* buttonContainer = new QWidget();
 	QGridLayout* btnGrid = new QGridLayout();
 
-	btnGrid->addWidget(copyButton, 0, 0);
+	btnGrid->addWidget(saveButton, 0, 0);
 	btnGrid->addWidget(loadButton, 0, 1);
 	btnGrid->addWidget(restartButton, 0, 2);
 	btnGrid->addWidget(drawButton, 0, 3);
-	btnGrid->addWidget(PGNButton, 1, 0, 1, 2);
-	btnGrid->addWidget(FENButton, 1, 2, 1, 2);
+	btnGrid->addWidget(copyButton, 1, 0, 1, 4);
 
 	connect(copyButton, &QPushButton::pressed, this, &ChessUIQt::OnCopyButtonClicked);
 	connect(loadButton, &QPushButton::pressed, this, &ChessUIQt::OnLoadButtonClicked);
 	connect(restartButton, &QPushButton::pressed, this, &ChessUIQt::OnRestartButtonClicked);
 	connect(drawButton, &QPushButton::pressed, this, &ChessUIQt::OnDrawButtonClicked);
-	connect(PGNButton, &QPushButton::pressed, this, &ChessUIQt::OnSavePGNButtonClicked);
-	connect(FENButton, &QPushButton::pressed, this, &ChessUIQt::OnSaveFENButtonClicked);
+	connect(saveButton, &QPushButton::pressed, this, &ChessUIQt::OnSaveButtonClicked);
 
 	buttonContainer->setLayout(btnGrid);
 	mainGridLayout->addWidget(buttonContainer, 0, 0, 1, 1);
+
+	ApplyButtonStyles(saveButton);
+	ApplyButtonStyles(loadButton);
+	ApplyButtonStyles(restartButton);
+	ApplyButtonStyles(drawButton);
+	ApplyButtonStyles(copyButton);
 }
 
 void ChessUIQt::InitializeTimers(QGridLayout* mainGridLayout)
@@ -400,9 +465,9 @@ void ChessUIQt::OnButtonClicked(const std::pair<int, int>& position)
 	}
 }
 
-void ChessUIQt::OnSavePGNButtonClicked()
+void ChessUIQt::OnSaveButtonClicked()
 {
-	QString fileName = QFileDialog::getSaveFileName(this, "Save Text File", "", "Text Files (*.txt)");
+	QString fileName = QFileDialog::getSaveFileName(this, "Save Text File", "", "FEN Files (*.fen);;PGN Files(*.pgn);;All files(*.*)");
 
 	if (fileName.isEmpty())
 		return;
@@ -414,7 +479,22 @@ void ChessUIQt::OnSavePGNButtonClicked()
 		return;
 	}
 
-	QString data = QString::fromStdString(m_game->GeneratePGN());
+	QString extension = QFileInfo(file).suffix();
+
+	QString data;
+
+	if (extension == "fen")
+	{
+		data = QString::fromStdString(m_game->GenerateFEN());
+	}
+	else if(extension == "pgn")
+	{
+		data = QString::fromStdString(m_game->GeneratePGN());
+	}
+	else
+	{
+		data = QString::fromStdString(m_game->GenerateFEN());
+	}
 
 	QTextStream out(&file);
 	out << data;
@@ -423,7 +503,7 @@ void ChessUIQt::OnSavePGNButtonClicked()
 
 void ChessUIQt::OnLoadButtonClicked()
 {
-	QString fileName = QFileDialog::getOpenFileName(this, "Open Text File", "", "Text Files (*.txt)");
+	QString fileName = QFileDialog::getOpenFileName(this, "Open Text File", "", "FEN Files (*.fen);; PGN Files (*.pgn);; All Files(*.*)");
 
 	if (fileName.isEmpty())
 		return;
@@ -492,7 +572,7 @@ void ChessUIQt::OnHistoryClicked(QListWidgetItem* item)
 
 	int index = m_MovesList->currentRow();
 
-	MoveVector newHistory = m_game->GetHistory(); 
+	MoveVector newHistory = m_game->GetHistory();
 
 	m_game->Restart();
 
@@ -560,33 +640,33 @@ void ChessUIQt::OnCopyButtonClicked()
 
 }
 
-void ChessUIQt::OnSaveFENButtonClicked()
-{
-	QString fileName = QFileDialog::getSaveFileName(this, "Save Text File", "", "Text Files (*.txt)");
-
-	if (fileName.isEmpty())
-		return;
-
-	QFile file(fileName);
-	if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
-	{
-		qDebug() << "Error: Could not open the file for writing.";
-		return;
-	}
-
-	QString data = QString::fromStdString(m_game->GenerateFEN());
-
-	QTextStream out(&file);
-	out << data;
-	file.close();
-}
+//void ChessUIQt::OnSaveFENButtonClicked()
+//{
+//	QString fileName = QFileDialog::getSaveFileName(this, "Save Text File", "", "Text Files (*.txt)");
+//
+//	if (fileName.isEmpty())
+//		return;
+//
+//	QFile file(fileName);
+//	if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
+//	{
+//		qDebug() << "Error: Could not open the file for writing.";
+//		return;
+//	}
+//
+//	QString data = QString::fromStdString(m_game->GenerateFEN());
+//
+//	QTextStream out(&file);
+//	out << data;
+//	file.close();
+//}
 
 void ChessUIQt::UpdateHistory()
 {
 	m_MovesList->clear();
 
 	MoveVector newHistory = m_game->GetHistory();
-	
+
 	for (int i = 0; i < newHistory.size(); i++) {
 		QString itemText = QString("%1. %2%3 \t %4%5").arg(i + 1).arg(ConvertTile(newHistory[i].first.second)).arg(8 - newHistory[i].first.first).arg(ConvertTile(newHistory[i].second.second)).arg(8 - newHistory[i].second.first);
 

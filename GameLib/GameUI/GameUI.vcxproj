@@ -103,6 +103,7 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="TitleBar.cpp" />
     <QtRcc Include="GameUI.qrc" />
     <QtUic Include="ChessUIQt.ui" />
     <QtUic Include="GameUI.ui" />
@@ -117,6 +118,7 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Enums.h" />
+    <QtMoc Include="TitleBar.h" />
     <QtMoc Include="GridButton.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
