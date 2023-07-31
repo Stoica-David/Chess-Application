@@ -111,8 +111,8 @@ void GridButton::paintEvent(QPaintEvent* event)
 	bool defaultColorBlack = (m_Position.first + m_Position.second) % 2;
 	defaultColorBlack == true ? penColor = "#D2C4B5" : penColor = "#7A6C5D";
 
-	int textX = 5;
-	int textY = 5;
+	int textX = 2;
+	int textY = 2;
 
 	painter.setRenderHint(QPainter::TextAntialiasing, true);
 	painter.setPen(penColor);

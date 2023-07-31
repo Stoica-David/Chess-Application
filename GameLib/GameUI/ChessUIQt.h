@@ -3,7 +3,6 @@
 #include <QtWidgets/QMainWindow>
 #include "ui_ChessUIQt.h"
 #include "GridButton.h"
-#include "TitleBar.h"
 #include <QtWidgets/qgridlayout.h>
 #include <QPushButton>
 #include <QLabel>
@@ -22,6 +21,8 @@ private:
     void ApplyButtonStyles(QPushButton* button);
     void minimizeWindow();
     void closeWindow();
+    void mousePressEvent(QMouseEvent* event);
+    void mouseMoveEvent(QMouseEvent* event);
 
 public:
     ChessUIQt(QWidget *parent = nullptr);
@@ -73,6 +74,6 @@ private:
     QLabel* m_ExceptionLabel;
     QListWidget* m_MovesList;
     QLabel* m_BlackTimer, *m_WhiteTimer;
-    TitleBar m_titleBar;
+    QPoint m_lastMousePos;
     IGamePtr m_game;
 };

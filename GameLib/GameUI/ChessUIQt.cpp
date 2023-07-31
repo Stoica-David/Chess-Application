@@ -5,6 +5,7 @@
 #include <QFileDialog>
 #include <QScrollArea>
 #include <QFileInfo>
+#include <QMouseEvent>
 #include "IGame.h"
 #include "BoardExceptions.h"
 #include "GameExceptions.h"
@@ -227,15 +228,35 @@ void ChessUIQt::ApplyButtonStyles(QPushButton* button)
 ChessUIQt::ChessUIQt(QWidget* parent)
 	: QMainWindow(parent)
 {
+    ui.setupUi(this);
+
+	setAttribute(Qt::WA_TranslucentBackground);
+
+	setWindowFlags(Qt::FramelessWindowHint);
+
 	setWindowTitle("Chess Game");
 
-	ui.setupUi(this);
+	// Apply stylesheet to change the background color of the main window
+	setStyleSheet("background-color: #F8FFE5;");
 
-	// Create the layout for the main window
-	QVBoxLayout* mainLayout = new QVBoxLayout;
+	// Create a custom button for the title bar area
+	QPushButton* customButton = new QPushButton("Custom Button", this);
+	customButton->setStyleSheet("background-color: #D2C4B5; color: #7A6C5D;");
+	customButton->setFixedHeight(30);
 
-	// Widget containing everything
-	QWidget* mainWidget = new QWidget();
+	// Layout for the title bar area (containing the custom button)
+	QHBoxLayout* titleBarLayout = new QHBoxLayout();
+	titleBarLayout->setContentsMargins(0, 0, 0, 0);
+	titleBarLayout->addWidget(customButton);
+	titleBarLayout->addStretch(); // Optional: Add stretch to push the button to the right
+
+	// Create a widget to hold the title bar contents
+	QWidget* titleBarWidget = new QWidget();
+	titleBarWidget->setLayout(titleBarLayout);
+
+	setMenuWidget(titleBarWidget);
+
+	QWidget* mainWidget = new QWidget(this);
 	QGridLayout* mainGridLayout = new QGridLayout();
 
 	InitializeBoard(mainGridLayout);
@@ -246,8 +267,32 @@ ChessUIQt::ChessUIQt(QWidget* parent)
 
 	mainWidget->setLayout(mainGridLayout);
 	this->setCentralWidget(mainWidget);
+
+	mainWidget->setStyleSheet("background-color: #F8FFE5");
+
+	setCentralWidget(mainWidget);
+	setMouseTracking(true);
+	setStatusBar(nullptr);
+	removeToolBar(nullptr);
 }
 
+void ChessUIQt::mousePressEvent(QMouseEvent* event) {
+	// Check if the event occurs in the title bar area (top of the window)
+	if (event->button() == Qt::LeftButton && event->y() <= frameGeometry().top()) {
+		// Store the current mouse position relative to the window's position
+		m_lastMousePos = event->globalPos() - frameGeometry().topLeft();
+		event->accept();
+	}
+}
+
+void ChessUIQt::mouseMoveEvent(QMouseEvent* event) {
+	// If the left mouse button is pressed, move the window
+	if (event->buttons() & Qt::LeftButton && event->y() <= frameGeometry().top()) {
+		// Move the window by calculating the new position based on the last stored mouse position
+		move(event->globalPos() - m_lastMousePos);
+		event->accept();
+	}
+}
 
 ChessUIQt::~ChessUIQt()
 {
