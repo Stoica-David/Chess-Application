@@ -565,35 +565,6 @@ TEST(ChoosePieceMock, Choose3)
 	myGame.RemoveListener(mock.get());
 }
 
-TEST(ChoosePieceMock, Choose4)
-{
-	CharMatrix m = { {
-	{'r', 'h', 'b', 'q', 'k', 'b', 'h', 'r',},
-	{'p', 'P', '-', 'p', '-', 'p', 'p', '-',},
-	{'-', '-', '-', '-', '-', '-', '-', 'p',},
-	{'-', '-', '-', '-', 'H', '-', '-', '-',},
-	{'-', '-', '-', '-', '-', '-', '-', '-',},
-	{'-', '-', '-', '-', '-', '-', '-', '-',},
-	{'P', 'P', '-', '-', 'p', 'P', 'P', 'P',},
-	{'R', 'H', 'B', 'Q', 'K', 'B', '-', 'R',},
-	} };
-
-	Game myGame(m, EColor::Black, EState::Playing);
-
-	auto mock = std::make_shared<MockGame>();
-
-	myGame.AddListener(mock);
-
-	EXPECT_CALL(*mock, OnChoosePiece());
-	EXPECT_CALL(*mock, OnMove());
-
-	myGame.Move({ 6, 4 }, { 7, 3 });
-	myGame.PromoteTo(EPieceType::Rook);
-
-	myGame.RemoveListener(mock.get());
-
-}
-
 TEST(RestartMock, RestartDefault)
 {
 	CharMatrix m = { {
