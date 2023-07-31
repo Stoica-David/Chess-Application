@@ -1,11 +1,12 @@
 #include "TitleBar.h"
-#include <QPushButton>
-#include <QHBoxLayout>
-#include <QMouseEvent>
 
 TitleBar::TitleBar(QWidget* parent) : QWidget(parent)
 {
+	m_mousePressed = false;
 	createLayout();
+
+	// Set the title bar's background color and size
+	setStyleSheet("background-color: #964B00; height: 30px;");
 }
 
 void TitleBar::createLayout()
@@ -22,26 +23,40 @@ void TitleBar::createLayout()
 	connect(minimizeButton, &QPushButton::clicked, this, &TitleBar::minimizeButtonClicked);
 	connect(closeButton, &QPushButton::clicked, this, &TitleBar::closeButtonClicked);
 
-	// Create the layout
-	QHBoxLayout* layout = new QHBoxLayout(this);
-	layout->addWidget(minimizeButton);
-	layout->addWidget(closeButton);
-	layout->setContentsMargins(0, 0, 0, 0);
-	setLayout(layout);
+	// Create the left layout for dragging
+	QHBoxLayout* leftLayout = new QHBoxLayout;
+	leftLayout->addWidget(minimizeButton);
+	leftLayout->addWidget(closeButton);
+
+	// Create the right layout for pushing buttons to the right
+	QHBoxLayout* rightLayout = new QHBoxLayout;
+	rightLayout->addStretch();
+	rightLayout->addLayout(leftLayout);
+	rightLayout->setSpacing(0);
+	rightLayout->setContentsMargins(0, 0, 10, 0); // Add margin on the right
+
+	// Create the main layout
+	QHBoxLayout* mainLayout = new QHBoxLayout(this);
+	mainLayout->setSpacing(0);
+	mainLayout->setContentsMargins(0, 0, 0, 0);
+	mainLayout->addLayout(rightLayout);
+	setLayout(mainLayout);
 
 	// Apply styles to the buttons
 	setStyleSheet(
 		"QPushButton#minimizeButton, QPushButton#closeButton {"
 		"   color: white;"
-		"   background-color: #000;"
+		"   background-color: transparent;"
 		"   border: none;"
 		"   font-size: 16px;"
 		"   padding: 5px;"
 		"   outline: none;"
-		"	align: right;"
 		"}"
 		"QPushButton#minimizeButton:hover, QPushButton#closeButton:hover {"
-		"   background-color: #000;"
+		"   background-color: #555;"
+		"}"
+		"QPushButton#minimizeButton:pressed, QPushButton#closeButton:pressed {"
+		"   background-color: #222;"
 		"}"
 	);
 }
@@ -57,10 +72,8 @@ void TitleBar::mousePressEvent(QMouseEvent* event)
 
 void TitleBar::mouseMoveEvent(QMouseEvent* event)
 {
-	if (event->buttons() & Qt::LeftButton)
+	if (m_mousePressed)
 	{
-		QPoint diff = event->globalPos() - m_lastPos;
-		parentWidget()->move(parentWidget()->x() + diff.x(), parentWidget()->y() + diff.y());
-		m_lastPos = event->globalPos();
+		this->parentWidget()->move(event->globalPos() - m_lastMousePos);
 	}
 }

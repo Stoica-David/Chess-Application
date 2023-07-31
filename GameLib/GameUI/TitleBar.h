@@ -2,6 +2,9 @@
 #define TITLEBAR_H
 
 #include <QWidget>
+#include <QPushButton>
+#include <QHBoxLayout>
+#include <QMouseEvent>
 
 class TitleBar : public QWidget
 {
@@ -19,9 +22,10 @@ protected:
 	void mouseMoveEvent(QMouseEvent* event) override;
 
 private:
-	void createLayout();
+	QPoint m_lastMousePos;
+	bool m_mousePressed;
 
-	QPoint m_lastPos;
+	void createLayout();
 };
 
 #endif // TITLEBAR_H
