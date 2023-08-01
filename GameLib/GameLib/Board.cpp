@@ -588,6 +588,22 @@ void Board::Move(Position p1, Position p2)
 			(*this)[rightPos]->SetLeftPassant(true);
 		}
 	}
+
+	Position otherKingPos = FindKing(OppositeColor(currPiece->GetColor()));
+
+	if (!m_PGN.empty())
+	{
+		if (IsCheckMate(OppositeColor(currPiece->GetColor())))
+		{
+			m_PGN[m_PGN.size() - 1].pop_back();
+			m_PGN[m_PGN.size() - 1] += "# ";
+		}
+		else if (IsCheck(otherKingPos, OppositeColor(currPiece->GetColor())))
+		{
+			m_PGN[m_PGN.size() - 1].pop_back();
+			m_PGN[m_PGN.size() - 1] += "+ ";
+		}
+	}
 }
 
 void Board::Reset()
@@ -1474,20 +1490,7 @@ String Board::ConvertMove(Position p1, Position p2) const
 		convertedMove.push_back('0' + (8 - nextX));
 	}
 
-	EColor currColor = m_board[p1.first][p1.second]->GetColor();
-
-	if (IsCheckMate(OppositeColor(currColor)))
-	{
-		convertedMove.push_back('#');
-	}
-	else if (IsCheck(FindKing(OppositeColor(currColor)), OppositeColor(currColor)))
-	{
-		convertedMove.push_back('+');
-	}
-	else
-	{
-		convertedMove.push_back(' ');
-	}
+	convertedMove.push_back(' ');
 
 	return convertedMove;
 }
@@ -1498,9 +1501,9 @@ bool Board::FindOtherPieceAttacking(Position p1, Position p2) const
 	{
 		for (int j = 0; j < 8; j++)
 		{
-			if (Position(i,j) != p1 && m_board[i][j] && m_board[i][j]->SameColor(m_board[p1.first][p1.second]) && m_board[i][j]->GetType() == m_board[p1.first][p1.second]->GetType())
+			if (Position(i, j) != p1 && m_board[i][j] && m_board[i][j]->SameColor(m_board[p1.first][p1.second]) && m_board[i][j]->GetType() == m_board[p1.first][p1.second]->GetType())
 			{
-				PositionList currMoves = GetMoves({i, j});
+				PositionList currMoves = GetMoves({ i, j });
 
 				for (int k = 0; k < currMoves.size(); k++)
 				{
