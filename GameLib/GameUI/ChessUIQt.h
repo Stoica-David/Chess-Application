@@ -33,6 +33,7 @@ public:
     void InitializeTimers(QGridLayout* mainGridLayout);
     void InitializeHistory(QGridLayout* mainGridLayout);
     void InitializeBoard(QGridLayout* mainGridLayout);
+    void InitializePlayer(QGridLayout* mainGridLayout, EColor);
 
     //Modify if necessary with your history representation
     void UpdateHistory();
@@ -51,6 +52,7 @@ public:
     void OnChoosePiece() override;
     void OnCheck() override;
     void OnRestart() override;
+    void OnPieceCapture(EPieceType, EColor) override;
 
 public slots:
     void OnButtonClicked(const std::pair<int, int>& position);
@@ -73,6 +75,7 @@ private:
     QLabel* m_MessageLabel;
     QLabel* m_ExceptionLabel;
     QListWidget* m_MovesList;
+    QListWidget* m_whitePieces, *m_blackPieces;
     QLabel* m_BlackTimer, *m_WhiteTimer;
     QPoint m_lastMousePos;
     IGamePtr m_game;

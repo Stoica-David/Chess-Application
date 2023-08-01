@@ -52,6 +52,8 @@ void Game::Move(Position p1, Position p2)
 			throw TurnException("It's the other player's turn");
 		}
 
+		if (m_gameboard[p2])
+			NotifyCaptured(m_gameboard[p2]->GetType(), m_gameboard[p2]->GetColor());
 		m_gameboard.Move(p1, p2);
 
 		if(m_gameboard.IsPromotePossible(p2))
@@ -264,6 +266,17 @@ void Game::NotifyRestart()
 		if (auto sp = x.lock())
 		{
 			sp->OnRestart();
+		}
+	}
+}
+
+void Game::NotifyCaptured(EPieceType type, EColor color)
+{
+	for (const auto& x : m_listeners)
+	{
+		if (auto sp = x.lock())
+		{
+			sp->OnPieceCapture(type, color);
 		}
 	}
 }

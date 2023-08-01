@@ -15,5 +15,7 @@ public:
 
 	virtual void OnRestart() = 0;
 
+	virtual void OnPieceCapture(EPieceType, EColor) = 0;
+
 	virtual ~IGameListener() = default;
 };

@@ -260,6 +260,9 @@ ChessUIQt::ChessUIQt(QWidget* parent)
 	QWidget* mainWidget = new QWidget(this);
 	QGridLayout* mainGridLayout = new QGridLayout();
 
+
+	InitializePlayer(mainGridLayout, EColor::White);
+	InitializePlayer(mainGridLayout, EColor::Black);
 	InitializeBoard(mainGridLayout);
 	InitializeMessage(mainGridLayout);
 	InitializeButtons(mainGridLayout);
@@ -388,7 +391,7 @@ void ChessUIQt::InitializeTimers(QGridLayout* mainGridLayout)
 	timerGrid->addWidget(m_WhiteTimer, 0, 4);
 
 	timerContainer->setLayout(timerGrid);
-	mainGridLayout->addWidget(timerContainer, 3, 0, 1, 2, Qt::AlignCenter);
+	mainGridLayout->addWidget(timerContainer, 5, 0, 1, 2, Qt::AlignCenter);
 
 	ApplyButtonStyles(pauseTimerBtn);
 }
@@ -405,7 +408,7 @@ void ChessUIQt::InitializeHistory(QGridLayout* mainGridLayout)
 
 	scrollArea->setStyleSheet("background-color: #D2C4B5; height: 30px;");
 
-	mainGridLayout->addWidget(scrollArea, 2, 0, 1, 1);
+	mainGridLayout->addWidget(scrollArea, 2, 0, 3, 1);
 }
 
 
@@ -424,7 +427,49 @@ void ChessUIQt::InitializeBoard(QGridLayout* mainGridLayout)
 	}
 
 	board->setLayout(chessGridLayout);
-	mainGridLayout->addWidget(board, 2, 1, 1, 1);
+	mainGridLayout->addWidget(board, 3, 1, 1, 1);
+}
+
+void ChessUIQt::InitializePlayer(QGridLayout* mainGridLayout, EColor color)
+{
+	QString path, name;
+	color == EColor::Black ? path = "res/black.png" : path = "res/white.png";
+	color == EColor::Black ? name = "Black" : name = "White";
+
+	QWidget* player = new QWidget();
+	QGridLayout* playerGrid = new QGridLayout();
+
+	QLabel* profilePicture = new QLabel();
+	QPixmap pic(path);
+	profilePicture->setPixmap(pic.scaled(60, 60));
+
+	QLabel* profileName = new QLabel();
+	profileName->setText(name);
+	profileName->setStyleSheet("color: black; font-size: 18px; font-weight: bold;");
+
+	if (color == EColor::Black)
+		m_blackPieces = new QListWidget();
+	else
+		m_whitePieces = new QListWidget();
+
+	QListWidget* playerPieces;
+	color == EColor::Black ? playerPieces = m_blackPieces : playerPieces = m_whitePieces;
+	playerPieces->setFlow(QListWidget::LeftToRight);
+	playerPieces->setStyleSheet("QListWidget::item, QListWidget{background-color:transparent; border: none;}");
+	playerPieces->setMaximumHeight(20);
+	qDebug() << playerPieces->width();
+
+
+	playerGrid->addWidget(profilePicture, 0, 0, 2, 1);
+	playerGrid->addWidget(profileName, 0, 1, Qt::AlignTop);
+	playerGrid->addWidget(playerPieces, 1, 1, Qt::AlignCenter);
+
+
+	player->setLayout(playerGrid);
+	if (color == EColor::Black)
+		mainGridLayout->addWidget(player, 2, 1, Qt::AlignLeft);
+	else
+		mainGridLayout->addWidget(player, 4, 1, Qt::AlignLeft);
 }
 
 void ChessUIQt::OnButtonClicked(const std::pair<int, int>& position)
@@ -834,7 +879,26 @@ void ChessUIQt::OnRestart()
 	m_MessageLabel->setText("Waiting for white player");
 	m_ExceptionLabel->setText("");
 	m_MovesList->clear();
+	m_whitePieces->clear();
+	m_blackPieces->clear();
 
 	m_MovesList->setEditTriggers(QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked);
 	StartGame();
+}
+
+void ChessUIQt::OnPieceCapture(EPieceType pieceType, EColor pieceColor)
+{
+	qDebug() << (int)pieceColor;
+	QListWidget* playerPieces;
+	pieceColor == EColor::Black ? playerPieces = m_whitePieces : playerPieces = m_blackPieces;
+
+	QListWidgetItem* capturedPiece = new QListWidgetItem();
+	QString imagePath;
+	pieceColor == EColor::Black ? imagePath = "res/b" : imagePath = "res/w";
+	QString pieces[] = { "r", "h", "b", "q", "k", "p", "empty" };
+	imagePath.push_back(QString(pieces[(int)pieceType] + ".png"));
+	QPixmap pixmap(imagePath);
+	capturedPiece->setIcon(QIcon(pixmap));
+
+	playerPieces->addItem(capturedPiece);
 }

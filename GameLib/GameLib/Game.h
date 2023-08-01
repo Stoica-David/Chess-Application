@@ -58,6 +58,7 @@ public:
 	void NotifyChoosePiece();
 	void NotifyCheck();
 	void NotifyRestart();
+	void NotifyCaptured(EPieceType type, EColor color);
 
 	PiecesPtr GetPiece(Position) const;
 	bool Stalemate() const;
