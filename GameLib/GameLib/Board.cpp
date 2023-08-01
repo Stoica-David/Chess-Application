@@ -859,14 +859,16 @@ String Board::GeneratePGN() const
 	return PGN;
 }
 
-bool Board::PawnGoesDiagonally(Position p1, Position p2)
+bool Board::PawnGoesDiagonally(Position p1, Position p2) const
 {
 	int x1 = p1.first,
 		y1 = p1.second,
 		x2 = p2.first,
 		y2 = p2.second;
 
-	return (std::abs(x2 - x1) == 1 && std::abs(y2 - y1) == 1);
+	PiecesPtr currPiece = m_board[p1.first][p1.second];
+
+	return (std::abs(y2 - y1) == 1 && ((currPiece->GetColor() == EColor::White && x2 - x1 == -1) || (currPiece->GetColor() == EColor::Black && x2 - x1 == 1)));
 }
 
 bool Board::LeftPawnCheck(Position p) const

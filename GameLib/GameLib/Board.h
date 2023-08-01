@@ -64,7 +64,7 @@ public:
 	String GeneratePGN() const;
 
 private:
-	static bool PawnGoesDiagonally(Position p1, Position p2);
+	bool PawnGoesDiagonally(Position p1, Position p2) const;
 
 	bool LeftPawnCheck(Position p) const;
 	bool RightPawnCheck(Position p) const;

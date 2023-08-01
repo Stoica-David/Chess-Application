@@ -518,3 +518,21 @@ TEST(BigGetMovesTest, Case1)
 	
 	EXPECT_EQ(g.GetMoves({ 6,4 }), v);
 }
+
+TEST(MoveTest, PawnBackDiagonalTest)
+{
+	CharMatrix m = { {
+	{'r', 'h', 'b', 'q', 'k', 'b', 'h', 'r',},
+	{'p', 'p', 'p', 'p', 'p', 'p', 'p', '-',},
+	{'-', '-', '-', '-', '-', '-', '-', '-',},
+	{'-', '-', '-', '-', '-', '-', 'P', '-',},
+	{'-', '-', '-', '-', '-', '-', '-', 'p',},
+	{'-', '-', '-', '-', '-', '-', '-', '-',},
+	{'P', 'P', 'P', 'P', 'P', 'P', '-', 'P',},
+	{'R', 'H', 'B', 'Q', 'K', 'B', 'H', 'R',},
+	} };
+
+	Game g(m, EColor::White, EState::Playing);
+
+	EXPECT_THROW(g.Move({ 3,6 }, { 4, 7 }), MoveException);
+}
