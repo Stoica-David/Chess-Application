@@ -12,6 +12,7 @@ using CharMatrix = std::array<std::array<char, 8>, 8>;
 using BitMatrix = std::vector<std::bitset<256>>;
 using Bitset = std::bitset<256>;
 using String = std::string;
+using StringVector = std::vector<std::string>;
 
 class Board
 {
@@ -94,6 +95,9 @@ private:
 
 	Position IntermediatePosition(Position p) const;
 
+	String ConvertMove(Position p1, Position p2) const;
+	bool FindOtherPieceAttacking(Position p1, Position p2) const;
+
 	static PiecesPtr ProducePiece(char c);
 	static EPieceType GetPieceType(char c);
 
@@ -103,4 +107,5 @@ private:
 	IPieceInfoVector m_whiteDead;
 	IPieceInfoVector m_blackDead;
 	MoveVector m_moves;
+	StringVector m_PGN;
 };

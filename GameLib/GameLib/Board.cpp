@@ -1,6 +1,7 @@
 #include "Board.h"
 #include "PieceInfo.h"
 #include "BoardExceptions.h"
+#include <sstream>
 
 #include <algorithm>
 
@@ -23,6 +24,7 @@ Board::Board(const CharMatrix& matrix)
 	m_blackDead = { };
 	m_prevPositions = { };
 	m_moves = { };
+	m_PGN = { };
 }
 
 PiecesPtr& Board::operator[](Position p)
@@ -435,17 +437,46 @@ void Board::PromoteTo(EPieceType pieceType, EColor color)
 		throw PromoteException("Can't promote!\n");
 	}
 
+	String last;
+
+	if (!m_PGN.empty())
+	{
+		last = m_PGN.back();
+		last.pop_back();
+	}
+
 	switch (pieceType)
 	{
 	case EPieceType::Rook:
-	case EPieceType::Knight:
-	case EPieceType::Bishop:
-	case EPieceType::Queen:
-		m_board[p.first][p.second] = Piece::Produce(pieceType, color);
+	{
+		last += "=R";
 		break;
+	}
+	case EPieceType::Knight:
+	{
+		last += "=N";
+		break;
+	}
+	case EPieceType::Bishop:
+	{
+		last += "=B";
+		break;
+	}
+	case EPieceType::Queen:
+	{
+		last += "=Q";
+		break;
+	}
 	default:
 		throw PromoteException("Can't promote!\n");
 	}
+
+	if (!m_PGN.empty())
+	{
+		m_PGN[m_PGN.size() - 1] = last;
+	}
+
+	m_board[p.first][p.second] = Piece::Produce(pieceType, color);
 }
 
 void Board::Move(Position p1, Position p2)
@@ -466,9 +497,32 @@ void Board::Move(Position p1, Position p2)
 		throw InTheWayException("There is a piece in the way");
 	}
 
+	if (currPiece->Is(EColor::Black))
+	{
+		if (!m_PGN.empty())
+		{
+			String last = m_PGN.back();
+
+			last += ConvertMove(p1, p2);
+
+			m_PGN.pop_back();
+			m_PGN.push_back(last);
+		}
+	}
+	else
+	{
+		String wholeMove = std::to_string(m_PGN.size() + 1);
+		String move = ConvertMove(p1, p2);
+
+		wholeMove += ". ";
+		wholeMove += move;
+
+		m_PGN.push_back(wholeMove);
+	}
+
 	bool currPiecePrevMoved = currPiece->GetHasMoved();
 
-	if(IsCastle(p1, p2))
+	if (IsCastle(p1, p2))
 	{
 		Castle(p1, p2);
 	}
@@ -573,6 +627,7 @@ void Board::Reset()
 	m_blackDead = { };
 	m_prevPositions = { };
 	m_moves = { };
+	m_PGN = { };
 }
 
 PositionList Board::GetMoves(Position p) const
@@ -794,7 +849,14 @@ String Board::GenerateFEN() const
 
 String Board::GeneratePGN() const
 {
-	return "";
+	String PGN;
+
+	for (auto& currString : m_PGN)
+	{
+		PGN += currString;
+	}
+
+	return PGN;
 }
 
 bool Board::PawnGoesDiagonally(Position p1, Position p2)
@@ -1346,6 +1408,110 @@ Position Board::IntermediatePosition(Position p) const
 	}
 
 	return intermediate;
+}
+
+String Board::ConvertMove(Position p1, Position p2) const
+{
+	int currX = p1.first,
+		currY = p1.second,
+		nextX = p2.first,
+		nextY = p2.second;
+
+	String convertedMove;
+
+	if (IsCastle(p1, p2))
+	{
+		if (p1.second > p2.second)
+		{
+			convertedMove += "O-O-O";
+		}
+		else
+		{
+			convertedMove += "O-O";
+		}
+	}
+	else
+	{
+		switch (m_board[p1.first][p1.second]->GetType())
+		{
+		case EPieceType::Rook:
+			convertedMove.push_back('R');
+			break;
+		case EPieceType::Knight:
+			convertedMove.push_back('N');
+			break;
+		case EPieceType::Bishop:
+			convertedMove.push_back('B');
+			break;
+		case EPieceType::Queen:
+			convertedMove.push_back('Q');
+			break;
+		case EPieceType::King:
+			convertedMove.push_back('K');
+			break;
+		default:
+			break;
+		}
+
+		if (FindOtherPieceAttacking(p1, p2))
+		{
+			convertedMove.push_back('a' + currY);
+		}
+
+		if (m_board[p2.first][p2.second])
+		{
+			if (m_board[p1.first][p1.second]->Is(EPieceType::Pawn))
+			{
+				convertedMove.push_back('a' + currY);
+			}
+
+			convertedMove.push_back('x');
+		}
+
+		convertedMove.push_back('a' + nextY);
+		convertedMove.push_back('0' + (8 - nextX));
+	}
+
+	EColor currColor = m_board[p1.first][p1.second]->GetColor();
+
+	if (IsCheckMate(OppositeColor(currColor)))
+	{
+		convertedMove.push_back('#');
+	}
+	else if (IsCheck(FindKing(OppositeColor(currColor)), OppositeColor(currColor)))
+	{
+		convertedMove.push_back('+');
+	}
+	else
+	{
+		convertedMove.push_back(' ');
+	}
+
+	return convertedMove;
+}
+
+bool Board::FindOtherPieceAttacking(Position p1, Position p2) const
+{
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			if (Position(i,j) != p1 && m_board[i][j] && m_board[i][j]->SameColor(m_board[p1.first][p1.second]) && m_board[i][j]->GetType() == m_board[p1.first][p1.second]->GetType())
+			{
+				PositionList currMoves = GetMoves({i, j});
+
+				for (int k = 0; k < currMoves.size(); k++)
+				{
+					if (currMoves[k] == p2)
+					{
+						return true;
+					}
+				}
+			}
+		}
+	}
+
+	return false;
 }
 
 PiecesPtr Board::ProducePiece(char c)

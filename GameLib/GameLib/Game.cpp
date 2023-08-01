@@ -57,7 +57,7 @@ void Game::Move(Position p1, Position p2)
 
 		m_gameboard.Move(p1, p2);
 
-		if(m_gameboard.IsPromotePossible(p2))
+		if (m_gameboard.IsPromotePossible(p2))
 		{
 			UpdateState(EState::ChoosePiece);
 			NotifyChoosePiece();
@@ -223,7 +223,35 @@ String Game::GenerateFEN() const
 
 String Game::GeneratePGN() const
 {
-	return "";
+	String PGN = m_gameboard.GeneratePGN();
+
+	if (m_state == EState::BlackWon)
+	{
+		PGN.push_back(' ');
+		PGN.push_back('0');
+		PGN.push_back('-');
+		PGN.push_back('1');
+	}
+	else if (m_state == EState::WhiteWon)
+	{
+		PGN.push_back(' ');
+		PGN.push_back('1');
+		PGN.push_back('-');
+		PGN.push_back('0');
+	}
+	else if (m_state == EState::Draw)
+	{
+		PGN.push_back(' ');
+		PGN.push_back('1');
+		PGN.push_back('/');
+		PGN.push_back('2');
+		PGN.push_back('-');
+		PGN.push_back('1');
+		PGN.push_back('/');
+		PGN.push_back('2');
+	}
+
+	return PGN;
 }
 
 MoveVector Game::GetHistory() const
@@ -293,7 +321,7 @@ void Game::AddListener(IGameListenerPtr newListener)
 void Game::RemoveListener(IGameListener* listener)
 {
 	auto func = [listener](IGameListenerWeakPtr el)
-	{ 
+	{
 		auto sp = el.lock();
 
 		return !sp || listener == sp.get();
