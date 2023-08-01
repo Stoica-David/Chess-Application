@@ -77,6 +77,7 @@ private:
 	bool IsEnPassant(Position p1, Position p2) const;
 
 	PositionList DefendedPositions(Position p, EColor color) const;
+	PositionList GetPassantMoves(Position p)const;
 
 	int Find(PieceVector v, EPieceType Piece) const;
 

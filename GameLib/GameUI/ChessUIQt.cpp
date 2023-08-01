@@ -230,11 +230,8 @@ ChessUIQt::ChessUIQt(QWidget* parent)
 {
     ui.setupUi(this);
 
-	setAttribute(Qt::WA_TranslucentBackground);
-
 	setWindowFlags(Qt::FramelessWindowHint);
-
-	setWindowTitle("Chess Game");
+	setAttribute(Qt::WA_TranslucentBackground);
 
 	// Apply stylesheet to change the background color of the main window
 	setStyleSheet("background-color: #F8FFE5;");
@@ -244,11 +241,14 @@ ChessUIQt::ChessUIQt(QWidget* parent)
 	customButton->setStyleSheet("background-color: #D2C4B5; color: #7A6C5D; border: none;");
 	customButton->setFixedHeight(30);
 
+	QSizePolicy policy = customButton->sizePolicy();
+	policy.setHorizontalPolicy(QSizePolicy::Fixed);
+	customButton->setSizePolicy(policy);
+
 	// Layout for the title bar area (containing the custom button)
 	QHBoxLayout* titleBarLayout = new QHBoxLayout();
 	titleBarLayout->setContentsMargins(0, 0, 0, 0);
 	titleBarLayout->addWidget(customButton, Qt::AlignRight);
-	titleBarLayout->addStretch(); // Optional: Add stretch to push the button to the right
 
 	// Create a widget to hold the title bar contents
 	QWidget* titleBarWidget = new QWidget();
@@ -266,9 +266,6 @@ ChessUIQt::ChessUIQt(QWidget* parent)
 	InitializeHistory(mainGridLayout);
 
 	mainWidget->setLayout(mainGridLayout);
-	this->setCentralWidget(mainWidget);
-
-	mainWidget->setStyleSheet("background-color: #F8FFE5");
 
 	setCentralWidget(mainWidget);
 	setMouseTracking(true);
