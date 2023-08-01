@@ -13,23 +13,7 @@ Board::Board(const CharMatrix& matrix)
 	{
 		for (int j = 0; j < 8; j++)
 		{
-			if (matrix[i][j] == '-')
-			{
-				m_board[i][j] = {};
-			}
-			else if (isupper(matrix[i][j]))
-			{
-				auto type = GetPieceType(matrix[i][j]);
-
-				m_board[i][j] = Piece::Produce(type, EColor::White);
-			}
-			else if (islower(matrix[i][j]))
-			{
-
-				auto type = GetPieceType(matrix[i][j]);
-
-				m_board[i][j] = Piece::Produce(type, EColor::Black);
-			}
+			m_board[i][j] = ProducePiece(matrix[i][j]);
 		}
 	}
 
@@ -61,18 +45,7 @@ void Board::SetBoard(const String& string)
 		{
 			if (isalpha(string[i]))
 			{
-				if (isupper(string[i]))
-				{
-					auto type = GetPieceType(string[i]);
-
-					m_board[line][col] = Piece::Produce(type, EColor::White);
-				}
-				else
-				{
-					auto type = GetPieceType(string[i]);
-
-					m_board[line][col] = Piece::Produce(type, EColor::Black);
-				}
+				m_board[line][col] = ProducePiece(string[i]);
 			}
 			else
 			{
@@ -507,19 +480,13 @@ void Board::PromoteTo(EPieceType pieceType, EColor color)
 	switch (pieceType)
 	{
 	case EPieceType::Rook:
-		m_board[p.first][p.second] = Piece::Produce(EPieceType::Rook, color);
-		break;
 	case EPieceType::Knight:
-		m_board[p.first][p.second] = Piece::Produce(EPieceType::Knight, color);
-		break;
 	case EPieceType::Bishop:
-		m_board[p.first][p.second] = Piece::Produce(EPieceType::Bishop, color);
-		break;
 	case EPieceType::Queen:
-		m_board[p.first][p.second] = Piece::Produce(EPieceType::Queen, color);
+		m_board[p.first][p.second] = Piece::Produce(pieceType, color);
 		break;
 	default:
-		break;
+		throw PromoteException("Can't promote!\n");
 	}
 }
 
@@ -974,7 +941,7 @@ bool Board::FindHelp(Position p, EColor color) const
 	int x = p.first,
 		y = p.second;
 
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < 8; i++) 
 	{
 		for (int j = 0; j < 8; j++)
 		{
@@ -1009,7 +976,7 @@ bool Board::FindHelp(Position p, EColor color) const
 			{
 				PiecesPtr currPiece = m_board[i][j];
 
-				if (!currPiece || (currPiece->GetColor() != color) || (currPiece->GetType() == EPieceType::King))
+				if (!currPiece || (currPiece->GetColor() != color) || (currPiece->Is(EPieceType::King)))
 				{
 					continue;
 				}
@@ -1020,7 +987,7 @@ bool Board::FindHelp(Position p, EColor color) const
 
 				if (it != helpMoves.end())
 				{
-					if (currPiece->GetType() == EPieceType::Pawn && !m_board[(*it).first][(*it).second])
+					if(currPiece->Is(EPieceType::Pawn) && !m_board[(*it).first][(*it).second])
 					{
 						break;
 					}
@@ -1437,6 +1404,17 @@ Position Board::IntermediatePosition(Position p) const
 	}
 
 	return intermediate;
+}
+
+PiecesPtr Board::ProducePiece(char c)
+{
+	if (c == '-')
+		return {};
+
+	auto type = GetPieceType(c);
+	auto color = isupper(c) ? EColor::White : EColor::Black;
+
+	return Piece::Produce(type, color);
 }
 
 EPieceType Board::GetPieceType(char c)

@@ -91,7 +91,8 @@ private:
 
 	Position IntermediatePosition(Position p) const;
 
-	EPieceType GetPieceType(char c);
+	static PiecesPtr ProducePiece(char c);
+	static EPieceType GetPieceType(char c);
 
 private:
 	ChessBoard m_board;
