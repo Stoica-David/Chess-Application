@@ -564,7 +564,7 @@ void ChessUIQt::OnSaveButtonClicked()
 
 void ChessUIQt::OnLoadButtonClicked()
 {
-	QString fileName = QFileDialog::getOpenFileName(this, "Open Text File", "", "FEN Files (*.fen);; PGN Files (*.pgn);; All Files(*.*)");
+	QString fileName = QFileDialog::getOpenFileName(this, "Open Text File", "", "FEN Files (*.fen);;PGN Files (*.pgn);;All Files(*.*)");
 
 	if (fileName.isEmpty())
 		return;

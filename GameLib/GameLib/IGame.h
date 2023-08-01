@@ -39,9 +39,6 @@ public:
 	virtual bool IsDrawProposed() const = 0;
 	virtual bool IsPromoting() const = 0;
 
-	virtual const IPieceInfoVector& GetWhiteDeadPieces() const = 0;
-	virtual const IPieceInfoVector& GetBlackDeadPieces() const = 0;
-
 	virtual String GenerateFEN()const = 0;
 	virtual String GeneratePGN()const = 0;
 

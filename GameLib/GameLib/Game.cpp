@@ -191,16 +191,6 @@ bool Game::Stalemate() const
 	return (m_gameboard.IsStalemate(m_turn));
 }
 
-const IPieceInfoVector& Game::GetWhiteDeadPieces() const
-{
-	return m_gameboard.GetWhiteDead();
-}
-
-const IPieceInfoVector& Game::GetBlackDeadPieces() const
-{
-	return m_gameboard.GetBlackDead();
-}
-
 String Game::GenerateFEN() const
 {
 	String FEN = m_gameboard.GenerateFEN();

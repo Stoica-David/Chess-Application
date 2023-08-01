@@ -46,6 +46,7 @@ void Board::SetBoard(const String& string)
 			if (isalpha(string[i]))
 			{
 				m_board[line][col] = ProducePiece(string[i]);
+				col++;
 			}
 			else if (isdigit(string[i]))
 			{
@@ -387,7 +388,7 @@ Position Board::FindKing(EColor color) const
 		{
 			PiecesPtr currPiece = m_board[i][j];
 
-			if (currPiece && (currPiece->GetType() == EPieceType::King) && (currPiece->GetColor() == color))
+			if (currPiece && (currPiece->Is(EPieceType::King, color)))
 			{
 				return { i, j };
 			}
@@ -773,7 +774,7 @@ const IPieceInfoVector& Board::GetBlackDead() const
 
 String Board::GenerateFEN() const
 {
-	String FEN;	int tmp = 0;
+	String FEN;	int ws = 0;
 
 	for (int i = 0; i < 8; i++)
 	{
@@ -781,26 +782,26 @@ String Board::GenerateFEN() const
 		{
 			if (!m_board[i][j])
 			{
-				tmp++;
+				ws++;
 			}
 			else
 			{
-				if (tmp)
+				if (ws)
 				{
-					FEN.push_back('0' + tmp);
+					FEN.push_back('0' + ws);
 
-					tmp = 0;
+					ws = 0;
 				}
 
 				FEN.push_back(m_board[i][j]->ConvertPiece());
 			}
 		}
 
-		if (tmp)
+		if (ws)
 		{
-			FEN.push_back('0' + tmp);
+			FEN.push_back('0' + ws);
 
-			tmp = 0;
+			ws = 0;
 		}
 
 		if (i != 7)

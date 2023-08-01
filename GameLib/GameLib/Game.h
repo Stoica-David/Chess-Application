@@ -44,9 +44,6 @@ public:
 
 	PositionList GetMoves(Position p) override;
 
-	const IPieceInfoVector& GetWhiteDeadPieces() const override;
-	const IPieceInfoVector& GetBlackDeadPieces() const override;
-
 	String GenerateFEN() const override;
 	String GeneratePGN() const override;
 
