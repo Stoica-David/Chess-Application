@@ -7,6 +7,7 @@
 
 #include<vector>
 #include<memory>
+#include<unordered_map>
 
 using ListenersList = std::vector<IGameListenerWeakPtr>;
 
@@ -59,6 +60,9 @@ public:
 
 	PiecesPtr GetPiece(Position) const;
 	bool Stalemate() const;
+
+	std::unordered_map <EPieceType, int> PiecesLeft(EColor)const override;
+
 
 
 private:

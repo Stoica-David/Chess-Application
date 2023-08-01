@@ -175,6 +175,26 @@ void Game::Restart()
 	NotifyRestart();
 }
 
+std::unordered_map<EPieceType, int> Game::PiecesLeft(EColor color)const
+{
+	std::unordered_map <EPieceType, int> leftPieces;
+
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			PiecesPtr piece = m_gameboard.GetPiece({ i, j });
+			
+			if (piece && piece->GetColor() == color)
+			{
+				leftPieces[piece->GetType()]++;
+			}
+		}
+	}
+
+	return leftPieces;
+}
+
 void Game::SwitchTurn()
 {
 	m_turn = m_turn == EColor::Black ? EColor::White : EColor::Black;

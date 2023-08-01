@@ -48,6 +48,8 @@ void InitializeWhite(std::string& m, EPieceType type, Position p)
 	}
 }
 
+
+
 void InitializeBlack(std::string& m, EPieceType type, Position p)
 {
 	switch (type)
@@ -140,6 +142,73 @@ void InitializeExtraInfo(std::string& m, IGamePtr game)
 		}
 
 		m += "Game g(m, EColor::White, EState::Playing);";
+	}
+}
+
+void ChessUIQt::UpdateCaptured(std::unordered_map<EPieceType, int> leftPieces, EColor color)
+{
+	for (auto type : leftPieces)
+	{
+		switch (type.first)
+		{
+		case EPieceType::Bishop:
+		{
+			int missingPieces = 2 - type.second;
+
+			while (missingPieces)
+			{
+				OnPieceCapture(type.first, color);
+				missingPieces--;
+			}
+			break;
+		}
+		case EPieceType::Knight:
+		{
+			int missingPieces = 2 - type.second;
+
+			while (missingPieces)
+			{
+				OnPieceCapture(type.first, color);
+				missingPieces--;
+			}
+
+			break;
+		}
+		case EPieceType::Rook:
+		{
+			int missingPieces = 2 - type.second;
+
+			while (missingPieces)
+			{
+				OnPieceCapture(type.first, color);
+				missingPieces--;
+			}
+
+			break;
+		}
+		case EPieceType::Queen:
+		{
+			int missingPieces = 1 - type.second;
+
+			while (missingPieces)
+			{
+				OnPieceCapture(type.first, color);
+				missingPieces--;
+			}
+
+			break;
+		}
+		case EPieceType::Pawn:
+		{
+			int missingPieces = 8 - type.second;
+
+			while (missingPieces)
+			{
+				OnPieceCapture(type.first, color);
+				missingPieces--;
+			}
+		}
+		}
 	}
 }
 
@@ -590,6 +659,7 @@ void ChessUIQt::OnLoadButtonClicked()
 	m_game->SetGame(dataString);
 	UpdateBoard(GetBoard());
 	m_MovesList->clear();
+	OnLoad();
 
 	if (m_game->GetTurn() == EColor::White)
 	{
@@ -599,6 +669,7 @@ void ChessUIQt::OnLoadButtonClicked()
 	{
 		m_MessageLabel->setText("Waiting for black player");
 	}
+
 }
 
 void ChessUIQt::OnRestartButtonClicked()
@@ -734,6 +805,8 @@ void ChessUIQt::UpdateHistory()
 		m_MovesList->addItem(new QListWidgetItem(itemText));
 	}
 }
+
+
 
 void ChessUIQt::UpdateBoard(const std::array<std::array<std::pair<PieceType, PieceColor>, 8>, 8>& newBoard)
 {
@@ -901,4 +974,141 @@ void ChessUIQt::OnPieceCapture(EPieceType pieceType, EColor pieceColor)
 	capturedPiece->setIcon(QIcon(pixmap));
 
 	playerPieces->addItem(capturedPiece);
+}
+
+void ChessUIQt::OnLoad()
+{
+	std::unordered_map <EPieceType, int> whitePieces = m_game->PiecesLeft(EColor::White);
+	std::unordered_map <EPieceType, int> blackPieces = m_game->PiecesLeft(EColor::Black);
+
+	UpdateCaptured(whitePieces, EColor::White);
+	UpdateCaptured(blackPieces, EColor::Black);
+
+	/*for (auto type : whitePieces)
+	{
+		switch (type.first)
+		{
+		case EPieceType::Bishop:
+		{
+			int missingPieces = 2 - type.second;
+
+			while (missingPieces)
+			{
+				OnPieceCapture(type.first, EColor::White);
+				missingPieces--;
+			}
+			break;
+		}
+		case EPieceType::Knight:
+		{
+			int missingPieces = 2 - type.second;
+
+			while (missingPieces)
+			{
+				OnPieceCapture(type.first, EColor::White);
+				missingPieces--;
+			}
+
+			break;
+		}
+		case EPieceType::Rook:
+		{
+			int missingPieces = 2 - type.second;
+
+			while (missingPieces)
+			{
+				OnPieceCapture(type.first, EColor::White);
+				missingPieces--;
+			}
+
+			break;
+		}
+		case EPieceType::Queen:
+		{
+			int missingPieces = 1 - type.second;
+
+			while (missingPieces)
+			{
+				OnPieceCapture(type.first, EColor::White);
+				missingPieces--;
+			}
+
+			break;
+		}
+		case EPieceType::Pawn:
+		{
+			int missingPieces = 8 - type.second;
+
+			while (missingPieces)
+			{
+				OnPieceCapture(type.first, EColor::White);
+				missingPieces--;
+			}
+		}
+		}
+	}
+
+	for (auto type : blackPieces)
+	{
+		switch (type.first)
+		{
+		case EPieceType::Bishop:
+		{
+			int missingPieces = 2 - type.second;
+
+			while (missingPieces)
+			{
+				OnPieceCapture(type.first, EColor::Black);
+				missingPieces--;
+			}
+			break;
+		}
+		case EPieceType::Knight:
+		{
+			int missingPieces = 2 - type.second;
+
+			while (missingPieces)
+			{
+				OnPieceCapture(type.first, EColor::Black);
+				missingPieces--;
+			}
+
+			break;
+		}
+		case EPieceType::Rook:
+		{
+			int missingPieces = 2 - type.second;
+
+			while (missingPieces)
+			{
+				OnPieceCapture(type.first, EColor::Black);
+				missingPieces--;
+			}
+
+			break;
+		}
+		case EPieceType::Queen:
+		{
+			int missingPieces = 1 - type.second;
+
+			while (missingPieces)
+			{
+				OnPieceCapture(type.first, EColor::Black);
+				missingPieces--;
+			}
+
+			break;
+		}
+		case EPieceType::Pawn:
+		{
+			int missingPieces = 8 - type.second;
+
+			while (missingPieces)
+			{
+				OnPieceCapture(type.first, EColor::Black);
+				missingPieces--;
+			}
+		}
+		}
+	}*/
 }

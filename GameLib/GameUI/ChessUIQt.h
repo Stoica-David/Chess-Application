@@ -37,6 +37,9 @@ public:
 
     //Modify if necessary with your history representation
     void UpdateHistory();
+
+    void UpdateCaptured(std::unordered_map<EPieceType, int> leftPieces, EColor color);
+
     //Modify if necessary with your board representation
     void UpdateBoard(const std::array<std::array<std::pair<PieceType, PieceColor>, 8>, 8>& newBoard);
     //Modify if necessary with your possible moves representation
@@ -53,6 +56,7 @@ public:
     void OnCheck() override;
     void OnRestart() override;
     void OnPieceCapture(EPieceType, EColor) override;
+    void OnLoad() override;
 
 public slots:
     void OnButtonClicked(const std::pair<int, int>& position);

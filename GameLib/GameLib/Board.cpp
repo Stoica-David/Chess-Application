@@ -48,7 +48,6 @@ void Board::SetBoard(const String& string)
 			if (isalpha(string[i]))
 			{
 				m_board[line][col] = ProducePiece(string[i]);
-				col++;
 			}
 			else if (isdigit(string[i]))
 			{
@@ -62,7 +61,8 @@ void Board::SetBoard(const String& string)
 
 				col--;
 			}
-			else if (string[i] == '/')
+
+			if (string[i] == '/')
 			{
 				line++;
 				col = 0;
