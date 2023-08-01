@@ -16,6 +16,7 @@ public:
 	MOCK_METHOD(void, OnCheck, (), (override));
 	MOCK_METHOD(void, OnRestart, (), (override));
 	MOCK_METHOD(void, OnPieceCapture, (EPieceType, EColor), (override));
+	MOCK_METHOD(void, OnLoad, (), (override));
 };
 
 
@@ -617,6 +618,33 @@ TEST(RestartMock, RestartDefault)
 	EXPECT_CALL(*mock, OnRestart);
 
 	myGame.Restart();
+
+	myGame.RemoveListener(mock.get());
+}
+
+TEST(PieceCapturedMock, PieceCaptured)
+{
+	CharMatrix m = { {
+	{'r', 'h', 'b', 'q', 'k', 'b', 'h', 'r',},
+	{'p', 'p', 'p', 'p', '-', 'p', 'p', 'p',},
+	{'-', '-', '-', '-', '-', '-', '-', '-',},
+	{'-', '-', '-', '-', 'p', '-', '-', '-',},
+	{'-', '-', '-', 'P', '-', '-', '-', '-',},
+	{'-', '-', '-', '-', '-', '-', '-', '-',},
+	{'P', 'P', 'P', '-', 'P', 'P', 'P', 'P',},
+	{'R', 'H', 'B', 'Q', 'K', 'B', 'H', 'R',},
+	} };
+
+	Game myGame(m, EColor::White, EState::Playing);
+
+	auto mock = std::make_shared<MockGame>();
+
+	myGame.AddListener(mock);
+
+	EXPECT_CALL(*mock, OnPieceCapture(EPieceType::Pawn, EColor::Black));
+	EXPECT_CALL(*mock, OnMove);
+
+	myGame.Move({ 4, 3 }, { 3, 4 });
 
 	myGame.RemoveListener(mock.get());
 }

@@ -699,3 +699,21 @@ TEST(IsPinnedTest, Pin2)
 	EXPECT_EQ(b.IsPinned({ 5,2 }), true);
 	EXPECT_EQ(b.IsPinned({ 5,4 }), false);
 }
+
+TEST(IsPinnedTest, Pin3)
+{
+	CharMatrix m = { {
+	{'r', 'h', 'b', '-', 'k', 'b', 'h', 'r',},
+	{'p', 'p', 'p', 'p', '-', 'p', 'p', 'p',},
+	{'-', '-', '-', '-', 'p', '-', '-', '-',},
+	{'-', '-', '-', '-', '-', '-', '-', '-',},
+	{'-', '-', '-', '-', '-', '-', 'P', 'q',},
+	{'P', '-', '-', '-', '-', '-', '-', '-',},
+	{'-', 'P', 'P', 'P', 'P', 'P', '-', 'P',},
+	{'R', 'H', 'B', 'Q', 'K', 'B', 'H', 'R',},
+	} };
+
+	Board b(m);
+
+	EXPECT_EQ(b.IsPinned({ 6, 5 }), true);
+}
