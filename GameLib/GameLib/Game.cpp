@@ -52,8 +52,9 @@ void Game::Move(Position p1, Position p2)
 			throw TurnException("It's the other player's turn");
 		}
 
-		if (m_gameboard[p2])
-			NotifyCaptured(m_gameboard[p2]->GetType(), m_gameboard[p2]->GetColor());
+		if (nextPiece)
+			NotifyCaptured(nextPiece->GetType(), nextPiece->GetColor());
+
 		m_gameboard.Move(p1, p2);
 
 		if(m_gameboard.IsPromotePossible(p2))
@@ -104,14 +105,7 @@ void Game::ProposeDraw()
 
 void Game::DrawResponse(bool draw)
 {
-	if (draw)
-	{
-		m_state = EState::Draw;
-	}
-	else
-	{
-		m_state = EState::Playing;
-	}
+	m_state = draw ? EState::Draw : EState::Playing;
 }
 
 IPieceInfoPtr Game::GetPieceInfo(Position p) const
@@ -136,7 +130,7 @@ EColor Game::GetTurn() const
 
 bool Game::IsDraw() const
 {
-	return (m_state == EState::Draw);
+	return m_state == EState::Draw;
 }
 
 bool Game::IsOver() const

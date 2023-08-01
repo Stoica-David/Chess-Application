@@ -89,6 +89,8 @@ private:
 	void UpdatePrevPositions();
 	void EnPassant(Position p1, Position p2);
 	void ResetEnPassant();
+	bool IsLeftPassantPossible(Position p1, Position p2) const;
+	bool IsRightPassantPossible(Position p1, Position p2) const;
 
 	Position IntermediatePosition(Position p) const;
 

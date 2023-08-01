@@ -102,6 +102,11 @@ bool Piece::Is(EPieceType type, EColor color) const
 	return m_type == type && m_color == color;
 }
 
+bool Piece::Is(EColor color) const
+{
+	return m_color == color;
+}
+
 bool Piece::SameColor(PiecesPtr piece) const
 {
 	return m_color == piece->m_color;

@@ -39,6 +39,7 @@ public:
 
 	// Other methods
 	bool Is(EPieceType type) const;
+	bool Is(EColor color) const;
 	bool Is(EPieceType type, EColor color) const;
 	bool SameColor(PiecesPtr piece) const;
 	char ConvertPiece() const;
