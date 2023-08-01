@@ -248,6 +248,7 @@ ChessUIQt::ChessUIQt(QWidget* parent)
 	// Layout for the title bar area (containing the custom button)
 	QHBoxLayout* titleBarLayout = new QHBoxLayout();
 	titleBarLayout->setContentsMargins(0, 0, 0, 0);
+	titleBarLayout->addStretch();
 	titleBarLayout->addWidget(customButton, Qt::AlignRight);
 
 	// Create a widget to hold the title bar contents
