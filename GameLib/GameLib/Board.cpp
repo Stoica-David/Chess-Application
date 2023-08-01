@@ -267,12 +267,7 @@ bool Board::IsDraw() const
 		}
 	}
 
-	if (Is3Fold())
-	{
-		return true;
-	}
-
-	return false;
+	return Is3Fold();
 }
 
 bool Board::IsStalemate(EColor color) const
@@ -301,21 +296,10 @@ bool Board::IsStalemate(EColor color) const
 
 bool Board::Is3Fold() const
 {
-	if (!m_prevPositions.size())
-	{
+	if (m_prevPositions.empty())
 		return false;
-	}
 
-	int nrAppearences = 0;
-	for (int i = 0; i < m_prevPositions.size(); i++)
-	{
-		if (m_prevPositions[i] == m_prevPositions[m_prevPositions.size() - 1])
-		{
-			nrAppearences++;
-		}
-	}
-
-	return (nrAppearences == 3);
+	return std::count(m_prevPositions.begin(), m_prevPositions.end(), m_prevPositions.back()) == 3;
 }
 
 bool Board::IsPromotePossible(Position p) const
