@@ -241,13 +241,13 @@ ChessUIQt::ChessUIQt(QWidget* parent)
 
 	// Create a custom button for the title bar area
 	QPushButton* customButton = new QPushButton("Custom Button", this);
-	customButton->setStyleSheet("background-color: #D2C4B5; color: #7A6C5D;");
+	customButton->setStyleSheet("background-color: #D2C4B5; color: #7A6C5D; border: none;");
 	customButton->setFixedHeight(30);
 
 	// Layout for the title bar area (containing the custom button)
 	QHBoxLayout* titleBarLayout = new QHBoxLayout();
 	titleBarLayout->setContentsMargins(0, 0, 0, 0);
-	titleBarLayout->addWidget(customButton);
+	titleBarLayout->addWidget(customButton, Qt::AlignRight);
 	titleBarLayout->addStretch(); // Optional: Add stretch to push the button to the right
 
 	// Create a widget to hold the title bar contents
@@ -273,7 +273,12 @@ ChessUIQt::ChessUIQt(QWidget* parent)
 	setCentralWidget(mainWidget);
 	setMouseTracking(true);
 	setStatusBar(nullptr);
-	removeToolBar(nullptr);
+
+	QList<QToolBar*> toolbars = findChildren<QToolBar*>();
+	for (auto& it : toolbars)
+	{
+		it->hide();
+	}
 }
 
 void ChessUIQt::mousePressEvent(QMouseEvent* event) {
