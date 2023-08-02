@@ -52,10 +52,25 @@ void Game::Move(Position p1, Position p2)
 			throw TurnException("It's the other player's turn");
 		}
 
+		EPieceType type;
+		EColor color;
+		bool pieceCaptured = false;
+
 		if (nextPiece)
-			NotifyCaptured(nextPiece->GetType(), nextPiece->GetColor());
+		{
+			pieceCaptured = true;
+			type = nextPiece->GetType();
+			color = nextPiece->GetColor();
+		}
 
 		m_gameboard.Move(p1, p2);
+
+		currPiece = m_gameboard.GetPiece(p1);
+
+		if (!currPiece && pieceCaptured)
+		{
+			NotifyCaptured(type, color);
+		}
 
 		if (m_gameboard.IsPromotePossible(p2))
 		{
@@ -68,6 +83,7 @@ void Game::Move(Position p1, Position p2)
 		}
 
 		NotifyMove();
+
 
 		if (m_gameboard.IsOver(EColor::White))
 		{
@@ -184,7 +200,7 @@ std::unordered_map<EPieceType, int> Game::PiecesLeft(EColor color)const
 		for (int j = 0; j < 8; j++)
 		{
 			PiecesPtr piece = m_gameboard.GetPiece({ i, j });
-			
+
 			if (piece && piece->GetColor() == color)
 			{
 				leftPieces[piece->GetType()]++;

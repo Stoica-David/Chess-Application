@@ -641,8 +641,8 @@ TEST(PieceCapturedMock, PieceCaptured)
 
 	myGame.AddListener(mock);
 
-	EXPECT_CALL(*mock, OnPieceCapture(EPieceType::Pawn, EColor::Black));
 	EXPECT_CALL(*mock, OnMove);
+	EXPECT_CALL(*mock, OnPieceCapture(EPieceType::Pawn, EColor::Black));
 
 	myGame.Move({ 4, 3 }, { 3, 4 });
 
