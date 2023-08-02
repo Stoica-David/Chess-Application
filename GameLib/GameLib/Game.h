@@ -63,8 +63,6 @@ public:
 
 	std::unordered_map <EPieceType, int> PiecesLeft(EColor)const override;
 
-
-
 private:
 	void SwitchTurn();
 	void UpdateState(EState);

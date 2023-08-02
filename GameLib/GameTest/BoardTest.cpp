@@ -915,7 +915,10 @@ TEST(GetMovesCheckTest, MovesCheck2)
 	EXPECT_EQ(b.GetMovesCheck({ 5, 4 }), moves);
 }
 
+TEST(ParsePGNTest, PGN1)
+{
+	Board b;
+	MoveVector v = { {{6,2}, {4,2}}, {{1,4}, {2,4}}, {{6,5}, {4,5}}, {{1,1}, {2,1}} };
 
-
-
-
+	EXPECT_EQ(b.ParsePGN("1.c4 e6 2.f4 b6 "), v);
+}

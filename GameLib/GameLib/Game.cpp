@@ -350,7 +350,7 @@ void Game::SetGame(const String& string)
 {
 	m_gameboard.SetBoard(string);
 
-	if (string[string.size() - 1] == 'w')
+	if (string[string.size() - 1] == 'w' || string[string.size()] - 1 == ' ')
 	{
 		m_turn = EColor::White;
 	}

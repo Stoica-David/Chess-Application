@@ -2,6 +2,7 @@
 #include "PieceInfo.h"
 #include "BoardExceptions.h"
 #include <sstream>
+#include <regex>
 
 #include <algorithm>
 
@@ -74,11 +75,11 @@ void Board::SetBoard(const String& string)
 				col++;
 			}
 		}
-	}/*
+	}
 	else
 	{
-
-	}*/
+		StartFromPGN(ParsePGN(string));
+	}
 }
 
 IPieceInfoPtr Board::GetPieceInfo(Position p) const
@@ -598,13 +599,13 @@ void Board::Move(Position p1, Position p2)
 	{
 		if (IsCheckMate(OppositeColor(currPiece->GetColor())))
 		{
-			m_PGN.back().pop_back();
-			m_PGN.back() += "# ";
+			m_PGN[m_PGN.size() - 1].pop_back();
+			m_PGN[m_PGN.size() - 1] += "# ";
 		}
 		else if (IsCheck(otherKingPos, OppositeColor(currPiece->GetColor())))
 		{
-			m_PGN.back().pop_back();
-			m_PGN.back() += "+ ";
+			m_PGN[m_PGN.size() - 1].pop_back();
+			m_PGN[m_PGN.size() - 1] += "+ ";
 		}
 	}
 }
@@ -877,6 +878,93 @@ String Board::GeneratePGN() const
 	}
 
 	return PGN;
+}
+
+MoveVector Board::ParsePGN(String PGN) const
+{
+	MoveVector moves;
+
+	PGN = std::regex_replace(PGN, std::regex("\\b\\d+\\.|[+#x]"), "");
+
+	// Define the regex pattern to match the moves in the PGN string
+	std::regex moveRegex(R"(\b([KQRBNP])?([a-h]?[1-8]?)?([x:])?([a-h][1-8])(=?[QRBN]?)?([+#]?)\b|O-O-O|O-O)");
+
+	// Create an iterator to find all matches in the PGN string
+	std::sregex_iterator it(PGN.begin(), PGN.end(), moveRegex);
+	std::sregex_iterator end;
+
+	// Iterate over the matches and extract the required information
+	for (; it != end; ++it) {
+		std::smatch match = *it;
+
+		String moveString = match[0].str();
+		EPieceType type;
+
+		if (moveString[0] > 'h')
+		{
+			type = GetPieceType(moveString[0]);
+		}
+		else
+		{
+			type = EPieceType::Pawn;
+		}
+
+		bool toPromote = false;
+
+		if (strchr("RNBQKrnbqk", moveString.back()))
+		{
+			type = GetPieceType(moveString.back());
+			toPromote = true;
+			moveString.pop_back();
+			moveString.pop_back();
+		}
+
+		int toX, toY, fromX = -1, fromY = -1;
+
+		if (moveString.size() == 4)
+		{
+			fromX = 8 - (moveString[1] - '0');
+			fromY = moveString[0] - 'a';
+
+			toX = 8 - (moveString[3] - '0');
+			toY = moveString[2] - 'a';
+		}
+		else if (moveString.size() == 3)
+		{
+			if (isdigit(moveString[0]))
+			{
+				fromX = 8 - (moveString[0] - '0');
+			}
+			else
+			{
+				fromY = moveString[0] - 'a';
+			}
+
+			toX = 8 - (moveString[2] - '0');
+			toY = moveString[1] - 'a';
+		}
+		else if (moveString.size() == 2)
+		{
+			toX = 8 - (moveString[1] - '0');
+			toY = moveString[0] - 'a';
+		}
+
+		Position prevPos = std::make_pair(fromX, fromY);
+		Position nextPos = std::make_pair(toX, toY);
+		prevPos = FindPrevPos(nextPos, type, prevPos);
+
+		moves.emplace_back(std::make_pair(prevPos, nextPos));
+	}
+
+	return moves;
+}
+
+void Board::StartFromPGN(const MoveVector& PGNMoves)
+{
+	for (int i = 0; i < PGNMoves.size(); i++)
+	{
+		Move(PGNMoves[i].first, PGNMoves[i].second);
+	}
 }
 
 bool Board::PawnGoesDiagonally(Position p1, Position p2) const
@@ -1477,9 +1565,9 @@ String Board::ConvertMove(Position p1, Position p2) const
 			convertedMove.push_back('a' + currY);
 		}
 
-		if (FindSameColumn(p1, p2))
+		if (FindSameColumn(p1, p2) && !m_board[currX][currY]->Is(EPieceType::Pawn))
 		{
-			convertedMove.push_back(currX);
+			convertedMove.push_back('1' + currX);
 		}
 
 		if (m_board[p2.first][p2.second])
@@ -1525,7 +1613,7 @@ bool Board::FindSameLine(Position p1, Position p2) const
 
 bool Board::FindSameColumn(Position p1, Position p2) const
 {
-	int j = p1.first;
+	int j = p1.second;
 	for (int i = 0; i < 8; i++)
 	{
 		if (Position(i, j) != p1 && m_board[i][j] && m_board[i][j]->SameColor(m_board[p1.first][p1.second]) && m_board[i][j]->GetType() == m_board[p1.first][p1.second]->GetType())
@@ -1587,4 +1675,70 @@ EPieceType Board::GetPieceType(char c)
 		return EPieceType::Knight;
 	}
 	}
+}
+
+Position Board::FindPrevPos(Position nextPos, EPieceType type, Position prevPos) const
+{
+	Position toReturnPos;
+
+	if (prevPos.first != -1 && prevPos.second != -1)
+	{
+		return prevPos;
+	}
+	else if (prevPos.first != -1)
+	{
+		for (int i = 0; i < 8; i++)
+		{
+			PiecesPtr currPiece = m_board[prevPos.first][i];
+
+			PositionList moves = GetMoves({prevPos.first, i});
+
+			for (const auto& currMove:moves)
+			{
+				if (currMove == nextPos)
+				{
+					return { prevPos.first, i };
+				}
+			}
+		}
+	}
+	else if (prevPos.second != -1)
+	{
+		for (int i = 0; i < 8; i++)
+		{
+			PiecesPtr currPiece = m_board[i][prevPos.second];
+
+			PositionList moves = GetMoves({ i, prevPos.second });
+
+			for (const auto& currMove : moves)
+			{
+				if (currMove == nextPos)
+				{
+					return { i, prevPos.second };
+				}
+			}
+		}
+	}
+	else
+	{
+		for (int i = 0; i < 8; i++)
+		{
+			for (int j = 0; j < 8; j++)
+			{
+				PiecesPtr currPiece = m_board[i][j];
+
+				PositionList moves = GetMoves({ i, j});
+
+				for (const auto& currMove : moves)
+				{
+					if (currMove == nextPos)
+					{
+						return { i, j };
+					}
+				}
+			}
+		}
+	}
+
+	return toReturnPos;
 }
