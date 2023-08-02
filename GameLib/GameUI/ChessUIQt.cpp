@@ -13,76 +13,35 @@
 #include <array>
 #include <QClipboard>
 
-void InitializeWhite(std::string& m, EPieceType type, Position p)
-
+static char GetCharForType(EPieceType type)
 {
 	switch (type)
 	{
 	case EPieceType::Rook:
-	{
-		m += "\'R\', ";
-		break;
-	}
+		return 'R';
 	case EPieceType::Knight:
-	{
-		m += "\'H\', ";
-		break;
-	}
+		return 'H';
 	case EPieceType::Bishop:
-	{
-		m += "\'B\', ";
-		break;
-	}
+		return 'B';
 	case EPieceType::Queen:
-	{	m += "\'Q\', ";
-	break;
-	}
+		return 'Q';
 	case EPieceType::King:
-	{	m += "\'K\', ";
-	break;
-	}
+		return 'K';
 	case EPieceType::Pawn:
-	{	m += "\'P\', ";
-	break;
+		return 'P';
 	}
-	}
+	return ' ';
 }
 
-
-
-void InitializeBlack(std::string& m, EPieceType type, Position p)
+static char GetPieceChar(EPieceType type, EColor color)
 {
-	switch (type)
-	{
-	case EPieceType::Rook:
-	{
-		m += "\'r\', ";
-		break;
-	}
-	case EPieceType::Knight:
-	{
-		m += "\'h\', ";
-		break;
-	}
-	case EPieceType::Bishop:
-	{
-		m += "\'b\', ";
-		break;
-	}
-	case EPieceType::Queen:
-	{	m += "\'q\', ";
-	break;
-	}
-	case EPieceType::King:
-	{	m += "\'k\', ";
-	break;
-	}
-	case EPieceType::Pawn:
-	{	m += "\'p\', ";
-	break;
-	}
-	}
+	char c = GetCharForType(type);
+	if (color == EColor::Black)
+		c = tolower(c);
+	return c;
 }
+
+
 
 void InitializeExtraInfo(std::string& m, IGamePtr game)
 {
@@ -145,71 +104,41 @@ void InitializeExtraInfo(std::string& m, IGamePtr game)
 	}
 }
 
-void ChessUIQt::UpdateCaptured(std::unordered_map<EPieceType, int> leftPieces, EColor color)
+static int GetDefaultNumberOfPieces(EPieceType type)
 {
-	for (auto type : leftPieces)
+	switch (type)
 	{
-		switch (type.first)
-		{
-		case EPieceType::Bishop:
-		{
-			int missingPieces = 2 - type.second;
-
-			while (missingPieces)
-			{
-				OnPieceCapture(type.first, color);
-				missingPieces--;
-			}
-			break;
-		}
-		case EPieceType::Knight:
-		{
-			int missingPieces = 2 - type.second;
-
-			while (missingPieces)
-			{
-				OnPieceCapture(type.first, color);
-				missingPieces--;
-			}
-
-			break;
-		}
-		case EPieceType::Rook:
-		{
-			int missingPieces = 2 - type.second;
-
-			while (missingPieces)
-			{
-				OnPieceCapture(type.first, color);
-				missingPieces--;
-			}
-
-			break;
-		}
-		case EPieceType::Queen:
-		{
-			int missingPieces = 1 - type.second;
-
-			while (missingPieces)
-			{
-				OnPieceCapture(type.first, color);
-				missingPieces--;
-			}
-
-			break;
-		}
-		case EPieceType::Pawn:
-		{
-			int missingPieces = 8 - type.second;
-
-			while (missingPieces)
-			{
-				OnPieceCapture(type.first, color);
-				missingPieces--;
-			}
-		}
-		}
+	case EPieceType::Rook:
+		return 2;
+	case EPieceType::Knight:
+		return 2;
+	case EPieceType::Bishop:
+		return 2;
+	case EPieceType::Queen:
+		return 1;
+	case EPieceType::King:
+		return 1;
+	case EPieceType::Pawn:
+		return 8;
 	}
+	return 0;
+}
+
+void ChessUIQt::UpdateCaptured(EColor color)
+{
+	auto leftPieces = m_game->PiecesLeft(color);
+	for (auto typeInfo : leftPieces)
+	{
+		if (typeInfo.first == EPieceType::King)
+			continue;
+
+		int missingPieces = GetDefaultNumberOfPieces(typeInfo.first) - typeInfo.second;
+
+		for(int i=0;i<missingPieces;i++)
+		{
+			OnPieceCapture(typeInfo.first, color);
+		}
+	}	
 }
 
 static PieceType GetType(IPieceInfoPtr currPiece)
@@ -659,7 +588,9 @@ void ChessUIQt::OnLoadButtonClicked()
 	m_game->SetGame(dataString);
 	UpdateBoard(GetBoard());
 	m_MovesList->clear();
-	OnLoad();
+
+	UpdateCaptured(EColor::White);
+	UpdateCaptured(EColor::Black);
 
 	if (m_game->GetTurn() == EColor::White)
 	{
@@ -738,27 +669,31 @@ void ChessUIQt::OnCopyButtonClicked()
 			{
 				chessBoard += "\'-\', ";
 				if (j == 7)
-					chessBoard.erase(chessBoard.end() - 1);
+				{
+					chessBoard.pop_back();
+					chessBoard.pop_back();
+				}
 				continue;
 			}
 
-			if (m_game->GetPieceInfo(currPos)->GetColor() == EColor::White)
-			{
-				EPieceType currType = m_game->GetPieceInfo(currPos)->GetType();
+			EPieceType currType = m_game->GetPieceInfo(currPos)->GetType();
+			EColor currentColor = m_game->GetPieceInfo(currPos)->GetColor();
 
-				InitializeWhite(chessBoard, currType, currPos);
-			}
-			else
-			{
-				EPieceType currType = m_game->GetPieceInfo(currPos)->GetType();
+			char c = GetPieceChar(currType, currentColor);
+			chessBoard.insert(chessBoard.length(), 1, '\'');
+			chessBoard.insert(chessBoard.length(), 1, c);
+			chessBoard.append("\', ");
 
-				InitializeBlack(chessBoard, currType, currPos);
-
-			}
 			if (j == 7)
-				chessBoard.erase(chessBoard.end() - 1);
+			{
+				chessBoard.pop_back();
+				chessBoard.pop_back();
+			}
 		}
-		chessBoard += "},\n\t";
+		if (i != 7)
+			chessBoard += "},\n\t";
+		else
+			chessBoard += "}\n\t";
 	}
 	chessBoard += "}};\n\n";
 
@@ -771,27 +706,6 @@ void ChessUIQt::OnCopyButtonClicked()
 	clipboard->setText(qChessBoard);
 
 }
-
-//void ChessUIQt::OnSaveFENButtonClicked()
-//{
-//	QString fileName = QFileDialog::getSaveFileName(this, "Save Text File", "", "Text Files (*.txt)");
-//
-//	if (fileName.isEmpty())
-//		return;
-//
-//	QFile file(fileName);
-//	if (!file.open(QIODevice::WriteOnly | QIODevice::Text))
-//	{
-//		qDebug() << "Error: Could not open the file for writing.";
-//		return;
-//	}
-//
-//	QString data = QString::fromStdString(m_game->GenerateFEN());
-//
-//	QTextStream out(&file);
-//	out << data;
-//	file.close();
-//}
 
 void ChessUIQt::UpdateHistory()
 {
@@ -806,8 +720,6 @@ void ChessUIQt::UpdateHistory()
 	}
 }
 
-
-
 void ChessUIQt::UpdateBoard(const std::array<std::array<std::pair<PieceType, PieceColor>, 8>, 8>& newBoard)
 {
 	for (int i = 0; i < 8; i++) {
@@ -817,7 +729,6 @@ void ChessUIQt::UpdateBoard(const std::array<std::array<std::pair<PieceType, Pie
 			m_grid[i][j]->setHighlighted(false);
 		}
 	}
-
 }
 
 void ChessUIQt::HighlightPossibleMoves(const std::vector<std::pair<int, int>>& possibleMoves)
@@ -962,26 +873,16 @@ void ChessUIQt::OnRestart()
 void ChessUIQt::OnPieceCapture(EPieceType pieceType, EColor pieceColor)
 {
 	qDebug() << (int)pieceColor;
-	QListWidget* playerPieces;
-	pieceColor == EColor::Black ? playerPieces = m_whitePieces : playerPieces = m_blackPieces;
+	
+	QListWidget* playerPieces = pieceColor == EColor::Black ? m_whitePieces : m_blackPieces;
+	
+	static const QString pieces[] = { "r", "h", "b", "q", "k", "p", "empty" };
+	
+	QString imagePath = pieceColor == EColor::Black ? "res/b" : "res/w";
+	imagePath.push_back(pieces[(int)pieceType] + ".png");
 
 	QListWidgetItem* capturedPiece = new QListWidgetItem();
-	QString imagePath;
-	pieceColor == EColor::Black ? imagePath = "res/b" : imagePath = "res/w";
-	QString pieces[] = { "r", "h", "b", "q", "k", "p", "empty" };
-	imagePath.push_back(QString(pieces[(int)pieceType] + ".png"));
-	QPixmap pixmap(imagePath);
-	capturedPiece->setIcon(QIcon(pixmap));
+	capturedPiece->setIcon(QIcon(QPixmap(imagePath)));
 
 	playerPieces->addItem(capturedPiece);
-}
-
-void ChessUIQt::OnLoad()
-{
-	std::unordered_map <EPieceType, int> whitePieces = m_game->PiecesLeft(EColor::White);
-	std::unordered_map <EPieceType, int> blackPieces = m_game->PiecesLeft(EColor::Black);
-
-	UpdateCaptured(whitePieces, EColor::White);
-	UpdateCaptured(blackPieces, EColor::Black);
-
 }
