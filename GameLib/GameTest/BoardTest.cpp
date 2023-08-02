@@ -875,25 +875,25 @@ TEST(IsPromotePossibleTest, Promote2)
 	EXPECT_EQ(b.IsPromotePossible({ 7, 6 }), true);
 }
 
-//TEST(GetMovesCheckTest, MovesCheck1)
-//{
-//	CharMatrix m = { {
-//		{'r', 'h', 'b', '-', 'k', 'b', 'h', 'r'},
-//		{'-', '-', 'p', '-', '-', 'p', 'p', '-'},
-//		{'-', 'p', '-', 'P', 'p', 'q', '-', 'p'},
-//		{'p', '-', '-', '-', 'K', '-', '-', '-'},
-//		{'-', '-', '-', '-', '-', '-', '-', '-'},
-//		{'-', '-', '-', '-', '-', '-', '-', '-'},
-//		{'P', 'P', 'P', 'P', '-', 'P', 'P', 'P'},
-//		{'R', 'H', 'B', 'Q', '-', 'B', 'H', 'R'}
-//		} };
-//
-//	Board b(m);
-//
-//	PositionList moves = { {3, 3}, {4, 4} };
-//
-//	EXPECT_EQ(b.GetMovesCheck({ 3, 4 }), moves);
-//}
+TEST(GetMovesCheckTest, MovesCheck1)
+{
+	CharMatrix m = { {
+		{'r', 'h', 'b', '-', 'k', 'b', 'h', 'r'},
+		{'-', '-', 'p', '-', '-', 'p', 'p', '-'},
+		{'-', 'p', '-', 'P', 'p', 'q', '-', 'p'},
+		{'p', '-', '-', '-', 'K', '-', '-', '-'},
+		{'-', '-', '-', '-', '-', '-', '-', '-'},
+		{'-', '-', '-', '-', '-', '-', '-', '-'},
+		{'P', 'P', 'P', 'P', '-', 'P', 'P', 'P'},
+		{'R', 'H', 'B', 'Q', '-', 'B', 'H', 'R'}
+		} };
+
+	Board b(m);
+
+	PositionList moves = { {4, 4} };
+
+	EXPECT_EQ(b.GetMovesCheck({ 3, 4 }), moves);
+}
 
 TEST(GetMovesCheckTest, MovesCheck2)
 {

@@ -747,7 +747,7 @@ PositionList Board::GetMovesCheck(Position p) const
 
 		for (int i = 0; i < newList.size(); i++)
 		{
-			if (IsCheck(newList[i], currColor))
+			if (IsCheck(newList[i], currColor) || IsSameWay(p, newList[i], currColor))
 			{
 				newList.erase(newList.begin() + i);
 				i--;
