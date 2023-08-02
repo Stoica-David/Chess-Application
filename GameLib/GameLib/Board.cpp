@@ -514,7 +514,7 @@ void Board::Move(Position p1, Position p2)
 		String wholeMove = std::to_string(m_PGN.size() + 1);
 		String move = ConvertMove(p1, p2);
 
-		wholeMove += ". ";
+		wholeMove += ".";
 		wholeMove += move;
 
 		m_PGN.push_back(wholeMove);
@@ -576,14 +576,14 @@ void Board::Move(Position p1, Position p2)
 	{
 		Position leftPos = { p2.first, p2.second - 1 };
 
-		if (LeftPawnCheck(leftPos))
+		if (LeftPawnCheck(p2))
 		{
 			(*this)[leftPos]->SetRightPassant(true);
 		}
 
 		Position rightPos = { p2.first, p2.second + 1 };
 
-		if (RightPawnCheck(rightPos))
+		if (RightPawnCheck(p2))
 		{
 			(*this)[rightPos]->SetLeftPassant(true);
 		}
@@ -1265,9 +1265,6 @@ PositionList Board::GetPassantMoves(Position p) const
 	}
 
 	return enPassantMoves;
-	{
-
-	};
 }
 
 int Board::Find(PieceVector v, EPieceType type) const
