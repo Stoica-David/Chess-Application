@@ -160,6 +160,9 @@ bool Board::IsCheck(Position p, EColor color) const
 
 			PositionList moves = GetMovesNormal({ i, j });
 
+			if (currPiece->Is(EPieceType::Pawn) && PawnGoesDiagonally({ i, j }, p))
+				return true;
+
 			if (std::find(moves.begin(), moves.end(), p) != moves.end())
 			{
 				return true;
@@ -747,6 +750,7 @@ PositionList Board::GetMovesCheck(Position p) const
 			if (IsCheck(newList[i], currColor))
 			{
 				newList.erase(newList.begin() + i);
+				i--;
 			}
 		}
 	}

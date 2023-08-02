@@ -1,17 +1,18 @@
 #include "ChessUIQt.h"
-#include "ChessUIQt.h"
+
+#include "IGame.h"
+#include "BoardExceptions.h"
+#include "GameExceptions.h"
+
 #include <QInputDialog>
 #include <QMessageBox>
 #include <QFileDialog>
 #include <QScrollArea>
 #include <QFileInfo>
 #include <QMouseEvent>
-#include "IGame.h"
-#include "BoardExceptions.h"
-#include "GameExceptions.h"
+#include <QClipboard>
 
 #include <array>
-#include <QClipboard>
 
 static char GetCharForType(EPieceType type)
 {
@@ -41,34 +42,31 @@ static char GetPieceChar(EPieceType type, EColor color)
 	return c;
 }
 
-std::string StateToString(IGamePtr game)
+static std::string StateToString(IGamePtr game)
 {
 	if (game->IsDraw())
-		return "EState::Draw);";
+		return "EState::Draw";
 	if (game->IsDrawProposed())
-		return "EState::DrawIsProposed);";
+		return "EState::DrawIsProposed";
 	if (game->IsOver())
-		return "EState::BlackWon);";
+		return "EState::BlackWon";
 	if (game->IsPromoting())
-		return "EState::ChoosePiece);";
-	return "EState::Playing);";
+		return "EState::ChoosePiece";
+	return "EState::Playing";
 }
 
-std::string ColorToString(IGamePtr game)
+static std::string ColorToString(IGamePtr game)
 {
-	std::string str;
-	if (game->GetTurn() == EColor::Black)
-		str = "EColor::Black, ";
-	else
-		str = "EColor::White, ";
-	return str;
+	return game->GetTurn() == EColor::Black ? "EColor::Black" : "EColor::White";
 }
 
-void InitializeExtraInfo(std::string& m, IGamePtr game)
+void AppendExtraInfo(std::string& m, IGamePtr game)
 {
 	m += "Game g(m, ";
 	m += ColorToString(game);
+	m += ", ";
 	m += StateToString(game);
+	m += ");";
 }
 
 static int GetDefaultNumberOfPieces(EPieceType type)
@@ -101,7 +99,7 @@ void ChessUIQt::UpdateCaptured(EColor color)
 
 		int missingPieces = GetDefaultNumberOfPieces(typeInfo.first) - typeInfo.second;
 
-		for(int i=0;i<missingPieces;i++)
+		for(int i=0; i<missingPieces; i++)
 		{
 			OnPieceCapture(typeInfo.first, color);
 		}
@@ -141,15 +139,7 @@ static PieceColor GetColor(IPieceInfoPtr currPiece)
 		return PieceColor::none;
 	}
 
-	switch (currPiece->GetColor())
-	{
-	case EColor::White:
-		return PieceColor::White;
-	case EColor::Black:
-		return PieceColor::Black;
-	}
-
-	return PieceColor::none;
+	return currPiece->GetColor() == EColor::White ? PieceColor::White : PieceColor::Black;
 }
 
 PairMatrix ChessUIQt::GetBoard() const
@@ -162,20 +152,14 @@ PairMatrix ChessUIQt::GetBoard() const
 		{
 			IPieceInfoPtr currPiece = m_game->GetPieceInfo({ i,j });
 
-			PieceType currType;
-			PieceColor currColor;
-
-			currType = GetType(currPiece);
-			currColor = GetColor(currPiece);
-
-			newMatrix[i][j] = { currType, currColor };
+			newMatrix[i][j] = { GetType(currPiece), GetColor(currPiece) };
 		}
 	}
 
 	return newMatrix;
 }
 
-static char ConvertTile(int x)
+static char ConvertIntToChar(int x)
 {
 	return 'a' + x;
 }
@@ -186,8 +170,7 @@ void ChessUIQt::ApplyButtonStyles(QPushButton* button)
 	button->setStyleSheet("background-color: #7A6C5D; color: white; border-radius: 5px; padding: 5px;");
 
 	// Set the font
-	QFont buttonFont("Arial", 12);
-	button->setFont(buttonFont);
+	button->setFont(QFont("Arial", 12));
 }
 
 ChessUIQt::ChessUIQt(QWidget* parent)
@@ -224,7 +207,6 @@ ChessUIQt::ChessUIQt(QWidget* parent)
 
 	QWidget* mainWidget = new QWidget(this);
 	QGridLayout* mainGridLayout = new QGridLayout();
-
 
 	InitializePlayer(mainGridLayout, EColor::White);
 	InitializePlayer(mainGridLayout, EColor::Black);
@@ -285,18 +267,17 @@ void ChessUIQt::closeWindow()
 void ChessUIQt::InitializeMessage(QGridLayout* mainGridLayout)
 {
 	m_MessageLabel = new QLabel();
-
 	m_MessageLabel->setText("Waiting for white player");
-
 	m_MessageLabel->setAlignment(Qt::AlignCenter);
 	m_MessageLabel->setStyleSheet("font-size: 20px; font-weight: bold; color:#7A6C5D");
+	
 	mainGridLayout->addWidget(m_MessageLabel, 0, 1, 1, 1);
 
 	m_ExceptionLabel = new QLabel();
-
 	m_ExceptionLabel->setText("");
 	m_ExceptionLabel->setAlignment(Qt::AlignCenter);
 	m_ExceptionLabel->setStyleSheet("font-size: 20px; font-weight: bold;");
+	
 	mainGridLayout->addWidget(m_ExceptionLabel, 1, 1, 1, 1);
 }
 
@@ -370,7 +351,6 @@ void ChessUIQt::InitializeHistory(QGridLayout* mainGridLayout)
 	connect(m_MovesList, &QListWidget::itemActivated, this, &ChessUIQt::OnHistoryClicked);
 
 	scrollArea->setWidget(m_MovesList);
-
 	scrollArea->setStyleSheet("background-color: #D2C4B5; height: 30px;");
 
 	mainGridLayout->addWidget(scrollArea, 2, 0, 3, 1);
@@ -383,23 +363,26 @@ void ChessUIQt::InitializeBoard(QGridLayout* mainGridLayout)
 
 	QWidget* board = new QWidget();
 
-	for (int i = 0; i < 8; i++) {
-		for (int j = 0; j < 8; j++) {
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
 			m_grid[i][j] = new GridButton({ i,j }, PieceType::none, PieceColor::none);
 			chessGridLayout->addWidget(m_grid[i][j], i, j, 1, 1);
-			connect(m_grid[i][j], &GridButton::Clicked, this, &ChessUIQt::OnButtonClicked);
+			connect(m_grid[i][j], &GridButton::Clicked, this, &ChessUIQt::GridButtonClicked);
 		}
 	}
 
 	board->setLayout(chessGridLayout);
+	
 	mainGridLayout->addWidget(board, 3, 1, 1, 1);
 }
 
 void ChessUIQt::InitializePlayer(QGridLayout* mainGridLayout, EColor color)
 {
 	QString path, name;
-	color == EColor::Black ? path = "res/black.png" : path = "res/white.png";
-	color == EColor::Black ? name = "Black" : name = "White";
+	path = color == EColor::Black ? "res/black.png" : "res/white.png";
+	name = color == EColor::Black ? "Black" : "White";
 
 	QWidget* player = new QWidget();
 	QGridLayout* playerGrid = new QGridLayout();
@@ -417,18 +400,15 @@ void ChessUIQt::InitializePlayer(QGridLayout* mainGridLayout, EColor color)
 	else
 		m_whitePieces = new QListWidget();
 
-	QListWidget* playerPieces;
-	color == EColor::Black ? playerPieces = m_blackPieces : playerPieces = m_whitePieces;
+	QListWidget* playerPieces = color == EColor::Black ? m_blackPieces : m_whitePieces;
 	playerPieces->setFlow(QListWidget::LeftToRight);
 	playerPieces->setStyleSheet("QListWidget::item, QListWidget{background-color:transparent; border: none;}");
 	playerPieces->setMaximumHeight(20);
 	qDebug() << playerPieces->width();
 
-
 	playerGrid->addWidget(profilePicture, 0, 0, 2, 1);
 	playerGrid->addWidget(profileName, 0, 1, Qt::AlignTop);
 	playerGrid->addWidget(playerPieces, 1, 1, Qt::AlignCenter);
-
 
 	player->setLayout(playerGrid);
 	if (color == EColor::Black)
@@ -437,7 +417,7 @@ void ChessUIQt::InitializePlayer(QGridLayout* mainGridLayout, EColor color)
 		mainGridLayout->addWidget(player, 4, 1, Qt::AlignLeft);
 }
 
-void ChessUIQt::OnButtonClicked(const std::pair<int, int>& position)
+void ChessUIQt::GridButtonClicked(const std::pair<int, int>& position)
 {
 	if (m_game->IsOver() || m_game->IsDraw())
 	{
@@ -446,37 +426,29 @@ void ChessUIQt::OnButtonClicked(const std::pair<int, int>& position)
 
 	m_ExceptionLabel->setText("");
 
-	PositionList nullVector = {};
-
-	int nrMove = 1;
-
 	try
 	{
 		//At second click
 		if (m_selectedCell.has_value())
 		{
+			auto& button = m_grid[m_selectedCell.value().first][m_selectedCell.value().second];
+
 			if (m_selectedCell.value() == position)
 			{
-				m_grid[m_selectedCell.value().first][m_selectedCell.value().second]->setSelected(false);
-				m_selectedCell.reset();
 				UpdateBoard(GetBoard());
 			}
 			else
 			{
 				m_game->Move(m_selectedCell.value(), position);
 
-				if (m_selectedCell.has_value())
-				{
-					m_grid[m_selectedCell.value().first][m_selectedCell.value().second]->setSelected(false);
-					m_selectedCell.reset();
-				}
-
 				UpdateHistory();
 			}
+
+			button->setSelected(false);
+			m_selectedCell.reset();
 		}
 		//At first click
-		else if (m_game->GetPieceInfo(position) && m_game->GetPieceInfo(position)->GetColor() == m_game->GetTurn() && m_game->GetMoves(position) != nullVector) {
-
+		else if (m_game->GetPieceInfo(position) && m_game->GetPieceInfo(position)->GetColor() == m_game->GetTurn() && !m_game->GetMoves(position).empty() ){
 			m_selectedCell = position;
 			m_grid[position.first][position.second]->setSelected(true);
 			HighlightPossibleMoves(m_game->GetMoves(position));
@@ -507,23 +479,10 @@ void ChessUIQt::OnSaveButtonClicked()
 
 	QString extension = QFileInfo(file).suffix();
 
-	QString data;
-
-	if (extension == "fen")
-	{
-		data = QString::fromStdString(m_game->GenerateFEN());
-	}
-	else if(extension == "pgn")
-	{
-		data = QString::fromStdString(m_game->GeneratePGN());
-	}
-	else
-	{
-		data = QString::fromStdString(m_game->GenerateFEN());
-	}
+	String dataStr = extension == "pgn" ? m_game->GeneratePGN() : m_game->GenerateFEN();
 
 	QTextStream out(&file);
-	out << data;
+	out << QString::fromStdString(dataStr);
 	file.close();
 }
 
@@ -577,8 +536,7 @@ void ChessUIQt::OnRestartButtonClicked()
 
 void ChessUIQt::OnDrawButtonClicked()
 {
-	QMessageBox::StandardButton reply;
-	reply = QMessageBox::question(this, "Draw proposal", "Do you accept a draw?", QMessageBox::Yes | QMessageBox::No);
+	QMessageBox::StandardButton reply = QMessageBox::question(this, "Draw proposal", "Do you accept a draw?", QMessageBox::Yes | QMessageBox::No);
 
 	if (reply == QMessageBox::Yes)
 	{
@@ -613,34 +571,33 @@ void ChessUIQt::OnHistoryClicked(QListWidgetItem* item)
 
 		m_game->Move(start, end);
 
-		QString itemText = QString("%1. %2%3 \t %4%5").arg(i + 1).arg(ConvertTile(newHistory[i].first.second)).arg(8 - newHistory[i].first.first).arg(ConvertTile(newHistory[i].second.second)).arg(8 - newHistory[i].second.first);
+		QString itemText = QString("%1. %2%3 \t %4%5")
+			.arg(i + 1)
+			.arg(ConvertIntToChar(start.second))
+			.arg(8 - start.first)
+			.arg(ConvertIntToChar(end.second))
+			.arg(8 - end.first);
 
 		m_MovesList->addItem(new QListWidgetItem(itemText));
 	}
-
-	UpdateHistory();
 }
 
-void ChessUIQt::OnCopyButtonClicked()
+std::string GenerateStringBoard(IGamePtr m_game)
 {
 	std::string chessBoard = "CharMatrix m = { {\n";
 
 	for (int i = 0; i < 8; i++)
 	{
-		chessBoard += '{';
+		chessBoard += "\t{";
 		for (int j = 0; j < 8; j++)
 		{
 			Position currPos = { i, j };
 
 			if (!m_game->GetPieceInfo(currPos))
 			{
-				chessBoard += "\'-\', ";
-
-				if (j == 7)
-				{
-					chessBoard.pop_back();
-					chessBoard.pop_back();
-				}
+				chessBoard += "\'-\'";
+				if (j != 7)
+					chessBoard.append(", ");
 				continue;
 			}
 
@@ -650,29 +607,28 @@ void ChessUIQt::OnCopyButtonClicked()
 			char c = GetPieceChar(currType, currentColor);
 			chessBoard.insert(chessBoard.length(), 1, '\'');
 			chessBoard.insert(chessBoard.length(), 1, c);
-			chessBoard.append("\', ");
-
-			if (j == 7)
-			{
-				chessBoard.pop_back();
-				chessBoard.pop_back();
-			}
+			chessBoard.append("\'");
+			if (j != 7)
+				chessBoard.append(", ");
 		}
 		if (i != 7)
-			chessBoard += "},\n\t";
+			chessBoard += "},\n";
 		else
 			chessBoard += "}\n\t";
 	}
 	chessBoard += "}};\n\n";
 
-	InitializeExtraInfo(chessBoard, m_game);
+	AppendExtraInfo(chessBoard, m_game);
 
-	QString qChessBoard = QString::fromStdString(chessBoard);
+	return chessBoard;
+}
+
+void ChessUIQt::OnCopyButtonClicked()
+{
+	QString qChessBoard = QString::fromStdString(GenerateStringBoard(m_game));
 
 	QClipboard* clipboard = QApplication::clipboard();
-
 	clipboard->setText(qChessBoard);
-
 }
 
 void ChessUIQt::UpdateHistory()
@@ -682,16 +638,23 @@ void ChessUIQt::UpdateHistory()
 	MoveVector newHistory = m_game->GetHistory();
 
 	for (int i = 0; i < newHistory.size(); i++) {
-		QString itemText = QString("%1. %2%3 \t %4%5").arg(i + 1).arg(ConvertTile(newHistory[i].first.second)).arg(8 - newHistory[i].first.first).arg(ConvertTile(newHistory[i].second.second)).arg(8 - newHistory[i].second.first);
+		QString itemText = QString("%1. %2%3 \t %4%5")
+			.arg(i + 1)
+			.arg(ConvertIntToChar(newHistory[i].first.second))
+			.arg(8 - newHistory[i].first.first)
+			.arg(ConvertIntToChar(newHistory[i].second.second))
+			.arg(8 - newHistory[i].second.first);
 
 		m_MovesList->addItem(new QListWidgetItem(itemText));
 	}
 }
 
-void ChessUIQt::UpdateBoard(const std::array<std::array<std::pair<PieceType, PieceColor>, 8>, 8>& newBoard)
+void ChessUIQt::UpdateBoard(const PairMatrix& newBoard)
 {
-	for (int i = 0; i < 8; i++) {
-		for (int j = 0; j < 8; j++) {
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
 			m_grid[i][j]->setPiece(newBoard[i][j]);
 			m_grid[i][j]->setSelected(false);
 			m_grid[i][j]->setHighlighted(false);
@@ -701,7 +664,8 @@ void ChessUIQt::UpdateBoard(const std::array<std::array<std::pair<PieceType, Pie
 
 void ChessUIQt::HighlightPossibleMoves(const std::vector<std::pair<int, int>>& possibleMoves)
 {
-	for (const auto& position : possibleMoves) {
+	for (const auto& position : possibleMoves)
+	{
 		m_grid[position.first][position.second]->setHighlighted(true);
 	}
 }
@@ -733,13 +697,13 @@ static EPieceType ConvertToEnum(const std::string& pieceType)
 
 void ChessUIQt::ShowPromoteOptions()
 {
-	QInputDialog dialog;
 	QList<QString> options;
 	options.append("Rook");
 	options.append("Bishop");
 	options.append("Queen");
 	options.append("Knight");
 
+	QInputDialog dialog;
 	dialog.setComboBoxItems(options);
 	dialog.setModal(true);
 
@@ -778,17 +742,15 @@ void ChessUIQt::OnMove()
 
 void ChessUIQt::OnGameOver(EOverState state)
 {
-	QMessageBox::StandardButton wonMessage;
-
 	if (state == EOverState::WhiteWon)
 	{
-		wonMessage = QMessageBox::information(this, "End!", " White player won!");
+		QMessageBox::information(this, "End!", " White player won!");
 
 		m_MessageLabel->setText("White player won!");
 	}
 	else if (state == EOverState::BlackWon)
 	{
-		wonMessage = QMessageBox::information(this, "End!", " Black player won!");
+		QMessageBox::information(this, "End!", " Black player won!");
 
 		m_MessageLabel->setText("Black player won!");
 	}
@@ -796,9 +758,7 @@ void ChessUIQt::OnGameOver(EOverState state)
 	{
 		m_game->DrawResponse(true);
 
-		QMessageBox::StandardButton drawMessage;
-
-		drawMessage = QMessageBox::information(this, "Draw!", " The game concluded as a draw!");
+		QMessageBox::information(this, "Draw!", " The game concluded as a draw!");
 
 		m_MessageLabel->setText("Draw!");
 	}
@@ -818,9 +778,7 @@ void ChessUIQt::OnCheck()
 {
 	if (m_game->IsCheck())
 	{
-		QMessageBox::StandardButton checkMessage;
-
-		checkMessage = QMessageBox::information(this, "Check!", " The king is in check!");
+		QMessageBox::information(this, "Check!", " The king is in check!");
 
 		m_MessageLabel->setText("Check!");
 	}
@@ -830,11 +788,14 @@ void ChessUIQt::OnRestart()
 {
 	m_MessageLabel->setText("Waiting for white player");
 	m_ExceptionLabel->setText("");
+	
 	m_MovesList->clear();
+	
 	m_whitePieces->clear();
 	m_blackPieces->clear();
 
 	m_MovesList->setEditTriggers(QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked);
+	
 	StartGame();
 }
 

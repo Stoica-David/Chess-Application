@@ -1,28 +1,22 @@
 #pragma once
 
-#include <QtWidgets/QMainWindow>
+#include "IGame.h"
+
 #include "ui_ChessUIQt.h"
 #include "GridButton.h"
+
+#include <QtWidgets/QMainWindow>
 #include <QtWidgets/qgridlayout.h>
 #include <QPushButton>
 #include <QLabel>
 #include <QListWidget>
 
-#include "IGame.h"
-
-using PairMatrix = std::array<std::array<std::pair<PieceType, PieceColor>, 8>, 8>;
+using PieceTypeColor = std::pair<PieceType, PieceColor>;
+using PairMatrix = std::array<std::array<PieceTypeColor, 8>, 8>;
 
 class ChessUIQt : public QMainWindow, public IGameListener
 {
     Q_OBJECT
-
-private:
-    PairMatrix GetBoard() const;
-    void ApplyButtonStyles(QPushButton* button);
-    void minimizeWindow();
-    void closeWindow();
-    void mousePressEvent(QMouseEvent* event);
-    void mouseMoveEvent(QMouseEvent* event);
 
 public:
     ChessUIQt(QWidget *parent = nullptr);
@@ -41,7 +35,7 @@ public:
     void UpdateCaptured(EColor color);
 
     //Modify if necessary with your board representation
-    void UpdateBoard(const std::array<std::array<std::pair<PieceType, PieceColor>, 8>, 8>& newBoard);
+    void UpdateBoard(const PairMatrix& newBoard);
     //Modify if necessary with your possible moves representation
     void HighlightPossibleMoves(const std::vector<std::pair<int, int>>& possibleMoves);
     //Modify or delete
@@ -58,7 +52,7 @@ public:
     void OnPieceCapture(EPieceType, EColor) override;
 
 public slots:
-    void OnButtonClicked(const std::pair<int, int>& position);
+    void GridButtonClicked(const std::pair<int, int>& position);
 
     void OnCopyButtonClicked();
     void OnLoadButtonClicked();
@@ -66,10 +60,17 @@ public slots:
     void OnDrawButtonClicked();
     void OnHistoryClicked(QListWidgetItem* item);
     void OnSaveButtonClicked();
-    
 
 signals:
     void Exit();
+
+private:
+	PairMatrix GetBoard() const;
+	void ApplyButtonStyles(QPushButton* button);
+	void minimizeWindow();
+	void closeWindow();
+	void mousePressEvent(QMouseEvent* event);
+    void mouseMoveEvent(QMouseEvent* event);
 
 private:
     Ui::ChessUIQtClass ui;
