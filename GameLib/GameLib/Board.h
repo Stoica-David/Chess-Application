@@ -96,7 +96,8 @@ private:
 	Position IntermediatePosition(Position p) const;
 
 	String ConvertMove(Position p1, Position p2) const;
-	bool FindOtherPieceAttacking(Position p1, Position p2) const;
+	bool FindSameLine(Position p1, Position p2) const;
+	bool FindSameColumn(Position p1, Position p2) const;
 
 	static PiecesPtr ProducePiece(char c);
 	static EPieceType GetPieceType(char c);

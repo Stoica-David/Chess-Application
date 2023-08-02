@@ -595,13 +595,13 @@ void Board::Move(Position p1, Position p2)
 	{
 		if (IsCheckMate(OppositeColor(currPiece->GetColor())))
 		{
-			m_PGN[m_PGN.size() - 1].pop_back();
-			m_PGN[m_PGN.size() - 1] += "# ";
+			m_PGN.back().pop_back();
+			m_PGN.back() += "# ";
 		}
 		else if (IsCheck(otherKingPos, OppositeColor(currPiece->GetColor())))
 		{
-			m_PGN[m_PGN.size() - 1].pop_back();
-			m_PGN[m_PGN.size() - 1] += "+ ";
+			m_PGN.back().pop_back();
+			m_PGN.back() += "+ ";
 		}
 	}
 }
@@ -1468,9 +1468,14 @@ String Board::ConvertMove(Position p1, Position p2) const
 			break;
 		}
 
-		if (FindOtherPieceAttacking(p1, p2))
+		if (FindSameLine(p1, p2))
 		{
 			convertedMove.push_back('a' + currY);
+		}
+
+		if (FindSameColumn(p1, p2))
+		{
+			convertedMove.push_back(currX);
 		}
 
 		if (m_board[p2.first][p2.second])
@@ -1492,28 +1497,46 @@ String Board::ConvertMove(Position p1, Position p2) const
 	return convertedMove;
 }
 
-bool Board::FindOtherPieceAttacking(Position p1, Position p2) const
+bool Board::FindSameLine(Position p1, Position p2) const
 {
-	for (int i = 0; i < 8; i++)
+	int i = p1.first;
+	for (int j = 0; j < 8; j++)
 	{
-		for (int j = 0; j < 8; j++)
+		if (Position(i, j) != p1 && m_board[i][j] && m_board[i][j]->SameColor(m_board[p1.first][p1.second]) && m_board[i][j]->GetType() == m_board[p1.first][p1.second]->GetType())
 		{
-			if (Position(i, j) != p1 && m_board[i][j] && m_board[i][j]->SameColor(m_board[p1.first][p1.second]) && m_board[i][j]->GetType() == m_board[p1.first][p1.second]->GetType())
-			{
-				PositionList currMoves = GetMoves({ i, j });
+			PositionList currMoves = GetMoves({ i, j });
 
-				for (int k = 0; k < currMoves.size(); k++)
+			for (int k = 0; k < currMoves.size(); k++)
+			{
+				if (currMoves[k] == p2)
 				{
-					if (currMoves[k] == p2)
-					{
-						return true;
-					}
+					return true;
 				}
 			}
 		}
 	}
 
 	return false;
+}
+
+bool Board::FindSameColumn(Position p1, Position p2) const
+{
+	int j = p1.first;
+	for (int i = 0; i < 8; i++)
+	{
+		if (Position(i, j) != p1 && m_board[i][j] && m_board[i][j]->SameColor(m_board[p1.first][p1.second]) && m_board[i][j]->GetType() == m_board[p1.first][p1.second]->GetType())
+		{
+			PositionList currMoves = GetMoves({ i, j });
+
+			for (int k = 0; k < currMoves.size(); k++)
+			{
+				if (currMoves[k] == p2)
+				{
+					return true;
+				}
+			}
+		}
+	}
 }
 
 PiecesPtr Board::ProducePiece(char c)
