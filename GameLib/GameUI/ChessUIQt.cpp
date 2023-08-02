@@ -41,67 +41,34 @@ static char GetPieceChar(EPieceType type, EColor color)
 	return c;
 }
 
+std::string StateToString(IGamePtr game)
+{
+	if (game->IsDraw())
+		return "EState::Draw);";
+	if (game->IsDrawProposed())
+		return "EState::DrawIsProposed);";
+	if (game->IsOver())
+		return "EState::BlackWon);";
+	if (game->IsPromoting())
+		return "EState::ChoosePiece);";
+	return "EState::Playing);";
+}
 
+std::string ColorToString(IGamePtr game)
+{
+	std::string str;
+	if (game->GetTurn() == EColor::Black)
+		str = "EColor::Black, ";
+	else
+		str = "EColor::White, ";
+	return str;
+}
 
 void InitializeExtraInfo(std::string& m, IGamePtr game)
 {
-	if (game->GetTurn() == EColor::Black)
-	{
-		if (game->IsDraw())
-		{
-			m += "Game g(m, EColor::Black, EState::Draw);";
-			return;
-		}
-
-		if (game->IsDrawProposed())
-		{
-			m += "Game g(m, EColor::Black, EState::DrawIsProposed);";
-			return;
-		}
-
-		if (game->IsOver())
-		{
-			m += "Game g(m, EColor::Black, EState::BlackWon);";
-			return;
-		}
-
-		if (game->IsPromoting())
-		{
-			m += "Game g(m, EColor::Black, EState::ChoosePiece);";
-			return;
-		}
-
-		m += "Game g(m, EColor::Black, EState::Playing);";
-	}
-
-	if (game->GetTurn() == EColor::White)
-	{
-		if (game->IsDraw())
-		{
-			m += "Game g(m, EColor::White, EState::Draw);";
-			return;
-		}
-
-		if (game->IsDrawProposed())
-		{
-			m += "Game g(m, EColor::White, EState::DrawIsProposed);";
-			return;
-		}
-
-		if (game->IsOver())
-		{
-			m += "Game g(m, EColor::White, EState::WhiteWon);";
-			return;
-		}
-
-		if (game->IsPromoting())
-		{
-			m += "Game g(m, EColor::White, EState::ChoosePiece);";
-			return;
-		}
-
-		m += "Game g(m, EColor::White, EState::Playing);";
-	}
+	m += "Game g(m, ";
+	m += ColorToString(game);
+	m += StateToString(game);
 }
 
 static int GetDefaultNumberOfPieces(EPieceType type)
@@ -668,6 +635,7 @@ void ChessUIQt::OnCopyButtonClicked()
 			if (!m_game->GetPieceInfo(currPos))
 			{
 				chessBoard += "\'-\', ";
+
 				if (j == 7)
 				{
 					chessBoard.pop_back();
