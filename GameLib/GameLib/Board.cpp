@@ -1624,6 +1624,8 @@ bool Board::FindSameColumn(Position p1, Position p2) const
 			}
 		}
 	}
+
+	return false;
 }
 
 PiecesPtr Board::ProducePiece(char c)

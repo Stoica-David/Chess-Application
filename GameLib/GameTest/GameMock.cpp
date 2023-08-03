@@ -558,7 +558,6 @@ TEST(ChoosePieceMock, Choose3)
 
 	EXPECT_CALL(*mock, OnChoosePiece());
 	EXPECT_CALL(*mock, OnMove());
-	EXPECT_CALL(*mock, OnGameOver(EOverState::WhiteWon));
 
 	myGame.Move({ 1,3 }, { 0,3 });
 	myGame.PromoteTo(EPieceType::Queen);

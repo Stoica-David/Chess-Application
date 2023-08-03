@@ -168,17 +168,6 @@ void Game::PromoteTo(EPieceType pieceType)
 {
 	m_gameboard.PromoteTo(pieceType, m_turn);
 
-	if (m_gameboard.IsCheckMate(EColor::White))
-	{
-		UpdateState(EState::BlackWon);
-		NotifyGameOver(EOverState::BlackWon);
-	}
-	else if (m_gameboard.IsCheckMate(EColor::Black))
-	{
-		UpdateState(EState::WhiteWon);
-		NotifyGameOver(EOverState::WhiteWon);
-	}
-
 	UpdateState(EState::Playing);
 	SwitchTurn();
 }
