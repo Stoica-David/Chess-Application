@@ -534,7 +534,7 @@ void ChessUIQt::OnLoadButtonClicked()
 	{
 		OnGameOver(EOverState::Draw);
 	}
-	if (m_game->IsOver())
+	else if (m_game->IsOver())
 	{
 		EOverState whoWon = m_game->GetTurn() == EColor::White ? EOverState::WhiteWon : EOverState::BlackWon;
 
