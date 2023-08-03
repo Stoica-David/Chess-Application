@@ -11,6 +11,9 @@
 #include <QFileInfo>
 #include <QMouseEvent>
 #include <QClipboard>
+#include <QIcon>
+#include <QEvent>
+
 
 #include <array>
 
@@ -184,27 +187,6 @@ ChessUIQt::ChessUIQt(QWidget* parent)
 	// Apply stylesheet to change the background color of the main window
 	setStyleSheet("background-color: #F8FFE5;");
 
-	// Create a custom button for the title bar area
-	QPushButton* customButton = new QPushButton("Custom Button", this);
-	customButton->setStyleSheet("background-color: #D2C4B5; color: #7A6C5D; border: none;");
-	customButton->setFixedHeight(30);
-
-	QSizePolicy policy = customButton->sizePolicy();
-	policy.setHorizontalPolicy(QSizePolicy::Fixed);
-	customButton->setSizePolicy(policy);
-
-	// Layout for the title bar area (containing the custom button)
-	QHBoxLayout* titleBarLayout = new QHBoxLayout();
-	titleBarLayout->setContentsMargins(0, 0, 0, 0);
-	titleBarLayout->addStretch();
-	titleBarLayout->addWidget(customButton, Qt::AlignRight);
-
-	// Create a widget to hold the title bar contents
-	QWidget* titleBarWidget = new QWidget();
-	titleBarWidget->setLayout(titleBarLayout);
-
-	setMenuWidget(titleBarWidget);
-
 	QWidget* mainWidget = new QWidget(this);
 	QGridLayout* mainGridLayout = new QGridLayout();
 
@@ -215,6 +197,7 @@ ChessUIQt::ChessUIQt(QWidget* parent)
 	InitializeButtons(mainGridLayout);
 	InitializeTimers(mainGridLayout);
 	InitializeHistory(mainGridLayout);
+	InitializeTabBar(mainGridLayout);
 
 	mainWidget->setLayout(mainGridLayout);
 
@@ -267,14 +250,17 @@ void ChessUIQt::InitializeMessage(QGridLayout* mainGridLayout)
 	m_MessageLabel->setAlignment(Qt::AlignCenter);
 	m_MessageLabel->setStyleSheet("font-size: 20px; font-weight: bold; color:#7A6C5D");
 
-	mainGridLayout->addWidget(m_MessageLabel, 0, 1, 1, 1);
-
 	m_ExceptionLabel = new QLabel();
 	m_ExceptionLabel->setText("");
 	m_ExceptionLabel->setAlignment(Qt::AlignCenter);
 	m_ExceptionLabel->setStyleSheet("font-size: 20px; font-weight: bold;");
 
-	mainGridLayout->addWidget(m_ExceptionLabel, 1, 1, 1, 1);
+	QVBoxLayout* messageLayout = new QVBoxLayout();  // Create a vertical layout
+	messageLayout->addWidget(m_MessageLabel);
+	messageLayout->addWidget(m_ExceptionLabel);
+	messageLayout->setContentsMargins(0, 0, 0, 0); // Optionally set layout margins
+
+	mainGridLayout->addLayout(messageLayout, 0, 1, 2, 1);  // Add the layout to the grid
 }
 
 void ChessUIQt::InitializeButtons(QGridLayout* mainGridLayout)
@@ -308,6 +294,12 @@ void ChessUIQt::InitializeButtons(QGridLayout* mainGridLayout)
 	ApplyButtonStyles(restartButton);
 	ApplyButtonStyles(drawButton);
 	ApplyButtonStyles(copyButton);
+
+	saveButton->installEventFilter(this);
+	copyButton->installEventFilter(this);
+	loadButton->installEventFilter(this);
+	restartButton->installEventFilter(this);
+	drawButton->installEventFilter(this);
 }
 
 void ChessUIQt::InitializeTimers(QGridLayout* mainGridLayout)
@@ -333,9 +325,12 @@ void ChessUIQt::InitializeTimers(QGridLayout* mainGridLayout)
 	timerGrid->addWidget(m_WhiteTimer, 0, 4);
 
 	timerContainer->setLayout(timerGrid);
-	mainGridLayout->addWidget(timerContainer, 5, 0, 1, 2, Qt::AlignCenter);
+	mainGridLayout->addWidget(timerContainer, 6, 0, 1, 2, Qt::AlignCenter);
 
 	ApplyButtonStyles(pauseTimerBtn);
+
+	pauseTimerBtn->installEventFilter(this);
+	//whiteTimerLbl->installEventFilter(this);
 }
 
 void ChessUIQt::InitializeHistory(QGridLayout* mainGridLayout)
@@ -349,7 +344,7 @@ void ChessUIQt::InitializeHistory(QGridLayout* mainGridLayout)
 	scrollArea->setWidget(m_MovesList);
 	scrollArea->setStyleSheet("background-color: #D2C4B5; height: 30px;");
 
-	mainGridLayout->addWidget(scrollArea, 2, 0, 3, 1);
+	mainGridLayout->addWidget(scrollArea, 3, 0, 3, 1);
 }
 
 
@@ -371,7 +366,7 @@ void ChessUIQt::InitializeBoard(QGridLayout* mainGridLayout)
 
 	board->setLayout(chessGridLayout);
 
-	mainGridLayout->addWidget(board, 3, 1, 1, 1);
+	mainGridLayout->addWidget(board, 4, 1, 1, 1);
 }
 
 void ChessUIQt::InitializePlayer(QGridLayout* mainGridLayout, EColor color)
@@ -408,9 +403,49 @@ void ChessUIQt::InitializePlayer(QGridLayout* mainGridLayout, EColor color)
 
 	player->setLayout(playerGrid);
 	if (color == EColor::Black)
-		mainGridLayout->addWidget(player, 2, 1, Qt::AlignLeft);
+		mainGridLayout->addWidget(player, 3, 1, Qt::AlignLeft);
 	else
-		mainGridLayout->addWidget(player, 4, 1, Qt::AlignLeft);
+		mainGridLayout->addWidget(player, 5, 1, Qt::AlignLeft);
+}
+
+void ChessUIQt::InitializeTabBar(QGridLayout* mainGridLayout)
+{
+
+	QIcon closeIcon("res/close.png");
+	QIcon minimizeIcon("res/minimize.png");
+
+	closeButton = new QPushButton(closeIcon, "", this);
+	closeButton->setStyleSheet("background-color: #D2C4B5; color: #7A6C5D; border: none;");
+	closeButton->setFixedHeight(30);
+	closeButton->setFixedWidth(30);
+	closeButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+
+	 //Create minimize button
+	minimizeButton = new QPushButton(minimizeIcon, "", this);
+	minimizeButton->setStyleSheet("background-color: #D2C4B5; color: #7A6C5D; border: none;");
+	minimizeButton->setFixedHeight(30);
+	minimizeButton->setFixedWidth(30);
+	minimizeButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+
+	 //Layout for the title bar area (containing the buttons)
+	QHBoxLayout* titleBarLayout = new QHBoxLayout();
+	titleBarLayout->setContentsMargins(0, 0, 0, 0);
+	titleBarLayout->addStretch();
+	titleBarLayout->addWidget(minimizeButton, Qt::AlignRight);
+	titleBarLayout->addWidget(closeButton, Qt::AlignRight);
+
+	 //Create a widget to hold the title bar contents
+	QWidget* titleBarWidget = new QWidget();
+	titleBarWidget->setLayout(titleBarLayout);
+
+	setMenuWidget(titleBarWidget);
+
+	connect(closeButton, &QPushButton::pressed, this, &QMainWindow::close);
+	connect(minimizeButton, &QPushButton::pressed, this, &QMainWindow::showMinimized);
+
+	closeButton->installEventFilter(this);
+	minimizeButton->installEventFilter(this);
+
 }
 
 void ChessUIQt::GridButtonClicked(const std::pair<int, int>& position)
@@ -831,4 +866,43 @@ void ChessUIQt::OnPieceCapture(EPieceType pieceType, EColor pieceColor)
 	capturedPiece->setIcon(QIcon(QPixmap(imagePath)));
 
 	playerPieces->addItem(capturedPiece);
+}
+
+bool ChessUIQt::eventFilter(QObject* obj, QEvent* event)
+{
+	if (event->type() == QEvent::Enter)
+	{
+		// Mouse entered the button, apply hover effect
+		//if (obj.isButton())
+
+		if (auto button = qobject_cast<QPushButton*>(obj))
+		{
+			if (button == closeButton || button == minimizeButton)
+			{
+				button->setStyleSheet("background-color: #E8E5DA; color: #E8E5DA; border: none;");
+			}
+			else
+			{
+				button->setStyleSheet("background-color: #BCAC9B; color: white; border-radius: 5px; padding: 5px;");
+			}
+		}
+	}
+	else if (event->type() == QEvent::Leave)
+	{
+		// Mouse left the button, remove hover effect
+	
+			if (QPushButton* button = qobject_cast<QPushButton*>(obj))
+			{
+				if (button == closeButton || button == minimizeButton)
+				{
+					button->setStyleSheet("background-color: #D2C4B5; color: #7A6C5D; border: none;");
+				}
+				else
+				{
+					ApplyButtonStyles(button);
+				}
+			}
+	}
+
+	return false; // Continue normal event processing
 }

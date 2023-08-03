@@ -28,6 +28,9 @@ public:
     void InitializeHistory(QGridLayout* mainGridLayout);
     void InitializeBoard(QGridLayout* mainGridLayout);
     void InitializePlayer(QGridLayout* mainGridLayout, EColor);
+    void InitializeTabBar(QGridLayout* mainGridLayout);
+
+    bool eventFilter(QObject* obj, QEvent* event);
 
     //Modify if necessary with your history representation
     void UpdateHistory();
@@ -75,6 +78,8 @@ private:
     Ui::ChessUIQtClass ui;
     std::array<std::array<GridButton*, 8>, 8> m_grid;
     std::optional<std::pair<int, int>> m_selectedCell;
+    QPushButton* closeButton;
+    QPushButton* minimizeButton;
     QLabel* m_MessageLabel;
     QLabel* m_ExceptionLabel;
     QListWidget* m_MovesList;
