@@ -411,6 +411,11 @@ void ChessUIQt::InitializePlayer(QGridLayout* mainGridLayout, EColor color)
 void ChessUIQt::InitializeTabBar(QGridLayout* mainGridLayout)
 {
 
+	QLabel* messageLabel = new QLabel();
+	messageLabel->setText("SucChess");
+	messageLabel->setAlignment(Qt::AlignCenter);
+	messageLabel->setStyleSheet("font-size: 20px; font-weight: bold; color:#7A6C5D");
+
 	QIcon closeIcon("res/close.png");
 	QIcon minimizeIcon("res/minimize.png");
 
@@ -431,6 +436,7 @@ void ChessUIQt::InitializeTabBar(QGridLayout* mainGridLayout)
 	QHBoxLayout* titleBarLayout = new QHBoxLayout();
 	titleBarLayout->setContentsMargins(0, 0, 0, 0);
 	titleBarLayout->addStretch();
+	titleBarLayout->addWidget(messageLabel, Qt::AlignAbsolute);
 	titleBarLayout->addWidget(minimizeButton, Qt::AlignRight);
 	titleBarLayout->addWidget(closeButton, Qt::AlignRight);
 
