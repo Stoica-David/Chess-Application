@@ -939,24 +939,6 @@ TEST(ParsePGNTest, PGN3)
 	EXPECT_NO_THROW(b.ParsePGN("1.d4 Nf6 2.h4 e6 3.h5 Ba3 4.h6 O-O "), v);
 }
 
-//TEST(EnPassantTest, Passant1)
-//{
-//	CharMatrix m = { {
-//	{'r', 'h', 'b', 'q', 'k', 'b', 'h', 'r'},
-//	{'p', 'p', 'p', 'p', '-', 'p', 'p', 'p'},
-//	{'-', '-', '-', '-', '-', '-', '-', '-'},
-//	{'-', '-', '-', '-', '-', '-', '-', '-'},
-//	{'-', '-', '-', 'P', 'p', '-', '-', '-'},
-//	{'P', '-', 'H', '-', '-', '-', '-', '-'},
-//	{'-', 'P', 'P', '-', 'P', 'P', 'P', 'P'},
-//	{'R', '-', 'B', 'Q', 'K', 'B', 'H', 'R'}
-//	}};
-//
-//	Board b(m);
-//
-//	EXPECT_NO_THROW(b.Move({ 4, 4 }, { 5, 3 }));
-//}
-
 TEST(CastelingTest, Casteling1)
 {
 	CharMatrix m = { {
@@ -1070,4 +1052,23 @@ TEST(GeneratePGNTest, PGN1)
 	}
 
 	EXPECT_EQ(b.GeneratePGN(), "1.c4 d5 2.cxd5 c6 3.dxc6 b6 4.c7 b5 5.Qa4 Nc6 *");
+}
+
+TEST(EnPassantTest, Passant1)
+{
+	CharMatrix m = { {
+	{'r', 'h', 'b', 'q', 'k', 'b', 'h', 'r'},
+	{'p', 'p', 'p', 'p', '-', 'p', 'p', 'p'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', 'p', '-', '-', '-'},
+	{'P', '-', 'H', '-', '-', '-', '-', '-'},
+	{'-', 'P', 'P', 'P', 'P', 'P', 'P', 'P'},
+	{'R', '-', 'B', 'Q', 'K', 'B', 'H', 'R'}
+	}};
+
+	Board b(m);
+
+	EXPECT_NO_THROW(b.Move({ 6, 3 }, { 4, 3 }));
+	EXPECT_NO_THROW(b.Move({ 4, 4 }, { 5, 3 }));
 }

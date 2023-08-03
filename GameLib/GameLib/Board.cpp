@@ -175,7 +175,7 @@ bool Board::IsCheck(Position p, EColor color) const
 
 			if (std::find(moves.begin(), moves.end(), p) != moves.end())
 			{
-				if (!currPiece->Is(EPieceType::Pawn) || PawnGoesDiagonally({i,j}, p))
+				if (!currPiece->Is(EPieceType::Pawn) || PawnGoesDiagonally({ i,j }, p))
 				{
 					return true;
 				}
@@ -578,18 +578,24 @@ void Board::Move(Position p1, Position p2)
 
 	if ((*this)[p2] && (*this)[p2]->Is(EPieceType::Pawn) && Pawn2Forward(p1, p2))
 	{
-		Position leftPos = { p2.first, p2.second - 1 };
-
-		if (LeftPawnCheck(p2))
+		if (p2.second > 0)
 		{
-			(*this)[leftPos]->SetRightPassant(true);
+			Position leftPos = { p2.first, p2.second - 1 };
+
+			if (LeftPawnCheck(p2))
+			{
+				(*this)[leftPos]->SetRightPassant(true);
+			}
 		}
 
-		Position rightPos = { p2.first, p2.second + 1 };
-
-		if (RightPawnCheck(p2))
+		if (p2.second < 7)
 		{
-			(*this)[rightPos]->SetLeftPassant(true);
+			Position rightPos = { p2.first, p2.second + 1 };
+
+			if (RightPawnCheck(p2))
+			{
+				(*this)[rightPos]->SetLeftPassant(true);
+			}
 		}
 	}
 
@@ -1040,7 +1046,7 @@ bool Board::LeftPawnCheck(Position p) const
 	PiecesPtr otherPiece = m_board[p.first][p.second - 1];
 	PiecesPtr currPiece = m_board[p.first][p.second];
 
-	return (p.second - 1 > 0 && otherPiece && otherPiece->Is(EPieceType::Pawn) && otherPiece->GetColor() != currPiece->GetColor());
+	return (p.second - 1 >= 0 && otherPiece && otherPiece->Is(EPieceType::Pawn) && otherPiece->GetColor() != currPiece->GetColor());
 }
 
 bool Board::RightPawnCheck(Position p) const
@@ -1048,7 +1054,7 @@ bool Board::RightPawnCheck(Position p) const
 	PiecesPtr otherPiece = m_board[p.first][p.second + 1];
 	PiecesPtr currPiece = m_board[p.first][p.second];
 
-	return (p.second + 1 < 7 && otherPiece && otherPiece->Is(EPieceType::Pawn) && otherPiece->GetColor() != currPiece->GetColor());
+	return (p.second + 1 <= 7 && otherPiece && otherPiece->Is(EPieceType::Pawn) && otherPiece->GetColor() != currPiece->GetColor());
 }
 
 bool Board::OnlyKing(EColor color) const
