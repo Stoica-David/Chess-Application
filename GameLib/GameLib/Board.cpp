@@ -26,6 +26,14 @@ Board::Board(const CharMatrix& matrix)
 	m_PGN = { };
 }
 
+Board::Board(const Board& newBoard)
+{
+	m_board = newBoard.m_board;
+	m_moves = newBoard.m_moves;
+	m_PGN = newBoard.m_PGN;
+	m_prevPositions = newBoard.m_prevPositions;
+}
+
 PiecesPtr& Board::operator[](Position p)
 {
 	return m_board[p.first][p.second];
@@ -38,10 +46,10 @@ void Board::SetHistory(const MoveVector& v)
 
 void Board::SetBoard(const String& string)
 {
-	Reset();
-
 	if (string[1] != '.')
 	{
+		Reset();
+
 		int line = 0, col = 0;
 
 		for (int i = 0; i < string.size() - 2; i++)
@@ -76,7 +84,7 @@ void Board::SetBoard(const String& string)
 	}
 	else
 	{
-		StartFromPGN(ParsePGN(string));
+		ParsePGN(string);
 	}
 }
 
@@ -535,12 +543,6 @@ void Board::Move(Position p1, Position p2)
 		}
 		else
 		{
-			//if (nextPiece)
-			//{
-			//	auto& dead = nextPiece->Is(EColor::White) ? m_whiteDead : m_blackDead;
-			//	dead.push_back(GetPieceInfo(p2));
-			//}
-
 			(*this)[p2] = currPiece;
 			(*this)[p1] = {};
 			currPiece->SetHasMoved(true);
@@ -554,12 +556,6 @@ void Board::Move(Position p1, Position p2)
 	{
 		(*this)[p1] = currPiece;
 		(*this)[p2] = nextPiece;
-
-		//if (nextPiece)
-		//{
-		//	auto& dead = nextPiece->Is(EColor::White) ? m_whiteDead : m_blackDead;
-		//	dead.pop_back();
-		//}
 
 		currPiece->SetHasMoved(currPiecePrevMoved);
 
@@ -866,9 +862,10 @@ String Board::GeneratePGN() const
 	return PGN;
 }
 
-MoveVector Board::ParsePGN(String PGN) const
+void Board::ParsePGN(String PGN)
 {
-	MoveVector moves;
+	Board initialBoard(*this);
+	Reset();
 
 	PGN = std::regex_replace(PGN, std::regex("\\b\\d+\\.|[+#x]"), "");
 
@@ -880,15 +877,17 @@ MoveVector Board::ParsePGN(String PGN) const
 	std::sregex_iterator end;
 
 	// Iterate over the matches and extract the required information
+	int nrMove = 1;
 	for (; it != end; ++it) {
 		std::smatch match = *it;
 
 		String moveString = match[0].str();
-		EPieceType type;
+		EPieceType type, promoteType;
 
-		if (moveString[0] > 'h')
+		if (isupper(moveString[0]))
 		{
 			type = GetPieceType(moveString[0]);
+			moveString.erase(moveString.begin());
 		}
 		else
 		{
@@ -897,9 +896,9 @@ MoveVector Board::ParsePGN(String PGN) const
 
 		bool toPromote = false;
 
-		if (strchr("RNBQKrnbqk", moveString.back()))
+		if (strchr("RNBQK", moveString.back()))
 		{
-			type = GetPieceType(moveString.back());
+			promoteType = GetPieceType(moveString.back());
 			toPromote = true;
 			moveString.pop_back();
 			moveString.pop_back();
@@ -937,19 +936,29 @@ MoveVector Board::ParsePGN(String PGN) const
 
 		Position prevPos = std::make_pair(fromX, fromY);
 		Position nextPos = std::make_pair(toX, toY);
-		prevPos = FindPrevPos(nextPos, type, prevPos);
 
-		moves.emplace_back(std::make_pair(prevPos, nextPos));
-	}
+		EColor color = nrMove % 2 == 0 ? EColor::Black : EColor::White;
 
-	return moves;
-}
+		prevPos = FindPrevPos(nextPos, type, color, prevPos);
 
-void Board::StartFromPGN(const MoveVector& PGNMoves)
-{
-	for (int i = 0; i < PGNMoves.size(); i++)
-	{
-		Move(PGNMoves[i].first, PGNMoves[i].second);
+		try
+		{
+			m_moves.push_back(std::make_pair(prevPos, nextPos));
+			Move(prevPos, nextPos);
+		}
+		catch (ChessException exc)
+		{
+			Reset();
+			(*this) = initialBoard;
+			throw PGNException("Can't load PGN properly!");
+		}
+
+		if (toPromote == true)
+		{
+			PromoteTo(promoteType, color);
+		}
+
+		nrMove++;
 	}
 }
 
@@ -1659,7 +1668,7 @@ EPieceType Board::GetPieceType(char c)
 	}
 }
 
-Position Board::FindPrevPos(Position nextPos, EPieceType type, Position prevPos) const
+Position Board::FindPrevPos(Position nextPos, EPieceType type, EColor color, Position prevPos) const
 {
 	Position toReturnPos;
 
@@ -1673,13 +1682,16 @@ Position Board::FindPrevPos(Position nextPos, EPieceType type, Position prevPos)
 		{
 			PiecesPtr currPiece = m_board[prevPos.first][i];
 
-			PositionList moves = GetMoves({prevPos.first, i});
-
-			for (const auto& currMove:moves)
+			if (currPiece && currPiece->Is(type) && currPiece->GetColor() == color)
 			{
-				if (currMove == nextPos)
+				PositionList moves = GetMoves({ prevPos.first, i });
+
+				for (const auto& currMove : moves)
 				{
-					return { prevPos.first, i };
+					if (currMove == nextPos)
+					{
+						return { prevPos.first, i };
+					}
 				}
 			}
 		}
@@ -1690,13 +1702,16 @@ Position Board::FindPrevPos(Position nextPos, EPieceType type, Position prevPos)
 		{
 			PiecesPtr currPiece = m_board[i][prevPos.second];
 
-			PositionList moves = GetMoves({ i, prevPos.second });
-
-			for (const auto& currMove : moves)
+			if (currPiece && currPiece->Is(type) && currPiece->GetColor() == color)
 			{
-				if (currMove == nextPos)
+				PositionList moves = GetMoves({ i, prevPos.second });
+
+				for (const auto& currMove : moves)
 				{
-					return { i, prevPos.second };
+					if (currMove == nextPos)
+					{
+						return { i, prevPos.second };
+					}
 				}
 			}
 		}
@@ -1709,13 +1724,16 @@ Position Board::FindPrevPos(Position nextPos, EPieceType type, Position prevPos)
 			{
 				PiecesPtr currPiece = m_board[i][j];
 
-				PositionList moves = GetMoves({ i, j});
-
-				for (const auto& currMove : moves)
+				if (currPiece && currPiece->Is(type) && currPiece->GetColor() == color)
 				{
-					if (currMove == nextPos)
+					PositionList moves = GetMoves({ i, j });
+
+					for (const auto& currMove : moves)
 					{
-						return { i, j };
+						if (currMove == nextPos)
+						{
+							return { i, j };
+						}
 					}
 				}
 			}

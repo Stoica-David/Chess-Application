@@ -60,6 +60,7 @@ public slots:
     void OnDrawButtonClicked();
     void OnHistoryClicked(QListWidgetItem* item);
     void OnSaveButtonClicked();
+    void centerOnScreen();
 
 signals:
     void Exit();
@@ -69,8 +70,6 @@ private:
 	void ApplyButtonStyles(QPushButton* button);
 	void minimizeWindow();
 	void closeWindow();
-	void mousePressEvent(QMouseEvent* event);
-    void mouseMoveEvent(QMouseEvent* event);
 
 private:
     Ui::ChessUIQtClass ui;

@@ -84,6 +84,9 @@
     <ClCompile Include="Board.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="PGNException.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -171,6 +174,9 @@
       <Filter>Header Files\Pieces</Filter>
     </ClInclude>
     <ClInclude Include="DoesntExistException.h">
+      <Filter>Header Files\API\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="PGNException.h">
       <Filter>Header Files\API\Exceptions</Filter>
     </ClInclude>
   </ItemGroup>

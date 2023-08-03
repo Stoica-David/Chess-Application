@@ -99,11 +99,11 @@ void ChessUIQt::UpdateCaptured(EColor color)
 
 		int missingPieces = GetDefaultNumberOfPieces(typeInfo.first) - typeInfo.second;
 
-		for(int i=0; i<missingPieces; i++)
+		for (int i = 0; i < missingPieces; i++)
 		{
 			OnPieceCapture(typeInfo.first, color);
 		}
-	}	
+	}
 }
 
 static PieceType GetType(IPieceInfoPtr currPiece)
@@ -176,7 +176,7 @@ void ChessUIQt::ApplyButtonStyles(QPushButton* button)
 ChessUIQt::ChessUIQt(QWidget* parent)
 	: QMainWindow(parent)
 {
-    ui.setupUi(this);
+	ui.setupUi(this);
 
 	setWindowFlags(Qt::FramelessWindowHint);
 	setAttribute(Qt::WA_TranslucentBackground);
@@ -219,7 +219,7 @@ ChessUIQt::ChessUIQt(QWidget* parent)
 	mainWidget->setLayout(mainGridLayout);
 
 	setCentralWidget(mainWidget);
-	setMouseTracking(true);
+	setMouseTracking(false);
 	setStatusBar(nullptr);
 
 	QList<QToolBar*> toolbars = findChildren<QToolBar*>();
@@ -229,22 +229,18 @@ ChessUIQt::ChessUIQt(QWidget* parent)
 	}
 }
 
-void ChessUIQt::mousePressEvent(QMouseEvent* event) {
-	// Check if the event occurs in the title bar area (top of the window)
-	if (event->button() == Qt::LeftButton && event->y() <= frameGeometry().top()) {
-		// Store the current mouse position relative to the window's position
-		m_lastMousePos = event->globalPos() - frameGeometry().topLeft();
-		event->accept();
-	}
-}
+void ChessUIQt::centerOnScreen()
+{
+	// Get the available screen geometry
+	QScreen* screen = QGuiApplication::primaryScreen();
+	QRect screenGeometry = screen->availableGeometry();
 
-void ChessUIQt::mouseMoveEvent(QMouseEvent* event) {
-	// If the left mouse button is pressed, move the window
-	if (event->buttons() & Qt::LeftButton && event->y() <= frameGeometry().top()) {
-		// Move the window by calculating the new position based on the last stored mouse position
-		move(event->globalPos() - m_lastMousePos);
-		event->accept();
-	}
+	// Calculate the position to center the window on the screen
+	int x = (screenGeometry.width() - width()) / 2;
+	int y = (screenGeometry.height() - height()) / 2;
+
+	// Set the window position
+	move(x, y);
 }
 
 ChessUIQt::~ChessUIQt()
@@ -270,14 +266,14 @@ void ChessUIQt::InitializeMessage(QGridLayout* mainGridLayout)
 	m_MessageLabel->setText("Waiting for white player");
 	m_MessageLabel->setAlignment(Qt::AlignCenter);
 	m_MessageLabel->setStyleSheet("font-size: 20px; font-weight: bold; color:#7A6C5D");
-	
+
 	mainGridLayout->addWidget(m_MessageLabel, 0, 1, 1, 1);
 
 	m_ExceptionLabel = new QLabel();
 	m_ExceptionLabel->setText("");
 	m_ExceptionLabel->setAlignment(Qt::AlignCenter);
 	m_ExceptionLabel->setStyleSheet("font-size: 20px; font-weight: bold;");
-	
+
 	mainGridLayout->addWidget(m_ExceptionLabel, 1, 1, 1, 1);
 }
 
@@ -374,7 +370,7 @@ void ChessUIQt::InitializeBoard(QGridLayout* mainGridLayout)
 	}
 
 	board->setLayout(chessGridLayout);
-	
+
 	mainGridLayout->addWidget(board, 3, 1, 1, 1);
 }
 
@@ -448,7 +444,7 @@ void ChessUIQt::GridButtonClicked(const std::pair<int, int>& position)
 			m_selectedCell.reset();
 		}
 		//At first click
-		else if (m_game->GetPieceInfo(position) && m_game->GetPieceInfo(position)->GetColor() == m_game->GetTurn() && !m_game->GetMoves(position).empty() ){
+		else if (m_game->GetPieceInfo(position) && m_game->GetPieceInfo(position)->GetColor() == m_game->GetTurn() && !m_game->GetMoves(position).empty()) {
 			m_selectedCell = position;
 			m_grid[position.first][position.second]->setSelected(true);
 			HighlightPossibleMoves(m_game->GetMoves(position));
@@ -511,8 +507,19 @@ void ChessUIQt::OnLoadButtonClicked()
 		m_MovesList->setEditTriggers(QAbstractItemView::NoEditTriggers);
 	}
 
-	m_game->SetGame(dataString);
+	try
+	{
+		m_game->SetGame(dataString);
+	}
+	catch (ChessException exc)
+	{
+		QMessageBox exception;
+		exception.setText(exc.what());
+		exception.exec();
+	}
+
 	UpdateBoard(GetBoard());
+	UpdateHistory();
 	m_MovesList->clear();
 
 	UpdateCaptured(EColor::White);
@@ -788,25 +795,25 @@ void ChessUIQt::OnRestart()
 {
 	m_MessageLabel->setText("Waiting for white player");
 	m_ExceptionLabel->setText("");
-	
+
 	m_MovesList->clear();
-	
+
 	m_whitePieces->clear();
 	m_blackPieces->clear();
 
 	m_MovesList->setEditTriggers(QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked);
-	
+
 	StartGame();
 }
 
 void ChessUIQt::OnPieceCapture(EPieceType pieceType, EColor pieceColor)
 {
 	qDebug() << (int)pieceColor;
-	
+
 	QListWidget* playerPieces = pieceColor == EColor::Black ? m_whitePieces : m_blackPieces;
-	
+
 	static const QString pieces[] = { "r", "h", "b", "q", "k", "p", "empty" };
-	
+
 	QString imagePath = pieceColor == EColor::Black ? "res/b" : "res/w";
 	imagePath.push_back(pieces[(int)pieceType] + ".png");
 

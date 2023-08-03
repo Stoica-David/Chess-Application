@@ -7,3 +7,4 @@
 #include "TurnException.h"
 #include "StillCheckException.h"
 #include "PromoteException.h"
+#include "PGNException.h"

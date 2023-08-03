@@ -20,6 +20,7 @@ public:
 	// Constructors
 	Board();
 	Board(const CharMatrix&);
+	Board(const Board&);
 
 	// Setters
 	PiecesPtr& operator[](Position p);
@@ -60,9 +61,7 @@ public:
 	String GenerateFEN() const;
 	String GeneratePGN() const;
 
-	MoveVector ParsePGN(String PGN) const;
-
-	void StartFromPGN(const MoveVector& PGNMoves);
+	void ParsePGN(String PGN);
 
 private:
 	bool PawnGoesDiagonally(Position p1, Position p2) const;
@@ -103,7 +102,7 @@ private:
 	static PiecesPtr ProducePiece(char c);
 	static EPieceType GetPieceType(char c);
 
-	Position FindPrevPos(Position nextPos, EPieceType type, Position prevPos) const;
+	Position FindPrevPos(Position nextPos, EPieceType type, EColor color, Position prevPos) const;
 
 private:
 	ChessBoard m_board;
