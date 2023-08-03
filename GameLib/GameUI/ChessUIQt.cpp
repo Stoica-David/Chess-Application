@@ -520,7 +520,6 @@ void ChessUIQt::OnLoadButtonClicked()
 
 	UpdateBoard(GetBoard());
 	UpdateHistory();
-	m_MovesList->clear();
 
 	UpdateCaptured(EColor::White);
 	UpdateCaptured(EColor::Black);

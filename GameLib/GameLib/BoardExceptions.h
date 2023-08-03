@@ -8,3 +8,4 @@
 #include "StillCheckException.h"
 #include "PromoteException.h"
 #include "PGNException.h"
+#include "FENException.h"

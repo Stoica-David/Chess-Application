@@ -155,6 +155,7 @@
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="ChessException.cpp" />
     <ClCompile Include="DoesntExistException.cpp" />
+    <ClCompile Include="FENException.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="InTheWayException.cpp" />
     <ClCompile Include="King.cpp" />
@@ -181,6 +182,7 @@
     <ClInclude Include="EPieceType.h" />
     <ClInclude Include="ChessException.h" />
     <ClInclude Include="EState.h" />
+    <ClInclude Include="FENException.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameExceptions.h" />
     <ClInclude Include="IGame.h" />

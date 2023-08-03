@@ -48,6 +48,8 @@ void Board::SetBoard(const String& string)
 {
 	if (string[1] != '.')
 	{
+		ValidateFEN(string);
+
 		Reset();
 
 		int line = 0, col = 0;
@@ -80,6 +82,7 @@ void Board::SetBoard(const String& string)
 			{
 				col++;
 			}
+
 		}
 	}
 	else
@@ -847,6 +850,8 @@ String Board::GenerateFEN() const
 		}
 	}
 
+	FEN.push_back(' ');
+
 	return FEN;
 }
 
@@ -943,7 +948,6 @@ void Board::ParsePGN(String PGN)
 
 		try
 		{
-			m_moves.push_back(std::make_pair(prevPos, nextPos));
 			Move(prevPos, nextPos);
 		}
 		catch (ChessException exc)
@@ -1741,4 +1745,42 @@ Position Board::FindPrevPos(Position nextPos, EPieceType type, EColor color, Pos
 	}
 
 	return toReturnPos;
+}
+
+void Board::ValidateFEN(const String& s)
+{
+	int slashNr = 0, squaresNr = 0;
+
+	for (int i = 0; i < s.size() - 2; i++)
+	{
+		if (s[i] == '/')
+		{
+			if (squaresNr != 8)
+			{
+				throw FENException("Can't load FEN properly");
+			}
+
+			slashNr++;
+			squaresNr = 0;
+		}
+		else if (strchr("rnbqkpRNBQKP", s[i]))
+		{
+			squaresNr++;
+		}
+		else if (isdigit(s[i]))
+		{
+			int nr = s[i] - '0';
+
+			squaresNr += nr;
+		}
+		else
+		{
+			throw FENException("Can't load FEN properly");
+		}
+	}
+
+	if (slashNr != 7)
+	{
+		throw FENException("Can't load FEN properly");
+	}
 }
