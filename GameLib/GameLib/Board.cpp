@@ -21,8 +21,6 @@ Board::Board(const CharMatrix& matrix)
 		}
 	}
 
-	m_whiteDead = { };
-	m_blackDead = { };
 	m_prevPositions = { };
 	m_moves = { };
 	m_PGN = { };
@@ -537,11 +535,11 @@ void Board::Move(Position p1, Position p2)
 		}
 		else
 		{
-			if (nextPiece)
-			{
-				auto& dead = nextPiece->Is(EColor::White) ? m_whiteDead : m_blackDead;
-				dead.push_back(GetPieceInfo(p2));
-			}
+			//if (nextPiece)
+			//{
+			//	auto& dead = nextPiece->Is(EColor::White) ? m_whiteDead : m_blackDead;
+			//	dead.push_back(GetPieceInfo(p2));
+			//}
 
 			(*this)[p2] = currPiece;
 			(*this)[p1] = {};
@@ -557,11 +555,11 @@ void Board::Move(Position p1, Position p2)
 		(*this)[p1] = currPiece;
 		(*this)[p2] = nextPiece;
 
-		if (nextPiece)
-		{
-			auto& dead = nextPiece->Is(EColor::White) ? m_whiteDead : m_blackDead;
-			dead.pop_back();
-		}
+		//if (nextPiece)
+		//{
+		//	auto& dead = nextPiece->Is(EColor::White) ? m_whiteDead : m_blackDead;
+		//	dead.pop_back();
+		//}
 
 		currPiece->SetHasMoved(currPiecePrevMoved);
 
@@ -643,8 +641,6 @@ void Board::Reset()
 		m_board[6][i] = Piece::Produce(EPieceType::Pawn, EColor::White);
 	}
 
-	m_whiteDead = { };
-	m_blackDead = { };
 	m_prevPositions = { };
 	m_moves = { };
 	m_PGN = { };
@@ -815,16 +811,6 @@ PositionList Board::GetMovesPinned(Position p) const
 	}
 
 	return newList;
-}
-
-const IPieceInfoVector& Board::GetWhiteDead() const
-{
-	return m_whiteDead;
-}
-
-const IPieceInfoVector& Board::GetBlackDead() const
-{
-	return m_blackDead;
 }
 
 String Board::GenerateFEN() const
@@ -1461,13 +1447,9 @@ void Board::EnPassant(Position p1, Position p2)
 		else
 			otherPawnPos = { p2.first - 1, p2.second };
 
-		auto& dead = (*this)[p1]->Is(EColor::White) ? m_blackDead : m_whiteDead;
-
 		(*this)[p2] = GetPiece(p1);
 		(*this)[otherPawnPos] = {};
 		(*this)[p1] = {};
-
-		dead.push_back(GetPieceInfo(p2));
 
 		(*this)[p2]->SetLeftPassant(false);
 		(*this)[p2]->SetRightPassant(false);

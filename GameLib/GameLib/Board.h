@@ -57,9 +57,6 @@ public:
 	PositionList GetMovesCheck(Position p) const;
 	PositionList GetMovesPinned(Position p) const;
 
-	const IPieceInfoVector& GetWhiteDead() const;
-	const IPieceInfoVector& GetBlackDead() const;
-
 	String GenerateFEN() const;
 	String GeneratePGN() const;
 
@@ -111,8 +108,6 @@ private:
 private:
 	ChessBoard m_board;
 	BitMatrix m_prevPositions;
-	IPieceInfoVector m_whiteDead;
-	IPieceInfoVector m_blackDead;
 	MoveVector m_moves;
 	StringVector m_PGN;
 };

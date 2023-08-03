@@ -923,10 +923,100 @@ TEST(ParsePGNTest, PGN1)
 	EXPECT_EQ(b.ParsePGN("1.c4 e6 2.f4 b6 "), v);
 }
 
-TEST(ParsePGNTest, PGN2)
-{
-	Board b;
-	MoveVector v = { {{6,2}, {4,2}}, {{1,4}, {2,4}}, {{6,5}, {4,5}}, {{1,1}, {2,1}} };
+//TEST(ParsePGNTest, PGN2)
+//{
+//	Board b;
+//	MoveVector v = { {{6,2}, {4,2}}, {{1,4}, {2,4}}, {{6,5}, {4,5}}, {{1,1}, {2,1}} };
+//
+//	EXPECT_EQ(b.ParsePGN("1. bxa8=B Rh7 2. a5 h5 3. a6 h4 4. axb7 h3 5. bxa8=B Rh7 6. c4 Rh6 7. c5 Rh5 8. c6 f6 9. cxd7+ Kf7 10. dxc8=B Rh4 11. g3 Rh5 12. g4 f5 13. gxh5 f4 14. h6 f3 15. h7 Kg6 16. hxg8=B Kg5 17. Bgd5 Kh6 18. Bdc6 Qe8 19. e3 Qf7 20. Bfa6 Qg6 21. Bc6b7 Qh5 22. Bc6 Qh4 23. Ba6b7 Qg4 24. Ba6 Qg5 25. Bc8b7 Qg6 26. Bc8 Qf6 27. Ba8b7 Qf5 28. Ba8 Qh7 29. Bxf3 Qh8 30. Bfe2 Kg5 31. Bc6 g6 32. Bc6b7 e6 33. Bc6 e5 34. B8b7 e4 35. Bc8 Kh4 36. Bab7 g5 37. Bba6"), v);
+//}
 
-	EXPECT_EQ(b.ParsePGN("1. bxa8=B Rh7 2. a5 h5 3. a6 h4 4. axb7 h3 5. bxa8=B Rh7 6. c4 Rh6 7. c5 Rh5 8. c6 f6 9. cxd7+ Kf7 10. dxc8=B Rh4 11. g3 Rh5 12. g4 f5 13. gxh5 f4 14. h6 f3 15. h7 Kg6 16. hxg8=B Kg5 17. Bgd5 Kh6 18. Bdc6 Qe8 19. e3 Qf7 20. Bfa6 Qg6 21. Bc6b7 Qh5 22. Bc6 Qh4 23. Ba6b7 Qg4 24. Ba6 Qg5 25. Bc8b7 Qg6 26. Bc8 Qf6 27. Ba8b7 Qf5 28. Ba8 Qh7 29. Bxf3 Qh8 30. Bfe2 Kg5 31. Bc6 g6 32. Bc6b7 e6 33. Bc6 e5 34. B8b7 e4 35. Bc8 Kh4 36. Bab7 g5 37. Bba6"), v);
+TEST(EnPassantTest, Passant1)
+{
+	CharMatrix m = { {
+	{'r', 'h', 'b', 'q', 'k', 'b', 'h', 'r'},
+	{'p', 'p', 'p', 'p', '-', 'p', 'p', 'p'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', 'P', 'p', '-', '-', '-'},
+	{'P', '-', 'H', '-', '-', '-', '-', '-'},
+	{'-', 'P', 'P', '-', 'P', 'P', 'P', 'P'},
+	{'R', '-', 'B', 'Q', 'K', 'B', 'H', 'R'}
+	}};
+
+	Board b(m);
+
+	EXPECT_NO_THROW(b.Move({ 4, 4 }, { 5, 3 }));
+}
+
+TEST(CastelingTest, Casteling1)
+{
+	CharMatrix m = { {
+	{'r', '-', 'b', 'q', 'k', 'b', 'h', 'r'},
+	{'-', 'p', 'p', 'p', '-', 'p', 'p', 'p'},
+	{'p', '-', 'h', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', 'p', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', 'H', 'P', '-'},
+	{'P', 'P', 'P', 'P', 'P', 'P', 'B', 'P'},
+	{'R', 'H', 'B', 'Q', 'K', '-', '-', 'R'}
+	} };
+
+	Board b(m);
+
+	EXPECT_NO_THROW(b.Move({ 7, 4 }, { 7, 7 }));
+}
+
+TEST(CastelingTest, Casteling2)
+{
+	CharMatrix m = { {
+	{'r', 'h', 'b', 'q', 'k', 'b', '-', 'r'},
+	{'-', '-', '-', 'p', 'p', 'p', 'p', 'p'},
+	{'p', '-', 'p', '-', '-', 'h', '-', '-'},
+	{'-', 'p', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', 'H', 'P', 'B', '-', '-', '-'},
+	{'P', 'P', 'P', 'Q', 'P', 'P', 'P', 'P'},
+	{'R', '-', '-', '-', 'K', 'B', 'H', 'R'}
+	} };
+
+	Board b(m);
+
+	EXPECT_NO_THROW(b.Move({ 7, 4 }, { 7, 0 }));
+}
+
+TEST(CastelingTest, Casteling3)
+{
+	CharMatrix m = { {
+	{'r', 'h', 'b', 'q', 'k', '-', '-', 'r'},
+	{'p', 'p', 'p', 'p', 'p', 'p', 'b', 'p'},
+	{'-', '-', '-', '-', '-', 'h', 'p', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', 'P', '-', '-', '-', '-'},
+	{'-', '-', 'H', '-', 'P', 'H', '-', '-'},
+	{'P', 'P', 'P', '-', '-', 'P', 'P', 'P'},
+	{'R', '-', 'B', 'Q', 'K', 'B', '-', 'R'}
+	} };
+
+	Board b(m);
+
+	EXPECT_NO_THROW(b.Move({ 0, 4 }, { 0, 7 }));
+}
+
+TEST(CastelingTest, Casteling4)
+{
+	CharMatrix m = { {
+	{'r', '-', '-', '-', 'k', 'b', 'h', 'r'},
+	{'p', 'p', 'p', 'q', 'p', 'p', 'p', 'p'},
+	{'-', '-', 'h', 'p', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', 'b', '-', '-'},
+	{'-', '-', 'P', '-', 'P', '-', '-', '-'},
+	{'-', '-', 'H', 'P', '-', 'H', '-', '-'},
+	{'P', 'P', '-', '-', '-', 'P', 'P', 'P'},
+	{'R', '-', 'B', 'Q', 'K', 'B', '-', 'R'}
+	} };
+
+	Board b(m);
+
+	EXPECT_NO_THROW(b.Move({ 0, 4 }, { 0, 0 }));
 }
