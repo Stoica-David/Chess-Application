@@ -335,6 +335,17 @@ void Game::RemoveListener(IGameListener* listener)
 	m_listeners.erase(std::remove_if(m_listeners.begin(), m_listeners.end(), func));
 }
 
+static char LastChar(const String& string)
+{
+	for (int i = string.size() - 1; i >= 0; i--)
+	{
+		if (string[i] != ' ')
+			return string[i];
+	}
+
+	return ' ';
+}
+
 void Game::SetGame(const String& string)
 {
 	m_gameboard.SetBoard(string);
@@ -346,6 +357,39 @@ void Game::SetGame(const String& string)
 	else
 	{
 		m_turn = EColor::Black;
+	}
+
+	char lastChar = LastChar(string);
+
+	if (string[1] == '.')
+	{
+		if (m_gameboard.IsCheckMate(EColor::White))
+		{
+			UpdateState(EState::BlackWon);
+		}
+		else if (m_gameboard.IsCheckMate(EColor::Black))
+		{
+			UpdateState(EState::WhiteWon);
+		}
+		else if (lastChar == '1')
+		{
+			UpdateState(EState::BlackWon);
+			//NotifyGameOver(EOverState::BlackWon);
+		}
+		else if (lastChar == '0')
+		{
+			UpdateState(EState::WhiteWon);
+			//NotifyGameOver(EOverState::WhiteWon);
+		}
+		else if (lastChar == '2')
+		{
+			UpdateState(EState::Draw);
+			//NotifyGameOver(EOverState::Draw);
+		}
+		else 
+		{
+			UpdateState(EState::Playing);
+		}
 	}
 }
 

@@ -584,8 +584,8 @@ TEST(ChoosePieceMock, Choose4)
 
 	myGame.AddListener(mock);
 
-	EXPECT_CALL(*mock, OnChoosePiece());
 	EXPECT_CALL(*mock, OnMove());
+	EXPECT_CALL(*mock, OnChoosePiece());
 
 	myGame.Move({ 6, 4 }, { 7, 3 });
 	myGame.PromoteTo(EPieceType::Rook);

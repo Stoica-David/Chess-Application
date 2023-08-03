@@ -931,6 +931,14 @@ TEST(ParsePGNTest, PGN2)
 	EXPECT_NO_THROW(b.ParsePGN("1.c4 d5 2.cxd5 c6 3.dxc6 b6 4.c7 b5 5.Qa4 Nc6 "), v);
 }
 
+TEST(ParsePGNTest, PGN3)
+{
+	Board b;
+	MoveVector v = { {{6,2}, {4,2}},  {{1,3}, {3,3}}, {{4,2}, {3,3}}, {{1,2}, {2,2}}, {{3,3}, {2,2}}, {{1,1}, {2,1}}, {{2,2}, {1,2}}, {{2,1}, {3,1}}, {{7,3}, {4,0}}, {{0,1}, {2,2}} };
+
+	EXPECT_NO_THROW(b.ParsePGN("1.d4 Nf6 2.h4 e6 3.h5 Ba3 4.h6 O-O "), v);
+}
+
 //TEST(EnPassantTest, Passant1)
 //{
 //	CharMatrix m = { {
@@ -1061,5 +1069,5 @@ TEST(GeneratePGNTest, PGN1)
 		b.Move(move.first, move.second);
 	}
 
-	EXPECT_EQ(b.GeneratePGN(), "1.c4 d5 2.cxd5 c6 3.dxc6 b6 4.c7 b5 5.Qa4 Nc6 ");
+	EXPECT_EQ(b.GeneratePGN(), "1.c4 d5 2.cxd5 c6 3.dxc6 b6 4.c7 b5 5.Qa4 Nc6 *");
 }

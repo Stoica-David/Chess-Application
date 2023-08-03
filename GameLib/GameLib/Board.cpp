@@ -175,7 +175,10 @@ bool Board::IsCheck(Position p, EColor color) const
 
 			if (std::find(moves.begin(), moves.end(), p) != moves.end())
 			{
-				return true;
+				if (!currPiece->Is(EPieceType::Pawn) || PawnGoesDiagonally({i,j}, p))
+				{
+					return true;
+				}
 			}
 		}
 	}
@@ -745,8 +748,11 @@ PositionList Board::GetMovesCheck(Position p) const
 		{
 			if (IsCheck(newList[i], currColor) || IsSameWay(p, newList[i], currColor))
 			{
-				newList.erase(newList.begin() + i);
-				i--;
+				if (!currPiece->Is(EPieceType::Pawn) || PawnGoesDiagonally(p, newList[i]))
+				{
+					newList.erase(newList.begin() + i);
+					i--;
+				}
 			}
 		}
 	}
@@ -864,6 +870,11 @@ String Board::GeneratePGN() const
 		PGN += currString;
 	}
 
+	if (!strchr("012", PGN.back()))
+	{
+		PGN.push_back('*');
+	}
+
 	return PGN;
 }
 
@@ -872,7 +883,7 @@ void Board::ParsePGN(String PGN)
 	Board initialBoard(*this);
 	Reset();
 
-	PGN = std::regex_replace(PGN, std::regex("\\b\\d+\\.|[+#x]"), "");
+	PGN = std::regex_replace(PGN, std::regex("\\b\\d+\\.|[+#x*]"), "");
 
 	// Define the regex pattern to match the moves in the PGN string
 	std::regex moveRegex(R"(\b([KQRBNP])?([a-h]?[1-8]?)?([x:])?([a-h][1-8])(=?[QRBN]?)?([+#]?)\b|O-O-O|O-O)");
@@ -888,6 +899,54 @@ void Board::ParsePGN(String PGN)
 
 		String moveString = match[0].str();
 		EPieceType type, promoteType;
+		EColor color = nrMove % 2 == 0 ? EColor::Black : EColor::White;
+
+		if (moveString == "O-O-O")
+		{
+			try
+			{
+				if (color == EColor::Black)
+				{
+					Move({ 0,4 }, { 0,0 });
+				}
+				else
+				{
+					Move({ 7,4 }, { 7,0 });
+				}
+			}
+			catch (ChessException exc)
+			{
+				Reset();
+				(*this) = initialBoard;
+				throw PGNException("Can't load PGN properly!");
+			}
+
+			nrMove++;
+			continue;
+		}
+		else if (moveString == "O-O")
+		{
+			try
+			{
+				if (color == EColor::Black)
+				{
+					Move({ 0,4 }, { 0,7 });
+				}
+				else
+				{
+					Move({ 7,4 }, { 7,7 });
+				}
+			}
+			catch (ChessException exc)
+			{
+				Reset();
+				(*this) = initialBoard;
+				throw PGNException("Can't load PGN properly!");
+			}
+
+			nrMove++;
+			continue;
+		}
 
 		if (isupper(moveString[0]))
 		{
@@ -941,8 +1000,6 @@ void Board::ParsePGN(String PGN)
 
 		Position prevPos = std::make_pair(fromX, fromY);
 		Position nextPos = std::make_pair(toX, toY);
-
-		EColor color = nrMove % 2 == 0 ? EColor::Black : EColor::White;
 
 		prevPos = FindPrevPos(nextPos, type, color, prevPos);
 

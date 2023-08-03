@@ -521,9 +521,6 @@ void ChessUIQt::OnLoadButtonClicked()
 	UpdateBoard(GetBoard());
 	UpdateHistory();
 
-	UpdateCaptured(EColor::White);
-	UpdateCaptured(EColor::Black);
-
 	if (m_game->GetTurn() == EColor::White)
 	{
 		m_MessageLabel->setText("Waiting for white player");
@@ -533,6 +530,19 @@ void ChessUIQt::OnLoadButtonClicked()
 		m_MessageLabel->setText("Waiting for black player");
 	}
 
+	if (m_game->IsDraw())
+	{
+		OnGameOver(EOverState::Draw);
+	}
+	if (m_game->IsOver())
+	{
+		EOverState whoWon = m_game->GetTurn() == EColor::White ? EOverState::WhiteWon : EOverState::BlackWon;
+
+		OnGameOver(whoWon);
+	}
+
+	UpdateCaptured(EColor::White);
+	UpdateCaptured(EColor::Black);
 }
 
 void ChessUIQt::OnRestartButtonClicked()
@@ -770,6 +780,7 @@ void ChessUIQt::OnGameOver(EOverState state)
 	}
 
 	m_ExceptionLabel->setText("");
+	m_MovesList->setEditTriggers(QAbstractItemView::NoEditTriggers);
 }
 
 void ChessUIQt::OnChoosePiece()
