@@ -889,7 +889,7 @@ void Board::ParsePGN(String PGN)
 	Board initialBoard(*this);
 	Reset();
 
-	PGN = std::regex_replace(PGN, std::regex("\\b\\d+\\.|[+#x*]"), "");
+	PGN = std::regex_replace(PGN, std::regex("\\b\\d+\\.\\ *|[+#x*]"), "");
 
 	// Define the regex pattern to match the moves in the PGN string
 	std::regex moveRegex(R"(\b([KQRBNP])?([a-h]?[1-8]?)?([x:])?([a-h][1-8])(=?[QRBN]?)?([+#]?)\b|O-O-O|O-O)");

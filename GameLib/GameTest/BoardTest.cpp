@@ -1065,10 +1065,95 @@ TEST(EnPassantTest, Passant1)
 	{'P', '-', 'H', '-', '-', '-', '-', '-'},
 	{'-', 'P', 'P', 'P', 'P', 'P', 'P', 'P'},
 	{'R', '-', 'B', 'Q', 'K', 'B', 'H', 'R'}
-	}};
+	} };
 
 	Board b(m);
 
 	EXPECT_NO_THROW(b.Move({ 6, 3 }, { 4, 3 }));
 	EXPECT_NO_THROW(b.Move({ 4, 4 }, { 5, 3 }));
+}
+
+TEST(SetBoardTest, FENTestGood)
+{
+	String FEN = "rnbqkbnr/pp1p2pp/2p5/4Np2/3P4/8/PPP2PPP/RNBQKB1R b";
+
+	Board b;
+
+	EXPECT_NO_THROW(b.SetBoard(FEN));
+}
+
+TEST(SetBoardTest, FENTestBad)
+{
+	String FEN = "rnbqkb1r/pp1ppppp/2p2n2/8/3P4/5N2/PPP1sPPPP/RNBQKB1R w";
+
+	Board b;
+
+	EXPECT_THROW(b.SetBoard(FEN), FENException);
+}
+
+TEST(SetBoardTest, PGNTestGood)
+{
+	String PGN = "1.d4 Nf6 2.h4 e6 3.h5 Ba3 4.h6 O-O 5.hxg7 e5 6.gxf8=N Ne8 7.Nxh7 f5 8.Be3 f4 9.Nc3 f3 10.Qd2 fxg2 11.O-O-O gxh1=Q 12.Ne4 Bb4 13.Nf3 a6 14.Neg5 a5 15.Ne4 a4 16.Nfg5 a3 17.Nf3 axb2+ 18.Kb1 Bc5 19.Nhg5 Bd6 20.c4 b5 21.Kc2 b1=B+ 22.Kc1 Bxe4 23.a3 Bb4 24.a4 d5 25.a5 Be6 26.Nh7 Qf6 27.a6 Qg6 28.a7 Qh4 29.axb8=Q Qhg4 30.Qa7 B4f5 31.Qa6 Be4 32.Qa5 B6f5 33.Qa4 Be6 34.Qa3 Q6f5 35.Qaa2 Qfg6 36.Qxb4 Q6h5 37.Qd6 Nf6 38.Qxe6+ Kh8 39.Qxf6+ Kg8 40.cxd5 b4 41.d6+ Kxh7 42.Rd3 b3 43.Rc3 b2+ 44.Kd2 b1=N+ 45.Ke1 c5 46.Qa6 Na3 47.Qxa8 Nc2+ 48.Rxc2 c4 49.Rxc4 Bb1 50.Rc7+ Qd7 51.Rxd7+ Qf7 52.Rxf7#";
+
+	Board b;
+
+	EXPECT_NO_THROW(b.SetBoard(PGN));
+}
+
+TEST(SetBoardTest, PGNTestBad)
+{
+	String PGN = "1.c4dadas d5 2.f3 f5 ";
+
+	Board b;
+
+	EXPECT_THROW(b.SetBoard(PGN), PGNException);
+}
+
+TEST(GetHistoryTest, EmptyTest)
+{
+	Board b;
+
+	MoveVector v = {};
+
+	EXPECT_EQ(b.GetHistory(), v);
+}
+
+TEST(GetHistoryTest, NormalTest)
+{
+	Board b;
+
+	b.Move({ 6,0 }, { 4,0 });
+	b.Move({ 1,0 }, { 2,0 });
+
+	MoveVector v = { {{6,0}, {4,0}}, {{1,0}, {2,0}} };
+
+	EXPECT_EQ(b.GetHistory(), v);
+}
+
+TEST(FindCheckTest, InitialPos)
+{
+	Board b;
+
+	Position p = { -1, -1 };
+
+	EXPECT_EQ(b.FindCheck({ 0,4 }, EColor::Black), p);
+	EXPECT_EQ(b.FindCheck({ 7,4 }, EColor::White), p);
+}
+
+TEST(FindCheckTest, CheckSituation)
+{
+	CharMatrix m = { {
+	   {'r', 'h', 'b', '-', 'k', 'b', 'h', 'r'},
+	   {'p', 'p', '-', 'p', 'p', 'p', 'p', 'p'},
+	   {'-', '-', 'p', '-', '-', '-', '-', '-'},
+	   {'q', '-', '-', '-', '-', '-', '-', '-'},
+	   {'-', '-', '-', 'P', '-', '-', '-', '-'},
+	   {'-', '-', '-', '-', 'P', '-', '-', '-'},
+	   {'P', 'P', 'P', '-', '-', 'P', 'P', 'P'},
+	   {'R', 'H', 'B', 'Q', 'K', 'B', 'H', 'R'}
+	   } };
+
+	Board b(m);
+
+	EXPECT_EQ(b.FindCheck({ 7,4 }, EColor::White), Position(3, 0));
 }

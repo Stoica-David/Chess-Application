@@ -163,6 +163,7 @@
     <ClCompile Include="MoveException.cpp" />
     <ClCompile Include="Pawn.cpp" />
     <ClCompile Include="PGNException.cpp" />
+    <ClCompile Include="PGNHandler.cpp" />
     <ClCompile Include="Piece.cpp" />
     <ClCompile Include="PieceInfo.cpp" />
     <ClCompile Include="PositionException.cpp" />
@@ -195,6 +196,7 @@
     <ClInclude Include="MoveException.h" />
     <ClInclude Include="Pawn.h" />
     <ClInclude Include="PGNException.h" />
+    <ClInclude Include="PGNHandler.h" />
     <ClInclude Include="Piece.h" />
     <ClInclude Include="PieceInfo.h" />
     <ClInclude Include="Position.h" />

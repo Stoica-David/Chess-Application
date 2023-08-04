@@ -28,6 +28,12 @@
     <Filter Include="Header Files\Pieces">
       <UniqueIdentifier>{ca71fb11-4e84-41e5-a5f0-a2523140db1f}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\PGN">
+      <UniqueIdentifier>{17a496cd-33c1-4a70-9285-8e1cb9e29159}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\PGN">
+      <UniqueIdentifier>{4cde0d91-8465-4d9f-85c3-4511a4af8c6a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Piece.cpp">
@@ -84,11 +90,14 @@
     <ClCompile Include="Board.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
-    <ClCompile Include="PGNException.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="FENException.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="PGNException.cpp">
+      <Filter>Source Files\Exceptions</Filter>
+    </ClCompile>
+    <ClCompile Include="PGNHandler.cpp">
+      <Filter>Source Files\PGN</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -184,6 +193,9 @@
     </ClInclude>
     <ClInclude Include="FENException.h">
       <Filter>Header Files\API\Exceptions</Filter>
+    </ClInclude>
+    <ClInclude Include="PGNHandler.h">
+      <Filter>Header Files\PGN</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

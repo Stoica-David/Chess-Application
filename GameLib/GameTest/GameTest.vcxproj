@@ -155,6 +155,7 @@
     <ClCompile Include="GameTest.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="GameMock.cpp" />
+    <ClCompile Include="PGNTest.cpp" />
     <ClCompile Include="PieceTest.cpp" />
   </ItemGroup>
   <ItemGroup>
