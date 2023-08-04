@@ -128,10 +128,10 @@ void ChessUIQt::UpdateCaptured(EColor color)
 	}
 }
 
-void ChessUIQt::clearCaptured()
-{
-	playerPieces->clear();
-}
+//void ChessUIQt::clearCaptured()
+//{
+//	playerPieces->clear();
+//}
 
 static PieceType GetType(IPieceInfoPtr currPiece)
 {
@@ -645,7 +645,7 @@ void ChessUIQt::OnLoadButtonClicked()
 		OnGameOver(whoWon);
 	}
 
-	clearCaptured();
+	//clearCaptured();
 	UpdateCaptured(EColor::White);
 	UpdateCaptured(EColor::Black);
 }
