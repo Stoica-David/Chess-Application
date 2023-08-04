@@ -500,6 +500,11 @@ void Board::Move(Position p1, Position p2)
 	PiecesPtr currPiece = GetPiece(p1);
 	PiecesPtr nextPiece = GetPiece(p2);
 
+	if (!currPiece)
+	{
+		throw MoveException("The move cannot be done by the piece!");
+	}
+
 	if (!currPiece->IsMoveRegular(p1, p2) && !IsCastle(p1, p2))
 	{
 		if (!currPiece->Is(EPieceType::Pawn) || (PawnException(p1, p2) && !IsEnPassant(p1, p2)))
