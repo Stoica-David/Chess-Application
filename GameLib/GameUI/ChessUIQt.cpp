@@ -13,6 +13,7 @@
 #include <QClipboard>
 #include <QIcon>
 #include <QEvent>
+#include <unordered_set>
 
 
 #include <array>
@@ -96,7 +97,7 @@ void ChessUIQt::UpdateCaptured(EColor color)
 {
 	auto leftPieces = m_game->PiecesLeft(color);
 
-	std::vector<EPieceType> allPieces = {
+	std::unordered_set<EPieceType> allPieces = {
 		EPieceType::Rook,
 		EPieceType::Knight,
 		EPieceType::Bishop,
@@ -105,41 +106,31 @@ void ChessUIQt::UpdateCaptured(EColor color)
 		EPieceType::Pawn
 	};
 	
-	for (auto typePieceInfo : allPieces)
+	for (auto currPiece : allPieces)
 	{
-		if (typePieceInfo == EPieceType::King)
+		if (currPiece == EPieceType::King)
 			continue;
 
-		int missingPieces = GetDefaultNumberOfPieces(typePieceInfo);
+		int missingPieces = GetDefaultNumberOfPieces(currPiece);
 
-		for (auto typeInfo : leftPieces)
+		if (leftPieces.find(currPiece) != leftPieces.end())
 		{
-			EPieceType type = typeInfo.first;
-			int actualApperences = typeInfo.second;
+			int actualApperences = (*leftPieces.find(currPiece)).second;
 
-			if(type == typePieceInfo)
-				missingPieces -= actualApperences;
+			missingPieces -= actualApperences;
 		}
 
 		for (int i = 0; i < missingPieces; i++)
 		{
-			OnPieceCapture(typePieceInfo, color);
+			OnPieceCapture(currPiece, color);
 		}
 
 	}
+}
 
-	/*for (auto typeInfo : leftPieces)
-	{
-		if (typeInfo.first == EPieceType::King)
-			continue;
-
-		int missingPieces = GetDefaultNumberOfPieces(typeInfo.first) - typeInfo.second;
-
-		for (int i = 0; i < missingPieces; i++)
-		{
-			OnPieceCapture(typeInfo.first, color);
-		}
-	}*/
+void ChessUIQt::clearCaptured()
+{
+	playerPieces->clear();
 }
 
 static PieceType GetType(IPieceInfoPtr currPiece)
@@ -647,6 +638,7 @@ void ChessUIQt::OnLoadButtonClicked()
 		OnGameOver(whoWon);
 	}
 
+	clearCaptured();
 	UpdateCaptured(EColor::White);
 	UpdateCaptured(EColor::Black);
 }
@@ -942,7 +934,7 @@ void ChessUIQt::OnPieceCapture(EPieceType pieceType, EColor pieceColor)
 {
 	qDebug() << (int)pieceColor;
 
-	QListWidget* playerPieces = pieceColor == EColor::Black ? m_whitePieces : m_blackPieces;
+	playerPieces = pieceColor == EColor::Black ? m_whitePieces : m_blackPieces;
 
 	static const QString pieces[] = { "r", "h", "b", "q", "k", "p", "empty" };
 

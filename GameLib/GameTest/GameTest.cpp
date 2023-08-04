@@ -536,3 +536,23 @@ TEST(MoveTest, PawnBackDiagonalTest)
 
 	EXPECT_THROW(g.Move({ 3,6 }, { 4, 7 }), MoveException);
 }
+
+TEST(PromoteCheckTest, PromoteCheck1)
+{
+	CharMatrix m = { {
+	{'r', 'h', 'b', 'R', 'k', 'b', 'h', 'r'},
+	{'-', '-', '-', '-', 'p', 'p', 'p', 'p'},
+	{'p', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', 'p', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'P', 'P', 'P', 'P', '-', 'P', 'P', 'P'},
+	{'R', 'H', 'B', 'Q', 'K', 'B', 'H', 'R'}
+	} };
+
+	Game g(m, EColor::White, EState::Playing);
+
+	PositionList kingMoves = { {0, 3} };
+
+	EXPECT_EQ(g.GetMoves({ 0, 4 }), kingMoves);
+}

@@ -35,7 +35,7 @@ public:
     //Modify if necessary with your history representation
     void UpdateHistory();
 
-    void UpdateCaptured(EColor color);
+    //void UpdateCaptured(EColor color);
 
     //Modify if necessary with your board representation
     void UpdateBoard(const PairMatrix& newBoard);
@@ -75,6 +75,8 @@ private:
 	void closeWindow();
     void MakeButtonsUnselectable();
     void MakeButtonsSelectable();
+    void UpdateCaptured(EColor color);
+    void clearCaptured();
 
 private:
     Ui::ChessUIQtClass ui;
@@ -89,4 +91,5 @@ private:
     QLabel* m_BlackTimer, *m_WhiteTimer;
     QPoint m_lastMousePos;
     IGamePtr m_game;
+    QListWidget* playerPieces;
 };
