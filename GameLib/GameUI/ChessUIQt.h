@@ -76,7 +76,7 @@ private:
     void MakeButtonsUnselectable();
     void MakeButtonsSelectable();
     void UpdateCaptured(EColor color);
-    //void clearCaptured();
+    void ClearPieces();
 
 private:
     Ui::ChessUIQtClass ui;

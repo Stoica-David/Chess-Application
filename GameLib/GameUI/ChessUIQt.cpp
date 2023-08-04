@@ -128,10 +128,11 @@ void ChessUIQt::UpdateCaptured(EColor color)
 	}
 }
 
-//void ChessUIQt::clearCaptured()
-//{
-//	playerPieces->clear();
-//}
+void ChessUIQt::ClearPieces()
+{
+	m_whitePieces->clear();
+	m_blackPieces->clear();
+}
 
 static PieceType GetType(IPieceInfoPtr currPiece)
 {
@@ -441,7 +442,7 @@ void ChessUIQt::InitializePlayer(QGridLayout* mainGridLayout, EColor color)
 	else
 		m_whitePieces = new QListWidget();
 
-	QListWidget* playerPieces = color == EColor::Black ? m_blackPieces : m_whitePieces;
+	playerPieces = color == EColor::Black ? m_blackPieces : m_whitePieces;
 	playerPieces->setFlow(QListWidget::LeftToRight);
 	playerPieces->setStyleSheet("QListWidget::item, QListWidget{background-color:transparent; border: none}");
 	playerPieces->setMaximumHeight(30);
@@ -621,7 +622,6 @@ void ChessUIQt::OnLoadButtonClicked()
 		exception.setText(exc.what());
 		exception.exec();
 	}
-
 	UpdateBoard(GetBoard());
 	UpdateHistory();
 
@@ -645,7 +645,7 @@ void ChessUIQt::OnLoadButtonClicked()
 		OnGameOver(whoWon);
 	}
 
-	//clearCaptured();
+	ClearPieces();
 	UpdateCaptured(EColor::White);
 	UpdateCaptured(EColor::Black);
 }
