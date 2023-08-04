@@ -73,6 +73,8 @@ private:
 	void ApplyButtonStyles(QPushButton* button);
 	void minimizeWindow();
 	void closeWindow();
+    void MakeButtonsUnselectable();
+    void MakeButtonsSelectable();
 
 private:
     Ui::ChessUIQtClass ui;

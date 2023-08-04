@@ -20,7 +20,7 @@ public:
 	Game(const CharMatrix& matrix, EColor color = EColor::White, EState state = EState::Playing);
 	
 	// IGame methods
-	void Move(Position p1, Position p2) override;
+	void Move(Position p1, Position p2, bool toNotify=true) override;
 	void ProposeDraw() override;
 	void DrawResponse(bool) override;
 

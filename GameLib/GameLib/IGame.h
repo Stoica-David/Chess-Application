@@ -20,7 +20,7 @@ public:
 
 	virtual IPieceInfoPtr GetPieceInfo(Position) const = 0;
 	
-	virtual void Move(Position, Position) = 0;
+	virtual void Move(Position, Position, bool=true) = 0;
 	virtual void PromoteTo(EPieceType) = 0;
 	virtual void Restart() = 0;
 	virtual void ProposeDraw() = 0;

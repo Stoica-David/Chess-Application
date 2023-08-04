@@ -30,7 +30,7 @@ static bool IsPositionValid(Position p)
 	return (p.first >= 0 && p.first < 8) && (p.second >= 0 && p.second < 8);
 }
 
-void Game::Move(Position p1, Position p2)
+void Game::Move(Position p1, Position p2, bool toNotify)
 {
 	if (m_state == EState::Playing || m_state == EState::Check)
 	{
@@ -69,13 +69,19 @@ void Game::Move(Position p1, Position p2)
 
 		if (!currPiece && pieceCaptured)
 		{
-			NotifyCaptured(type, color);
+			if (toNotify == true)
+			{
+				NotifyCaptured(type, color);
+			}
 		}
 
 		if (m_gameboard.IsPromotePossible(p2))
 		{
 			UpdateState(EState::ChoosePiece);
-			NotifyChoosePiece();
+			if (toNotify == true)
+			{
+				NotifyChoosePiece();
+			}
 		}
 		else
 		{
@@ -88,27 +94,42 @@ void Game::Move(Position p1, Position p2)
 		if (m_gameboard.IsOver(EColor::White))
 		{
 			UpdateState(EState::BlackWon);
+			if (toNotify == true)
+			{
 			NotifyGameOver(EOverState::BlackWon);
+			}
 		}
 		else if (Stalemate() || m_gameboard.IsDraw() || m_gameboard.Is3Fold())
 		{
 			UpdateState(EState::Draw);
-			NotifyGameOver(EOverState::Draw);
+			if (toNotify == true)
+			{
+				NotifyGameOver(EOverState::Draw);
+			}
 		}
 		else if (m_gameboard.IsOver(EColor::Black))
 		{
 			UpdateState(EState::WhiteWon);
-			NotifyGameOver(EOverState::WhiteWon);
+			if (toNotify == true)
+			{
+				NotifyGameOver(EOverState::WhiteWon);
+			}
 		}
 		else if (m_gameboard.IsCheck(m_gameboard.FindKing(m_turn), m_turn))
 		{
 			UpdateState(EState::Check);
-			NotifyCheck();
+			if (toNotify == true)
+			{
+				NotifyCheck();
+			}
 		}
 		else if (IsDraw())
 		{
 			UpdateState(EState::Draw);
-			NotifyGameOver(EOverState::Draw);
+			if (toNotify == true)
+			{
+				NotifyGameOver(EOverState::Draw);
+			}
 		}
 	}
 }

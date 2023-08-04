@@ -162,6 +162,28 @@ PairMatrix ChessUIQt::GetBoard() const
 	return newMatrix;
 }
 
+void ChessUIQt::MakeButtonsUnselectable()
+{
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			m_grid[i][j]->setEnabled(false);
+	}
+	}
+}
+
+void ChessUIQt::MakeButtonsSelectable()
+{
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			m_grid[i][j]->setEnabled(true);
+		}
+	}
+}
+
 static char ConvertIntToChar(int x)
 {
 	return 'a' + x;
@@ -621,6 +643,8 @@ void ChessUIQt::OnHistoryClicked(QListWidgetItem* item)
 
 	m_game->Restart();
 
+	//m_game->SetHistory(newHistory);
+
 	for (int i = 0; i <= index; i++)
 	{
 		Position start = newHistory[i].first;
@@ -637,6 +661,19 @@ void ChessUIQt::OnHistoryClicked(QListWidgetItem* item)
 
 		m_MovesList->addItem(new QListWidgetItem(itemText));
 	}
+
+	m_game->SetHistory(newHistory);
+
+	if (index != newHistory.size() - 1)
+	{
+		MakeButtonsUnselectable();
+	}
+	else
+	{
+		MakeButtonsSelectable();
+	}
+
+	UpdateHistory();
 }
 
 std::string GenerateStringBoard(IGamePtr m_game)
@@ -730,6 +767,7 @@ void ChessUIQt::HighlightPossibleMoves(const std::vector<std::pair<int, int>>& p
 void ChessUIQt::StartGame()
 {
 	UpdateBoard(GetBoard());
+	MakeButtonsSelectable();
 }
 
 static EPieceType ConvertToEnum(const std::string& pieceType)
