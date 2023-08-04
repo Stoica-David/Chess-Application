@@ -27,7 +27,7 @@ public:
 	virtual void DrawResponse(bool) = 0;
 	virtual void AddListener(IGameListenerPtr) = 0;
 	virtual void RemoveListener(IGameListener*) = 0;
-	virtual void SetGame(const String&) = 0;
+	//virtual void SetGame(const StringVector&) = 0;
 	virtual void SetHistory(const MoveVector&) = 0;
 
 	virtual EColor GetTurn() const = 0;
@@ -44,6 +44,7 @@ public:
 	virtual std::unordered_map <EPieceType, int> PiecesLeft(EColor) const = 0;
 
 	virtual void SavePGN(const String&) = 0;
+	virtual void LoadPGN(const String&) = 0;
 
 	virtual MoveVector GetHistory()const = 0;
 

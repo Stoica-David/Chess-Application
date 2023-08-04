@@ -2,7 +2,6 @@
 #include "PieceInfo.h"
 #include "BoardExceptions.h"
 #include <sstream>
-#include <regex>
 
 #include <algorithm>
 
@@ -44,11 +43,11 @@ void Board::SetHistory(const MoveVector& v)
 	m_moves = v;
 }
 
-void Board::SetBoard(const String& string)
+void Board::SetBoard(const StringVector& string)
 {
-	if (string[1] != '.')
-	{
-		ValidateFEN(string);
+	/*if (string[1] != '.')
+	{*/
+		/*ValidateFEN(string);
 
 		Reset();
 
@@ -81,11 +80,11 @@ void Board::SetBoard(const String& string)
 			else
 			{
 				col++;
-			}
+			}*/
 
-		}
-	}
-	else
+	/*	}
+	}*/
+	//else
 	{
 		ParsePGN(string);
 	}
@@ -851,27 +850,15 @@ String Board::GenerateFEN() const
 	return FEN;
 }
 
-void Board::ParsePGN(String PGN)
+void Board::ParsePGN(StringVector Moves)
 {
 	Board initialBoard(*this);
 	Reset();
 
-	PGN = std::regex_replace(PGN, std::regex("\\n"), " ");
-	PGN = std::regex_replace(PGN, std::regex("\\b\\d+\\.\\ *|[+#x*]"), "");
-
-	// Define the regex pattern to match the moves in the PGN string
-	std::regex moveRegex(R"(\b([KQRBNP])?([a-h]?[1-8]?)?([x:])?([a-h][1-8])(=?[QRBN]?)?([+#]?)\b|O-O-O|O-O)");
-
-	// Create an iterator to find all matches in the PGN string
-	std::sregex_iterator it(PGN.begin(), PGN.end(), moveRegex);
-	std::sregex_iterator end;
-
-	// Iterate over the matches and extract the required information
 	int nrMove = 1;
-	for (; it != end; ++it) {
-		std::smatch match = *it;
-
-		String moveString = match[0].str();
+	for (int i = 0; i < Moves.size(); i++)
+	{
+		String moveString = Moves[i];
 		EPieceType type, promoteType;
 		EColor color = nrMove % 2 == 0 ? EColor::Black : EColor::White;
 

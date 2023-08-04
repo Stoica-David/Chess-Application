@@ -3,6 +3,8 @@
 
 #include <string>
 #include <fstream>
+#include <sstream>
+#include <regex>
 
 PGNHandler::PGNHandler()
 {
@@ -38,6 +40,11 @@ void PGNHandler::SetHeader(ETag tag, const String& value)
 	m_headers[tag] = "[" + ConvertTag(tag) + " " + value + "]";
 }
 
+void PGNHandler::SetPGN(const String& PGN)
+{
+	m_PGN = PGN;
+}
+
 void PGNHandler::AddMove(const String& newMove)
 {
 	m_moves.push_back(newMove);
@@ -61,6 +68,49 @@ void PGNHandler::ResetHeaders()
 	m_headers[ETag::White] = "[White \"?\"]";
 	m_headers[ETag::Black] = "[Black \"?\"]";
 	m_headers[ETag::Result] = "[Result \"*\"]";
+}
+
+void PGNHandler::ParseFromPGN()
+{
+	m_PGN = std::regex_replace(m_PGN, std::regex("\\n"), " ");
+	m_PGN = std::regex_replace(m_PGN, std::regex("\\b\\d+\\.\\ *|[+#x*]"), "");
+
+	m_moves.clear();
+
+	std::regex moveRegex(R"(\b([KQRBNP])?([a-h]?[1-8]?)?([x:])?([a-h][1-8])(=?[QRBN]?)?([+#]?)\b|O-O-O|O-O)");
+
+	// Create an iterator to find all matches in the PGN string
+	std::sregex_iterator it(m_PGN.begin(), m_PGN.end(), moveRegex);
+	std::sregex_iterator end;
+
+	for (; it != end; ++it) 
+	{
+		std::smatch match = *it;
+
+		String moveString = match[0].str();
+
+		m_moves.push_back(moveString);
+	}
+}
+
+void PGNHandler::LoadPGNFromFile(const String& filePath)
+{
+	std::ifstream inFile(filePath);
+
+	if (inFile.is_open()) {
+		std::stringstream buffer;
+		buffer << inFile.rdbuf();
+		m_PGN = buffer.str();
+		inFile.close();
+	}
+	else {
+		throw PGNException("Error: Unable to open the file for reading.");
+	}
+}
+
+StringVector PGNHandler::GetMoves() const
+{
+	return m_moves;
 }
 
 void PGNHandler::ParseToPGN()

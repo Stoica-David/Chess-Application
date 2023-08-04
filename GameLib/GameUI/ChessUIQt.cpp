@@ -105,7 +105,7 @@ void ChessUIQt::UpdateCaptured(EColor color)
 		EPieceType::King,
 		EPieceType::Pawn
 	};
-	
+
 	for (auto currPiece : allPieces)
 	{
 		if (currPiece == EPieceType::King)
@@ -194,7 +194,7 @@ void ChessUIQt::MakeButtonsUnselectable()
 		for (int j = 0; j < 8; j++)
 		{
 			m_grid[i][j]->setEnabled(false);
-	}
+		}
 	}
 }
 
@@ -476,14 +476,14 @@ void ChessUIQt::InitializeTabBar(QGridLayout* mainGridLayout)
 	closeButton->setFixedWidth(30);
 	closeButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-	 //Create minimize button
+	//Create minimize button
 	minimizeButton = new QPushButton(minimizeIcon, "", this);
 	minimizeButton->setStyleSheet("background-color: #D2C4B5; color: #7A6C5D; border: none;");
 	minimizeButton->setFixedHeight(30);
 	minimizeButton->setFixedWidth(30);
 	minimizeButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-	 //Layout for the title bar area (containing the buttons)
+	//Layout for the title bar area (containing the buttons)
 
 	QHBoxLayout* titleBarLayout = new QHBoxLayout();
 
@@ -496,7 +496,7 @@ void ChessUIQt::InitializeTabBar(QGridLayout* mainGridLayout)
 	titleBarLayout->addWidget(minimizeButton, 0, Qt::AlignRight);  // Align the buttons to the right
 	titleBarLayout->addWidget(closeButton, 0, Qt::AlignRight);
 
-	 //Create a widget to hold the title bar contents
+	//Create a widget to hold the title bar contents
 	QWidget* titleBarWidget = new QWidget();
 	titleBarWidget->setLayout(titleBarLayout);
 	titleBarWidget->setStyleSheet("background-color: #BCAC9B;");
@@ -607,14 +607,19 @@ void ChessUIQt::OnLoadButtonClicked()
 
 	String dataString = data.toStdString();
 
-	if (dataString[1] != '.')
+	QString extension = QFileInfo(file).suffix();
+
+	if (extension == "fen")
 	{
 		m_MovesList->setEditTriggers(QAbstractItemView::NoEditTriggers);
 	}
 
 	try
 	{
-		m_game->SetGame(dataString);
+		if (extension == "pgn")
+		{
+			m_game->LoadPGN(fileName.toStdString());
+		}
 	}
 	catch (ChessException exc)
 	{
@@ -979,18 +984,18 @@ bool ChessUIQt::eventFilter(QObject* obj, QEvent* event)
 	else if (event->type() == QEvent::Leave)
 	{
 		// Mouse left the button, remove hover effect
-	
-			if (QPushButton* button = qobject_cast<QPushButton*>(obj))
+
+		if (QPushButton* button = qobject_cast<QPushButton*>(obj))
+		{
+			if (button == closeButton || button == minimizeButton)
 			{
-				if (button == closeButton || button == minimizeButton)
-				{
-					button->setStyleSheet("background-color: #D2C4B5; color: #7A6C5D; border: none;");
-				}
-				else
-				{
-					ApplyButtonStyles(button);
-				}
+				button->setStyleSheet("background-color: #D2C4B5; color: #7A6C5D; border: none;");
 			}
+			else
+			{
+				ApplyButtonStyles(button);
+			}
+		}
 	}
 
 	return false; // Continue normal event processing

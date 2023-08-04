@@ -23,9 +23,9 @@ public:
 
     //Setters
     void SetHeader(ETag tag, const String& value);
+    void SetPGN(const String& PGN);
 
-    //Getters
-
+    //Save
     void AddMove(const String&);
     void ParseToPGN();
     void SavePGNToFile(const String& filePath);
@@ -34,6 +34,10 @@ public:
     void ResetPGN();
     void ResetHeaders();
 
+    // Load
+    void ParseFromPGN();
+    void LoadPGNFromFile(const String& filePath);
+    StringVector GetMoves() const;
 
 private:
     String m_PGN;

@@ -25,7 +25,7 @@ public:
 	// Setters
 	PiecesPtr& operator[](Position p);
 	void SetHistory(const MoveVector& v);
-	void SetBoard(const String& string);
+	void SetBoard(const StringVector& string);
 
 	// Getters
 	IPieceInfoPtr GetPieceInfo(Position p) const;
@@ -64,7 +64,7 @@ public:
 	bool FindSameLine(Position p1, Position p2) const;
 	bool FindSameColumn(Position p1, Position p2) const;
 
-	void ParsePGN(String PGN);
+	void ParsePGN(StringVector Moves);
 
 	String ConvertMove(Position p1, Position p2) const;
 

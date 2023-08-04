@@ -260,6 +260,15 @@ bool Game::Stalemate() const
 	return (m_gameboard.IsStalemate(m_turn));
 }
 
+void Game::LoadPGN(const String& filePath)
+{
+	m_PGN.LoadPGNFromFile(filePath);
+
+	m_PGN.ParseFromPGN();
+
+	m_gameboard.ParsePGN(m_PGN.GetMoves());
+}
+
 String Game::GenerateFEN() const
 {
 	String FEN = m_gameboard.GenerateFEN();
@@ -363,49 +372,49 @@ static char LastChar(const String& string)
 	return ' ';
 }
 
-void Game::SetGame(const String& string)
-{
-	m_gameboard.SetBoard(string);
-
-	if (string[string.size() - 1] == 'w' || string[string.size()] - 1 == ' ')
-	{
-		m_turn = EColor::White;
-	}
-	else
-	{
-		m_turn = EColor::Black;
-	}
-
-	char lastChar = LastChar(string);
-
-	if (string[1] == '.')
-	{
-		if (m_gameboard.IsCheckMate(EColor::White))
-		{
-			UpdateState(EState::BlackWon);
-		}
-		else if (m_gameboard.IsCheckMate(EColor::Black))
-		{
-			UpdateState(EState::WhiteWon);
-		}
-		else if (lastChar == '1')
-		{
-			UpdateState(EState::BlackWon);
-		}
-		else if (lastChar == '0')
-		{
-			UpdateState(EState::WhiteWon);
-		}
-		else if (lastChar == '2')
-		{
-			UpdateState(EState::Draw);
-		}
-		else
-		{
-			UpdateState(EState::Playing);
-		}
-	}
-}
+//void Game::SetGame(const StringVector& string)
+//{
+//	m_gameboard.SetBoard(string);
+//
+//	if (string.back().back() == 'w' || string.back().back() == ' ')
+//	{
+//		m_turn = EColor::White;
+//	}
+//	else
+//	{
+//		m_turn = EColor::Black;
+//	}
+//
+//	char lastChar = LastChar(string.back());
+//
+//	//if (string[1] == '.')
+//	//{
+//		if (m_gameboard.IsCheckMate(EColor::White))
+//		{
+//			UpdateState(EState::BlackWon);
+//		}
+//		else if (m_gameboard.IsCheckMate(EColor::Black))
+//		{
+//			UpdateState(EState::WhiteWon);
+//		}
+//		else if (lastChar == '1')
+//		{
+//			UpdateState(EState::BlackWon);
+//		}
+//		else if (lastChar == '0')
+//		{
+//			UpdateState(EState::WhiteWon);
+//		}
+//		else if (lastChar == '2')
+//		{
+//			UpdateState(EState::Draw);
+//		}
+//		else
+//		{
+//			UpdateState(EState::Playing);
+//		}
+//	//}
+//}
 
 void Game::SetHistory(const MoveVector& v)
 {

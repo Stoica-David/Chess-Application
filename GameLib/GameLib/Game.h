@@ -41,7 +41,6 @@ public:
 	void AddListener(IGameListenerPtr) override;
 	void RemoveListener(IGameListener*) override;
 
-	void SetGame(const String&) override;
 	void SetHistory(const MoveVector&) override;
 
 	PositionList GetMoves(Position p) override;
@@ -53,6 +52,7 @@ public:
 	std::unordered_map <EPieceType, int> PiecesLeft(EColor)const override;
 	
 	void SavePGN(const String&)override;
+	void LoadPGN(const String&) override;
 
 	//Other methods
 	void NotifyMove();
