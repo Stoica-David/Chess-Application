@@ -572,10 +572,17 @@ void ChessUIQt::OnSaveButtonClicked()
 
 	QString extension = QFileInfo(file).suffix();
 
-	String dataStr = extension == "pgn" ? m_game->GeneratePGN() : m_game->GenerateFEN();
+	String path = fileName.toStdString();
 
-	QTextStream out(&file);
-	out << QString::fromStdString(dataStr);
+	if (extension == "pgn")
+	{
+		m_game->SavePGN(path);
+	}
+	else
+	{
+		m_game->GenerateFEN();
+	}
+
 	file.close();
 }
 

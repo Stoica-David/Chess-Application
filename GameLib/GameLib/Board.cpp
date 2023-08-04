@@ -111,6 +111,11 @@ MoveVector Board::GetHistory() const
 	return m_moves;
 }
 
+String Board::GetCurrPGN() const
+{
+	return m_PGN;
+}
+
 bool Board::IsOver(EColor color) const
 {
 	return (IsCheckMate(color));
@@ -489,7 +494,7 @@ void Board::PromoteTo(EPieceType pieceType, EColor color)
 
 	if (!m_PGN.empty())
 	{
-		m_PGN[m_PGN.size() - 1] = last;
+		m_PGN += last;
 	}
 
 	m_board[p.first][p.second] = Piece::Produce(pieceType, color);
@@ -497,6 +502,8 @@ void Board::PromoteTo(EPieceType pieceType, EColor color)
 
 void Board::Move(Position p1, Position p2)
 {
+	m_PGN.clear();
+
 	PiecesPtr currPiece = GetPiece(p1);
 	PiecesPtr nextPiece = GetPiece(p2);
 
@@ -518,28 +525,7 @@ void Board::Move(Position p1, Position p2)
 		throw InTheWayException("There is a piece in the way");
 	}
 
-	if (currPiece->Is(EColor::Black))
-	{
-		if (!m_PGN.empty())
-		{
-			String last = m_PGN.back();
-
-			last += ConvertMove(p1, p2);
-
-			m_PGN.pop_back();
-			m_PGN.push_back(last);
-		}
-	}
-	else
-	{
-		String wholeMove = std::to_string(m_PGN.size() + 1);
-		String move = ConvertMove(p1, p2);
-
-		wholeMove += ".";
-		wholeMove += move;
-
-		m_PGN.push_back(wholeMove);
-	}
+	m_PGN += ConvertMove(p1, p2);
 
 	bool currPiecePrevMoved = currPiece->GetHasMoved();
 
@@ -610,13 +596,11 @@ void Board::Move(Position p1, Position p2)
 	{
 		if (IsCheckMate(OppositeColor(currPiece->GetColor())))
 		{
-			m_PGN[m_PGN.size() - 1].pop_back();
-			m_PGN[m_PGN.size() - 1] += "# ";
+			m_PGN += "# ";
 		}
 		else if (IsCheck(otherKingPos, OppositeColor(currPiece->GetColor())))
 		{
-			m_PGN[m_PGN.size() - 1].pop_back();
-			m_PGN[m_PGN.size() - 1] += "+ ";
+			m_PGN += "+ ";
 		}
 	}
 }
@@ -870,23 +854,6 @@ String Board::GenerateFEN() const
 	FEN.push_back(' ');
 
 	return FEN;
-}
-
-String Board::GeneratePGN() const
-{
-	String PGN;
-
-	for (auto& currString : m_PGN)
-	{
-		PGN += currString;
-	}
-
-	if (!strchr("012", PGN.back()))
-	{
-		PGN.push_back('*');
-	}
-
-	return PGN;
 }
 
 void Board::ParsePGN(String PGN)
@@ -1647,8 +1614,6 @@ String Board::ConvertMove(Position p1, Position p2) const
 		convertedMove.push_back('a' + nextY);
 		convertedMove.push_back('0' + (8 - nextX));
 	}
-
-	convertedMove.push_back(' ');
 
 	return convertedMove;
 }

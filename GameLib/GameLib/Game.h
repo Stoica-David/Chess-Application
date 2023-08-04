@@ -3,6 +3,7 @@
 #include "IGame.h"
 #include "Board.h"
 #include "Piece.h"
+#include "PGNHandler.h"
 #include "EState.h"
 
 #include<vector>
@@ -46,9 +47,12 @@ public:
 	PositionList GetMoves(Position p) override;
 
 	String GenerateFEN() const override;
-	String GeneratePGN() const override;
 
 	MoveVector GetHistory()const override;
+
+	std::unordered_map <EPieceType, int> PiecesLeft(EColor)const override;
+	
+	void SavePGN(const String&)override;
 
 	//Other methods
 	void NotifyMove();
@@ -61,7 +65,6 @@ public:
 	PiecesPtr GetPiece(Position) const;
 	bool Stalemate() const;
 
-	std::unordered_map <EPieceType, int> PiecesLeft(EColor)const override;
 
 private:
 	void SwitchTurn();
@@ -72,5 +75,5 @@ private:
 	EColor m_turn;
 	EState m_state;
 	ListenersList m_listeners;
-
+	PGNHandler m_PGN;
 };

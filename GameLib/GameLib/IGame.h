@@ -41,8 +41,9 @@ public:
 	virtual bool IsPromoting() const = 0;
 
 	virtual String GenerateFEN()const = 0;
-	virtual String GeneratePGN()const = 0;
 	virtual std::unordered_map <EPieceType, int> PiecesLeft(EColor) const = 0;
+
+	virtual void SavePGN(const String&) = 0;
 
 	virtual MoveVector GetHistory()const = 0;
 

@@ -31,6 +31,7 @@ public:
 	IPieceInfoPtr GetPieceInfo(Position p) const;
 	PiecesPtr GetPiece(Position p) const;
 	MoveVector GetHistory()const;
+	String GetCurrPGN()const;
 
 	// Functions
 	bool IsOver(EColor color) const;
@@ -59,12 +60,13 @@ public:
 	PositionList GetMovesPinned(Position p) const;
 
 	String GenerateFEN() const;
-	String GeneratePGN() const;
 
 	bool FindSameLine(Position p1, Position p2) const;
 	bool FindSameColumn(Position p1, Position p2) const;
 
 	void ParsePGN(String PGN);
+
+	String ConvertMove(Position p1, Position p2) const;
 
 private:
 	bool PawnGoesDiagonally(Position p1, Position p2) const;
@@ -98,8 +100,6 @@ private:
 
 	Position IntermediatePosition(Position p) const;
 
-	String ConvertMove(Position p1, Position p2) const;
-
 	static PiecesPtr ProducePiece(char c);
 	static EPieceType GetPieceType(char c);
 
@@ -111,5 +111,5 @@ private:
 	ChessBoard m_board;
 	BitMatrix m_prevPositions;
 	MoveVector m_moves;
-	StringVector m_PGN;
+	String m_PGN;
 };

@@ -65,6 +65,8 @@ void Game::Move(Position p1, Position p2, bool toNotify)
 
 		m_gameboard.Move(p1, p2);
 
+		m_PGN.AddMove(m_gameboard.GetCurrPGN());
+
 		currPiece = m_gameboard.GetPiece(p1);
 
 		if (!currPiece && pieceCaptured)
@@ -88,15 +90,17 @@ void Game::Move(Position p1, Position p2, bool toNotify)
 			SwitchTurn();
 		}
 
-		NotifyMove();
-
+		if (toNotify)
+		{
+			NotifyMove();
+		}
 
 		if (m_gameboard.IsOver(EColor::White))
 		{
 			UpdateState(EState::BlackWon);
 			if (toNotify == true)
 			{
-			NotifyGameOver(EOverState::BlackWon);
+				NotifyGameOver(EOverState::BlackWon);
 			}
 		}
 		else if (Stalemate() || m_gameboard.IsDraw() || m_gameboard.Is3Fold())
@@ -198,6 +202,7 @@ void Game::Restart()
 	m_turn = EColor::White;
 	m_state = EState::Playing;
 	m_gameboard.Reset();
+	m_PGN.Clear();
 	NotifyRestart();
 }
 
@@ -219,6 +224,30 @@ std::unordered_map<EPieceType, int> Game::PiecesLeft(EColor color)const
 	}
 
 	return leftPieces;
+}
+
+void Game::SavePGN(const String& filePath)
+{
+	if (IsDraw())
+	{
+		m_PGN.SetHeader(ETag::Result, "1/2-1/2");
+	}
+	else if (IsOver())
+	{
+		if (m_turn == EColor::White)
+		{
+			m_PGN.SetHeader(ETag::Result, "0-1");
+
+		}
+		{
+			m_PGN.SetHeader(ETag::Result, "1-0");
+
+		}
+	}
+
+	m_PGN.ParseToPGN();
+
+	m_PGN.SavePGNToFile(filePath);
 }
 
 void Game::SwitchTurn()
@@ -245,39 +274,6 @@ String Game::GenerateFEN() const
 	}
 
 	return FEN;
-}
-
-String Game::GeneratePGN() const
-{
-	String PGN = m_gameboard.GeneratePGN();
-
-	if (m_state == EState::BlackWon)
-	{
-		PGN.push_back(' ');
-		PGN.push_back('0');
-		PGN.push_back('-');
-		PGN.push_back('1');
-	}
-	else if (m_state == EState::WhiteWon)
-	{
-		PGN.push_back(' ');
-		PGN.push_back('1');
-		PGN.push_back('-');
-		PGN.push_back('0');
-	}
-	else if (m_state == EState::Draw)
-	{
-		PGN.push_back(' ');
-		PGN.push_back('1');
-		PGN.push_back('/');
-		PGN.push_back('2');
-		PGN.push_back('-');
-		PGN.push_back('1');
-		PGN.push_back('/');
-		PGN.push_back('2');
-	}
-
-	return PGN;
 }
 
 MoveVector Game::GetHistory() const
@@ -395,19 +391,16 @@ void Game::SetGame(const String& string)
 		else if (lastChar == '1')
 		{
 			UpdateState(EState::BlackWon);
-			//NotifyGameOver(EOverState::BlackWon);
 		}
 		else if (lastChar == '0')
 		{
 			UpdateState(EState::WhiteWon);
-			//NotifyGameOver(EOverState::WhiteWon);
 		}
 		else if (lastChar == '2')
 		{
 			UpdateState(EState::Draw);
-			//NotifyGameOver(EOverState::Draw);
 		}
-		else 
+		else
 		{
 			UpdateState(EState::Playing);
 		}
