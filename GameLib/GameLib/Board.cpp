@@ -1180,7 +1180,7 @@ bool Board::IsDefended(Position p, EColor color) const
 		{
 			PiecesPtr currPiece = m_board[i][j];
 
-			if (!currPiece || (currPiece->GetColor() != color) || Position(i, j) == p)
+			if (!currPiece || (currPiece->GetColor() != color))
 			{
 				continue;
 			}
