@@ -894,6 +894,7 @@ void Board::ParsePGN(String PGN)
 	Board initialBoard(*this);
 	Reset();
 
+	PGN = std::regex_replace(PGN, std::regex("\\n"), " ");
 	PGN = std::regex_replace(PGN, std::regex("\\b\\d+\\.\\ *|[+#x*]"), "");
 
 	// Define the regex pattern to match the moves in the PGN string
