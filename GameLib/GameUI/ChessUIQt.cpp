@@ -644,6 +644,10 @@ void ChessUIQt::OnLoadButtonClicked()
 
 		OnGameOver(whoWon);
 	}
+	else
+	{
+		m_MovesList->setEditTriggers(QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked);
+	}
 
 	ClearPieces();
 	UpdateCaptured(EColor::White);
@@ -808,6 +812,7 @@ void ChessUIQt::StartGame()
 {
 	UpdateBoard(GetBoard());
 	MakeButtonsSelectable();
+	m_MovesList->setEditTriggers(QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked);
 }
 
 static EPieceType ConvertToEnum(const std::string& pieceType)
