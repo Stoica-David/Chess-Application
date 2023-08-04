@@ -55,7 +55,7 @@ void GridButton::updatePiece()
 	QPixmap pixmap(QString::fromStdString(imagePath));
 	QIcon ButtonIcon(pixmap);
 	setIcon(ButtonIcon);
-	setIconSize(pixmap.rect().size());
+	setIconSize(pixmap.rect().size() * 0.8);
 }
 
 void GridButton::updateBackgroundColor()

@@ -60,7 +60,7 @@
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>../GameLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\GenerateFiles\$(ConfigurationName);.\GenerateFiles;../GameLib;.;debug;/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>
@@ -70,7 +70,7 @@
   </ItemDefinitionGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
     <ClCompile>
-      <AdditionalIncludeDirectories>../GameLib;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
+      <AdditionalIncludeDirectories>.\GenerateFiles\$(ConfigurationName);.\GenerateFiles;../GameLib;.;debug;/include;%(AdditionalIncludeDirectories)</AdditionalIncludeDirectories>
     </ClCompile>
     <Link>
       <OutputFile>$(OutDir)$(TargetName)$(TargetExt)</OutputFile>

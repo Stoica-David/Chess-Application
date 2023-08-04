@@ -361,6 +361,10 @@ void ChessUIQt::InitializeHistory(QGridLayout* mainGridLayout)
 	scrollArea->setWidgetResizable(true);
 
 	m_MovesList = new QListWidget();
+
+	m_MovesList->setStyleSheet("QListWidget::item:hover { background-color: #7A6C5D; } "
+		"QListWidget::item:selected { background-color: #7A6C5D; border: 3px solid #2A3D45;}");
+
 	connect(m_MovesList, &QListWidget::itemActivated, this, &ChessUIQt::OnHistoryClicked);
 
 	scrollArea->setWidget(m_MovesList);
@@ -455,16 +459,22 @@ void ChessUIQt::InitializeTabBar(QGridLayout* mainGridLayout)
 	minimizeButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
 	 //Layout for the title bar area (containing the buttons)
+
 	QHBoxLayout* titleBarLayout = new QHBoxLayout();
+
 	titleBarLayout->setContentsMargins(0, 0, 0, 0);
-	titleBarLayout->addStretch();
-	titleBarLayout->addWidget(messageLabel, Qt::AlignAbsolute);
-	titleBarLayout->addWidget(minimizeButton, Qt::AlignRight);
-	titleBarLayout->addWidget(closeButton, Qt::AlignRight);
+
+	titleBarLayout->addWidget(messageLabel, 0, Qt::AlignLeft);
+	messageLabel->setContentsMargins(20, 0, 0, 0);  // Add left margin
+
+	titleBarLayout->addStretch();  // Add a stretch item to push the buttons to the right
+	titleBarLayout->addWidget(minimizeButton, 0, Qt::AlignRight);  // Align the buttons to the right
+	titleBarLayout->addWidget(closeButton, 0, Qt::AlignRight);
 
 	 //Create a widget to hold the title bar contents
 	QWidget* titleBarWidget = new QWidget();
 	titleBarWidget->setLayout(titleBarLayout);
+	titleBarWidget->setStyleSheet("background-color: #BCAC9B;");
 
 	setMenuWidget(titleBarWidget);
 
