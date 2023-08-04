@@ -540,8 +540,8 @@ TEST(MoveTest, PawnBackDiagonalTest)
 TEST(PromoteCheckTest, PromoteCheck1)
 {
 	CharMatrix m = { {
-	{'r', 'h', 'b', 'R', 'k', 'b', 'h', 'r'},
-	{'-', '-', '-', '-', 'p', 'p', 'p', 'p'},
+	{'r', 'h', 'b', 'q', 'k', 'b', 'h', 'r'},
+	{'-', '-', 'P', '-', 'p', 'p', 'p', 'p'},
 	{'p', '-', '-', '-', '-', '-', '-', '-'},
 	{'-', 'p', '-', '-', '-', '-', '-', '-'},
 	{'-', '-', '-', '-', '-', '-', '-', '-'},
@@ -554,5 +554,9 @@ TEST(PromoteCheckTest, PromoteCheck1)
 
 	PositionList kingMoves = { {0, 3} };
 
+	g.Move({ 1,2 }, { 0,3 });
+	g.PromoteTo(EPieceType::Rook);
+
 	EXPECT_EQ(g.GetMoves({ 0, 4 }), kingMoves);
+	EXPECT_EQ(g.IsOver(), false);
 }

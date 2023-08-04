@@ -685,8 +685,6 @@ void ChessUIQt::OnHistoryClicked(QListWidgetItem* item)
 
 	m_game->Restart();
 
-	//m_game->SetHistory(newHistory);
-
 	for (int i = 0; i <= index; i++)
 	{
 		Position start = newHistory[i].first;

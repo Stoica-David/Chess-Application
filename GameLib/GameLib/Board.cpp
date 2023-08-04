@@ -460,12 +460,6 @@ void Board::PromoteTo(EPieceType pieceType, EColor color)
 
 	String last;
 
-	if (!m_PGN.empty())
-	{
-		last = m_PGN.back();
-		last.pop_back();
-	}
-
 	switch (pieceType)
 	{
 	case EPieceType::Rook:
@@ -556,6 +550,7 @@ void Board::Move(Position p1, Position p2)
 
 		currPiece->SetHasMoved(currPiecePrevMoved);
 
+		m_PGN.clear();
 		m_moves.pop_back();
 
 		throw StillCheckException("The king is still in check!");
@@ -1124,10 +1119,15 @@ bool Board::KillCheck(Position p, EColor color) const
 	int x = p.first,
 		y = p.second;
 
-	Position toKill;
+	Position toKill = { -1, -1 };
 
 	for (int i = 0; i < 8; i++)
 	{
+		if (toKill != Position(-1, -1))
+		{
+			break;
+		}
+
 		for (int j = 0; j < 8; j++)
 		{
 			PiecesPtr currPiece = m_board[i][j];
@@ -1193,7 +1193,7 @@ bool Board::IsDefended(Position p, EColor color) const
 		{
 			PiecesPtr currPiece = m_board[i][j];
 
-			if (!currPiece || (currPiece->GetColor() != color))
+			if (!currPiece || (currPiece->GetColor() != color) || Position(i, j) == p)
 			{
 				continue;
 			}
@@ -1344,9 +1344,14 @@ PositionList Board::DefendedPositions(Position p, EColor color) const
 
 			PiecesPtr currPiece = m_board[currX][currY];
 
-			if (!currPiece || (currPiece->GetColor() != color))
+			if (!currPiece)
 			{
 				continue;
+			}
+
+			if (currPiece->GetColor() != initialPiece->GetColor())
+			{
+				break;
 			}
 
 			newList.push_back({ currX, currY });

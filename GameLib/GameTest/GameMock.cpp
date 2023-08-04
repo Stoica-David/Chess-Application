@@ -646,3 +646,32 @@ TEST(PieceCapturedMock, PieceCaptured)
 
 	myGame.RemoveListener(mock.get());
 }
+
+TEST(GameOverTest, PromoteTest1)
+{
+	CharMatrix m = { {
+	{'r', 'h', 'b', 'q', 'k', 'b', 'h', 'r'},
+	{'-', '-', 'P', '-', 'p', 'p', 'p', 'p'},
+	{'p', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', 'p', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'P', 'P', 'P', 'P', '-', 'P', 'P', 'P'},
+	{'R', 'H', 'B', 'Q', 'K', 'B', 'H', 'R'}
+	} };
+
+	Game g(m, EColor::White, EState::Playing);
+
+	auto mock = std::make_shared<MockGame>();
+
+	PositionList kingMoves = { {0, 3} };
+
+	g.AddListener(mock);
+
+	g.Move({ 1,2 }, { 0,3 });
+	g.PromoteTo(EPieceType::Rook);
+
+	EXPECT_CALL(*mock, OnGameOver(EOverState::WhiteWon)).Times(0);
+
+	g.RemoveListener(mock.get());
+}

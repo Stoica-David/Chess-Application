@@ -29,8 +29,9 @@ public:
     void AddMove(const String&);
     void ParseToPGN();
     void SavePGNToFile(const String& filePath);
-    void ResetPGN();
+    
     void Clear();
+    void ResetPGN();
     void ResetHeaders();
 
 
