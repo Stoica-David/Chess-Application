@@ -95,7 +95,40 @@ static int GetDefaultNumberOfPieces(EPieceType type)
 void ChessUIQt::UpdateCaptured(EColor color)
 {
 	auto leftPieces = m_game->PiecesLeft(color);
-	for (auto typeInfo : leftPieces)
+
+	std::vector<EPieceType> allPieces = {
+		EPieceType::Rook,
+		EPieceType::Knight,
+		EPieceType::Bishop,
+		EPieceType::Queen,
+		EPieceType::King,
+		EPieceType::Pawn
+	};
+	
+	for (auto typePieceInfo : allPieces)
+	{
+		if (typePieceInfo == EPieceType::King)
+			continue;
+
+		int missingPieces = GetDefaultNumberOfPieces(typePieceInfo);
+
+		for (auto typeInfo : leftPieces)
+		{
+			EPieceType type = typeInfo.first;
+			int actualApperences = typeInfo.second;
+
+			if(type == typePieceInfo)
+				missingPieces -= actualApperences;
+		}
+
+		for (int i = 0; i < missingPieces; i++)
+		{
+			OnPieceCapture(typePieceInfo, color);
+		}
+
+	}
+
+	/*for (auto typeInfo : leftPieces)
 	{
 		if (typeInfo.first == EPieceType::King)
 			continue;
@@ -106,7 +139,7 @@ void ChessUIQt::UpdateCaptured(EColor color)
 		{
 			OnPieceCapture(typeInfo.first, color);
 		}
-	}
+	}*/
 }
 
 static PieceType GetType(IPieceInfoPtr currPiece)
@@ -419,9 +452,9 @@ void ChessUIQt::InitializePlayer(QGridLayout* mainGridLayout, EColor color)
 
 	QListWidget* playerPieces = color == EColor::Black ? m_blackPieces : m_whitePieces;
 	playerPieces->setFlow(QListWidget::LeftToRight);
-	playerPieces->setStyleSheet("QListWidget::item, QListWidget{background-color:transparent; border: none;}");
-	playerPieces->setMaximumHeight(20);
-	qDebug() << playerPieces->width();
+	playerPieces->setStyleSheet("QListWidget::item, QListWidget{background-color:transparent; border: none}");
+	playerPieces->setMaximumHeight(30);
+	playerPieces->setFixedWidth(400);
 
 	playerGrid->addWidget(profilePicture, 0, 0, 2, 1);
 	playerGrid->addWidget(profileName, 0, 1, Qt::AlignTop);
