@@ -191,8 +191,6 @@ void Game::SavePGN(const String& filePath)
 		m_turn == EColor::White ? m_PGN.SetHeader(ETag::Result, "0-1") : m_PGN.SetHeader(ETag::Result, "1-0");
 	}
 
-	m_PGN.ParseToPGN();
-
 	m_PGN.SavePGNToFile(filePath);
 }
 

@@ -1024,6 +1024,27 @@ TEST(EnPassantTest, Passant1)
 	EXPECT_NO_THROW(b.Move({ 4, 4 }, { 5, 3 }));
 }
 
+TEST(EnPassantTest, Passant2)
+{
+	CharMatrix m = { {
+	{'r', 'h', 'b', 'q', 'k', 'b', 'h', 'r'},
+	{'p', 'p', 'p', '-', 'p', 'p', 'p', 'p'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', 'P', '-', 'p', '-', '-', '-', '-'},
+	{'P', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', 'P', 'P', 'P', 'P', 'P', 'P'},
+	{'R', 'H', 'B', 'Q', 'K', 'B', 'H', 'R'}
+	} };
+
+	Board b(m);
+
+	EXPECT_NO_THROW(b.Move({ 6, 4 }, { 4, 4 }));
+	EXPECT_NO_THROW(b.Move({ 4, 3 }, { 5, 4 }));
+}
+
+
+
 TEST(GetHistoryTest, EmptyTest)
 {
 	Board b;
@@ -1071,4 +1092,24 @@ TEST(FindCheckTest, CheckSituation)
 	Board b(m);
 
 	EXPECT_EQ(b.FindCheck({ 7,4 }, EColor::White), Position(3, 0));
+}
+
+TEST(GenerateFENTest, Fen1)
+{
+	CharMatrix m = { {
+	{'r', 'h', 'b', 'q', 'k', '-', 'h', 'r'},
+	{'p', 'p', 'p', 'p', '-', '-', 'p', 'p'},
+	{'-', '-', '-', '-', '-', 'p', '-', '-'},
+	{'-', '-', '-', '-', 'p', '-', '-', '-'},
+	{'-', 'b', '-', 'P', '-', '-', '-', '-'},
+	{'-', '-', 'P', 'Q', '-', 'H', '-', '-'},
+	{'P', 'P', '-', '-', 'P', 'P', 'P', 'P'},
+	{'R', 'H', 'B', '-', 'K', 'B', '-', 'R'}
+	} };
+
+	Board b(m);
+
+	String fen = "rnbqk1nr/pppp2pp/5p2/4p3/1b1P4/2PQ1N2/PP2PPPP/RNB1KB1R ";
+
+	EXPECT_EQ(b.GenerateFEN(), fen);
 }

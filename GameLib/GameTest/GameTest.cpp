@@ -560,3 +560,22 @@ TEST(PromoteCheckTest, PromoteCheck1)
 	EXPECT_EQ(g.GetMoves({ 0, 4 }), kingMoves);
 	EXPECT_EQ(g.IsOver(), false);
 }
+
+TEST(PiecesLeftTest, PiecesLeft1)
+{
+	CharMatrix m = { {
+	{'r', 'B', '-', '-', 'k', 'b', 'h', '-'},
+	{'p', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', 'P', '-', '-', '-', '-', '-', 'r'},
+	{'-', 'q', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', 'P'},
+	{'-', '-', '-', 'K', '-', 'B', 'H', 'R'}
+	} };
+
+	Game g(m, EColor::Black, EState::Playing);
+
+	EXPECT_EQ(g.PiecesLeft(EColor::Black).size(), 6);
+	EXPECT_EQ(g.PiecesLeft(EColor::White).size(), 5);
+}

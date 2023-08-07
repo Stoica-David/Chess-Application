@@ -78,6 +78,7 @@ void PGNHandler::ParseToPGN()
 
 void PGNHandler::SavePGNToFile(const String& filePath)
 {
+	ParseToPGN();
 	std::ofstream outFile(filePath);
 
 	if (outFile.is_open()) {

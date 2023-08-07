@@ -32,7 +32,6 @@ public:
 
     //Save 
     void AddMove(const String&);
-    void ParseToPGN();
     void SavePGNToFile(const String& filePath);
     
     //Load
@@ -58,6 +57,7 @@ private:
     //Save related
     void AddHeaders();
     void AddEndGame();
+    void ParseToPGN();
 
 private:
     String m_PGN;
