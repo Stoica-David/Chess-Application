@@ -256,6 +256,10 @@ void Game::LoadPGN(const String& filePath)
 	{
 		UpdateState(EState::BlackWon);
 	}
+	else
+	{
+		UpdateState(EState::Playing);
+	}
 }
 
 String Game::SaveFEN() const
@@ -277,6 +281,23 @@ String Game::SaveFEN() const
 void Game::LoadFEN(const String& string)
 {
 	m_gameboard.LoadFEN(string);
+
+	if (m_gameboard.IsCheckMate(EColor::White))
+	{
+		UpdateState(EState::BlackWon);
+	}
+	else if (m_gameboard.IsCheckMate(EColor::Black))
+	{
+		UpdateState(EState::WhiteWon);
+	}
+	else if (m_gameboard.IsDraw())
+	{
+		UpdateState(EState::Draw);
+	}
+	else
+	{
+		UpdateState(EState::Playing);
+	}
 }
 
 MoveVector Game::GetHistory() const
