@@ -46,8 +46,11 @@ void Game::Restart()
 {
 	m_turn = EColor::White;
 	m_state = EState::Playing;
+
 	m_gameboard.Reset();
+	
 	m_PGN.Clear();
+	
 	NotifyRestart();
 }
 
@@ -163,14 +166,7 @@ String Game::SaveFEN() const
 {
 	String FEN = m_gameboard.GenerateFEN();
 
-	if (m_turn == EColor::White)
-	{
-		FEN.push_back('w');
-	}
-	else
-	{
-		FEN.push_back('b');
-	}
+	m_turn == EColor::White ? FEN.push_back('w') : FEN.push_back('b');
 
 	return FEN;
 }
@@ -205,15 +201,7 @@ void Game::SavePGN(const String& filePath)
 	}
 	else if (IsOver())
 	{
-		if (m_turn == EColor::White)
-		{
-			m_PGN.SetHeader(ETag::Result, "0-1");
-
-		}
-		{
-			m_PGN.SetHeader(ETag::Result, "1-0");
-
-		}
+		m_turn == EColor::White ? m_PGN.SetHeader(ETag::Result, "0-1") : m_PGN.SetHeader(ETag::Result, "1-0");
 	}
 
 	m_PGN.ParseToPGN();
@@ -276,7 +264,7 @@ bool Game::IsOver() const
 
 bool Game::IsDrawProposed() const
 {
-	return (m_state == EState::DrawIsProposed);
+	return m_state == EState::DrawIsProposed;
 }
 
 bool Game::IsCheck() const
@@ -286,7 +274,7 @@ bool Game::IsCheck() const
 
 bool Game::IsPromoting() const
 {
-	return (m_state == EState::ChoosePiece);
+	return m_state == EState::ChoosePiece;
 }
 
 EColor Game::GetTurn() const
@@ -311,7 +299,7 @@ IPieceInfoPtr Game::GetPieceInfo(Position p) const
 
 PieceMap Game::PiecesLeft(EColor color)const
 {
-	std::unordered_map <EPieceType, int> leftPieces;
+	PieceMap leftPieces;
 
 	for (int i = 0; i < 8; i++)
 	{
@@ -336,7 +324,7 @@ PiecesPtr Game::GetPiece(Position p) const
 
 bool Game::Stalemate() const
 {
-	return (m_gameboard.IsStalemate(m_turn));
+	return m_gameboard.IsStalemate(m_turn);
 }
 
 void Game::NotifyMove()

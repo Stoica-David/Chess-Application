@@ -2,16 +2,12 @@
 
 #include "IGame.h"
 #include "Board.h"
-#include "Piece.h"
 #include "PGNHandler.h"
 #include "EState.h"
 
 #include<vector>
-#include<memory>
-#include<unordered_map>
 
 using ListenersList = std::vector<IGameListenerWeakPtr>;
-using PieceMap = std::unordered_map <EPieceType, int>;
 
 class Game : public IGame
 {
@@ -35,8 +31,8 @@ public:
 	void SavePGN(const String&)override;
 	void LoadPGN(const String&) override;
 
-	void AddListener(IGameListenerPtr) override;
-	void RemoveListener(IGameListener*) override;
+	void AddListener(IGameListenerPtr) override;	// Observer
+	void RemoveListener(IGameListener*) override;	// Observer
 
 	bool IsDraw() const override;
 	bool IsOver() const override;
@@ -74,8 +70,12 @@ private:
 
 private:
 	Board m_gameboard;
+
 	EColor m_turn;
+	
 	EState m_state;
+	
 	ListenersList m_listeners;
+	
 	PGNHandler m_PGN;
 };
