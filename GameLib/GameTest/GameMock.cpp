@@ -16,6 +16,7 @@ public:
 	MOCK_METHOD(void, OnCheck, (), (override));
 	MOCK_METHOD(void, OnRestart, (), (override));
 	MOCK_METHOD(void, OnPieceCapture, (EPieceType, EColor), (override));
+	MOCK_METHOD(void, OnNotifyTime, (ChessTimer), (override));
 };
 
 
