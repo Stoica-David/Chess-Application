@@ -4,17 +4,11 @@
 
 #include <QPainter>
 
-void GridButton::mouseReleaseEvent(QMouseEvent* event)
-{
-	QPushButton::mouseReleaseEvent(event);
-	emit(Clicked(m_Position));
-}
-
-void GridButton::updatePiece()
+void GridButton::UpdatePiece()
 {
 	std::string imagePath = "res/";
 
-	switch (m_PieceColor)
+	switch (m_pieceColor)
 	{
 	case PieceColor::none:
 		imagePath += "empty";
@@ -27,7 +21,7 @@ void GridButton::updatePiece()
 		break;
 	}
 
-	switch (m_PieceType)
+	switch (m_pieceType)
 	{
 	case PieceType::none:
 		break;
@@ -61,44 +55,44 @@ void GridButton::updatePiece()
 	setIconSize(pixmap.rect().size() * 0.8);
 }
 
-void GridButton::updateBackgroundColor()
+void GridButton::UpdateBackgroundColor()
 {
-	bool defaultColorBlack = (m_Position.first + m_Position.second) % 2;
+	bool defaultColorBlack = (m_position.first + m_position.second) % 2;
 	QString backColor = "";
 
-	if (defaultColorBlack && !m_Highlighted)
+	if (defaultColorBlack && !m_highlighted)
 		backColor = "#7A6C5D";
-	if (defaultColorBlack && m_Highlighted)
+	if (defaultColorBlack && m_highlighted)
 		backColor = "#E2DE84";
-	if (!defaultColorBlack && !m_Highlighted)
+	if (!defaultColorBlack && !m_highlighted)
 		backColor = "#D2C4B5";
-	if (!defaultColorBlack && m_Highlighted)
+	if (!defaultColorBlack && m_highlighted)
 		backColor = "#E2DE84";
 
-	if (m_Selected)
+	if (m_selected)
 		backColor = "#E2DE84";
 
 	setStyleSheet("background-color: " + backColor + "; border: none;");
 }
 
-void GridButton::setPiece(std::pair<PieceType, PieceColor> newPiece)
+void GridButton::SetPiece(std::pair<PieceType, PieceColor> newPiece)
 {
-	m_PieceType = newPiece.first;
-	m_PieceColor = newPiece.second;
+	m_pieceType = newPiece.first;
+	m_pieceColor = newPiece.second;
 
-	updatePiece();
+	UpdatePiece();
 }
 
-void GridButton::setHighlighted(bool highlighted)
+void GridButton::SetHighlighted(bool highlighted)
 {
-	m_Highlighted = highlighted;
-	updateBackgroundColor();
+	m_highlighted = highlighted;
+	UpdateBackgroundColor();
 }
 
-void GridButton::setSelected(bool selected)
+void GridButton::SetSelected(bool selected)
 {
-	m_Selected = selected;
-	updateBackgroundColor();
+	m_selected = selected;
+	UpdateBackgroundColor();
 }
 
 void GridButton::paintEvent(QPaintEvent* event)
@@ -111,7 +105,7 @@ void GridButton::paintEvent(QPaintEvent* event)
 	font.setBold(true);
 	painter.setFont(font);
 
-	bool defaultColorBlack = (m_Position.first + m_Position.second) % 2;
+	bool defaultColorBlack = (m_position.first + m_position.second) % 2;
 	defaultColorBlack == true ? penColor = "#D2C4B5" : penColor = "#7A6C5D";
 
 	int textX = 2;
@@ -120,26 +114,32 @@ void GridButton::paintEvent(QPaintEvent* event)
 	painter.setRenderHint(QPainter::TextAntialiasing, true);
 	painter.setPen(penColor);
 
-	if (m_Position.first == 7)
+	if (m_position.first == 7)
 	{
-		painter.drawText(textX, textY, width() - 2 * textX, height() - 2 * textY, Qt::AlignBottom | Qt::AlignRight, QChar((char)'a' + m_Position.second));
+		painter.drawText(textX, textY, width() - 2 * textX, height() - 2 * textY, Qt::AlignBottom | Qt::AlignRight, QChar((char)'a' + m_position.second));
 	}
-	if (m_Position.second == 0)
+	if (m_position.second == 0)
 	{
-		painter.drawText(textX, textY, width() - 2 * textX, height() - 2 * textY, Qt::AlignTop | Qt::AlignLeft, QString::number(8 - m_Position.first));
+		painter.drawText(textX, textY, width() - 2 * textX, height() - 2 * textY, Qt::AlignTop | Qt::AlignLeft, QString::number(8 - m_position.first));
 	}
 }
 
 GridButton::GridButton(Position boardPosition, PieceType pieceType, PieceColor pieceColor)
-	: m_Position(boardPosition)
-	, m_PieceType(pieceType)
-	, m_PieceColor(pieceColor)
-	, m_Highlighted(false)
-	, m_Selected(false)
+	: m_position(boardPosition)
+	, m_pieceType(pieceType)
+	, m_pieceColor(pieceColor)
+	, m_highlighted(false)
+	, m_selected(false)
 {
 	setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
-	updateBackgroundColor();
+	UpdateBackgroundColor();
 
-	updatePiece();
+	UpdatePiece();
+}
+
+void GridButton::mouseReleaseEvent(QMouseEvent* event)
+{
+	QPushButton::mouseReleaseEvent(event);
+	emit(Clicked(m_position));
 }

@@ -45,41 +45,35 @@ private:
     void InitializePlayer(QGridLayout* mainGridLayout, EColor);
     void InitializeTabBar(QGridLayout* mainGridLayout);
 
-    void CenterOnScreen();
-
-    bool eventFilter(QObject* obj, QEvent* event);
-
-    //Modify if necessary with your history representation
+    //Update methods
     void UpdateHistory();
-
-    //void UpdateCaptured(EColor color);
-
-    //Modify if necessary with your board representation
-    void UpdateBoard(const PairMatrix& newBoard);
-  
-    //Modify if necessary with your possible moves representation
-    void HighlightPossibleMoves(const PositionList& possibleMoves);
-    
-    //Modify or delete
-    void ShowPromoteOptions();
-
-    // Other methods
-	PairMatrix GetBoard() const;
-	void ApplyButtonStyles(QPushButton* button);
-    void MakeButtonsUnselectable();
-    void MakeButtonsSelectable();
     void UpdateCaptured(EColor color);
+    void UpdateBoard(const PairMatrix& newBoard);
+
+    //Button related methods
+    bool EventFilter(QObject* obj, QEvent* event);
+	
+    void ApplyButtonStyles(QPushButton* button);
+    void HighlightPossibleMoves(const PositionList& possibleMoves);
+    void MakeButtonsSelectable();
+    void MakeButtonsUnselectable();
+
+    //Other methods
+	PairMatrix GetBoard() const;
+
+    void CenterOnScreen();
+    void ShowPromoteOptions();
     void ClearPieces();
 
 private slots:
     void GridButtonClicked(Position position);
 
     void OnCopyButtonClicked();
+    void OnSaveButtonClicked();
     void OnLoadButtonClicked();
     void OnRestartButtonClicked();
     void OnDrawButtonClicked();
     void OnHistoryClicked(QListWidgetItem* item);
-    void OnSaveButtonClicked();
 
 private:
     Ui::ChessUIQtClass ui;

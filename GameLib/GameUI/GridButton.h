@@ -12,12 +12,12 @@ class GridButton : public QPushButton
 public:
 	GridButton(Position boardPosition, PieceType pieceType = PieceType::none, PieceColor pieceColor = PieceColor::none);
 
-	void updatePiece();
-	void updateBackgroundColor();
+	void UpdatePiece();
+	void UpdateBackgroundColor();
 
-	void setPiece(std::pair<PieceType, PieceColor> newPiece);
-	void setHighlighted(bool highlighted);
-	void setSelected(bool selected);
+	void SetPiece(std::pair<PieceType, PieceColor> newPiece);
+	void SetHighlighted(bool highlighted);
+	void SetSelected(bool selected);
 
 signals:
 	void Clicked(const std::pair<int, int>& position);
@@ -28,11 +28,11 @@ private:
 	void mouseReleaseEvent(QMouseEvent* event) override;
 
 private:
-	Position m_Position;
+	Position m_position;
 	
-	PieceType m_PieceType;
-	PieceColor m_PieceColor;
+	PieceType m_pieceType;
+	PieceColor m_pieceColor;
 	
-	bool m_Highlighted;
-	bool m_Selected;
+	bool m_highlighted;
+	bool m_selected;
 };

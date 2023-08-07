@@ -19,6 +19,8 @@
 
 #include <array>
 
+// Static methods
+
 static char GetCharForType(EPieceType type)
 {
 	switch (type)
@@ -107,45 +109,9 @@ static int GetDefaultNumberOfPieces(EPieceType type)
 	return 0;
 }
 
-void ChessUIQt::UpdateCaptured(EColor color)
+static char ConvertIntToChar(int x)
 {
-	auto leftPieces = m_game->PiecesLeft(color);
-
-	std::unordered_set<EPieceType> allPieces = {
-		EPieceType::Rook,
-		EPieceType::Knight,
-		EPieceType::Bishop,
-		EPieceType::Queen,
-		EPieceType::King,
-		EPieceType::Pawn
-	};
-
-	for (auto currPiece : allPieces)
-	{
-		if (currPiece == EPieceType::King)
-			continue;
-
-		int missingPieces = GetDefaultNumberOfPieces(currPiece);
-
-		if (leftPieces.find(currPiece) != leftPieces.end())
-		{
-			int actualApperences = (*leftPieces.find(currPiece)).second;
-
-			missingPieces -= actualApperences;
-		}
-
-		for (int i = 0; i < missingPieces; i++)
-		{
-			OnPieceCapture(currPiece, color);
-		}
-
-	}
-}
-
-void ChessUIQt::ClearPieces()
-{
-	m_whiteCapturedPiecesList->clear();
-	m_blackCapturedPiecesList->clear();
+	return 'a' + x;
 }
 
 static PieceType GetType(IPieceInfoPtr currPiece)
@@ -184,58 +150,68 @@ static PieceColor GetColor(IPieceInfoPtr currPiece)
 	return currPiece->GetColor() == EColor::White ? PieceColor::White : PieceColor::Black;
 }
 
-PairMatrix ChessUIQt::GetBoard() const
+static std::string GenerateStringBoard(IGamePtr m_game)
 {
-	PairMatrix newMatrix;
+	std::string chessBoard = "CharMatrix m = { {\n";
 
 	for (int i = 0; i < 8; i++)
 	{
+		chessBoard += "\t{";
 		for (int j = 0; j < 8; j++)
 		{
-			IPieceInfoPtr currPiece = m_game->GetPieceInfo({ i,j });
+			Position currPos = { i, j };
 
-			newMatrix[i][j] = { GetType(currPiece), GetColor(currPiece) };
+			if (!m_game->GetPieceInfo(currPos))
+			{
+				chessBoard += "\'-\'";
+				if (j != 7)
+					chessBoard.append(", ");
+				continue;
+			}
+
+			EPieceType currType = m_game->GetPieceInfo(currPos)->GetType();
+			EColor currentColor = m_game->GetPieceInfo(currPos)->GetColor();
+
+			char c = GetPieceChar(currType, currentColor);
+			chessBoard.insert(chessBoard.length(), 1, '\'');
+			chessBoard.insert(chessBoard.length(), 1, c);
+			chessBoard.append("\'");
+			if (j != 7)
+				chessBoard.append(", ");
 		}
+		if (i != 7)
+			chessBoard += "},\n";
+		else
+			chessBoard += "}\n\t";
 	}
+	chessBoard += "}};\n\n";
 
-	return newMatrix;
+	AppendExtraInfo(chessBoard, m_game);
+
+	return chessBoard;
 }
 
-void ChessUIQt::MakeButtonsUnselectable()
+static EPieceType ConvertToEnum(const std::string& pieceType)
 {
-	for (int i = 0; i < 8; i++)
+	if (pieceType == "Queen")
 	{
-		for (int j = 0; j < 8; j++)
-		{
-			m_grid[i][j]->setEnabled(false);
-		}
+		return EPieceType::Queen;
 	}
-}
-
-void ChessUIQt::MakeButtonsSelectable()
-{
-	for (int i = 0; i < 8; i++)
+	if (pieceType == "Rook")
 	{
-		for (int j = 0; j < 8; j++)
-		{
-			m_grid[i][j]->setEnabled(true);
-		}
+		return EPieceType::Rook;
+	}
+	if (pieceType == "Bishop")
+	{
+		return EPieceType::Bishop;
+	}
+	if (pieceType == "Knight")
+	{
+		return EPieceType::Knight;
 	}
 }
 
-static char ConvertIntToChar(int x)
-{
-	return 'a' + x;
-}
-
-void ChessUIQt::ApplyButtonStyles(QPushButton* button)
-{
-	// Set the background and text colors of the buttons
-	button->setStyleSheet("background-color: #7A6C5D; color: white; border-radius: 5px; padding: 5px;");
-
-	// Set the font
-	button->setFont(QFont("Arial", 12));
-}
+// Class methods
 
 ChessUIQt::ChessUIQt(QWidget* parent)
 	: QMainWindow(parent)
@@ -275,30 +251,120 @@ ChessUIQt::ChessUIQt(QWidget* parent)
 	CenterOnScreen();
 }
 
-void ChessUIQt::CenterOnScreen()
-{
-	// Get the available screen geometry
-	QScreen* screen = QGuiApplication::primaryScreen();
-	QRect screenGeometry = screen->availableGeometry();
-
-	// Calculate the position to center the window on the screen
-	int x = (screenGeometry.width() - width()) / 2;
-	int y = (screenGeometry.height() - height()) / 2;
-
-	// Set the window position
-	move(x, y);
-}
-
 ChessUIQt::~ChessUIQt()
 {
 	//No delete?
 	//https://doc.qt.io/qt-6/objecttrees.html
 }
 
+void ChessUIQt::SetGame(IGamePtr game)
+{
+	m_game = game;
+}
+
+void ChessUIQt::StartGame()
+{
+	UpdateBoard(GetBoard());
+	MakeButtonsSelectable();
+	m_movesList->setEditTriggers(QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked);
+}
+
 void ChessUIQt::Show()
 {
 	show();
 	CenterOnScreen();
+}
+
+void ChessUIQt::OnMove()
+{
+	UpdateBoard(GetBoard());
+
+	if (m_game->GetTurn() == EColor::Black)
+	{
+		m_messageLabel->setText("Waiting for black player");
+	}
+	else
+	{
+		m_messageLabel->setText("Waiting for white player");
+	}
+}
+
+void ChessUIQt::OnGameOver(EOverState state)
+{
+	if (state == EOverState::WhiteWon)
+	{
+		QMessageBox::information(this, "End!", " White player won!");
+
+		m_messageLabel->setText("White player won!");
+	}
+	else if (state == EOverState::BlackWon)
+	{
+		QMessageBox::information(this, "End!", " Black player won!");
+
+		m_messageLabel->setText("Black player won!");
+	}
+	else if (state == EOverState::Draw)
+	{
+		m_game->DrawResponse(true);
+
+		QMessageBox::information(this, "Draw!", " The game concluded as a draw!");
+
+		m_messageLabel->setText("Draw!");
+	}
+
+	m_exceptionLabel->setText("");
+	m_movesList->setEditTriggers(QAbstractItemView::NoEditTriggers);
+}
+
+void ChessUIQt::OnChoosePiece()
+{
+	if (m_game->IsPromoting())
+	{
+		ShowPromoteOptions();
+	}
+}
+
+void ChessUIQt::OnCheck()
+{
+	if (m_game->IsCheck())
+	{
+		QMessageBox::information(this, "Check!", " The king is in check!");
+
+		m_messageLabel->setText("Check!");
+	}
+}
+
+void ChessUIQt::OnRestart()
+{
+	m_messageLabel->setText("Waiting for white player");
+	m_exceptionLabel->setText("");
+
+	m_movesList->clear();
+
+	m_whiteCapturedPiecesList->clear();
+	m_blackCapturedPiecesList->clear();
+
+	m_movesList->setEditTriggers(QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked);
+
+	StartGame();
+}
+
+void ChessUIQt::OnPieceCapture(EPieceType pieceType, EColor pieceColor)
+{
+	qDebug() << (int)pieceColor;
+
+	QListWidget* playerPieces;
+	playerPieces = pieceColor == EColor::Black ? m_whiteCapturedPiecesList : m_blackCapturedPiecesList;
+
+	static const QString pieces[] = { "r", "h", "b", "q", "k", "p", "empty" };
+
+	QString imagePath = pieceColor == EColor::Black ? "res/b" : "res/w";
+	imagePath.push_back(pieces[(int)pieceType] + ".png");
+
+	QListWidgetItem* capturedPiece = new QListWidgetItem();
+	capturedPiece->setIcon(QIcon(QPixmap(imagePath)));
+
+	playerPieces->addItem(capturedPiece);
 }
 
 void ChessUIQt::InitializeMessage(QGridLayout* mainGridLayout)
@@ -521,6 +587,213 @@ void ChessUIQt::InitializeTabBar(QGridLayout* mainGridLayout)
 	m_minimizeButton->installEventFilter(this);
 }
 
+void ChessUIQt::UpdateHistory()
+{
+	m_movesList->clear();
+
+	MoveVector newHistory = m_game->GetHistory();
+
+	for (int i = 0; i < newHistory.size(); i++) {
+		QString itemText = QString("%1. %2%3 \t %4%5")
+			.arg(i + 1)
+			.arg(ConvertIntToChar(newHistory[i].first.second))
+			.arg(8 - newHistory[i].first.first)
+			.arg(ConvertIntToChar(newHistory[i].second.second))
+			.arg(8 - newHistory[i].second.first);
+
+		m_movesList->addItem(new QListWidgetItem(itemText));
+	}
+}
+
+void ChessUIQt::UpdateCaptured(EColor color)
+{
+	auto leftPieces = m_game->PiecesLeft(color);
+
+	std::unordered_set<EPieceType> allPieces = {
+		EPieceType::Rook,
+		EPieceType::Knight,
+		EPieceType::Bishop,
+		EPieceType::Queen,
+		EPieceType::King,
+		EPieceType::Pawn
+	};
+
+	for (auto currPiece : allPieces)
+	{
+		if (currPiece == EPieceType::King)
+			continue;
+
+		int missingPieces = GetDefaultNumberOfPieces(currPiece);
+
+		if (leftPieces.find(currPiece) != leftPieces.end())
+		{
+			int actualApperences = (*leftPieces.find(currPiece)).second;
+
+			missingPieces -= actualApperences;
+		}
+
+		for (int i = 0; i < missingPieces; i++)
+		{
+			OnPieceCapture(currPiece, color);
+		}
+
+	}
+}
+
+void ChessUIQt::UpdateBoard(const PairMatrix& newBoard)
+{
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			m_grid[i][j]->SetPiece(newBoard[i][j]);
+			m_grid[i][j]->SetSelected(false);
+			m_grid[i][j]->SetHighlighted(false);
+		}
+	}
+}
+
+bool ChessUIQt::EventFilter(QObject* obj, QEvent* event)
+{
+	if (event->type() == QEvent::Enter)
+	{
+		// Mouse entered the button, apply hover effect
+		//if (obj.isButton())
+
+		if (auto button = qobject_cast<QPushButton*>(obj))
+		{
+			if (button == m_closeButton || button == m_minimizeButton)
+			{
+				button->setStyleSheet("background-color: #E8E5DA; color: #E8E5DA; border: none;");
+			}
+			else
+			{
+				button->setStyleSheet("background-color: #BCAC9B; color: white; border-radius: 5px; padding: 5px;");
+			}
+		}
+	}
+	else if (event->type() == QEvent::Leave)
+	{
+		// Mouse left the button, remove hover effect
+
+		if (QPushButton* button = qobject_cast<QPushButton*>(obj))
+		{
+			if (button == m_closeButton || button == m_minimizeButton)
+			{
+				button->setStyleSheet("background-color: #D2C4B5; color: #7A6C5D; border: none;");
+			}
+			else
+			{
+				ApplyButtonStyles(button);
+			}
+		}
+	}
+
+	return false; // Continue normal event processing
+}
+
+void ChessUIQt::ApplyButtonStyles(QPushButton* button)
+{
+	// Set the background and text colors of the buttons
+	button->setStyleSheet("background-color: #7A6C5D; color: white; border-radius: 5px; padding: 5px;");
+
+	// Set the font
+	button->setFont(QFont("Arial", 12));
+}
+
+void ChessUIQt::HighlightPossibleMoves(const PositionList& possibleMoves)
+{
+	for (const auto& position : possibleMoves)
+	{
+		m_grid[position.first][position.second]->SetHighlighted(true);
+	}
+}
+
+void ChessUIQt::MakeButtonsSelectable()
+{
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			m_grid[i][j]->setEnabled(true);
+		}
+	}
+}
+
+void ChessUIQt::MakeButtonsUnselectable()
+{
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			m_grid[i][j]->setEnabled(false);
+		}
+	}
+}
+
+PairMatrix ChessUIQt::GetBoard() const
+{
+	PairMatrix newMatrix;
+
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			IPieceInfoPtr currPiece = m_game->GetPieceInfo({ i,j });
+
+			newMatrix[i][j] = { GetType(currPiece), GetColor(currPiece) };
+		}
+	}
+
+	return newMatrix;
+}
+
+void ChessUIQt::CenterOnScreen()
+{
+	// Get the available screen geometry
+	QScreen* screen = QGuiApplication::primaryScreen();
+	QRect screenGeometry = screen->availableGeometry();
+
+	// Calculate the position to center the window on the screen
+	int x = (screenGeometry.width() - width()) / 2;
+	int y = (screenGeometry.height() - height()) / 2;
+
+	// Set the window position
+	move(x, y);
+}
+
+void ChessUIQt::ShowPromoteOptions()
+{
+	QList<QString> options;
+	options.append("Rook");
+	options.append("Bishop");
+	options.append("Queen");
+	options.append("Knight");
+
+	QInputDialog dialog;
+	dialog.setComboBoxItems(options);
+	dialog.setModal(true);
+
+	bool ok;
+	QString item = QInputDialog::getItem(this, tr("Pawn promote"),
+		tr("Promote pawn to: "), options, 0, false, &ok);
+
+	if (ok && !item.isEmpty())
+	{
+		m_game->PromoteTo(ConvertToEnum(item.toStdString()));
+
+		QMessageBox notification;
+		notification.setText("You selected " + item);
+		notification.exec();
+	}
+}
+
+void ChessUIQt::ClearPieces()
+{
+	m_whiteCapturedPiecesList->clear();
+	m_blackCapturedPiecesList->clear();
+}
+
 void ChessUIQt::GridButtonClicked(Position position)
 {
 	if (m_game->IsOver() || m_game->IsDraw())
@@ -548,13 +821,13 @@ void ChessUIQt::GridButtonClicked(Position position)
 				UpdateHistory();
 			}
 
-			button->setSelected(false);
+			button->SetSelected(false);
 			m_selectedCell.reset();
 		}
 		//At first click
 		else if (m_game->GetPieceInfo(position) && m_game->GetPieceInfo(position)->GetColor() == m_game->GetTurn() && !m_game->GetMoves(position).empty()) {
 			m_selectedCell = position;
-			m_grid[position.first][position.second]->setSelected(true);
+			m_grid[position.first][position.second]->SetSelected(true);
 			HighlightPossibleMoves(m_game->GetMoves(position));
 		}
 	}
@@ -565,6 +838,14 @@ void ChessUIQt::GridButtonClicked(Position position)
 		m_selectedCell.reset();
 		UpdateBoard(GetBoard());
 	}
+}
+
+void ChessUIQt::OnCopyButtonClicked()
+{
+	QString qChessBoard = QString::fromStdString(GenerateStringBoard(m_game));
+
+	QClipboard* clipboard = QApplication::clipboard();
+	clipboard->setText(qChessBoard);
 }
 
 void ChessUIQt::OnSaveButtonClicked()
@@ -749,281 +1030,4 @@ void ChessUIQt::OnHistoryClicked(QListWidgetItem* item)
 	}
 
 	UpdateHistory();
-}
-
-std::string GenerateStringBoard(IGamePtr m_game)
-{
-	std::string chessBoard = "CharMatrix m = { {\n";
-
-	for (int i = 0; i < 8; i++)
-	{
-		chessBoard += "\t{";
-		for (int j = 0; j < 8; j++)
-		{
-			Position currPos = { i, j };
-
-			if (!m_game->GetPieceInfo(currPos))
-			{
-				chessBoard += "\'-\'";
-				if (j != 7)
-					chessBoard.append(", ");
-				continue;
-			}
-
-			EPieceType currType = m_game->GetPieceInfo(currPos)->GetType();
-			EColor currentColor = m_game->GetPieceInfo(currPos)->GetColor();
-
-			char c = GetPieceChar(currType, currentColor);
-			chessBoard.insert(chessBoard.length(), 1, '\'');
-			chessBoard.insert(chessBoard.length(), 1, c);
-			chessBoard.append("\'");
-			if (j != 7)
-				chessBoard.append(", ");
-		}
-		if (i != 7)
-			chessBoard += "},\n";
-		else
-			chessBoard += "}\n\t";
-	}
-	chessBoard += "}};\n\n";
-
-	AppendExtraInfo(chessBoard, m_game);
-
-	return chessBoard;
-}
-
-void ChessUIQt::OnCopyButtonClicked()
-{
-	QString qChessBoard = QString::fromStdString(GenerateStringBoard(m_game));
-
-	QClipboard* clipboard = QApplication::clipboard();
-	clipboard->setText(qChessBoard);
-}
-
-void ChessUIQt::UpdateHistory()
-{
-	m_movesList->clear();
-
-	MoveVector newHistory = m_game->GetHistory();
-
-	for (int i = 0; i < newHistory.size(); i++) {
-		QString itemText = QString("%1. %2%3 \t %4%5")
-			.arg(i + 1)
-			.arg(ConvertIntToChar(newHistory[i].first.second))
-			.arg(8 - newHistory[i].first.first)
-			.arg(ConvertIntToChar(newHistory[i].second.second))
-			.arg(8 - newHistory[i].second.first);
-
-		m_movesList->addItem(new QListWidgetItem(itemText));
-	}
-}
-
-void ChessUIQt::UpdateBoard(const PairMatrix& newBoard)
-{
-	for (int i = 0; i < 8; i++)
-	{
-		for (int j = 0; j < 8; j++)
-		{
-			m_grid[i][j]->setPiece(newBoard[i][j]);
-			m_grid[i][j]->setSelected(false);
-			m_grid[i][j]->setHighlighted(false);
-		}
-	}
-}
-
-void ChessUIQt::HighlightPossibleMoves(const PositionList& possibleMoves)
-{
-	for (const auto& position : possibleMoves)
-	{
-		m_grid[position.first][position.second]->setHighlighted(true);
-	}
-}
-
-void ChessUIQt::StartGame()
-{
-	UpdateBoard(GetBoard());
-	MakeButtonsSelectable();
-	m_movesList->setEditTriggers(QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked);
-}
-
-static EPieceType ConvertToEnum(const std::string& pieceType)
-{
-	if (pieceType == "Queen")
-	{
-		return EPieceType::Queen;
-	}
-	if (pieceType == "Rook")
-	{
-		return EPieceType::Rook;
-	}
-	if (pieceType == "Bishop")
-	{
-		return EPieceType::Bishop;
-	}
-	if (pieceType == "Knight")
-	{
-		return EPieceType::Knight;
-	}
-}
-
-void ChessUIQt::ShowPromoteOptions()
-{
-	QList<QString> options;
-	options.append("Rook");
-	options.append("Bishop");
-	options.append("Queen");
-	options.append("Knight");
-
-	QInputDialog dialog;
-	dialog.setComboBoxItems(options);
-	dialog.setModal(true);
-
-	bool ok;
-	QString item = QInputDialog::getItem(this, tr("Pawn promote"),
-		tr("Promote pawn to: "), options, 0, false, &ok);
-
-	if (ok && !item.isEmpty())
-	{
-		m_game->PromoteTo(ConvertToEnum(item.toStdString()));
-
-		QMessageBox notification;
-		notification.setText("You selected " + item);
-		notification.exec();
-	}
-}
-
-void ChessUIQt::SetGame(IGamePtr game)
-{
-	m_game = game;
-}
-
-void ChessUIQt::OnMove()
-{
-	UpdateBoard(GetBoard());
-
-	if (m_game->GetTurn() == EColor::Black)
-	{
-		m_messageLabel->setText("Waiting for black player");
-	}
-	else
-	{
-		m_messageLabel->setText("Waiting for white player");
-	}
-}
-
-void ChessUIQt::OnGameOver(EOverState state)
-{
-	if (state == EOverState::WhiteWon)
-	{
-		QMessageBox::information(this, "End!", " White player won!");
-
-		m_messageLabel->setText("White player won!");
-	}
-	else if (state == EOverState::BlackWon)
-	{
-		QMessageBox::information(this, "End!", " Black player won!");
-
-		m_messageLabel->setText("Black player won!");
-	}
-	else if (state == EOverState::Draw)
-	{
-		m_game->DrawResponse(true);
-
-		QMessageBox::information(this, "Draw!", " The game concluded as a draw!");
-
-		m_messageLabel->setText("Draw!");
-	}
-
-	m_exceptionLabel->setText("");
-	m_movesList->setEditTriggers(QAbstractItemView::NoEditTriggers);
-}
-
-void ChessUIQt::OnChoosePiece()
-{
-	if (m_game->IsPromoting())
-	{
-		ShowPromoteOptions();
-	}
-}
-
-void ChessUIQt::OnCheck()
-{
-	if (m_game->IsCheck())
-	{
-		QMessageBox::information(this, "Check!", " The king is in check!");
-
-		m_messageLabel->setText("Check!");
-	}
-}
-
-void ChessUIQt::OnRestart()
-{
-	m_messageLabel->setText("Waiting for white player");
-	m_exceptionLabel->setText("");
-
-	m_movesList->clear();
-
-	m_whiteCapturedPiecesList->clear();
-	m_blackCapturedPiecesList->clear();
-
-	m_movesList->setEditTriggers(QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked);
-
-	StartGame();
-}
-
-void ChessUIQt::OnPieceCapture(EPieceType pieceType, EColor pieceColor)
-{
-	qDebug() << (int)pieceColor;
-
-	QListWidget* playerPieces;
-	playerPieces = pieceColor == EColor::Black ? m_whiteCapturedPiecesList : m_blackCapturedPiecesList;
-
-	static const QString pieces[] = { "r", "h", "b", "q", "k", "p", "empty" };
-
-	QString imagePath = pieceColor == EColor::Black ? "res/b" : "res/w";
-	imagePath.push_back(pieces[(int)pieceType] + ".png");
-
-	QListWidgetItem* capturedPiece = new QListWidgetItem();
-	capturedPiece->setIcon(QIcon(QPixmap(imagePath)));
-
-	playerPieces->addItem(capturedPiece);
-}
-
-bool ChessUIQt::eventFilter(QObject* obj, QEvent* event)
-{
-	if (event->type() == QEvent::Enter)
-	{
-		// Mouse entered the button, apply hover effect
-		//if (obj.isButton())
-
-		if (auto button = qobject_cast<QPushButton*>(obj))
-		{
-			if (button == m_closeButton || button == m_minimizeButton)
-			{
-				button->setStyleSheet("background-color: #E8E5DA; color: #E8E5DA; border: none;");
-			}
-			else
-			{
-				button->setStyleSheet("background-color: #BCAC9B; color: white; border-radius: 5px; padding: 5px;");
-			}
-		}
-	}
-	else if (event->type() == QEvent::Leave)
-	{
-		// Mouse left the button, remove hover effect
-
-		if (QPushButton* button = qobject_cast<QPushButton*>(obj))
-		{
-			if (button == m_closeButton || button == m_minimizeButton)
-			{
-				button->setStyleSheet("background-color: #D2C4B5; color: #7A6C5D; border: none;");
-			}
-			else
-			{
-				ApplyButtonStyles(button);
-			}
-		}
-	}
-
-	return false; // Continue normal event processing
 }
