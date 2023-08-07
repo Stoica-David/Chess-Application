@@ -43,53 +43,6 @@ void Board::SetHistory(const MoveVector& v)
 	m_moves = v;
 }
 
-void Board::SetBoard(const StringVector& string)
-{
-	/*if (string[1] != '.')
-	{*/
-		/*ValidateFEN(string);
-
-		Reset();
-
-		int line = 0, col = 0;
-
-		for (int i = 0; i < string.size() - 2; i++)
-		{
-			if (isalpha(string[i]))
-			{
-				m_board[line][col] = ProducePiece(string[i]);
-			}
-			else if (isdigit(string[i]))
-			{
-				int ws = string[i] - '0';
-
-				for (int j = 0; j < ws; j++)
-				{
-					m_board[line][col] = {};
-					col++;
-				}
-
-				col--;
-			}
-
-			if (string[i] == '/')
-			{
-				line++;
-				col = 0;
-			}
-			else
-			{
-				col++;
-			}*/
-
-	/*	}
-	}*/
-	//else
-	{
-		ParsePGN(string);
-	}
-}
-
 IPieceInfoPtr Board::GetPieceInfo(Position p) const
 {
 	if (auto piece = GetPiece(p))

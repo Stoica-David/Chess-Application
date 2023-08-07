@@ -84,5 +84,5 @@
 //
 //	Board b;
 //
-//	EXPECT_THROW(b.SetBoard(PGN), PGNException);
+//	EXPECT_THROW(b.(PGN), PGNException);
 //}

@@ -6,12 +6,6 @@
 #include <sstream>
 #include <regex>
 
-PGNHandler::PGNHandler()
-{
-	ResetHeaders();
-}
-
-
 static String ConvertTag(ETag tag)
 {
 	switch (tag)
@@ -30,9 +24,12 @@ static String ConvertTag(ETag tag)
 		return "Black";
 	case ETag::Result:
 		return "Result";
-	default:
-		break;
 	}
+}
+
+PGNHandler::PGNHandler()
+{
+	ResetHeaders();
 }
 
 void PGNHandler::SetHeader(ETag tag, const String& value)
@@ -50,49 +47,63 @@ String PGNHandler::GetPGN() const
 	return m_PGN;
 }
 
+StringVector PGNHandler::GetMoves() const
+{
+	return m_moves;
+}
+
 void PGNHandler::AddMove(const String& newMove)
 {
 	m_moves.push_back(newMove);
 }
 
-void PGNHandler::Clear()
+void PGNHandler::ParseToPGN()
 {
-	m_headers.clear();
+	AddHeaders();
 
-	ResetHeaders();
+	int moveNumber = 1;
+	for (size_t i = 0; i < m_moves.size(); i += 2) 
+	{
+		m_PGN += std::to_string(moveNumber) + "." + m_moves[i] + " ";
 
-	m_moves.clear();
+		if (i + 1 < m_moves.size())
+		{
+			m_PGN += m_moves[i + 1] + " ";
+		}
+		moveNumber++;
+	}
+
+	AddEndGame();
 }
 
-void PGNHandler::ResetHeaders()
+void PGNHandler::SavePGNToFile(const String& filePath)
 {
-	m_headers[ETag::Event] = "[Event \"?\"]";
-	m_headers[ETag::Site] = "[Site \"?\"]";
-	m_headers[ETag::Date] = "[Date \"????.??.??\"]";
-	m_headers[ETag::Round] = "[Round \"?\"]";
-	m_headers[ETag::White] = "[White \"?\"]";
-	m_headers[ETag::Black] = "[Black \"?\"]";
-	m_headers[ETag::Result] = "[Result \"*\"]";
+	std::ofstream outFile(filePath);
+
+	if (outFile.is_open()) {
+		outFile.clear();
+		outFile << m_PGN;
+		outFile.close();
+	}
+	else
+	{
+		throw PGNException("Error: Unable to open the file for writing.");
+	}
 }
 
 void PGNHandler::ParseFromPGN()
 {
-	std::regex headerRegex("\\[.*?\\]\n");
-	std::regex commentRegex("\\{[^}]*\\}");
-	m_PGN = std::regex_replace(m_PGN, headerRegex, "");
-	m_PGN = std::regex_replace(m_PGN, commentRegex, "");
-	m_PGN = std::regex_replace(m_PGN, std::regex("\\n"), " ");
-	m_PGN = std::regex_replace(m_PGN, std::regex("\\b\\d+\\.\\ *|[+#x*]"), "");
-
+	HeaderRegex();
+	CommentRegex();
+	UselessCharRegex();
 	m_moves.clear();
 
 	std::regex moveRegex(R"(\b([KQRBNP])?([a-h]?[1-8]?)?([x:])?([a-h][1-8])(=?[QRBN]?)?([+#]?)\b|O-O-O|O-O)");
 
-	// Create an iterator to find all matches in the PGN string
 	std::sregex_iterator it(m_PGN.begin(), m_PGN.end(), moveRegex);
 	std::sregex_iterator end;
 
-	for (; it != end; ++it) 
+	for (; it != end; ++it)
 	{
 		std::smatch match = *it;
 
@@ -132,12 +143,50 @@ bool PGNHandler::IsDraw()
 	return m_PGN.rfind("1/2-1/2") < m_PGN.size();
 }
 
-StringVector PGNHandler::GetMoves() const
+void PGNHandler::Clear()
 {
-	return m_moves;
+	m_headers.clear();
+
+	ResetHeaders();
+
+	m_moves.clear();
 }
 
-void PGNHandler::ParseToPGN()
+void PGNHandler::ResetPGN()
+{
+	m_PGN = {};
+}
+
+void PGNHandler::ResetHeaders()
+{
+	m_headers[ETag::Event] = "[Event \"?\"]";
+	m_headers[ETag::Site] = "[Site \"?\"]";
+	m_headers[ETag::Date] = "[Date \"????.??.??\"]";
+	m_headers[ETag::Round] = "[Round \"?\"]";
+	m_headers[ETag::White] = "[White \"?\"]";
+	m_headers[ETag::Black] = "[Black \"?\"]";
+	m_headers[ETag::Result] = "[Result \"*\"]";
+}
+
+void PGNHandler::HeaderRegex()
+{
+	std::regex headerRegex("\\[.*?\\]\n");
+	m_PGN = std::regex_replace(m_PGN, headerRegex, "");
+}
+
+void PGNHandler::CommentRegex()
+{
+	std::regex commentRegex("\\{[^}]*\\}");
+	m_PGN = std::regex_replace(m_PGN, commentRegex, "");
+}
+
+void PGNHandler::UselessCharRegex()
+{
+	m_PGN = std::regex_replace(m_PGN, std::regex("\\n"), " ");
+	m_PGN = std::regex_replace(m_PGN, std::regex("\\b\\d+\\.\\ *|[+#x*]"), "");
+}
+
+void PGNHandler::AddHeaders()
 {
 	m_PGN.clear();
 
@@ -147,19 +196,10 @@ void PGNHandler::ParseToPGN()
 	}
 
 	m_PGN += "\n";
+}
 
-	int moveNumber = 1;
-
-	for (size_t i = 0; i < m_moves.size(); i += 2) {
-		m_PGN += std::to_string(moveNumber) + "." + m_moves[i] + " ";
-
-		if (i + 1 < m_moves.size())
-		{
-			m_PGN += m_moves[i + 1] + " ";
-		}
-		moveNumber++;
-	}
-
+void PGNHandler::AddEndGame()
+{
 	if (m_headers[ETag::Result] == "[Result 1-0]")
 	{
 		m_PGN += "1-0";
@@ -176,24 +216,4 @@ void PGNHandler::ParseToPGN()
 	{
 		m_PGN += "*";
 	}
-}
-
-void PGNHandler::SavePGNToFile(const String& filePath)
-{
-	std::ofstream outFile(filePath);
-
-	if (outFile.is_open()) {
-		outFile.clear();
-		outFile << m_PGN;
-		outFile.close();
-	}
-	else
-	{
-		throw PGNException("Can't load PGN properly!");
-	}
-}
-
-void PGNHandler::ResetPGN()
-{
-	m_PGN = {};
 }

@@ -25,7 +25,6 @@ public:
 	// Setters
 	PiecesPtr& operator[](Position p);
 	void SetHistory(const MoveVector& v);
-	void SetBoard(const StringVector& string);
 
 	// Getters
 	IPieceInfoPtr GetPieceInfo(Position p) const;

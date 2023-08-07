@@ -19,6 +19,7 @@ using TagMap = std::unordered_map<ETag, String>;
 class PGNHandler
 {
 public:
+    //Constructor
     PGNHandler();
 
     //Setters
@@ -27,23 +28,36 @@ public:
 
     //Getters
     String GetPGN()const;
+    StringVector GetMoves() const;
 
-    //Other methods
+    //Save 
     void AddMove(const String&);
     void ParseToPGN();
     void SavePGNToFile(const String& filePath);
-    void Clear();
-    void ResetPGN();
-    void ResetHeaders();
+    
+    //Load
     void ParseFromPGN();
     void LoadPGNFromFile(const String& filePath);
     
+    //Check GameOver
     bool IsOverWhite();
     bool IsOverBlack();
     bool IsDraw();
     
-    StringVector GetMoves() const;
+    //Other methods
+    void Clear();
+    void ResetPGN();
+    void ResetHeaders();
 
+private:
+    //Regex related
+    void HeaderRegex();
+    void CommentRegex();
+    void UselessCharRegex();
+
+    //Save related
+    void AddHeaders();
+    void AddEndGame();
 
 private:
     String m_PGN;
