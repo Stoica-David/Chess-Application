@@ -613,7 +613,7 @@ void ChessUIQt::UpdateBoard(const PairMatrix& newBoard)
 	}
 }
 
-bool ChessUIQt::EventFilter(QObject* obj, QEvent* event)
+bool ChessUIQt::eventFilter(QObject* obj, QEvent* event)
 {
 	if (event->type() == QEvent::Enter)
 	{

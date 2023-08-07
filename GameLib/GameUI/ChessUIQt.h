@@ -51,7 +51,7 @@ private:
     void UpdateBoard(const PairMatrix& newBoard);
 
     //Button related methods
-    bool EventFilter(QObject* obj, QEvent* event);
+    bool eventFilter(QObject* obj, QEvent* event);
 	
     void ApplyButtonStyles(QPushButton* button);
     void HighlightPossibleMoves(const PositionList& possibleMoves);

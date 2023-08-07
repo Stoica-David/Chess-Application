@@ -110,8 +110,6 @@ private:
 
 	Position FindPrevPos(Position nextPos, EPieceType type, EColor color, Position prevPos) const;
 
-	void ValidateFEN(const String& s);
-
 private:
 	ChessBoard m_board;
 	BitMatrix m_prevPositions;

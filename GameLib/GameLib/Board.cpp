@@ -73,7 +73,6 @@ bool Board::IsOver(EColor color) const
 	return (IsCheckMate(color));
 }
 
-
 bool Board::CastleVerifyWay(Position p1, Position p2) const
 {
 	if (IsCastle(p1, p2))
@@ -1806,42 +1805,4 @@ Position Board::FindPrevPos(Position nextPos, EPieceType type, EColor color, Pos
 	}
 
 	return toReturnPos;
-}
-
-void Board::ValidateFEN(const String& s)
-{
-	int slashNr = 0, squaresNr = 0;
-
-	for (int i = 0; i < s.size() - 2; i++)
-	{
-		if (s[i] == '/')
-		{
-			if (squaresNr != 8)
-			{
-				throw FENException("Can't load FEN properly");
-			}
-
-			slashNr++;
-			squaresNr = 0;
-		}
-		else if (strchr("rnbqkpRNBQKP", s[i]))
-		{
-			squaresNr++;
-		}
-		else if (isdigit(s[i]))
-		{
-			int nr = s[i] - '0';
-
-			squaresNr += nr;
-		}
-		else
-		{
-			throw FENException("Can't load FEN properly");
-		}
-	}
-
-	if (slashNr != 7)
-	{
-		throw FENException("Can't load FEN properly");
-	}
 }
