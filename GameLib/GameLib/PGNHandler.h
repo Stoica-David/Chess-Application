@@ -25,19 +25,25 @@ public:
     void SetHeader(ETag tag, const String& value);
     void SetPGN(const String& PGN);
 
-    //Save
+    //Getters
+    String GetPGN()const;
+
+    //Other methods
     void AddMove(const String&);
     void ParseToPGN();
     void SavePGNToFile(const String& filePath);
-    
     void Clear();
     void ResetPGN();
     void ResetHeaders();
-
-    // Load
     void ParseFromPGN();
     void LoadPGNFromFile(const String& filePath);
+    
+    bool IsOverWhite();
+    bool IsOverBlack();
+    bool IsDraw();
+    
     StringVector GetMoves() const;
+
 
 private:
     String m_PGN;

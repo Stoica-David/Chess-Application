@@ -32,7 +32,6 @@ public:
 	PiecesPtr GetPiece(Position p) const;
 	MoveVector GetHistory()const;
 	String GetCurrPGN()const;
-	bool FindSameColumn(Position p1, Position p2) const;
 
 	// Functions
 	bool IsOver(EColor color) const;
@@ -62,8 +61,10 @@ public:
 
 	String GenerateFEN() const;
 	static String GenerateInitial(EPieceType);
+	void LoadFEN(const String&);
 
 	bool FindSameLine(Position p1, Position p2) const;
+	bool FindSameColumn(Position p1, Position p2) const;
 
 	void ParsePGN(StringVector Moves);
 

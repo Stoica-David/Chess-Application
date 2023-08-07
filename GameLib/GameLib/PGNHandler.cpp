@@ -45,6 +45,11 @@ void PGNHandler::SetPGN(const String& PGN)
 	m_PGN = PGN;
 }
 
+String PGNHandler::GetPGN() const
+{
+	return m_PGN;
+}
+
 void PGNHandler::AddMove(const String& newMove)
 {
 	m_moves.push_back(newMove);
@@ -72,6 +77,10 @@ void PGNHandler::ResetHeaders()
 
 void PGNHandler::ParseFromPGN()
 {
+	std::regex headerRegex("\\[.*?\\]\n");
+	std::regex commentRegex("\\{[^}]*\\}");
+	m_PGN = std::regex_replace(m_PGN, headerRegex, "");
+	m_PGN = std::regex_replace(m_PGN, commentRegex, "");
 	m_PGN = std::regex_replace(m_PGN, std::regex("\\n"), " ");
 	m_PGN = std::regex_replace(m_PGN, std::regex("\\b\\d+\\.\\ *|[+#x*]"), "");
 
@@ -106,6 +115,21 @@ void PGNHandler::LoadPGNFromFile(const String& filePath)
 	else {
 		throw PGNException("Error: Unable to open the file for reading.");
 	}
+}
+
+bool PGNHandler::IsOverWhite()
+{
+	return m_PGN.rfind("1-0") < m_PGN.size();
+}
+
+bool PGNHandler::IsOverBlack()
+{
+	return m_PGN.rfind("0-1") < m_PGN.size();
+}
+
+bool PGNHandler::IsDraw()
+{
+	return m_PGN.rfind("1/2-1/2") < m_PGN.size();
 }
 
 StringVector PGNHandler::GetMoves() const

@@ -21,7 +21,7 @@ public:
 	Game(const CharMatrix& matrix, EColor color = EColor::White, EState state = EState::Playing);
 	
 	// IGame methods
-	void Move(Position p1, Position p2, bool toNotify=true) override;
+	void Move(Position p1, Position p2) override;
 	void ProposeDraw() override;
 	void DrawResponse(bool) override;
 
@@ -45,7 +45,8 @@ public:
 
 	PositionList GetMoves(Position p) override;
 
-	String GenerateFEN() const override;
+	String SaveFEN() const override;
+	void LoadFEN(const String&) override;
 
 	MoveVector GetHistory()const override;
 

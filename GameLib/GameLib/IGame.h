@@ -20,14 +20,13 @@ public:
 
 	virtual IPieceInfoPtr GetPieceInfo(Position) const = 0;
 	
-	virtual void Move(Position, Position, bool=true) = 0;
+	virtual void Move(Position, Position) = 0;
 	virtual void PromoteTo(EPieceType) = 0;
 	virtual void Restart() = 0;
 	virtual void ProposeDraw() = 0;
 	virtual void DrawResponse(bool) = 0;
 	virtual void AddListener(IGameListenerPtr) = 0;
 	virtual void RemoveListener(IGameListener*) = 0;
-	//virtual void SetGame(const StringVector&) = 0;
 	virtual void SetHistory(const MoveVector&) = 0;
 
 	virtual EColor GetTurn() const = 0;
@@ -40,7 +39,8 @@ public:
 	virtual bool IsDrawProposed() const = 0;
 	virtual bool IsPromoting() const = 0;
 
-	virtual String GenerateFEN()const = 0;
+	virtual String SaveFEN()const = 0;
+	virtual void LoadFEN(const String&) = 0;
 	virtual std::unordered_map <EPieceType, int> PiecesLeft(EColor) const = 0;
 
 	virtual void SavePGN(const String&) = 0;

@@ -30,7 +30,7 @@ static bool IsPositionValid(Position p)
 	return (p.first >= 0 && p.first < 8) && (p.second >= 0 && p.second < 8);
 }
 
-void Game::Move(Position p1, Position p2, bool toNotify)
+void Game::Move(Position p1, Position p2)
 {
 	if (m_state == EState::Playing || m_state == EState::Check)
 	{
@@ -71,69 +71,45 @@ void Game::Move(Position p1, Position p2, bool toNotify)
 
 		if (!currPiece && pieceCaptured)
 		{
-			if (toNotify == true)
-			{
-				NotifyCaptured(type, color);
-			}
+			NotifyCaptured(type, color);
 		}
 
 		if (m_gameboard.IsPromotePossible(p2))
 		{
 			UpdateState(EState::ChoosePiece);
-			if (toNotify == true)
-			{
-				NotifyChoosePiece();
-			}
+			NotifyChoosePiece();
 		}
 		else
 		{
 			SwitchTurn();
 		}
 
-		if (toNotify)
-		{
-			NotifyMove();
-		}
+		NotifyMove();
 
 		if (m_gameboard.IsOver(EColor::White))
 		{
 			UpdateState(EState::BlackWon);
-			if (toNotify == true)
-			{
-				NotifyGameOver(EOverState::BlackWon);
-			}
+			NotifyGameOver(EOverState::BlackWon);
 		}
 		else if (Stalemate() || m_gameboard.IsDraw() || m_gameboard.Is3Fold())
 		{
 			UpdateState(EState::Draw);
-			if (toNotify == true)
-			{
-				NotifyGameOver(EOverState::Draw);
-			}
+			NotifyGameOver(EOverState::Draw);
 		}
 		else if (m_gameboard.IsOver(EColor::Black))
 		{
 			UpdateState(EState::WhiteWon);
-			if (toNotify == true)
-			{
-				NotifyGameOver(EOverState::WhiteWon);
-			}
+			NotifyGameOver(EOverState::WhiteWon);
 		}
 		else if (m_gameboard.IsCheck(m_gameboard.FindKing(m_turn), m_turn))
 		{
 			UpdateState(EState::Check);
-			if (toNotify == true)
-			{
-				NotifyCheck();
-			}
+			NotifyCheck();
 		}
 		else if (IsDraw())
 		{
 			UpdateState(EState::Draw);
-			if (toNotify == true)
-			{
-				NotifyGameOver(EOverState::Draw);
-			}
+			NotifyGameOver(EOverState::Draw);
 		}
 	}
 }
@@ -267,9 +243,22 @@ void Game::LoadPGN(const String& filePath)
 	m_PGN.ParseFromPGN();
 
 	m_gameboard.ParsePGN(m_PGN.GetMoves());
+
+	if (m_PGN.IsDraw())
+	{
+		UpdateState(EState::Draw);
+	}
+	else if (m_PGN.IsOverWhite())
+	{
+		UpdateState(EState::WhiteWon);
+	}
+	else if (m_PGN.IsOverBlack())
+	{
+		UpdateState(EState::BlackWon);
+	}
 }
 
-String Game::GenerateFEN() const
+String Game::SaveFEN() const
 {
 	String FEN = m_gameboard.GenerateFEN();
 
@@ -283,6 +272,11 @@ String Game::GenerateFEN() const
 	}
 
 	return FEN;
+}
+
+void Game::LoadFEN(const String& string)
+{
+	m_gameboard.LoadFEN(string);
 }
 
 MoveVector Game::GetHistory() const
@@ -371,50 +365,6 @@ static char LastChar(const String& string)
 
 	return ' ';
 }
-
-//void Game::SetGame(const StringVector& string)
-//{
-//	m_gameboard.SetBoard(string);
-//
-//	if (string.back().back() == 'w' || string.back().back() == ' ')
-//	{
-//		m_turn = EColor::White;
-//	}
-//	else
-//	{
-//		m_turn = EColor::Black;
-//	}
-//
-//	char lastChar = LastChar(string.back());
-//
-//	//if (string[1] == '.')
-//	//{
-//		if (m_gameboard.IsCheckMate(EColor::White))
-//		{
-//			UpdateState(EState::BlackWon);
-//		}
-//		else if (m_gameboard.IsCheckMate(EColor::Black))
-//		{
-//			UpdateState(EState::WhiteWon);
-//		}
-//		else if (lastChar == '1')
-//		{
-//			UpdateState(EState::BlackWon);
-//		}
-//		else if (lastChar == '0')
-//		{
-//			UpdateState(EState::WhiteWon);
-//		}
-//		else if (lastChar == '2')
-//		{
-//			UpdateState(EState::Draw);
-//		}
-//		else
-//		{
-//			UpdateState(EState::Playing);
-//		}
-//	//}
-//}
 
 void Game::SetHistory(const MoveVector& v)
 {

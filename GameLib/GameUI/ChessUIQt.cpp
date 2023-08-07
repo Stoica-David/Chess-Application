@@ -14,7 +14,8 @@
 #include <QIcon>
 #include <QEvent>
 #include <unordered_set>
-
+#include <fstream>
+#include <sstream>
 
 #include <array>
 
@@ -581,7 +582,17 @@ void ChessUIQt::OnSaveButtonClicked()
 	}
 	else
 	{
-		m_game->GenerateFEN();
+		std::ofstream outFile(fileName.toStdString());
+
+		if (outFile.is_open()) {
+			outFile.clear();
+			outFile << m_game->SaveFEN();
+			outFile.close();
+		}
+		else
+		{
+			throw FENException("Can't save FEN properly!");
+		}
 	}
 
 	file.close();
@@ -620,13 +631,19 @@ void ChessUIQt::OnLoadButtonClicked()
 		{
 			m_game->LoadPGN(fileName.toStdString());
 		}
+		else
+		{
+			m_game->LoadFEN(dataString);
+		}
 	}
 	catch (ChessException exc)
 	{
 		QMessageBox exception;
 		exception.setText(exc.what());
 		exception.exec();
+		return;
 	}
+
 	UpdateBoard(GetBoard());
 	UpdateHistory();
 
@@ -645,7 +662,7 @@ void ChessUIQt::OnLoadButtonClicked()
 	}
 	else if (m_game->IsOver())
 	{
-		EOverState whoWon = m_game->GetTurn() == EColor::White ? EOverState::BlackWon : EOverState::WhiteWon;
+		EOverState whoWon = m_game->GetTurn() == EColor::White ? EOverState::WhiteWon : EOverState::BlackWon;
 
 		OnGameOver(whoWon);
 	}
