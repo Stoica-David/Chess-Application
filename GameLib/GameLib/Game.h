@@ -5,8 +5,6 @@
 #include "PGNHandler.h"
 #include "EState.h"
 
-#include<vector>
-
 using ListenersList = std::vector<IGameListenerWeakPtr>;
 
 class Game : public IGame

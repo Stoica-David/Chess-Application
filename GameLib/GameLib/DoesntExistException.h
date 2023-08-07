@@ -1,4 +1,5 @@
 #pragma once
+
 #include "ChessException.h"
 
 class DoesntExistException : public ChessException

@@ -98,15 +98,7 @@ void Game::Move(Position p1, Position p2)
 			NotifyCaptured(type, color);
 		}
 
-		if (m_gameboard.IsPromotePossible(p2))
-		{
-			UpdateState(EState::ChoosePiece);
-			NotifyChoosePiece();
-		}
-		else
-		{
-			SwitchTurn();
-		}
+		m_gameboard.IsPromotePossible(p2) ? UpdateState(EState::ChoosePiece), NotifyChoosePiece() : SwitchTurn();
 
 		NotifyMove();
 
@@ -115,7 +107,7 @@ void Game::Move(Position p1, Position p2)
 			UpdateState(EState::BlackWon);
 			NotifyGameOver(EOverState::BlackWon);
 		}
-		else if (Stalemate() || m_gameboard.IsDraw() || m_gameboard.Is3Fold())
+		else if (Stalemate() || m_gameboard.IsDraw() || m_gameboard.Is3Fold() || IsDraw())
 		{
 			UpdateState(EState::Draw);
 			NotifyGameOver(EOverState::Draw);
@@ -129,11 +121,6 @@ void Game::Move(Position p1, Position p2)
 		{
 			UpdateState(EState::Check);
 			NotifyCheck();
-		}
-		else if (IsDraw())
-		{
-			UpdateState(EState::Draw);
-			NotifyGameOver(EOverState::Draw);
 		}
 	}
 }
