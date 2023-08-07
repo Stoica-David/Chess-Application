@@ -30,9 +30,9 @@ TEST(SavePGNTEST, Save1)
 	p.AddMove("e3");
 	p.AddMove("Bb4");
 
-	p.SavePGNToFile("m_pgn.pgn");
+	p.SavePGNToFile("PGN/m_pgn.pgn");
 
-	std::ifstream f("m_pgn.pgn");
+	std::ifstream f("PGN/m_pgn.pgn");
 	while (!f.eof())
 	{
 		std::string s;
@@ -82,9 +82,9 @@ TEST(ParseToPGNTest, Parse2)
 	p.AddMove("Nd5");
 	p.AddMove("nd4");
 
-	p.SavePGNToFile("m_pgn1.pgn");
+	p.SavePGNToFile("PGN/m_pgn1.pgn");
 
-	std::ifstream f("m_pgn1.pgn");
+	std::ifstream f("PGN/m_pgn1.pgn");
 	String pgnstr;
 
 	if (f.is_open())
@@ -132,7 +132,7 @@ TEST(SavePGNFileTest, PGNFile1)
 	p.AddMove("Nd5");
 	p.AddMove("nd4");
 
-	p.LoadPGNFromFile("m_pgn1.pgn");
+	p.LoadPGNFromFile("PGN/m_pgn1.pgn");
 
 	EXPECT_EQ(p.GetPGN(), "[Event \"?\"]\n[Site \"?\"]\n[Date \"????.??.??\"]\n[Round \"?\"]\n[White \"?\"]\n[Black \"?\"]\n[Result \"*\"]\n\n1.e4 f5 2.Nc3 nc6 3.f3 d5 4.exd5 nd4 5.g4 nf6 6.Bb5+ bd7 7.gxf5 c6 8.dxc6 bxc6 9.Bxc6+ xc6 10.Qe2 ne4 11.fxe4 g5 12.Nd5 nd4 *");
 }
