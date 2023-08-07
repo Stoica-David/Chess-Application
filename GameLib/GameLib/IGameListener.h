@@ -17,5 +17,7 @@ public:
 
 	virtual void OnPieceCapture(EPieceType, EColor) = 0;
 
+	virtual void OnNotifyTime(ChessTimer) = 0;
+
 	virtual ~IGameListener() = default;
 };

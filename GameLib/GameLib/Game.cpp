@@ -27,6 +27,8 @@ IGamePtr IGame::Produce()
 Game::Game()
 	: m_turn(EColor::White)
 	, m_state(EState::Playing)
+	, m_whiteTimer(10)
+	, m_blackTimer(10)
 {
 }
 
@@ -34,10 +36,16 @@ Game::Game(const Board& b, EColor color /*=EColor::White*/)
 	: m_turn(color)
 	, m_gameboard(b)
 	, m_state(EState::Playing)
+	, m_whiteTimer(10)
+	, m_blackTimer(10)
 {
 }
 
-Game::Game(const CharMatrix& matrix, EColor color, EState state) : m_turn(color), m_state(state)
+Game::Game(const CharMatrix& matrix, EColor color, EState state) 
+	: m_turn(color)
+	, m_state(state)
+	, m_whiteTimer(10)
+	, m_blackTimer(10)
 {
 	m_gameboard = Board::Board(matrix);
 }
@@ -56,6 +64,12 @@ void Game::Restart()
 
 void Game::Move(Position p1, Position p2)
 {
+	if (m_state == EState::Standby)
+	{
+		m_state = EState::Playing;
+		m_whiteTimer.startTurn();
+	}
+
 	if (m_state == EState::Playing || m_state == EState::Check)
 	{
 		if (!IsPositionValid(p1) || !IsPositionValid(p2))
@@ -237,6 +251,11 @@ void Game::RemoveListener(IGameListener* listener)
 	m_listeners.erase(std::remove_if(m_listeners.begin(), m_listeners.end(), func));
 }
 
+bool Game::IsTimeExpired(ChessTimer timer) const
+{
+	return timer.isTimeExpired();
+}
+
 bool Game::IsDraw() const
 {
 	return m_state == EState::Draw;
@@ -378,9 +397,33 @@ void Game::NotifyCaptured(EPieceType type, EColor color)
 	}
 }
 
+void Game::NotifyTime(ChessTimer timer)
+{
+	{
+		for (const auto& x : m_listeners)
+		{
+			if (auto sp = x.lock())
+			{
+				sp->OnNotifyTime(timer);
+			}
+		}
+	}
+}
+
 void Game::SwitchTurn()
 {
-	m_turn = m_turn == EColor::Black ? EColor::White : EColor::Black;
+	if (m_turn == EColor::White)
+	{
+		m_whiteTimer.endTurn();
+		m_turn = EColor::Black;
+		m_blackTimer.startTurn();
+	}
+	else
+	{
+		m_blackTimer.endTurn();
+		m_turn = EColor::White;
+		m_whiteTimer.startTurn();
+	}
 }
 
 void Game::UpdateState(EState state)

@@ -154,6 +154,7 @@
     <ClCompile Include="Bishop.cpp" />
     <ClCompile Include="Board.cpp" />
     <ClCompile Include="ChessException.cpp" />
+    <ClCompile Include="ChessTimer.cpp" />
     <ClCompile Include="DoesntExistException.cpp" />
     <ClCompile Include="FENException.cpp" />
     <ClCompile Include="Game.cpp" />
@@ -177,6 +178,7 @@
     <ClInclude Include="Bishop.h" />
     <ClInclude Include="Board.h" />
     <ClInclude Include="BoardExceptions.h" />
+    <ClInclude Include="ChessTimer.h" />
     <ClInclude Include="DoesntExistException.h" />
     <ClInclude Include="EColor.h" />
     <ClInclude Include="EOverState.h" />

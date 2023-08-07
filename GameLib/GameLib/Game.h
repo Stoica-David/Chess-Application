@@ -4,6 +4,7 @@
 #include "Board.h"
 #include "PGNHandler.h"
 #include "EState.h"
+#include "ChessTimer.h"
 
 using ListenersList = std::vector<IGameListenerWeakPtr>;
 
@@ -13,7 +14,7 @@ public:
 	// Constructor
 	Game();
 	Game(const Board& b, EColor color = EColor::White);
-	Game(const CharMatrix& matrix, EColor color = EColor::White, EState state = EState::Playing);
+	Game(const CharMatrix& matrix, EColor color = EColor::White, EState state = EState::Standby);
 	
 	// IGame methods
 	void Restart() override;
@@ -37,6 +38,7 @@ public:
 	bool IsDrawProposed() const override;
 	bool IsCheck() const override;
 	bool IsPromoting() const override;
+	bool IsTimeExpired(ChessTimer) const override;
 
 	EColor GetTurn() const override;
 	
@@ -61,6 +63,7 @@ private:
 	void NotifyCheck();
 	void NotifyRestart();
 	void NotifyCaptured(EPieceType type, EColor color);
+	void NotifyTime(ChessTimer);
 
 	// Other methods
 	void SwitchTurn();
@@ -70,7 +73,10 @@ private:
 	Board m_gameboard;
 
 	EColor m_turn;
-	
+
+	ChessTimer m_whiteTimer;
+	ChessTimer m_blackTimer;
+
 	EState m_state;
 	
 	ListenersList m_listeners;

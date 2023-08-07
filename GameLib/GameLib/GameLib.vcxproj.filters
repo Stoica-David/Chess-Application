@@ -99,6 +99,9 @@
     <ClCompile Include="PGNHandler.cpp">
       <Filter>Source Files\PGN</Filter>
     </ClCompile>
+    <ClCompile Include="ChessTimer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -196,6 +199,9 @@
     </ClInclude>
     <ClInclude Include="PGNHandler.h">
       <Filter>Header Files\PGN</Filter>
+    </ClInclude>
+    <ClInclude Include="ChessTimer.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
