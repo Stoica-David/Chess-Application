@@ -75,22 +75,6 @@ void AppendExtraInfo(std::string& m, IGamePtr game)
 
 static int GetDefaultNumberOfPieces(EPieceType type)
 {
-	std::vector<EPieceType> TypesW2 = {EPieceType::Rook, EPieceType::Knight, EPieceType::Bishop};
-	std::vector<EPieceType> TypesW1 = {EPieceType::Queen, EPieceType::King};
-	
-	if (std::find(TypesW1.begin(), TypesW1.end(), type) != TypesW1.end())
-	{
-		return 1;
-	}
-	else if (std::find(TypesW2.begin(), TypesW2.end(), type) != TypesW2.end())
-	{
-		return 2;
-	}
-	else
-	{
-		return 8;
-	}
-
 	switch (type)
 	{
 	case EPieceType::Rook:
@@ -179,10 +163,8 @@ static std::string GenerateStringBoard(IGamePtr m_game)
 			if (j != 7)
 				chessBoard.append(", ");
 		}
-		if (i != 7)
-			chessBoard += "},\n";
-		else
-			chessBoard += "}\n\t";
+
+		i != 7 ? chessBoard += "},\n" : chessBoard += "}\n\t";
 	}
 	chessBoard += "}};\n\n";
 
@@ -279,14 +261,7 @@ void ChessUIQt::OnMove()
 {
 	UpdateBoard(GetBoard());
 
-	if (m_game->GetTurn() == EColor::Black)
-	{
-		m_messageLabel->setText("Waiting for black player");
-	}
-	else
-	{
-		m_messageLabel->setText("Waiting for white player");
-	}
+	m_game->GetTurn() == EColor::Black ? m_messageLabel->setText("Waiting for black player") : m_messageLabel->setText("Waiting for white player");
 }
 
 void ChessUIQt::OnGameOver(EOverState state)
@@ -340,10 +315,7 @@ void ChessUIQt::OnRestart()
 	m_exceptionLabel->setText("");
 
 	m_movesList->clear();
-
-	m_whiteCapturedPiecesList->clear();
-	m_blackCapturedPiecesList->clear();
-
+	ClearPieces();
 	m_movesList->setEditTriggers(QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked);
 
 	StartGame();
@@ -379,12 +351,12 @@ void ChessUIQt::InitializeMessage(QGridLayout* mainGridLayout)
 	m_exceptionLabel->setAlignment(Qt::AlignCenter);
 	m_exceptionLabel->setStyleSheet("font-size: 20px; font-weight: bold;");
 
-	QVBoxLayout* messageLayout = new QVBoxLayout();  // Create a vertical layout
+	QVBoxLayout* messageLayout = new QVBoxLayout(); 
 	messageLayout->addWidget(m_messageLabel);
 	messageLayout->addWidget(m_exceptionLabel);
-	messageLayout->setContentsMargins(0, 0, 0, 0); // Optionally set layout margins
+	messageLayout->setContentsMargins(0, 0, 0, 0); 
 
-	mainGridLayout->addLayout(messageLayout, 0, 1, 2, 1);  // Add the layout to the grid
+	mainGridLayout->addLayout(messageLayout, 0, 1, 2, 1);  
 }
 
 void ChessUIQt::InitializeButtons(QGridLayout* mainGridLayout)
@@ -454,7 +426,6 @@ void ChessUIQt::InitializeTimers(QGridLayout* mainGridLayout)
 	ApplyButtonStyles(pauseTimerBtn);
 
 	pauseTimerBtn->installEventFilter(this);
-	//whiteTimerLbl->installEventFilter(this);
 }
 
 void ChessUIQt::InitializeHistory(QGridLayout* mainGridLayout)
@@ -514,10 +485,7 @@ void ChessUIQt::InitializePlayer(QGridLayout* mainGridLayout, EColor color)
 	profileName->setText(name);
 	profileName->setStyleSheet("color: black; font-size: 18px; font-weight: bold;");
 
-	if (color == EColor::Black)
-		m_blackCapturedPiecesList = new QListWidget();
-	else
-		m_whiteCapturedPiecesList = new QListWidget();
+	color == EColor::Black ? m_blackCapturedPiecesList = new QListWidget() : m_whiteCapturedPiecesList = new QListWidget();
 
 	QListWidget* playerPieces;
 	playerPieces = color == EColor::Black ? m_blackCapturedPiecesList : m_whiteCapturedPiecesList;
@@ -531,10 +499,8 @@ void ChessUIQt::InitializePlayer(QGridLayout* mainGridLayout, EColor color)
 	playerGrid->addWidget(playerPieces, 1, 1, Qt::AlignCenter);
 
 	player->setLayout(playerGrid);
-	if (color == EColor::Black)
-		mainGridLayout->addWidget(player, 3, 1, Qt::AlignLeft);
-	else
-		mainGridLayout->addWidget(player, 5, 1, Qt::AlignLeft);
+
+	color == EColor::Black ? mainGridLayout->addWidget(player, 3, 1, Qt::AlignLeft) : mainGridLayout->addWidget(player, 5, 1, Qt::AlignLeft);
 }
 
 void ChessUIQt::InitializeTabBar(QGridLayout* mainGridLayout)
@@ -553,27 +519,23 @@ void ChessUIQt::InitializeTabBar(QGridLayout* mainGridLayout)
 	m_closeButton->setFixedWidth(30);
 	m_closeButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-	//Create minimize button
 	m_minimizeButton = new QPushButton(minimizeIcon, "", this);
 	m_minimizeButton->setStyleSheet("background-color: #D2C4B5; color: #7A6C5D; border: none;");
 	m_minimizeButton->setFixedHeight(30);
 	m_minimizeButton->setFixedWidth(30);
 	m_minimizeButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 
-	//Layout for the title bar area (containing the buttons)
-
 	QHBoxLayout* titleBarLayout = new QHBoxLayout();
 
 	titleBarLayout->setContentsMargins(0, 0, 0, 0);
 
 	titleBarLayout->addWidget(messageLabel, 0, Qt::AlignLeft);
-	messageLabel->setContentsMargins(20, 0, 0, 0);  // Add left margin
+	messageLabel->setContentsMargins(20, 0, 0, 0); 
 
-	titleBarLayout->addStretch();  // Add a stretch item to push the buttons to the right
-	titleBarLayout->addWidget(m_minimizeButton, 0, Qt::AlignRight);  // Align the buttons to the right
+	titleBarLayout->addStretch(); 
+	titleBarLayout->addWidget(m_minimizeButton, 0, Qt::AlignRight);
 	titleBarLayout->addWidget(m_closeButton, 0, Qt::AlignRight);
 
-	//Create a widget to hold the title bar contents
 	QWidget* titleBarWidget = new QWidget();
 	titleBarWidget->setLayout(titleBarLayout);
 	titleBarWidget->setStyleSheet("background-color: #BCAC9B;");
@@ -657,9 +619,6 @@ bool ChessUIQt::EventFilter(QObject* obj, QEvent* event)
 {
 	if (event->type() == QEvent::Enter)
 	{
-		// Mouse entered the button, apply hover effect
-		//if (obj.isButton())
-
 		if (auto button = qobject_cast<QPushButton*>(obj))
 		{
 			if (button == m_closeButton || button == m_minimizeButton)
@@ -674,8 +633,6 @@ bool ChessUIQt::EventFilter(QObject* obj, QEvent* event)
 	}
 	else if (event->type() == QEvent::Leave)
 	{
-		// Mouse left the button, remove hover effect
-
 		if (QPushButton* button = qobject_cast<QPushButton*>(obj))
 		{
 			if (button == m_closeButton || button == m_minimizeButton)
@@ -689,15 +646,13 @@ bool ChessUIQt::EventFilter(QObject* obj, QEvent* event)
 		}
 	}
 
-	return false; // Continue normal event processing
+	return false;
 }
 
 void ChessUIQt::ApplyButtonStyles(QPushButton* button)
 {
-	// Set the background and text colors of the buttons
 	button->setStyleSheet("background-color: #7A6C5D; color: white; border-radius: 5px; padding: 5px;");
 
-	// Set the font
 	button->setFont(QFont("Arial", 12));
 }
 
@@ -750,15 +705,12 @@ PairMatrix ChessUIQt::GetBoard() const
 
 void ChessUIQt::CenterOnScreen()
 {
-	// Get the available screen geometry
 	QScreen* screen = QGuiApplication::primaryScreen();
 	QRect screenGeometry = screen->availableGeometry();
 
-	// Calculate the position to center the window on the screen
 	int x = (screenGeometry.width() - width()) / 2;
 	int y = (screenGeometry.height() - height()) / 2;
 
-	// Set the window position
 	move(x, y);
 }
 
@@ -810,22 +762,14 @@ void ChessUIQt::GridButtonClicked(Position position)
 		{
 			auto& button = m_grid[m_selectedCell.value().first][m_selectedCell.value().second];
 
-			if (m_selectedCell.value() == position)
-			{
-				UpdateBoard(GetBoard());
-			}
-			else
-			{
-				m_game->Move(m_selectedCell.value(), position);
-
-				UpdateHistory();
-			}
+			m_selectedCell.value() == position ? UpdateBoard(GetBoard()) : m_game->Move(m_selectedCell.value(), position), UpdateHistory();
 
 			button->SetSelected(false);
 			m_selectedCell.reset();
 		}
 		//At first click
-		else if (m_game->GetPieceInfo(position) && m_game->GetPieceInfo(position)->GetColor() == m_game->GetTurn() && !m_game->GetMoves(position).empty()) {
+		else if (m_game->GetPieceInfo(position) && m_game->GetPieceInfo(position)->GetColor() == m_game->GetTurn() && !m_game->GetMoves(position).empty()) 
+		{
 			m_selectedCell = position;
 			m_grid[position.first][position.second]->SetSelected(true);
 			HighlightPossibleMoves(m_game->GetMoves(position));
@@ -910,11 +854,6 @@ void ChessUIQt::OnLoadButtonClicked()
 
 	QString extension = QFileInfo(file).suffix();
 
-	if (extension == "fen")
-	{
-		m_movesList->setEditTriggers(QAbstractItemView::NoEditTriggers);
-	}
-
 	try
 	{
 		if (extension == "pgn")
@@ -923,6 +862,7 @@ void ChessUIQt::OnLoadButtonClicked()
 		}
 		else
 		{
+			m_movesList->setEditTriggers(QAbstractItemView::NoEditTriggers);
 			m_game->LoadFEN(dataString);
 		}
 	}
@@ -937,14 +877,7 @@ void ChessUIQt::OnLoadButtonClicked()
 	UpdateBoard(GetBoard());
 	UpdateHistory();
 
-	if (m_game->GetTurn() == EColor::White)
-	{
-		m_messageLabel->setText("Waiting for white player");
-	}
-	else
-	{
-		m_messageLabel->setText("Waiting for black player");
-	}
+	m_game->GetTurn() == EColor::White ? m_messageLabel->setText("Waiting for white player") : m_messageLabel->setText("Waiting for black player");
 
 	if (m_game->IsDraw())
 	{
@@ -975,15 +908,7 @@ void ChessUIQt::OnDrawButtonClicked()
 {
 	QMessageBox::StandardButton reply = QMessageBox::question(this, "Draw proposal", "Do you accept a draw?", QMessageBox::Yes | QMessageBox::No);
 
-	if (reply == QMessageBox::Yes)
-	{
-		m_game->DrawResponse(true);
-		m_messageLabel->setText("Draw! The players agreed to draw\n");
-	}
-	else
-	{
-		m_game->DrawResponse(false);
-	}
+	reply == QMessageBox::Yes ? m_game->DrawResponse(true), m_messageLabel->setText("The players agreed to draw!") : m_game->DrawResponse(false);
 }
 
 void ChessUIQt::OnHistoryClicked(QListWidgetItem* item)
@@ -1020,14 +945,7 @@ void ChessUIQt::OnHistoryClicked(QListWidgetItem* item)
 
 	m_game->SetHistory(newHistory);
 
-	if (index != newHistory.size() - 1)
-	{
-		MakeButtonsUnselectable();
-	}
-	else
-	{
-		MakeButtonsSelectable();
-	}
+	index != newHistory.size() - 1 ? MakeButtonsUnselectable() : MakeButtonsSelectable();
 
 	UpdateHistory();
 }
