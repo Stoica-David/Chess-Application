@@ -1,11 +1,28 @@
 #include "Game.h"
 #include "GameExceptions.h"
 
+static bool IsPositionValid(Position p)
+{
+	return (p.first >= 0 && p.first < 8) && (p.second >= 0 && p.second < 8);
+}
+
+static char LastChar(const String& string)
+{
+	for (int i = string.size() - 1; i >= 0; i--)
+	{
+		if (string[i] != ' ')
+			return string[i];
+	}
+
+	return ' ';
+}
 
 IGamePtr IGame::Produce()
 {
 	return std::make_shared<Game>();
 }
+
+// Class methods
 
 Game::Game()
 	: m_turn(EColor::White)
@@ -25,9 +42,13 @@ Game::Game(const CharMatrix& matrix, EColor color, EState state) : m_turn(color)
 	m_gameboard = Board::Board(matrix);
 }
 
-static bool IsPositionValid(Position p)
+void Game::Restart()
 {
-	return (p.first >= 0 && p.first < 8) && (p.second >= 0 && p.second < 8);
+	m_turn = EColor::White;
+	m_state = EState::Playing;
+	m_gameboard.Reset();
+	m_PGN.Clear();
+	NotifyRestart();
 }
 
 void Game::Move(Position p1, Position p2)
@@ -125,46 +146,6 @@ void Game::DrawResponse(bool draw)
 	m_state = draw ? EState::Draw : EState::Playing;
 }
 
-IPieceInfoPtr Game::GetPieceInfo(Position p) const
-{
-	return m_gameboard.GetPieceInfo(p);
-}
-
-PiecesPtr Game::GetPiece(Position p) const
-{
-	return m_gameboard.GetPiece(p);
-}
-
-void Game::UpdateState(EState state)
-{
-	m_state = state;
-}
-
-EColor Game::GetTurn() const
-{
-	return m_turn;
-}
-
-bool Game::IsDraw() const
-{
-	return m_state == EState::Draw;
-}
-
-bool Game::IsOver() const
-{
-	return (m_state == EState::Draw || m_state == EState::BlackWon || m_state == EState::WhiteWon);
-}
-
-bool Game::IsDrawProposed() const
-{
-	return (m_state == EState::DrawIsProposed);
-}
-
-bool Game::IsPromoting() const
-{
-	return (m_state == EState::ChoosePiece);
-}
-
 void Game::PromoteTo(EPieceType pieceType)
 {
 	m_gameboard.PromoteTo(pieceType, m_turn);
@@ -173,93 +154,9 @@ void Game::PromoteTo(EPieceType pieceType)
 	SwitchTurn();
 }
 
-void Game::Restart()
+void Game::SetHistory(const MoveVector& v)
 {
-	m_turn = EColor::White;
-	m_state = EState::Playing;
-	m_gameboard.Reset();
-	m_PGN.Clear();
-	NotifyRestart();
-}
-
-std::unordered_map<EPieceType, int> Game::PiecesLeft(EColor color)const
-{
-	std::unordered_map <EPieceType, int> leftPieces;
-
-	for (int i = 0; i < 8; i++)
-	{
-		for (int j = 0; j < 8; j++)
-		{
-			PiecesPtr piece = m_gameboard.GetPiece({ i, j });
-
-			if (piece && piece->GetColor() == color)
-			{
-				leftPieces[piece->GetType()]++;
-			}
-		}
-	}
-
-	return leftPieces;
-}
-
-void Game::SavePGN(const String& filePath)
-{
-	if (IsDraw())
-	{
-		m_PGN.SetHeader(ETag::Result, "1/2-1/2");
-	}
-	else if (IsOver())
-	{
-		if (m_turn == EColor::White)
-		{
-			m_PGN.SetHeader(ETag::Result, "0-1");
-
-		}
-		{
-			m_PGN.SetHeader(ETag::Result, "1-0");
-
-		}
-	}
-
-	m_PGN.ParseToPGN();
-
-	m_PGN.SavePGNToFile(filePath);
-}
-
-void Game::SwitchTurn()
-{
-	m_turn = m_turn == EColor::Black ? EColor::White : EColor::Black;
-}
-
-bool Game::Stalemate() const
-{
-	return (m_gameboard.IsStalemate(m_turn));
-}
-
-void Game::LoadPGN(const String& filePath)
-{
-	m_PGN.LoadPGNFromFile(filePath);
-
-	m_PGN.ParseFromPGN();
-
-	m_gameboard.ParsePGN(m_PGN.GetMoves());
-
-	if (m_PGN.IsDraw())
-	{
-		UpdateState(EState::Draw);
-	}
-	else if (m_PGN.IsOverWhite())
-	{
-		UpdateState(EState::WhiteWon);
-	}
-	else if (m_PGN.IsOverBlack())
-	{
-		UpdateState(EState::BlackWon);
-	}
-	else
-	{
-		UpdateState(EState::Playing);
-	}
+	m_gameboard.SetHistory(v);
 }
 
 String Game::SaveFEN() const
@@ -300,9 +197,101 @@ void Game::LoadFEN(const String& string)
 	}
 }
 
-MoveVector Game::GetHistory() const
+void Game::SavePGN(const String& filePath)
 {
-	return m_gameboard.GetHistory();
+	if (IsDraw())
+	{
+		m_PGN.SetHeader(ETag::Result, "1/2-1/2");
+	}
+	else if (IsOver())
+	{
+		if (m_turn == EColor::White)
+		{
+			m_PGN.SetHeader(ETag::Result, "0-1");
+
+		}
+		{
+			m_PGN.SetHeader(ETag::Result, "1-0");
+
+		}
+	}
+
+	m_PGN.ParseToPGN();
+
+	m_PGN.SavePGNToFile(filePath);
+}
+
+void Game::LoadPGN(const String& filePath)
+{
+	m_PGN.LoadPGNFromFile(filePath);
+
+	m_PGN.ParseFromPGN();
+
+	m_gameboard.ParsePGN(m_PGN.GetMoves());
+
+	if (m_PGN.IsDraw())
+	{
+		UpdateState(EState::Draw);
+	}
+	else if (m_PGN.IsOverWhite())
+	{
+		UpdateState(EState::WhiteWon);
+	}
+	else if (m_PGN.IsOverBlack())
+	{
+		UpdateState(EState::BlackWon);
+	}
+	else
+	{
+		UpdateState(EState::Playing);
+	}
+}
+
+void Game::AddListener(IGameListenerPtr newListener)
+{
+	m_listeners.push_back(newListener);
+}
+
+void Game::RemoveListener(IGameListener* listener)
+{
+	auto func = [listener](IGameListenerWeakPtr el)
+	{
+		auto sp = el.lock();
+
+		return !sp || listener == sp.get();
+	};
+
+	m_listeners.erase(std::remove_if(m_listeners.begin(), m_listeners.end(), func));
+}
+
+bool Game::IsDraw() const
+{
+	return m_state == EState::Draw;
+}
+
+bool Game::IsOver() const
+{
+	return (m_state == EState::Draw || m_state == EState::BlackWon || m_state == EState::WhiteWon);
+}
+
+bool Game::IsDrawProposed() const
+{
+	return (m_state == EState::DrawIsProposed);
+}
+
+bool Game::IsCheck() const
+{
+	return m_state == EState::Check;
+}
+
+bool Game::IsPromoting() const
+{
+	return (m_state == EState::ChoosePiece);
+}
+
+EColor Game::GetTurn() const
+{
+	return m_turn;
 }
 
 PositionList Game::GetMoves(Position p)
@@ -310,9 +299,66 @@ PositionList Game::GetMoves(Position p)
 	return m_gameboard.GetMoves(p);
 }
 
-bool Game::IsCheck() const
+MoveVector Game::GetHistory() const
 {
-	return m_state == EState::Check;
+	return m_gameboard.GetHistory();
+}
+
+IPieceInfoPtr Game::GetPieceInfo(Position p) const
+{
+	return m_gameboard.GetPieceInfo(p);
+}
+
+PieceMap Game::PiecesLeft(EColor color)const
+{
+	std::unordered_map <EPieceType, int> leftPieces;
+
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			PiecesPtr piece = m_gameboard.GetPiece({ i, j });
+
+			if (piece && piece->GetColor() == color)
+			{
+				leftPieces[piece->GetType()]++;
+			}
+		}
+	}
+
+	return leftPieces;
+}
+
+PiecesPtr Game::GetPiece(Position p) const
+{
+	return m_gameboard.GetPiece(p);
+}
+
+bool Game::Stalemate() const
+{
+	return (m_gameboard.IsStalemate(m_turn));
+}
+
+void Game::NotifyMove()
+{
+	for (const auto& x : m_listeners)
+	{
+		if (auto sp = x.lock())
+		{
+			sp->OnMove();
+		}
+	}
+}
+
+void Game::NotifyGameOver(EOverState state)
+{
+	for (const auto& x : m_listeners)
+	{
+		if (auto sp = x.lock())
+		{
+			sp->OnGameOver(state);
+		}
+	}
 }
 
 void Game::NotifyChoosePiece()
@@ -359,58 +405,12 @@ void Game::NotifyCaptured(EPieceType type, EColor color)
 	}
 }
 
-void Game::AddListener(IGameListenerPtr newListener)
+void Game::SwitchTurn()
 {
-	m_listeners.push_back(newListener);
+	m_turn = m_turn == EColor::Black ? EColor::White : EColor::Black;
 }
 
-void Game::RemoveListener(IGameListener* listener)
+void Game::UpdateState(EState state)
 {
-	auto func = [listener](IGameListenerWeakPtr el)
-	{
-		auto sp = el.lock();
-
-		return !sp || listener == sp.get();
-	};
-
-	m_listeners.erase(std::remove_if(m_listeners.begin(), m_listeners.end(), func));
+	m_state = state;
 }
-
-static char LastChar(const String& string)
-{
-	for (int i = string.size() - 1; i >= 0; i--)
-	{
-		if (string[i] != ' ')
-			return string[i];
-	}
-
-	return ' ';
-}
-
-void Game::SetHistory(const MoveVector& v)
-{
-	m_gameboard.SetHistory(v);
-}
-
-void Game::NotifyMove()
-{
-	for (const auto& x : m_listeners)
-	{
-		if (auto sp = x.lock())
-		{
-			sp->OnMove();
-		}
-	}
-}
-
-void Game::NotifyGameOver(EOverState state)
-{
-	for (const auto& x : m_listeners)
-	{
-		if (auto sp = x.lock())
-		{
-			sp->OnGameOver(state);
-		}
-	}
-}
-

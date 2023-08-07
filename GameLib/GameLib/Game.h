@@ -11,6 +11,7 @@
 #include<unordered_map>
 
 using ListenersList = std::vector<IGameListenerWeakPtr>;
+using PieceMap = std::unordered_map <EPieceType, int>;
 
 class Game : public IGame
 {
@@ -21,12 +22,21 @@ public:
 	Game(const CharMatrix& matrix, EColor color = EColor::White, EState state = EState::Playing);
 	
 	// IGame methods
+	void Restart() override;
 	void Move(Position p1, Position p2) override;
 	void ProposeDraw() override;
 	void DrawResponse(bool) override;
+	void PromoteTo(EPieceType pieceType) override;
+	void SetHistory(const MoveVector&) override;
+	
+	String SaveFEN() const override;
+	void LoadFEN(const String&) override;
+	
+	void SavePGN(const String&)override;
+	void LoadPGN(const String&) override;
 
-	IPieceInfoPtr GetPieceInfo(Position) const override;
-	EColor GetTurn() const override;
+	void AddListener(IGameListenerPtr) override;
+	void RemoveListener(IGameListener*) override;
 
 	bool IsDraw() const override;
 	bool IsOver() const override;
@@ -34,28 +44,23 @@ public:
 	bool IsCheck() const override;
 	bool IsPromoting() const override;
 
-	void PromoteTo(EPieceType pieceType) override;
-
-	void Restart() override;
+	EColor GetTurn() const override;
 	
-	void AddListener(IGameListenerPtr) override;
-	void RemoveListener(IGameListener*) override;
-
-	void SetHistory(const MoveVector&) override;
-
 	PositionList GetMoves(Position p) override;
-
-	String SaveFEN() const override;
-	void LoadFEN(const String&) override;
-
+	
 	MoveVector GetHistory()const override;
 
-	std::unordered_map <EPieceType, int> PiecesLeft(EColor)const override;
+	IPieceInfoPtr GetPieceInfo(Position) const override;
 	
-	void SavePGN(const String&)override;
-	void LoadPGN(const String&) override;
+	PieceMap PiecesLeft(EColor)const override;
 
 	//Other methods
+	PiecesPtr GetPiece(Position) const;
+
+	bool Stalemate() const;
+
+private:
+	// Observer methods
 	void NotifyMove();
 	void NotifyGameOver(EOverState);
 	void NotifyChoosePiece();
@@ -63,11 +68,7 @@ public:
 	void NotifyRestart();
 	void NotifyCaptured(EPieceType type, EColor color);
 
-	PiecesPtr GetPiece(Position) const;
-	bool Stalemate() const;
-
-
-private:
+	// Other methods
 	void SwitchTurn();
 	void UpdateState(EState);
 

@@ -120,8 +120,6 @@ static PieceType GetType(IPieceInfoPtr currPiece)
 	case EPieceType::Pawn:
 		return PieceType::Pawn;
 	}
-
-	return PieceType::none;
 }
 
 static PieceColor GetColor(IPieceInfoPtr currPiece)
@@ -154,9 +152,9 @@ static std::string GenerateStringBoard(IGamePtr m_game)
 			}
 
 			EPieceType currType = m_game->GetPieceInfo(currPos)->GetType();
-			EColor currentColor = m_game->GetPieceInfo(currPos)->GetColor();
+			EColor currColor = m_game->GetPieceInfo(currPos)->GetColor();
 
-			char c = GetPieceChar(currType, currentColor);
+			char c = GetPieceChar(currType, currColor);
 			chessBoard.insert(chessBoard.length(), 1, '\'');
 			chessBoard.insert(chessBoard.length(), 1, c);
 			chessBoard.append("\'");
