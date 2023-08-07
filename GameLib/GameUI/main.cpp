@@ -11,11 +11,9 @@ int main(int argc, char *argv[])
     game->AddListener(w);
 
     w->SetGame(game);
-    w->show();
-    w->centerOnScreen();
     w->StartGame();
 
-    QObject::connect(w.get(), &ChessUIQt::Exit, &a, &QApplication::quit);
+    w->Show();
 
     auto result = a.exec();
 

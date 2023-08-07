@@ -22,6 +22,21 @@ public:
     ChessUIQt(QWidget *parent = nullptr);
     ~ChessUIQt() override;
 
+    void SetGame(IGamePtr game);
+    void StartGame();
+
+    void Show();
+
+private:
+    // IGameListener methods
+    void OnMove() override;
+    void OnGameOver(EOverState) override;
+    void OnChoosePiece() override;
+    void OnCheck() override;
+    void OnRestart() override;
+    void OnPieceCapture(EPieceType, EColor) override;
+
+    // Initializers
     void InitializeMessage(QGridLayout* mainGridLayout);
     void InitializeButtons(QGridLayout* mainGridLayout);
     void InitializeTimers(QGridLayout* mainGridLayout);
@@ -29,6 +44,8 @@ public:
     void InitializeBoard(QGridLayout* mainGridLayout);
     void InitializePlayer(QGridLayout* mainGridLayout, EColor);
     void InitializeTabBar(QGridLayout* mainGridLayout);
+
+    void CenterOnScreen();
 
     bool eventFilter(QObject* obj, QEvent* event);
 
@@ -39,23 +56,23 @@ public:
 
     //Modify if necessary with your board representation
     void UpdateBoard(const PairMatrix& newBoard);
+  
     //Modify if necessary with your possible moves representation
-    void HighlightPossibleMoves(const std::vector<std::pair<int, int>>& possibleMoves);
+    void HighlightPossibleMoves(const PositionList& possibleMoves);
+    
     //Modify or delete
-    void StartGame();
     void ShowPromoteOptions();
 
-    void SetGame(IGamePtr game);
+    // Other methods
+	PairMatrix GetBoard() const;
+	void ApplyButtonStyles(QPushButton* button);
+    void MakeButtonsUnselectable();
+    void MakeButtonsSelectable();
+    void UpdateCaptured(EColor color);
+    void ClearPieces();
 
-    void OnMove() override;
-    void OnGameOver(EOverState) override;
-    void OnChoosePiece() override;
-    void OnCheck() override;
-    void OnRestart() override;
-    void OnPieceCapture(EPieceType, EColor) override;
-
-public slots:
-    void GridButtonClicked(const std::pair<int, int>& position);
+private slots:
+    void GridButtonClicked(Position position);
 
     void OnCopyButtonClicked();
     void OnLoadButtonClicked();
@@ -63,33 +80,26 @@ public slots:
     void OnDrawButtonClicked();
     void OnHistoryClicked(QListWidgetItem* item);
     void OnSaveButtonClicked();
-    void centerOnScreen();
-
-signals:
-    void Exit();
-
-private:
-	PairMatrix GetBoard() const;
-	void ApplyButtonStyles(QPushButton* button);
-	void minimizeWindow();
-	void closeWindow();
-    void MakeButtonsUnselectable();
-    void MakeButtonsSelectable();
-    void UpdateCaptured(EColor color);
-    void ClearPieces();
 
 private:
     Ui::ChessUIQtClass ui;
+    
     std::array<std::array<GridButton*, 8>, 8> m_grid;
+    
     std::optional<std::pair<int, int>> m_selectedCell;
-    QPushButton* closeButton;
-    QPushButton* minimizeButton;
-    QLabel* m_MessageLabel;
-    QLabel* m_ExceptionLabel;
-    QListWidget* m_MovesList;
-    QListWidget* m_whitePieces, *m_blackPieces;
-    QLabel* m_BlackTimer, *m_WhiteTimer;
-    QPoint m_lastMousePos;
+    
+    QPushButton* m_closeButton;
+    QPushButton* m_minimizeButton;
+    
+    QLabel* m_messageLabel;
+    QLabel* m_exceptionLabel;
+
+    QListWidget* m_movesList;
+    QListWidget* m_whiteCapturedPiecesList;
+    QListWidget* m_blackCapturedPiecesList;
+    
+    QLabel* m_blackTimer;
+    QLabel* m_whiteTimer;
+    
     IGamePtr m_game;
-    QListWidget* playerPieces;
 };

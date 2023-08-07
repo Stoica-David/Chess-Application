@@ -1,4 +1,7 @@
 #include "GridButton.h"
+
+#include "Position.h"
+
 #include <QPainter>
 
 void GridButton::mouseReleaseEvent(QMouseEvent* event)
@@ -127,8 +130,12 @@ void GridButton::paintEvent(QPaintEvent* event)
 	}
 }
 
-GridButton::GridButton(const std::pair<int, int>& boardPosition, PieceType pieceType, PieceColor pieceColor, QWidget* parent)
-	: m_Position(boardPosition), m_PieceType(pieceType), m_PieceColor(pieceColor), m_Highlighted(false), m_Selected(false)
+GridButton::GridButton(Position boardPosition, PieceType pieceType, PieceColor pieceColor)
+	: m_Position(boardPosition)
+	, m_PieceType(pieceType)
+	, m_PieceColor(pieceColor)
+	, m_Highlighted(false)
+	, m_Selected(false)
 {
 	setSizePolicy(QSizePolicy::Expanding, QSizePolicy::Expanding);
 
