@@ -120,7 +120,8 @@ bool Board::IsOver(EColor color) const
 	return (IsCheckMate(color));
 }
 
-bool Board::VerifyTheWay(Position p1, Position p2) const
+
+bool Board::CastleVerifyWay(Position p1, Position p2) const
 {
 	if (IsCastle(p1, p2))
 	{
@@ -128,6 +129,15 @@ bool Board::VerifyTheWay(Position p1, Position p2) const
 
 		return VerifyTheWay(p1, to);
 	}
+
+	return false;
+}
+
+
+bool Board::VerifyTheWay(Position p1, Position p2) const
+{
+	if (CastleVerifyWay(p1, p2))
+		return true;
 
 	int x1 = p1.first,
 		y1 = p1.second,
@@ -149,7 +159,8 @@ bool Board::VerifyTheWay(Position p1, Position p2) const
 		}
 		else
 		{
-			if (initialPiece->Is(EPieceType::Pawn) && (GetPiece(IntermediatePosition(p1))) && std::abs(x1 - x2) == 2)
+			//CanMoveTwoForward()
+			if (initialPiece->Is(EPieceType::Pawn) && CanMoveTwoForward(p1, p2))
 			{
 				return false;
 			}
@@ -186,6 +197,7 @@ bool Board::IsCheck(Position p, EColor color) const
 			}
 		}
 	}
+
 	return false;
 }
 
@@ -319,7 +331,9 @@ bool Board::Is3Fold() const
 
 bool Board::IsPromotePossible(Position p) const
 {
-	return (m_board[p.first][p.second] && m_board[p.first][p.second]->Is(EPieceType::Pawn) && (p.first == 0 || p.first == 7));
+	PiecesPtr currPiece = m_board[p.first][p.second];
+
+	return (currPiece && currPiece->Is(EPieceType::Pawn) && (p.first == 0 || p.first == 7));
 }
 
 bool Board::IsPinned(Position p) const
@@ -457,37 +471,9 @@ void Board::PromoteTo(EPieceType pieceType, EColor color)
 		throw PromoteException("Can't promote!\n");
 	}
 
-	String last;
-
-	switch (pieceType)
-	{
-	case EPieceType::Rook:
-	{
-		last += "=R";
-		break;
-	}
-	case EPieceType::Knight:
-	{
-		last += "=N";
-		break;
-	}
-	case EPieceType::Bishop:
-	{
-		last += "=B";
-		break;
-	}
-	case EPieceType::Queen:
-	{
-		last += "=Q";
-		break;
-	}
-	default:
-		throw PromoteException("Can't promote!\n");
-	}
-
 	if (!m_PGN.empty())
 	{
-		m_PGN += last;
+		m_PGN += GenerateInitial(pieceType);
 	}
 
 	m_board[p.first][p.second] = Piece::Produce(pieceType, color);
@@ -850,6 +836,39 @@ String Board::GenerateFEN() const
 	return FEN;
 }
 
+String Board::GenerateInitial(EPieceType pieceType)
+{
+	String last;
+
+	switch (pieceType)
+	{
+	case EPieceType::Rook:
+	{
+		last += "=R";
+		break;
+	}
+	case EPieceType::Knight:
+	{
+		last += "=N";
+		break;
+	}
+	case EPieceType::Bishop:
+	{
+		last += "=B";
+		break;
+	}
+	case EPieceType::Queen:
+	{
+		last += "=Q";
+		break;
+	}
+	default:
+		throw PromoteException("Can't promote!\n");
+	}
+
+	return last;
+}
+
 void Board::ParsePGN(StringVector Moves)
 {
 	Board initialBoard(*this);
@@ -984,6 +1003,76 @@ void Board::ParsePGN(StringVector Moves)
 	}
 }
 
+String Board::ConvertMove(Position p1, Position p2) const
+{
+	int currX = p1.first,
+		currY = p1.second,
+		nextX = p2.first,
+		nextY = p2.second;
+
+	String convertedMove;
+
+	if (IsCastle(p1, p2))
+	{
+		if (p1.second > p2.second)
+		{
+			convertedMove += "O-O-O";
+		}
+		else
+		{
+			convertedMove += "O-O";
+		}
+	}
+	else
+	{
+		switch (m_board[p1.first][p1.second]->GetType())
+		{
+		case EPieceType::Rook:
+			convertedMove.push_back('R');
+			break;
+		case EPieceType::Knight:
+			convertedMove.push_back('N');
+			break;
+		case EPieceType::Bishop:
+			convertedMove.push_back('B');
+			break;
+		case EPieceType::Queen:
+			convertedMove.push_back('Q');
+			break;
+		case EPieceType::King:
+			convertedMove.push_back('K');
+			break;
+		default:
+			break;
+		}
+
+		if (FindSameLine(p1, p2))
+		{
+			convertedMove.push_back('a' + currY);
+		}
+
+		if (FindSameColumn(p1, p2) && !m_board[currX][currY]->Is(EPieceType::Pawn))
+		{
+			convertedMove.push_back('1' + currX);
+		}
+
+		if (m_board[p2.first][p2.second])
+		{
+			if (m_board[p1.first][p1.second]->Is(EPieceType::Pawn))
+			{
+				convertedMove.push_back('a' + currY);
+			}
+
+			convertedMove.push_back('x');
+		}
+
+		convertedMove.push_back('a' + nextY);
+		convertedMove.push_back('0' + (8 - nextX));
+	}
+
+	return convertedMove;
+}
+
 bool Board::PawnGoesDiagonally(Position p1, Position p2) const
 {
 	int x1 = p1.first,
@@ -994,6 +1083,18 @@ bool Board::PawnGoesDiagonally(Position p1, Position p2) const
 	PiecesPtr currPiece = m_board[p1.first][p1.second];
 
 	return (std::abs(y2 - y1) == 1 && ((currPiece->GetColor() == EColor::White && x2 - x1 == -1) || (currPiece->GetColor() == EColor::Black && x2 - x1 == 1)));
+}
+
+bool Board::GoesTwoForward(int x1, int x2) const
+{
+	return std::abs(x1 - x2) == 2;
+}
+
+bool Board::CanMoveTwoForward(Position p1, Position p2) const
+{
+	int x1 = p1.first,
+		x2 = p2.first;
+	return ((GetPiece(IntermediatePosition(p1))) && GoesTwoForward(x1, x2));
 }
 
 bool Board::LeftPawnCheck(Position p) const
@@ -1540,76 +1641,6 @@ Position Board::IntermediatePosition(Position p) const
 	return intermediate;
 }
 
-String Board::ConvertMove(Position p1, Position p2) const
-{
-	int currX = p1.first,
-		currY = p1.second,
-		nextX = p2.first,
-		nextY = p2.second;
-
-	String convertedMove;
-
-	if (IsCastle(p1, p2))
-	{
-		if (p1.second > p2.second)
-		{
-			convertedMove += "O-O-O";
-		}
-		else
-		{
-			convertedMove += "O-O";
-		}
-	}
-	else
-	{
-		switch (m_board[p1.first][p1.second]->GetType())
-		{
-		case EPieceType::Rook:
-			convertedMove.push_back('R');
-			break;
-		case EPieceType::Knight:
-			convertedMove.push_back('N');
-			break;
-		case EPieceType::Bishop:
-			convertedMove.push_back('B');
-			break;
-		case EPieceType::Queen:
-			convertedMove.push_back('Q');
-			break;
-		case EPieceType::King:
-			convertedMove.push_back('K');
-			break;
-		default:
-			break;
-		}
-
-		if (FindSameLine(p1, p2))
-		{
-			convertedMove.push_back('a' + currY);
-		}
-
-		if (FindSameColumn(p1, p2) && !m_board[currX][currY]->Is(EPieceType::Pawn))
-		{
-			convertedMove.push_back('1' + currX);
-		}
-
-		if (m_board[p2.first][p2.second])
-		{
-			if (m_board[p1.first][p1.second]->Is(EPieceType::Pawn))
-			{
-				convertedMove.push_back('a' + currY);
-			}
-
-			convertedMove.push_back('x');
-		}
-
-		convertedMove.push_back('a' + nextY);
-		convertedMove.push_back('0' + (8 - nextX));
-	}
-
-	return convertedMove;
-}
-
 bool Board::FindSameLine(Position p1, Position p2) const
 {
 	int i = p1.first;
@@ -1698,6 +1729,8 @@ EPieceType Board::GetPieceType(char c)
 		return EPieceType::Knight;
 	}
 	}
+
+	return {};
 }
 
 Position Board::FindPrevPos(Position nextPos, EPieceType type, EColor color, Position prevPos) const

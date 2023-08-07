@@ -32,6 +32,7 @@ public:
 	PiecesPtr GetPiece(Position p) const;
 	MoveVector GetHistory()const;
 	String GetCurrPGN()const;
+	bool FindSameColumn(Position p1, Position p2) const;
 
 	// Functions
 	bool IsOver(EColor color) const;
@@ -60,9 +61,9 @@ public:
 	PositionList GetMovesPinned(Position p) const;
 
 	String GenerateFEN() const;
+	static String GenerateInitial(EPieceType);
 
 	bool FindSameLine(Position p1, Position p2) const;
-	bool FindSameColumn(Position p1, Position p2) const;
 
 	void ParsePGN(StringVector Moves);
 
@@ -70,6 +71,8 @@ public:
 
 private:
 	bool PawnGoesDiagonally(Position p1, Position p2) const;
+	bool GoesTwoForward(int x1, int x2) const;
+	bool CanMoveTwoForward(Position p1, Position p2) const;
 
 	bool LeftPawnCheck(Position p) const;
 	bool RightPawnCheck(Position p) const;
@@ -81,6 +84,8 @@ private:
 	bool PawnException(Position p1, Position p2)const;
 	bool IsCastle(Position p1, Position p2) const;
 	bool IsEnPassant(Position p1, Position p2) const;
+	bool CastleVerifyWay(Position p1, Position p2) const;
+
 
 	PositionList DefendedPositions(Position p, EColor color) const;
 	PositionList GetPassantMoves(Position p)const;
