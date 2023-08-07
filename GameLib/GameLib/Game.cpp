@@ -151,7 +151,7 @@ void Game::SetHistory(const MoveVector& v)
 
 String Game::SaveFEN() const
 {
-	String FEN = m_gameboard.GenerateFEN();
+	String FEN = m_gameboard.SaveFEN();
 
 	m_turn == EColor::White ? FEN.push_back('w') : FEN.push_back('b');
 

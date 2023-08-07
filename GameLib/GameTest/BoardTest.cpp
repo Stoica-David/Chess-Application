@@ -1002,7 +1002,7 @@ TEST(FindSameColumnTest, Find1)
 
 	Board b(m);
 
-	EXPECT_EQ(b.FindSameColumn({ 7,3 }, { 4,0 }), false);
+	EXPECT_EQ(b.FindOnSameColumn({ 7,3 }, { 4,0 }), false);
 }
 
 TEST(EnPassantTest, Passant1)
@@ -1111,5 +1111,5 @@ TEST(GenerateFENTest, Fen1)
 
 	String fen = "rnbqk1nr/pppp2pp/5p2/4p3/1b1P4/2PQ1N2/PP2PPPP/RNB1KB1R ";
 
-	EXPECT_EQ(b.GenerateFEN(), fen);
+	EXPECT_EQ(b.SaveFEN(), fen);
 }

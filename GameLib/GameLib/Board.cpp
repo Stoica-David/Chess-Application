@@ -77,14 +77,13 @@ bool Board::CastleVerifyWay(Position p1, Position p2) const
 {
 	if (IsCastle(p1, p2))
 	{
-		Position to = p1.second > p2.second ? Position(p2.first, p2.second + 2) : Position(p2.first, p2.second - 1);
+		Position nextPos = p1.second > p2.second ? Position(p2.first, p2.second + 2) : Position(p2.first, p2.second - 1);
 
-		return VerifyTheWay(p1, to);
+		return VerifyTheWay(p1, nextPos);
 	}
 
 	return false;
 }
-
 
 bool Board::VerifyTheWay(Position p1, Position p2) const
 {
@@ -109,13 +108,9 @@ bool Board::VerifyTheWay(Position p1, Position p2) const
 				return false;
 			}
 		}
-		else
+		else if (initialPiece->Is(EPieceType::Pawn) && CanMoveTwoForward(p1, p2))
 		{
-			//CanMoveTwoForward()
-			if (initialPiece->Is(EPieceType::Pawn) && CanMoveTwoForward(p1, p2))
-			{
-				return false;
-			}
+			return false;
 		}
 	}
 
@@ -183,27 +178,22 @@ bool Board::IsSameWay(Position p1, Position p2, EColor color) const
 
 bool Board::IsCheckMate(EColor color) const
 {
-	Position p = FindKing(color);
-	PiecesPtr King = m_board[p.first][p.second];
+	Position kingPos = FindKing(color);
+	PiecesPtr King = m_board[kingPos.first][kingPos.second];
 
-	if (!King)
+	if (!King || !IsCheck(kingPos, color))
 	{
 		return false;
 	}
 
-	if (!IsCheck(p, color))
-	{
-		return false;
-	}
-
-	PositionList currMoves = GetMovesNormal(p);
+	PositionList currMoves = GetMovesNormal(kingPos);
 	for (auto& pos : currMoves)
 	{
 		if (!IsCheck(pos, color))
 		{
 			if (!IsDefended(pos, OppositeColor(color)))
 			{
-				if (!IsSameWay(p, pos, color))
+				if (!IsSameWay(kingPos, pos, color))
 				{
 					return false;
 				}
@@ -211,12 +201,7 @@ bool Board::IsCheckMate(EColor color) const
 		}
 	}
 
-	if (FindHelp(p, color))
-	{
-		return false;
-	}
-
-	return !KillCheck(p, color);
+	return !FindHelp(kingPos, color) && !KillCheck(kingPos, color);
 }
 
 bool Board::IsDraw() const
@@ -230,17 +215,12 @@ bool Board::IsDraw() const
 
 	if (remaining.size() <= 4)
 	{
-		if (Find(remaining, EPieceType::Rook) == 1)
+		if (Find(remaining, EPieceType::Rook) == 1 || Find(remaining, EPieceType::Knight) == 1 || (Find(remaining, EPieceType::Bishop) == 1))
 		{
 			return true;
 		}
 
-		if (Find(remaining, EPieceType::Knight) == 1)
-		{
-			return true;
-		}
-
-		if ((Find(remaining, EPieceType::Bishop) == 2 && !SameBishop()) || (Find(remaining, EPieceType::Bishop) == 1))
+		if ((Find(remaining, EPieceType::Bishop) == 2 && !SameBishop()))
 		{
 			return true;
 		}
@@ -385,9 +365,7 @@ PieceVector Board::RemainingPieces() const
 	{
 		for (int j = 0; j < 8; j++)
 		{
-			PiecesPtr currPiece = m_board[i][j];
-
-			if (currPiece)
+			if (PiecesPtr currPiece = m_board[i][j])
 			{
 				newList.push_back(currPiece);
 			}
@@ -399,21 +377,20 @@ PieceVector Board::RemainingPieces() const
 
 void Board::PromoteTo(EPieceType pieceType, EColor color)
 {
-	Position p;
+	Position pieceToPromote;
 
 	bool found = false;
-
 	for (int i = 0; i < 8; i++)
 	{
 		if (m_board[0][i] && m_board[0][i]->Is(EPieceType::Pawn))
 		{
 			found = true;
-			p = { 0, i };
+			pieceToPromote = { 0, i };
 		}
 
 		if (m_board[7][i] && m_board[7][i]->Is(EPieceType::Pawn))
 		{
-			p = { 7, i };
+			pieceToPromote = { 7, i };
 			found = true;
 		}
 	}
@@ -428,7 +405,7 @@ void Board::PromoteTo(EPieceType pieceType, EColor color)
 		m_PGN += GenerateInitial(pieceType);
 	}
 
-	m_board[p.first][p.second] = Piece::Produce(pieceType, color);
+	m_board[pieceToPromote.first][pieceToPromote.second] = Piece::Produce(pieceType, color);
 }
 
 void Board::Move(Position p1, Position p2)
@@ -745,7 +722,7 @@ PositionList Board::GetMovesPinned(Position p) const
 	return newList;
 }
 
-String Board::GenerateFEN() const
+String Board::SaveFEN() const
 {
 	String FEN;	int ws = 0;
 
@@ -783,9 +760,7 @@ String Board::GenerateFEN() const
 		}
 	}
 
-	FEN.push_back(' ');
-
-	return FEN;
+	return FEN + ' ';
 }
 
 String Board::GenerateInitial(EPieceType pieceType)
@@ -820,7 +795,7 @@ String Board::GenerateInitial(EPieceType pieceType)
 
 	return last;
 }
-	
+
 void Board::LoadFEN(const String& string)
 {
 	Board initialBord(*this);
@@ -847,15 +822,7 @@ void Board::LoadFEN(const String& string)
 				col--;
 			}
 
-			if (string[i] == '/')
-			{
-				line++;
-				col = 0;
-			}
-			else
-			{
-				col++;
-			}
+			string[i] == '/' ? line++, col = 0 : col++;
 		}
 	}
 	catch (ChessException exc)
@@ -1043,12 +1010,12 @@ String Board::ConvertMove(Position p1, Position p2) const
 			break;
 		}
 
-		if (FindSameLine(p1, p2))
+		if (FindOnSameLine(p1, p2))
 		{
 			convertedMove.push_back('a' + currY);
 		}
 
-		if (FindSameColumn(p1, p2) && !m_board[currX][currY]->Is(EPieceType::Pawn))
+		if (FindOnSameColumn(p1, p2) && !m_board[currX][currY]->Is(EPieceType::Pawn))
 		{
 			convertedMove.push_back('1' + currX);
 		}
@@ -1541,16 +1508,8 @@ void Board::Castle(Position p1, Position p2)
 
 	int newSecondKing, newSecondRook;
 
-	if (p1.second > p2.second)
-	{
-		newSecondKing = p2.second + 2;
-		newSecondRook = p1.second - 1;
-	}
-	else
-	{
-		newSecondKing = p2.second - 1;
-		newSecondRook = p1.second + 1;
-	}
+	newSecondKing = p1.second > p2.second ? p2.second + 2 : p2.second - 1;
+	newSecondRook = p1.second > p2.second ? p1.second - 1 : p1.second + 1;
 
 	m_board[p2.first][newSecondKing] = currPiece;
 	m_board[p2.first][newSecondRook] = nextPiece;
@@ -1581,10 +1540,8 @@ void Board::EnPassant(Position p1, Position p2)
 	if (IsRightPassantPossible(p1, p2) || IsLeftPassantPossible(p1, p2))
 	{
 		Position otherPawnPos;
-		if ((*this)[p1]->Is(EColor::White))
-			otherPawnPos = { p2.first + 1, p2.second };
-		else
-			otherPawnPos = { p2.first - 1, p2.second };
+
+		otherPawnPos = (*this)[p1]->Is(EColor::White) ? Position(p2.first + 1, p2.second) : Position(p2.first - 1, p2.second);
 
 		(*this)[p2] = GetPiece(p1);
 		(*this)[otherPawnPos] = {};
@@ -1638,7 +1595,7 @@ Position Board::IntermediatePosition(Position p) const
 	return intermediate;
 }
 
-bool Board::FindSameLine(Position p1, Position p2) const
+bool Board::FindOnSameLine(Position p1, Position p2) const
 {
 	int i = p1.first;
 	for (int j = 0; j < 8; j++)
@@ -1660,7 +1617,7 @@ bool Board::FindSameLine(Position p1, Position p2) const
 	return false;
 }
 
-bool Board::FindSameColumn(Position p1, Position p2) const
+bool Board::FindOnSameColumn(Position p1, Position p2) const
 {
 	int j = p1.second;
 	for (int i = 0; i < 8; i++)
@@ -1734,7 +1691,7 @@ EPieceType Board::GetPieceType(char c)
 
 Position Board::FindPrevPos(Position nextPos, EPieceType type, EColor color, Position prevPos) const
 {
-	Position toReturnPos;
+	Position toReturnPos = { -1, -1 };
 
 	if (prevPos.first != -1 && prevPos.second != -1)
 	{
@@ -1742,67 +1699,63 @@ Position Board::FindPrevPos(Position nextPos, EPieceType type, EColor color, Pos
 	}
 	else if (prevPos.first != -1)
 	{
-		for (int i = 0; i < 8; i++)
-		{
-			PiecesPtr currPiece = m_board[prevPos.first][i];
-
-			if (currPiece && currPiece->Is(type) && currPiece->GetColor() == color)
-			{
-				PositionList moves = GetMoves({ prevPos.first, i });
-
-				for (const auto& currMove : moves)
-				{
-					if (currMove == nextPos)
-					{
-						return { prevPos.first, i };
-					}
-				}
-			}
-		}
+		toReturnPos.first = prevPos.first;
 	}
 	else if (prevPos.second != -1)
 	{
-		for (int i = 0; i < 8; i++)
-		{
-			PiecesPtr currPiece = m_board[i][prevPos.second];
-
-			if (currPiece && currPiece->Is(type) && currPiece->GetColor() == color)
-			{
-				PositionList moves = GetMoves({ i, prevPos.second });
-
-				for (const auto& currMove : moves)
-				{
-					if (currMove == nextPos)
-					{
-						return { i, prevPos.second };
-					}
-				}
-			}
-		}
+		toReturnPos.second = prevPos.second;
 	}
-	else
+
+	for (int i = 0; i < 8; i++)
 	{
-		for (int i = 0; i < 8; i++)
+		Position currPos; PiecesPtr currPiece;
+
+		if (toReturnPos == Position(-1, -1))
 		{
 			for (int j = 0; j < 8; j++)
 			{
-				PiecesPtr currPiece = m_board[i][j];
-
-				if (currPiece && currPiece->Is(type) && currPiece->GetColor() == color)
+				if (IsPrevPos(Position(i, j), nextPos, type, color))
 				{
-					PositionList moves = GetMoves({ i, j });
-
-					for (const auto& currMove : moves)
-					{
-						if (currMove == nextPos)
-						{
-							return { i, j };
-						}
-					}
+					return { i,j };
 				}
 			}
+
+			continue;
+		}
+		else if (toReturnPos.first != -1)
+		{
+			currPos = std::make_pair(prevPos.first, i);
+		}
+		else if (toReturnPos.second != -1)
+		{
+			currPos = std::make_pair(i, prevPos.second);
+		}
+
+		if (IsPrevPos(currPos, nextPos, type, color))
+		{
+			return currPos;
 		}
 	}
 
 	return toReturnPos;
+}
+
+bool Board::IsPrevPos(Position currPos, Position nextPos, EPieceType type, EColor color) const
+{
+	PiecesPtr piece = m_board[currPos.first][currPos.second];
+
+	if (piece && piece->Is(type) && piece->GetColor() == color)
+	{
+		PositionList moves = GetMoves(currPos);
+
+		for (const auto& currMove : moves)
+		{
+			if (currMove == nextPos)
+			{
+				return true;
+			}
+		}
+	}
+
+	return false;
 }

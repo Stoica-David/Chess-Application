@@ -58,12 +58,12 @@ public:
 	PositionList GetMovesCheck(Position p) const;
 	PositionList GetMovesPinned(Position p) const;
 
-	String GenerateFEN() const;
+	String SaveFEN() const;
 	static String GenerateInitial(EPieceType);
 	void LoadFEN(const String&);
 
-	bool FindSameLine(Position p1, Position p2) const;
-	bool FindSameColumn(Position p1, Position p2) const;
+	bool FindOnSameLine(Position p1, Position p2) const;
+	bool FindOnSameColumn(Position p1, Position p2) const;
 
 	void ParsePGN(StringVector Moves);
 
@@ -108,11 +108,15 @@ private:
 	static PiecesPtr ProducePiece(char c);
 	static EPieceType GetPieceType(char c);
 
+	bool IsPrevPos(Position currPos, Position nextPos, EPieceType type, EColor color) const;
 	Position FindPrevPos(Position nextPos, EPieceType type, EColor color, Position prevPos) const;
 
 private:
 	ChessBoard m_board;
+
 	BitMatrix m_prevPositions;
+	
 	MoveVector m_moves;
+	
 	String m_PGN;
 };

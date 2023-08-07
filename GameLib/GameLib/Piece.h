@@ -1,6 +1,7 @@
 #pragma once
 
 #include "IPiece.h"
+
 #include<memory>
 #include <cmath>
 
