@@ -39,9 +39,9 @@ public:
     void LoadPGNFromFile(const String& filePath);
     
     //Check GameOver
-    bool IsOverWhite();
-    bool IsOverBlack();
-    bool IsDraw();
+    bool IsOverWhite() const;
+    bool IsOverBlack() const;
+    bool IsDraw() const;
     
     //Other methods
     void Clear();

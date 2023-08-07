@@ -26,7 +26,7 @@ public:
 	virtual void PromoteTo(EPieceType) = 0;
 	virtual void SetHistory(const MoveVector&) = 0;
 	
-	virtual String SaveFEN()const = 0;
+	virtual String SaveFEN() const = 0;
 	virtual void LoadFEN(const String&) = 0;
 
 	virtual void SavePGN(const String&) = 0;
@@ -43,7 +43,7 @@ public:
 
 	virtual EColor GetTurn() const = 0;
 
-	virtual PositionList GetMoves(Position p) = 0;
+	virtual PositionList GetMoves(Position p) const = 0;
 
 	virtual MoveVector GetHistory()const = 0;
 

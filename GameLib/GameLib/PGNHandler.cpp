@@ -76,7 +76,7 @@ void PGNHandler::ParseToPGN()
 	AddEndGame();
 }
 
-void PGNHandler::SavePGNToFile(const String& filePath)
+void PGNHandler::SavePGNToFile(const String& filePath) 
 {
 	ParseToPGN();
 	std::ofstream outFile(filePath);
@@ -129,17 +129,17 @@ void PGNHandler::LoadPGNFromFile(const String& filePath)
 	}
 }
 
-bool PGNHandler::IsOverWhite()
+bool PGNHandler::IsOverWhite() const
 {
 	return m_PGN.rfind("1-0") < m_PGN.size();
 }
 
-bool PGNHandler::IsOverBlack()
+bool PGNHandler::IsOverBlack() const
 {
 	return m_PGN.rfind("0-1") < m_PGN.size();
 }
 
-bool PGNHandler::IsDraw()
+bool PGNHandler::IsDraw() const
 {
 	return m_PGN.rfind("1/2-1/2") < m_PGN.size();
 }

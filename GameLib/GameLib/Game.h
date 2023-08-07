@@ -40,7 +40,7 @@ public:
 
 	EColor GetTurn() const override;
 	
-	PositionList GetMoves(Position p) override;
+	PositionList GetMoves(Position p) const override;
 	
 	MoveVector GetHistory()const override;
 

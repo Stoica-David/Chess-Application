@@ -267,7 +267,7 @@ EColor Game::GetTurn() const
 	return m_turn;
 }
 
-PositionList Game::GetMoves(Position p)
+PositionList Game::GetMoves(Position p) const
 {
 	return m_gameboard.GetMoves(p);
 }
