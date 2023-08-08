@@ -9,7 +9,7 @@
 using ListenersList = std::vector<IGameListenerWeakPtr>;
 using CharMatrix = std::array<std::array<char, 8>, 8>;
 
-class Game : public IGame
+class Game : public IGame, public IGameStatus
 {
 public:
 	// Constructor
@@ -35,6 +35,8 @@ public:
 	bool IsCheck() const override;
 	bool IsPromoting() const override;
 	bool IsTimeExpired(ChessTimer) const override;
+
+	const IGameStatus* GetStatus() const override;
 
 	EColor GetTurn() const override;
 	PositionList GetMoves(Position p) const override;

@@ -1,16 +1,14 @@
 #pragma once
 
-#include "IPieceInfo.h"
 #include "Position.h"
+#include "IGameStatus.h"
 #include "IGameListener.h"
-#include "ChessTimer.h"
 
 #include <string>
 #include <unordered_map>
 
 using String = std::string;
 using IGamePtr = std::shared_ptr<class IGame>;
-using PieceMap = std::unordered_map <EPieceType, int>;
 
 enum class EFileFormat
 {
@@ -38,18 +36,7 @@ public:
 	virtual void SetHistory(const MoveVector&) = 0;
 
 	// Game status
-	virtual bool IsDraw() const = 0;
-	virtual bool IsOver() const = 0;
-	virtual bool IsDrawProposed() const = 0;
-	virtual bool IsCheck() const = 0;
-	virtual bool IsPromoting() const = 0;
-	virtual bool IsTimeExpired(ChessTimer) const = 0;
-
-	virtual EColor GetTurn() const = 0;
-	virtual PositionList GetMoves(Position p) const = 0;
-	virtual MoveVector GetHistory() const = 0;
-	virtual IPieceInfoPtr GetPieceInfo(Position) const = 0;
-	virtual PieceMap GetPiecesLeft(EColor) const = 0;
+	virtual const IGameStatus* GetStatus() const = 0;
 
 	// Save/Load functionality
 	virtual void Save(EFileFormat format, const String& file) const = 0;

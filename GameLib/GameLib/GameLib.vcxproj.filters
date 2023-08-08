@@ -209,5 +209,8 @@
     <ClInclude Include="FileUtils.h">
       <Filter>Header Files</Filter>
     </ClInclude>
+    <ClInclude Include="IGameStatus.h">
+      <Filter>Header Files\API</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

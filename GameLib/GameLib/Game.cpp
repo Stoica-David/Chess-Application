@@ -284,6 +284,11 @@ bool Game::IsTimeExpired(ChessTimer timer) const
 	return timer.isTimeExpired();
 }
 
+const IGameStatus* Game::GetStatus() const
+{
+	return this;
+}
+
 bool Game::IsDraw() const
 {
 	return m_state == EState::Draw;

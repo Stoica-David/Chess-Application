@@ -192,6 +192,7 @@
     <ClInclude Include="GameExceptions.h" />
     <ClInclude Include="IGame.h" />
     <ClInclude Include="IGameListener.h" />
+    <ClInclude Include="IGameStatus.h" />
     <ClInclude Include="InTheWayException.h" />
     <ClInclude Include="IPiece.h" />
     <ClInclude Include="IPieceInfo.h" />
