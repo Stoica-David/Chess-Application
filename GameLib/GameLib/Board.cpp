@@ -459,6 +459,8 @@ void Board::Move(Position p1, Position p2)
 			currPiece->SetHasMoved(true);
 		}
 
+	m_moves.push_back({ p1, p2 });
+
 	Position kingPos = FindKing(currPiece->GetColor());
 
 	if (IsCheck(kingPos, currPiece->GetColor()))
@@ -477,8 +479,6 @@ void Board::Move(Position p1, Position p2)
 	{
 		UpdatePrevPositions();
 	}
-
-	m_moves.push_back({ p1, p2 });
 
 	ResetEnPassant();
 
