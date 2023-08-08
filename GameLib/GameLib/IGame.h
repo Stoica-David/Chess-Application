@@ -14,8 +14,8 @@ using PieceMap = std::unordered_map <EPieceType, int>;
 
 enum class EFileFormat
 {
-	Fen,
-	Pgn
+	FEN,
+	PGN
 };
 
 class IGame
@@ -52,6 +52,6 @@ public:
 	virtual PieceMap GetPiecesLeft(EColor) const = 0;
 
 	// Save/Load functionality
-	virtual void Save(EFileFormat format, String& file) const = 0;
-	virtual void Load(EFileFormat format, String& file) = 0;
+	virtual void Save(EFileFormat format, const String& file) const = 0;
+	virtual void Load(EFileFormat format, const String& file) = 0;
 };

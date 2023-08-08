@@ -799,37 +799,29 @@ String Board::GenerateInitial(EPieceType pieceType)
 void Board::LoadFEN(const String& string)
 {
 	Board initialBord(*this);
-	try
-	{
-		int line = 0, col = 0;
+	Reset();
+	int line = 0, col = 0;
 
-		for (int i = 0; i < string.size() - 2; i++)
+	for (int i = 0; i < string.size() - 2; i++)
+	{
+		if (isalpha(string[i]))
 		{
-			if (isalpha(string[i]))
-			{
-				m_board[line][col] = ProducePiece(string[i]);
-			}
-			else if (isdigit(string[i]))
-			{
-				int ws = string[i] - '0';
-
-				for (int j = 0; j < ws; j++)
-				{
-					m_board[line][col] = {};
-					col++;
-				}
-
-				col--;
-			}
-
-			string[i] == '/' ? line++, col = 0 : col++;
+			m_board[line][col] = ProducePiece(string[i]);
 		}
-	}
-	catch (ChessException exc)
-	{
-		Reset();
-		*this = initialBord;
-		throw FENException("Can't save FEN properly!");
+		else if (isdigit(string[i]))
+		{
+			int ws = string[i] - '0';
+
+			for (int j = 0; j < ws; j++)
+			{
+				m_board[line][col] = {};
+				col++;
+			}
+
+			col--;
+		}
+
+		string[i] == '/' ? line++, col = 0 : col++;
 	}
 }
 
@@ -1682,8 +1674,6 @@ EPieceType Board::GetPieceType(char c)
 	{
 		return EPieceType::Knight;
 	}
-	default:
-		throw FENException("");
 	}
 
 	return {};

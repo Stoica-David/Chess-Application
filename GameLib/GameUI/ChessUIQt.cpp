@@ -854,11 +854,11 @@ void ChessUIQt::OnSaveButtonClicked()
 	{
 		if (extension == "pgn")
 		{
-			m_game->SavePGN(fileName.toStdString());
+			m_game->Save(EFileFormat::PGN, fileName.toStdString());
 		}
 		else if (extension == "fen")
 		{
-			m_game->SaveFEN(fileName.toStdString());
+			m_game->Save(EFileFormat::FEN, fileName.toStdString());
 		}
 		else
 		{
@@ -892,20 +892,18 @@ void ChessUIQt::OnLoadButtonClicked()
 	QString data = in.readAll();
 	file.close();
 
-	String dataString = data.toStdString();
-
 	QString extension = QFileInfo(file).suffix();
 
 	try
 	{
 		if (extension == "pgn")
 		{
-			m_game->LoadPGN(fileName.toStdString());
+			m_game->Load(EFileFormat::PGN, fileName.toStdString());
 		}
 		else if(extension == "fen")
 		{
 			m_movesList->setEditTriggers(QAbstractItemView::NoEditTriggers);
-			m_game->LoadFEN(dataString);
+			m_game->Load(EFileFormat::FEN, fileName.toStdString());
 		}
 		else
 		{

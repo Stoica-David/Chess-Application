@@ -42,8 +42,8 @@ public:
 	IPieceInfoPtr GetPieceInfo(Position) const override;
 	PieceMap GetPiecesLeft(EColor)const override;
 
-	void Save(EFileFormat format, String& file) const override;
-	void Load(EFileFormat format, String& file) override;
+	void Save(EFileFormat format, const String& file) const override;
+	void Load(EFileFormat format, const String& file) override;
 
 	//Other methods
 	PiecesPtr GetPiece(Position) const;

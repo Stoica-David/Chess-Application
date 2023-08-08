@@ -161,27 +161,27 @@ void Game::SetHistory(const MoveVector& v)
 	m_gameboard.SetHistory(v);
 }
 
-void Game::Save(EFileFormat format, String& file) const
+void Game::Save(EFileFormat format, const String& file) const
 {
 	switch (format)
 	{
-	case EFileFormat::Fen:
+	case EFileFormat::FEN:
 		SaveFEN(file);
 		break;
-	case EFileFormat::Pgn:
+	case EFileFormat::PGN:
 		SavePGN(file);
 		break;
 	}
 }
 
-void Game::Load(EFileFormat format, String& file)
+void Game::Load(EFileFormat format, const String& file)
 {
 	switch (format)
 	{
-	case EFileFormat::Fen:
+	case EFileFormat::FEN:
 		LoadFEN(file);
 		break;
-	case EFileFormat::Pgn:
+	case EFileFormat::PGN:
 		LoadPGN(file);
 		break;
 	}
@@ -196,9 +196,11 @@ void Game::SaveFEN(const String& file) const
 		throw FENException("FEN not properly saved");
 }
 
-void Game::LoadFEN(const String& string)
+void Game::LoadFEN(const String& file)
 {
-	m_gameboard.LoadFEN(string);
+	
+	//m_gameboard.LoadFEN(FEN);
+	//FileUtils::WriteStringToFile(file, FEN);
 
 	if (m_gameboard.IsCheckMate(EColor::White))
 	{
