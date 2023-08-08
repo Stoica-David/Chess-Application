@@ -5,11 +5,6 @@
 
 #include "FileUtils.h"
 
-static bool IsPositionValid(Position p)
-{
-	return (p.first >= 0 && p.first < 8) && (p.second >= 0 && p.second < 8);
-}
-
 static char LastChar(const String& string)
 {
 	for (int i = string.size() - 1; i >= 0; i--)
@@ -70,7 +65,7 @@ void Game::Move(Position p1, Position p2)
 {
 	if (m_state == EState::Playing || m_state == EState::Check)
 	{
-		if (!IsPositionValid(p1) || !IsPositionValid(p2))
+		if (!p1.IsValid() || !p2.IsValid())
 		{
 			throw PositionException("The given position is out of the table");
 		}
@@ -88,26 +83,13 @@ void Game::Move(Position p1, Position p2)
 			throw TurnException("It's the other player's turn");
 		}
 
-		EPieceType type;
-		EColor color;
-		bool pieceCaptured = false;
-
-		if (nextPiece)
-		{
-			pieceCaptured = true;
-			type = nextPiece->GetType();
-			color = nextPiece->GetColor();
-		}
-
 		m_gameboard.Move(p1, p2);
 
 		m_PGN.AddMove(m_gameboard.GetCurrPGN());
 
-		currPiece = m_gameboard.GetPiece(p1);
-
-		if (!currPiece && pieceCaptured)
+		if (nextPiece)
 		{
-			NotifyCaptured(type, color);
+			NotifyCaptured(nextPiece->GetType(), nextPiece->GetColor());
 		}
 
 		m_gameboard.IsPromotePossible(p2) ? UpdateState(EState::ChoosePiece), NotifyChoosePiece() : SwitchTurn();

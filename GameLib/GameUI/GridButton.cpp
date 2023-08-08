@@ -57,7 +57,7 @@ void GridButton::UpdatePiece()
 
 void GridButton::UpdateBackgroundColor()
 {
-	bool defaultColorBlack = (m_position.first + m_position.second) % 2;
+	bool defaultColorBlack = (m_position.x + m_position.y) % 2;
 	QString backColor = "";
 
 	if (defaultColorBlack && !m_highlighted)
@@ -105,7 +105,7 @@ void GridButton::paintEvent(QPaintEvent* event)
 	font.setBold(true);
 	painter.setFont(font);
 
-	bool defaultColorBlack = (m_position.first + m_position.second) % 2;
+	bool defaultColorBlack = (m_position.x + m_position.y) % 2;
 	defaultColorBlack == true ? penColor = "#D2C4B5" : penColor = "#7A6C5D";
 
 	int textX = 2;
@@ -114,13 +114,13 @@ void GridButton::paintEvent(QPaintEvent* event)
 	painter.setRenderHint(QPainter::TextAntialiasing, true);
 	painter.setPen(penColor);
 
-	if (m_position.first == 7)
+	if (m_position.x == 7)
 	{
-		painter.drawText(textX, textY, width() - 2 * textX, height() - 2 * textY, Qt::AlignBottom | Qt::AlignRight, QChar((char)'a' + m_position.second));
+		painter.drawText(textX, textY, width() - 2 * textX, height() - 2 * textY, Qt::AlignBottom | Qt::AlignRight, QChar((char)'a' + m_position.y));
 	}
-	if (m_position.second == 0)
+	if (m_position.y == 0)
 	{
-		painter.drawText(textX, textY, width() - 2 * textX, height() - 2 * textY, Qt::AlignTop | Qt::AlignLeft, QString::number(8 - m_position.first));
+		painter.drawText(textX, textY, width() - 2 * textX, height() - 2 * textY, Qt::AlignTop | Qt::AlignLeft, QString::number(8 - m_position.x));
 	}
 }
 

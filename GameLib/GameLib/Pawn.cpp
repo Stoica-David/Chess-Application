@@ -20,7 +20,7 @@ PositionList Pawn::DeterminePattern(Position p1, Position p2) const
 
 PositionMatrix Pawn::AllMoves(Position p) const
 {
-	auto x = p.first, y = p.second;
+	auto x = p.x, y = p.y;
 
 	PositionMatrix newMatrix;
 
@@ -71,40 +71,40 @@ bool Pawn::StartingPosition(int x) const
 
 bool Pawn::MovesTooMuch(Position p1, Position p2) const
 {
-	int x1 = p1.first,
-		y1 = p1.second,
-		x2 = p2.first,
-		y2 = p2.second;
+	int x1 = p1.x,
+		y1 = p1.y,
+		x2 = p2.x,
+		y2 = p2.y;
 
 	return (AbsValue(x2, x1) < 1 || AbsValue(x2, x1) >= 3 || (!StartingPosition(x1) && AbsValue(x2, x1) > 1));
 }
 
 bool Pawn::WrongForward(Position p1, Position p2) const
 {
-	int x1 = p1.first,
-		y1 = p1.second,
-		x2 = p2.first,
-		y2 = p2.second;
+	int x1 = p1.x,
+		y1 = p1.y,
+		x2 = p2.x,
+		y2 = p2.y;
 
 	return (MovesTooMuch(p1, p2) || (y1 != y2));
 }
 
 bool Pawn::MovesBackwards(Position p1, Position p2) const
 {
-	int x1 = p1.first,
-		y1 = p1.second,
-		x2 = p2.first,
-		y2 = p2.second;
+	int x1 = p1.x,
+		y1 = p1.y,
+		x2 = p2.x,
+		y2 = p2.y;
 
 	return (IsColor(EColor::White) && (x2 - x1 == 1)) || (IsColor(EColor::Black) && (x2 - x1 == -1));
 }
 
 bool Pawn::WrongDiagonal(Position p1, Position p2) const
 {
-	int x1 = p1.first,
-		y1 = p1.second,
-		x2 = p2.first,
-		y2 = p2.second;
+	int x1 = p1.x,
+		y1 = p1.y,
+		x2 = p2.x,
+		y2 = p2.y;
 
 	return (IsColor(EColor::White) && x2 - x1 == 1 && AbsValue(y2, y1)) || (IsColor(EColor::Black) && x2 - x1 == -1 && AbsValue(y2, y1));
 }

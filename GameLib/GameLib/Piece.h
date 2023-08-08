@@ -48,8 +48,8 @@ public:
 protected:
 	static bool IsInTable(Position p)
 	{
-		int i = p.first;
-		int j = p.second;
+		int i = p.x;
+		int j = p.y;
 
 		return ((i >= 0 && i < 8) && (j >= 0 && j < 8));
 	}

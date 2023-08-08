@@ -20,8 +20,8 @@ PositionMatrix King::AllMoves(Position p) const
 {
 	PositionMatrix newMatrix;
 
-	int x = p.first,
-		y = p.second;
+	int x = p.x,
+		y = p.y;
 
 	Position upLeft =	 { x - 1, y - 1 },
 			 up =		 { x - 1, y     },

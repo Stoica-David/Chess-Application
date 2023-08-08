@@ -13,10 +13,10 @@ PositionList Rook::DeterminePattern(Position p1, Position p2) const
 {
 	PositionList newPattern;
 
-	auto x1 = p1.first,
-		 x2 = p2.first,
-		 y1 = p1.second,
-		 y2 = p2.second;
+	auto x1 = p1.x,
+		 x2 = p2.x,
+		 y1 = p1.y,
+		 y2 = p2.y;
 
 	if (x1 == x2)
 	{
@@ -70,33 +70,33 @@ PositionMatrix Rook::AllMoves(Position p) const
 
 	Position pAux = p;
 
-	while (pAux.first > 0)
+	while (pAux.x > 0)
 	{
-		pAux.first--;
+		pAux.x--;
 		newMatrix[0].push_back(pAux);
 	}
 
 	pAux = p;
 
-	while (pAux.second < 7)
+	while (pAux.y < 7)
 	{
-		pAux.second++;
+		pAux.y++;
 		newMatrix[1].push_back(pAux);
 	}
 
 	pAux = p;
 
-	while (pAux.first < 7)
+	while (pAux.x < 7)
 	{
-		pAux.first++;
+		pAux.x++;
 		newMatrix[2].push_back(pAux);
 	}
 
 	pAux = p;
 
-	while (pAux.second > 0)
+	while (pAux.y > 0)
 	{
-		pAux.second--;
+		pAux.y--;
 		newMatrix[3].push_back(pAux);
 	}
 

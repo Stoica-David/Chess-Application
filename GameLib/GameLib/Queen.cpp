@@ -15,10 +15,10 @@ PositionList Queen::DeterminePattern(Position p1, Position p2) const
 {
 	PositionList newPosition;
 
-	int x1 = p1.first, 
-		y1 = p1.second,
-		x2 = p2.first, 
-		y2 = p2.second;
+	int x1 = p1.x, 
+		y1 = p1.y,
+		x2 = p2.x, 
+		y2 = p2.y;
 
 	if (x1 == x2 || y1 == y2)
 	{

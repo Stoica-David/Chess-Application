@@ -833,7 +833,7 @@ void ChessUIQt::GridButtonClicked(Position position)
 		else if (status->GetPieceInfo(position) && status->GetPieceInfo(position)->GetColor() == status->GetTurn() && !status->GetMoves(position).empty())
 		{
 			m_selectedCell = position;
-			m_grid[position.first][position.second]->SetSelected(true);
+			m_grid[position.x][position.y]->SetSelected(true);
 			HighlightPossibleMoves(status->GetMoves(position));
 		}
 	}

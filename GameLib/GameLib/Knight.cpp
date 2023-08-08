@@ -27,7 +27,7 @@ PositionMatrix Knight::AllMoves(Position p) const
     
     newMatrix.resize(8);
 
-    auto x = p.first, y = p.second;
+    auto x = p.x, y = p.y;
 
     Position  L1 = { x - 1, y - 2 },
               L2 = { x - 2, y - 1 },
