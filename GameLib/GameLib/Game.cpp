@@ -187,6 +187,13 @@ void Game::Load(EFileFormat format, const String& file)
 	}
 }
 
+void Game::ShowConfiguration(int confNr)
+{
+	ChessBoard currBoard = m_gameboard.ConvertBitset(confNr);
+
+	m_gameboard.Set(currBoard);
+}
+
 void Game::SaveFEN(const String& file) const
 {
 	String FEN = m_gameboard.GetFEN();
@@ -198,9 +205,9 @@ void Game::SaveFEN(const String& file) const
 
 void Game::LoadFEN(const String& file)
 {
-	
-	//m_gameboard.LoadFEN(FEN);
-	//FileUtils::WriteStringToFile(file, FEN);
+	String FEN;
+	FileUtils::ReadStringFromFile(file, FEN);
+	m_gameboard.LoadFEN(FEN);
 
 	if (m_gameboard.IsCheckMate(EColor::White))
 	{

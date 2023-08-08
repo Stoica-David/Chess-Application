@@ -25,6 +25,7 @@ public:
 	// Setters
 	PiecesPtr& operator[](Position p);
 	void SetHistory(const MoveVector& v);
+	void Set(const ChessBoard& board);
 
 	// Getters
 	IPieceInfoPtr GetPieceInfo(Position p) const;
@@ -69,6 +70,8 @@ public:
 
 	String ConvertMove(Position p1, Position p2) const;
 
+	ChessBoard ConvertBitset(int bitsetNr) const;
+
 private:
 	bool PawnGoesDiagonally(Position p1, Position p2) const;
 	bool GoesTwoForward(int x1, int x2) const;
@@ -85,7 +88,6 @@ private:
 	bool IsCastle(Position p1, Position p2) const;
 	bool IsEnPassant(Position p1, Position p2) const;
 	bool CastleVerifyWay(Position p1, Position p2) const;
-
 
 	PositionList DefendedPositions(Position p, EColor color) const;
 	PositionList GetPassantMoves(Position p)const;

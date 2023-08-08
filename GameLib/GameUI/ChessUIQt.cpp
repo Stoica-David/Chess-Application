@@ -992,24 +992,28 @@ void ChessUIQt::OnHistoryClicked(QListWidgetItem* item)
 
 	MoveVector newHistory = status->GetHistory();
 
-	m_game->Restart();
+	//m_game->Restart();
 
-	for (int i = 0; i <= index; i++)
-	{
-		Position start = newHistory[i].first;
-		Position end = newHistory[i].second;
+	m_game->ShowConfiguration(index);
 
-		m_game->Move(start, end);
+	UpdateBoard(GetBoard());
 
-		QString itemText = QString("%1. %2%3 \t %4%5")
-			.arg(i + 1)
-			.arg(ConvertIntToChar(start.second))
-			.arg(8 - start.first)
-			.arg(ConvertIntToChar(end.second))
-			.arg(8 - end.first);
+	//for (int i = 0; i <= index; i++)
+	//{
+	//	Position start = newHistory[i].first;
+	//	Position end = newHistory[i].second;
 
-		m_movesList->addItem(new QListWidgetItem(itemText));
-	}
+	//	m_game->Move(start, end);
+
+	//	QString itemText = QString("%1. %2%3 \t %4%5")
+	//		.arg(i + 1)
+	//		.arg(ConvertIntToChar(start.second))
+	//		.arg(8 - start.first)
+	//		.arg(ConvertIntToChar(end.second))
+	//		.arg(8 - end.first);
+
+	//	m_movesList->addItem(new QListWidgetItem(itemText));
+	//}
 
 	//m_game->SetHistory(newHistory);
 

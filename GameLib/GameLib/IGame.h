@@ -33,7 +33,8 @@ public:
 	virtual void ProposeDraw() = 0;
 	virtual void DrawResponse(bool) = 0;
 	virtual void PromoteTo(EPieceType) = 0;
-	virtual void SetHistory(const MoveVector&) = 0;
+	virtual void SetHistory(const MoveVector&) = 0; // to remove
+	virtual void ShowConfiguration(int confNr) = 0;
 
 	// Game status
 	virtual const IGameStatus* GetStatus() const = 0;

@@ -1,9 +1,10 @@
 #include "Board.h"
 #include "PieceInfo.h"
 #include "BoardExceptions.h"
-#include <sstream>
 
+#include <sstream>
 #include <algorithm>
+#include <cstdint>
 
 Board::Board()
 {
@@ -41,6 +42,11 @@ PiecesPtr& Board::operator[](Position p)
 void Board::SetHistory(const MoveVector& v)
 {
 	m_moves = v;
+}
+
+void Board::Set(const ChessBoard& board)
+{
+	m_board = board;
 }
 
 IPieceInfoPtr Board::GetPieceInfo(Position p) const
@@ -453,8 +459,6 @@ void Board::Move(Position p1, Position p2)
 			currPiece->SetHasMoved(true);
 		}
 
-	m_moves.push_back({ p1, p2 });
-
 	Position kingPos = FindKing(currPiece->GetColor());
 
 	if (IsCheck(kingPos, currPiece->GetColor()))
@@ -469,10 +473,12 @@ void Board::Move(Position p1, Position p2)
 
 		throw StillCheckException("The king is still in check!");
 	}
-	else if (currPiece->Is(EColor::Black))
+	else
 	{
 		UpdatePrevPositions();
 	}
+
+	m_moves.push_back({ p1, p2 });
 
 	ResetEnPassant();
 
@@ -801,27 +807,34 @@ void Board::LoadFEN(const String& string)
 	Board initialBord(*this);
 	Reset();
 	int line = 0, col = 0;
-
-	for (int i = 0; i < string.size() - 2; i++)
+	try
 	{
-		if (isalpha(string[i]))
-		{
-			m_board[line][col] = ProducePiece(string[i]);
-		}
-		else if (isdigit(string[i]))
-		{
-			int ws = string[i] - '0';
 
-			for (int j = 0; j < ws; j++)
+		for (int i = 0; i < string.size() - 2; i++)
+		{
+			if (isalpha(string[i]))
 			{
-				m_board[line][col] = {};
-				col++;
+				m_board[line][col] = ProducePiece(string[i]);
+			}
+			else if (isdigit(string[i]))
+			{
+				int ws = string[i] - '0';
+
+				for (int j = 0; j < ws; j++)
+				{
+					m_board[line][col] = {};
+					col++;
+				}
+
+				col--;
 			}
 
-			col--;
+			string[i] == '/' ? line++, col = 0 : col++;
 		}
-
-		string[i] == '/' ? line++, col = 0 : col++;
+	}
+	catch (ChessException exc)
+	{
+		throw FENException("Can't save properly!");
 	}
 }
 
@@ -1674,6 +1687,8 @@ EPieceType Board::GetPieceType(char c)
 	{
 		return EPieceType::Knight;
 	}
+	default:
+		throw FENException("");
 	}
 
 	return {};
@@ -1728,6 +1743,35 @@ Position Board::FindPrevPos(Position nextPos, EPieceType type, EColor color, Pos
 	}
 
 	return toReturnPos;
+}
+
+ChessBoard Board::ConvertBitset(int bitsetNr) const
+{
+	ChessBoard chessBoard;
+
+	Bitset currBitset = m_prevPositions[bitsetNr];
+
+	for (int i = 0; i < 256; i += 4)
+	{
+		int line = (i / 4) / 8;
+		int column = (i / 4) % 8;
+
+		int value = currBitset[i + 3] * 4 + currBitset[i + 2] * 2 + currBitset[i + 1];
+
+		if (value == 7)
+		{
+			chessBoard[line][column] = {};
+		}
+		else
+		{
+			EPieceType type = static_cast<EPieceType>(value);
+			EColor color = currBitset[i] == 0 ? EColor::White : EColor::Black;
+
+			chessBoard[line][column] = Piece::Produce(type, color);
+		}
+	}
+
+	return chessBoard;
 }
 
 bool Board::IsPrevPos(Position currPos, Position nextPos, EPieceType type, EColor color) const

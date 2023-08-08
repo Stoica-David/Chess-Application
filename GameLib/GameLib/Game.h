@@ -47,6 +47,8 @@ public:
 	void Save(EFileFormat format, const String& file) const override;
 	void Load(EFileFormat format, const String& file) override;
 
+	void ShowConfiguration(int confNr);
+
 	//Other methods
 	PiecesPtr GetPiece(Position) const;
 
