@@ -222,7 +222,7 @@ void Game::LoadFEN(const String& file)
 
 void Game::SavePGN(const String& file) const
 {
-	PGNHandler pgn;
+	PGNHandler pgn = m_PGN;
 
 	if (IsDraw())
 	{

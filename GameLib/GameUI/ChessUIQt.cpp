@@ -1011,7 +1011,7 @@ void ChessUIQt::OnHistoryClicked(QListWidgetItem* item)
 		m_movesList->addItem(new QListWidgetItem(itemText));
 	}
 
-	m_game->SetHistory(newHistory);
+	//m_game->SetHistory(newHistory);
 
 	index != newHistory.size() - 1 ? MakeButtonsUnselectable() : MakeButtonsSelectable();
 

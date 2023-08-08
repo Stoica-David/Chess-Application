@@ -1,5 +1,6 @@
 #include "PGNHandler.h"
 #include "PGNException.h"
+#include "FileUtils.h"
 
 #include <string>
 #include <fstream>
@@ -79,14 +80,8 @@ void PGNHandler::ParseToPGN()
 void PGNHandler::SavePGNToFile(const String& filePath) 
 {
 	ParseToPGN();
-	std::ofstream outFile(filePath);
 
-	if (outFile.is_open()) {
-		outFile.clear();
-		outFile << m_PGN;
-		outFile.close();
-	}
-	else
+	if (!FileUtils::WriteStringToFile(filePath, m_PGN))
 	{
 		throw PGNException("Error: Unable to open the file for writing.");
 	}
@@ -118,13 +113,8 @@ void PGNHandler::LoadPGNFromFile(const String& filePath)
 {
 	std::ifstream inFile(filePath);
 
-	if (inFile.is_open()) {
-		std::stringstream buffer;
-		buffer << inFile.rdbuf();
-		m_PGN = buffer.str();
-		inFile.close();
-	}
-	else {
+	if (!FileUtils::ReadStringFromFile(filePath, m_PGN))
+	{
 		throw PGNException("Error: Unable to open the file for reading.");
 	}
 }
