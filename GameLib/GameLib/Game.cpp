@@ -50,8 +50,8 @@ Game::Game(const CharMatrix& matrix, EColor color, EState state)
 	, m_initialState(state)
 	, m_whiteTimer(10)
 	, m_blackTimer(10)
+	, m_gameboard(matrix)
 {
-	m_gameboard = Board::Board(matrix);
 }
 
 void Game::Restart()
