@@ -25,11 +25,11 @@ public:
 	void PromoteTo(EPieceType pieceType) override;
 	void SetHistory(const MoveVector&) override;
 	
-	String SaveFEN() const override;
-	void LoadFEN(const String&) override;
+	void SaveFEN(const String& file) const override;
+	void LoadFEN(const String& file) override;
 	
-	void SavePGN(const String&)override;
-	void LoadPGN(const String&) override;
+	void SavePGN(const String& file) const override;
+	void LoadPGN(const String& file) override;
 
 	void AddListener(IGameListenerPtr) override;	// Observer
 	void RemoveListener(IGameListener*) override;	// Observer

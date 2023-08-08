@@ -1111,5 +1111,5 @@ TEST(GenerateFENTest, Fen1)
 
 	String fen = "rnbqk1nr/pppp2pp/5p2/4p3/1b1P4/2PQ1N2/PP2PPPP/RNB1KB1R ";
 
-	EXPECT_EQ(b.SaveFEN(), fen);
+	EXPECT_EQ(b.GetFEN(), fen);
 }

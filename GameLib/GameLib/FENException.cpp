@@ -1,5 +1,6 @@
 #include "FENException.h"
 
-FENException::FENException(const std::string& message) : ChessException(message)
+FENException::FENException(const std::string& message) 
+	: ChessException(message)
 {
 }

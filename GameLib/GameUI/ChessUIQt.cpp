@@ -850,28 +850,28 @@ void ChessUIQt::OnSaveButtonClicked()
 
 	QString extension = QFileInfo(file).suffix();
 
-	String path = fileName.toStdString();
-
-	if (extension == "pgn")
+	try
 	{
-		m_game->SavePGN(path);
-	}
-	else
-	{
-		std::ofstream outFile(fileName.toStdString());
-
-		if (outFile.is_open()) {
-			outFile.clear();
-			outFile << m_game->SaveFEN();
-			outFile.close();
+		if (extension == "pgn")
+		{
+			m_game->SavePGN(fileName.toStdString());
+		}
+		else if (extension == "fen")
+		{
+			m_game->SaveFEN(fileName.toStdString());
 		}
 		else
 		{
-			throw FENException("Can't save FEN properly!");
+			throw ChessException("Unrecognized format");
 		}
 	}
-
-	file.close();
+	catch (ChessException& e)
+	{
+		QMessageBox exception;
+		exception.setText(e.what());
+		exception.exec();
+		return;
+	}
 }
 
 void ChessUIQt::OnLoadButtonClicked()
@@ -902,10 +902,14 @@ void ChessUIQt::OnLoadButtonClicked()
 		{
 			m_game->LoadPGN(fileName.toStdString());
 		}
-		else
+		else if(extension == "fen")
 		{
 			m_movesList->setEditTriggers(QAbstractItemView::NoEditTriggers);
 			m_game->LoadFEN(dataString);
+		}
+		else
+		{
+			throw ChessException("Unrecognized format");
 		}
 	}
 	catch (ChessException exc)

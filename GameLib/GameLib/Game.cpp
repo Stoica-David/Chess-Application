@@ -1,5 +1,9 @@
 #include "Game.h"
+
 #include "GameExceptions.h"
+#include "FENException.h"
+
+#include "FileUtils.h"
 
 static bool IsPositionValid(Position p)
 {
@@ -157,13 +161,13 @@ void Game::SetHistory(const MoveVector& v)
 	m_gameboard.SetHistory(v);
 }
 
-String Game::SaveFEN() const
+void Game::SaveFEN(const String& file) const
 {
-	String FEN = m_gameboard.SaveFEN();
-
+	String FEN = m_gameboard.GetFEN();
 	m_turn == EColor::White ? FEN.push_back('w') : FEN.push_back('b');
 
-	return FEN;
+	if (!FileUtils::WriteStringToFile(file, FEN))
+		throw FENException("FEN not properly saved");
 }
 
 void Game::LoadFEN(const String& string)
@@ -188,18 +192,20 @@ void Game::LoadFEN(const String& string)
 	}
 }
 
-void Game::SavePGN(const String& filePath)
+void Game::SavePGN(const String& file) const
 {
+	PGNHandler pgn;
+
 	if (IsDraw())
 	{
-		m_PGN.SetHeader(ETag::Result, "1/2-1/2");
+		pgn.SetHeader(ETag::Result, "1/2-1/2");
 	}
 	else if (IsOver())
 	{
-		m_turn == EColor::White ? m_PGN.SetHeader(ETag::Result, "0-1") : m_PGN.SetHeader(ETag::Result, "1-0");
+		m_turn == EColor::White ? pgn.SetHeader(ETag::Result, "0-1") : pgn.SetHeader(ETag::Result, "1-0");
 	}
 
-	m_PGN.SavePGNToFile(filePath);
+	pgn.SavePGNToFile(file);
 }
 
 void Game::LoadPGN(const String& filePath)

@@ -26,11 +26,11 @@ public:
 	virtual void PromoteTo(EPieceType) = 0;
 	virtual void SetHistory(const MoveVector&) = 0;
 	
-	virtual String SaveFEN() const = 0;
-	virtual void LoadFEN(const String&) = 0;
+	virtual void SaveFEN(const String& file) const = 0;
+	virtual void LoadFEN(const String& file) = 0;
 
-	virtual void SavePGN(const String&) = 0;
-	virtual void LoadPGN(const String&) = 0;
+	virtual void SavePGN(const String& file) const  = 0;
+	virtual void LoadPGN(const String& file) = 0;
 
 	virtual void AddListener(IGameListenerPtr) = 0;
 	virtual void RemoveListener(IGameListener*) = 0;

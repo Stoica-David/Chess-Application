@@ -58,7 +58,7 @@ public:
 	PositionList GetMovesCheck(Position p) const;
 	PositionList GetMovesPinned(Position p) const;
 
-	String SaveFEN() const;
+	String GetFEN() const;
 	static String GenerateInitial(EPieceType);
 	void LoadFEN(const String&);
 

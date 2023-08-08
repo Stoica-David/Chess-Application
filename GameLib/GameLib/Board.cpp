@@ -722,7 +722,7 @@ PositionList Board::GetMovesPinned(Position p) const
 	return newList;
 }
 
-String Board::SaveFEN() const
+String Board::GetFEN() const
 {
 	String FEN;	int ws = 0;
 
