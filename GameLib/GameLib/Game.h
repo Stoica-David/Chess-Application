@@ -18,21 +18,16 @@ public:
 	Game(const CharMatrix& matrix, EColor color = EColor::White, EState state = EState::Playing);
 	
 	// IGame methods
+	void AddListener(IGameListenerPtr) override;	// Observer
+	void RemoveListener(IGameListener*) override;	// Observer
+
 	void Restart() override;
+
 	void Move(Position p1, Position p2) override;
 	void ProposeDraw() override;
 	void DrawResponse(bool) override;
 	void PromoteTo(EPieceType pieceType) override;
 	void SetHistory(const MoveVector&) override;
-	
-	void SaveFEN(const String& file) const override;
-	void LoadFEN(const String& file) override;
-	
-	void SavePGN(const String& file) const override;
-	void LoadPGN(const String& file) override;
-
-	void AddListener(IGameListenerPtr) override;	// Observer
-	void RemoveListener(IGameListener*) override;	// Observer
 
 	bool IsDraw() const override;
 	bool IsOver() const override;
@@ -42,14 +37,13 @@ public:
 	bool IsTimeExpired(ChessTimer) const override;
 
 	EColor GetTurn() const override;
-	
 	PositionList GetMoves(Position p) const override;
-	
 	MoveVector GetHistory()const override;
-
 	IPieceInfoPtr GetPieceInfo(Position) const override;
-	
-	PieceMap PiecesLeft(EColor)const override;
+	PieceMap GetPiecesLeft(EColor)const override;
+
+	void Save(EFileFormat format, String& file) const override;
+	void Load(EFileFormat format, String& file) override;
 
 	//Other methods
 	PiecesPtr GetPiece(Position) const;
@@ -69,6 +63,12 @@ private:
 	// Other methods
 	void SwitchTurn();
 	void UpdateState(EState);
+
+	void SaveFEN(const String& file) const;
+	void LoadFEN(const String& file);
+
+	void SavePGN(const String& file) const;
+	void LoadPGN(const String& file);
 
 private:
 	Board m_gameboard;

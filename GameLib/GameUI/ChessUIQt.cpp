@@ -611,7 +611,7 @@ void ChessUIQt::UpdateHistory()
 
 void ChessUIQt::UpdateCaptured(EColor color)
 {
-	auto leftPieces = m_game->PiecesLeft(color);
+	auto leftPieces = m_game->GetPiecesLeft(color);
 
 	std::unordered_set<EPieceType> allPieces = {
 		EPieceType::Rook,

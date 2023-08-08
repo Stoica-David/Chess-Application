@@ -161,6 +161,32 @@ void Game::SetHistory(const MoveVector& v)
 	m_gameboard.SetHistory(v);
 }
 
+void Game::Save(EFileFormat format, String& file) const
+{
+	switch (format)
+	{
+	case EFileFormat::Fen:
+		SaveFEN(file);
+		break;
+	case EFileFormat::Pgn:
+		SavePGN(file);
+		break;
+	}
+}
+
+void Game::Load(EFileFormat format, String& file)
+{
+	switch (format)
+	{
+	case EFileFormat::Fen:
+		LoadFEN(file);
+		break;
+	case EFileFormat::Pgn:
+		LoadPGN(file);
+		break;
+	}
+}
+
 void Game::SaveFEN(const String& file) const
 {
 	String FEN = m_gameboard.GetFEN();
@@ -301,7 +327,7 @@ IPieceInfoPtr Game::GetPieceInfo(Position p) const
 	return m_gameboard.GetPieceInfo(p);
 }
 
-PieceMap Game::PiecesLeft(EColor color)const
+PieceMap Game::GetPiecesLeft(EColor color)const
 {
 	PieceMap leftPieces;
 

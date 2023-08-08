@@ -576,6 +576,6 @@ TEST(PiecesLeftTest, PiecesLeft1)
 
 	Game g(m, EColor::Black, EState::Playing);
 
-	EXPECT_EQ(g.PiecesLeft(EColor::Black).size(), 6);
-	EXPECT_EQ(g.PiecesLeft(EColor::White).size(), 5);
+	EXPECT_EQ(g.GetPiecesLeft(EColor::Black).size(), 6);
+	EXPECT_EQ(g.GetPiecesLeft(EColor::White).size(), 5);
 }
