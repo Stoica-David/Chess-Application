@@ -139,6 +139,8 @@ void Game::PromoteTo(EPieceType pieceType)
 {
 	m_gameboard.PromoteTo(pieceType, m_turn);
 
+	//m_PGN.GetPGN() += m_gameboard.GenerateInitial(pieceType);
+
 	UpdateState(EState::Playing);
 	SwitchTurn();
 }

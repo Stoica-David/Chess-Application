@@ -60,8 +60,8 @@ public:
 	PositionList GetMovesPinned(Position p) const;
 
 	String GetFEN() const;
-	static String GenerateInitial(EPieceType);
 	void LoadFEN(const String&);
+	static String GenerateInitial(EPieceType);
 
 	bool FindOnSameLine(Position p1, Position p2) const;
 	bool FindOnSameColumn(Position p1, Position p2) const;

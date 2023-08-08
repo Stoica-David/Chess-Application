@@ -43,7 +43,9 @@ static char GetCharForType(EPieceType type)
 
 static char GetPieceChar(EPieceType type, EColor color)
 {
-	return tolower(GetCharForType(type));
+	char toReturn = color == EColor::White ? GetCharForType(type) : tolower(GetCharForType(type));
+
+	return toReturn;
 }
 
 static std::string StateToString(IGamePtr game)

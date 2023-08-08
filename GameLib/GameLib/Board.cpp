@@ -296,23 +296,22 @@ bool Board::IsPinned(Position p) const
 		}
 	}
 
-	PositionMatrix checkMoves = at(checkPos)->AllMoves(checkPos);
+	//PositionMatrix checkMoves = at(checkPos)->AllMoves(checkPos);
+
+	PositionList checkPattern = at(checkPos)->DeterminePattern(checkPos, kingPos);
 
 	bool kingFound = false, currFound = false;
-
-	for (int i = 0; i < checkMoves.size(); i++)
+	
+	for (auto position:checkPattern)
 	{
-		for (int j = 0; j < checkMoves[i].size(); j++)
+		if (position == kingPos)
 		{
-			if (checkMoves[i][j] == kingPos)
-			{
-				kingFound = true;
-			}
+			kingFound = true;
+		}
 
-			if (checkMoves[i][j] == p)
-			{
-				currFound = true;
-			}
+		if (position == p)
+		{
+			currFound = true;
 		}
 	}
 
@@ -404,11 +403,6 @@ void Board::PromoteTo(EPieceType pieceType, EColor color)
 		throw PromoteException("Can't promote!\n");
 	}
 
-	if (!m_PGN.empty())
-	{
-		m_PGN += GenerateInitial(pieceType);
-	}
-
 	at(pieceToPromote) = Piece::Produce(pieceType, color);
 }
 
@@ -445,17 +439,16 @@ void Board::Move(Position p1, Position p2)
 	{
 		Castle(p1, p2);
 	}
+	else if (IsEnPassant(p1, p2))
+	{
+		EnPassant(p1, p2);
+	}
 	else
-		if (IsEnPassant(p1, p2))
-		{
-			EnPassant(p1, p2);
-		}
-		else
-		{
-			at(p2) = currPiece;
-			at(p1) = {};
-			currPiece->SetHasMoved(true);
-		}
+	{
+		at(p2) = currPiece;
+		at(p1) = {};
+		currPiece->SetHasMoved(true);
+	}
 
 	m_moves.push_back({ p1, p2 });
 

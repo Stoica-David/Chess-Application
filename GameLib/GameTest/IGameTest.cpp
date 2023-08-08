@@ -31,8 +31,3 @@ TEST_F(IGameTest, MoveTest)
 	EXPECT_THROW(myInstance->Move({5,2}, {2,2}), MoveException);
 	EXPECT_THROW(myInstance->Move({-5,2}, {2,2}), PositionException);
 }
-
-TEST_F()
-{
-
-}

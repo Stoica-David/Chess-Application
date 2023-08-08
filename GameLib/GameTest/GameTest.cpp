@@ -579,3 +579,23 @@ TEST(PiecesLeftTest, PiecesLeft1)
 	EXPECT_EQ(g.GetPiecesLeft(EColor::Black).size(), 6);
 	EXPECT_EQ(g.GetPiecesLeft(EColor::White).size(), 5);
 }
+
+TEST(GetMovesTest, AfterPromoteTest1)
+{
+	CharMatrix m = { {
+	{'r', 'h', 'b', 'q', 'k', 'b', 'q', '-'},
+	{'p', 'p', 'p', 'p', 'p', 'p', '-', '-'},
+	{'-', '-', '-', '-', '-', 'r', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', 'p'},
+	{'-', '-', '-', '-', '-', '-', 'p', '-'},
+	{'P', 'P', 'P', 'P', 'P', 'P', '-', '-'},
+	{'R', 'H', 'B', 'Q', 'K', 'B', 'H', 'R'}
+	} };
+
+	Game g(m, EColor::Black, EState::Playing);
+
+	PositionList v = { {6, 6}, {6, 5} };
+
+	EXPECT_EQ(g.GetMoves({ 5, 6 }), v);
+}
