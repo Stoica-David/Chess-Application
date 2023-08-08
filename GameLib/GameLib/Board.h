@@ -24,6 +24,7 @@ public:
 
 	// Setters
 	PiecesPtr& operator[](Position p);
+	const PiecesPtr& at(Position p) const;
 	void SetHistory(const MoveVector& v);
 	void Set(const ChessBoard& board);
 

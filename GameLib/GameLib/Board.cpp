@@ -39,6 +39,11 @@ PiecesPtr& Board::operator[](Position p)
 	return m_board[p.first][p.second];
 }
 
+const PiecesPtr& Board::at(Position p) const
+{
+	return m_board[p.first][p.second];
+}
+
 void Board::SetHistory(const MoveVector& v)
 {
 	m_moves = v;
@@ -107,7 +112,7 @@ bool Board::VerifyTheWay(Position p1, Position p2) const
 
 	for (const auto& currPos : piecePattern)
 	{
-		if (auto currPiece = m_board[currPos.first][currPos.second])
+		if (auto currPiece = at(currPos))
 		{
 			if ((currPos != p2) || (currPos == p2 && (initialPiece->SameColor(currPiece))) || (initialPiece->Is(EPieceType::Pawn) && !PawnGoesDiagonally(p1, p2)))
 			{
@@ -607,36 +612,32 @@ PositionList Board::GetMovesNormal(Position p) const
 	{
 		for (int j = 0; j < currMoves[i].size(); j++)
 		{
-			int x = currMoves[i][j].first;
-			int y = currMoves[i][j].second;
+			auto currMove = currMoves[i][j];
 
-			if (auto currPiece = m_board[x][y])
+			if (auto currPiece = at(currMove))
 			{
 				if (currPiece->GetColor() != initialPiece->GetColor())
 				{
-					if (!initialPiece->Is(EPieceType::Pawn) || (PawnGoesDiagonally(p, { x,y })))
+					if (!initialPiece->Is(EPieceType::Pawn) || (PawnGoesDiagonally(p, currMove)))
 					{
-						newList.push_back({ x , y });
+						newList.push_back(currMove);
 					}
 				}
 
 				break;
 			}
 
-			if (initialPiece->Is(EPieceType::Pawn) && std::abs(p.first - x) == 2)
+			if (initialPiece->Is(EPieceType::Pawn) && std::abs(p.first - currMove.first) == 2)
 			{
-				int intermediateX = IntermediatePosition(p).first;
-				int intermediateY = IntermediatePosition(p).second;
-
-				if (m_board[intermediateX][intermediateY])
+				if (at(IntermediatePosition(p)))
 				{
 					break;
 				}
 			}
 
-			if ((!initialPiece->Is(EPieceType::Pawn) || (!PawnGoesDiagonally(p, { x,y }))))
+			if ((!initialPiece->Is(EPieceType::Pawn) || (!PawnGoesDiagonally(p, currMove))))
 			{
-				newList.push_back({ x , y });
+				newList.push_back(currMove);
 			}
 		}
 	}
@@ -646,8 +647,9 @@ PositionList Board::GetMovesNormal(Position p) const
 
 PositionList Board::GetMovesCheck(Position p) const
 {
-	PiecesPtr currPiece = m_board[p.first][p.second];
-	EColor currColor = m_board[p.first][p.second]->GetColor();
+	PiecesPtr currPiece = at(p);
+	EColor currColor = currPiece->GetColor();
+
 	PositionList newList;
 
 	if (currPiece->Is(EPieceType::King))
@@ -669,33 +671,23 @@ PositionList Board::GetMovesCheck(Position p) const
 	else
 	{
 		Position kingPos = FindKing(currColor);
-		PiecesPtr king = m_board[kingPos.first][kingPos.second];
+		PiecesPtr king = at(kingPos);
 
 		Position checkPos = FindCheck(kingPos, currColor);
-		PiecesPtr checkPiece = m_board[checkPos.first][checkPos.second];
+		PiecesPtr checkPiece = at(checkPos);
 
 		PositionList checkPattern = checkPiece->DeterminePattern(checkPos, kingPos);
 
 		PositionList currMoves = GetMovesNormal(p);
 
-		for (int i = 0; i < currMoves.size(); i++)
+		for (const auto& move : currMoves)
 		{
-			for (int j = 0; j < checkPattern.size(); j++)
-			{
-				if (currMoves[i] == checkPattern[j])
-				{
-					newList.push_back(currMoves[i]);
-				}
-			}
+			if (std::find(checkPattern.begin(), checkPattern.end(), move) != checkPattern.end())
+				newList.push_back(move);
 		}
 
-		for (int i = 0; i < currMoves.size(); i++)
-		{
-			if (checkPos == currMoves[i])
-			{
-				newList.push_back(currMoves[i]);
-			}
-		}
+		if (std::find(currMoves.begin(), currMoves.end(), checkPos) != currMoves.end())
+			newList.push_back(checkPos);
 	}
 
 	return newList;
@@ -710,7 +702,7 @@ PositionList Board::GetMovesPinned(Position p) const
 	Position kingPos = FindKing(currColor);
 	Position checkPos = FindCheck(p, currColor);
 
-	PositionList checkPattern = m_board[checkPos.first][checkPos.second]->DeterminePattern(checkPos, p);
+	PositionList checkPattern = at(checkPos)->DeterminePattern(checkPos, p);
 
 	PositionList currMoves = GetMovesNormal(p);
 
