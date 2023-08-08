@@ -14,6 +14,8 @@ static char LastChar(const String& string)
 	}
 
 	return ' ';
+
+	/*return string.find_last_not_of();*/
 }
 
 IGamePtr IGame::Produce()
