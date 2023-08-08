@@ -9,8 +9,6 @@
 #include <unordered_map>
 
 using IGamePtr = std::shared_ptr<class IGame>;
-using IGameListenerWeakPtr = std::weak_ptr<IGameListener>;
-using IGameListenerPtr = std::shared_ptr<IGameListener>;
 using String = std::string;
 using PieceMap = std::unordered_map <EPieceType, int>;
 
