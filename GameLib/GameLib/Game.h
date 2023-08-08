@@ -7,6 +7,7 @@
 #include "ChessTimer.h"
 
 using ListenersList = std::vector<IGameListenerWeakPtr>;
+using CharMatrix = std::array<std::array<char, 8>, 8>;
 
 class Game : public IGame
 {
@@ -14,7 +15,7 @@ public:
 	// Constructor
 	Game();
 	Game(const Board& b, EColor color = EColor::White);
-	Game(const CharMatrix& matrix, EColor color = EColor::White, EState state = EState::Standby);
+	Game(const CharMatrix& matrix, EColor color = EColor::White, EState state = EState::Playing);
 	
 	// IGame methods
 	void Restart() override;

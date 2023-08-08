@@ -2,7 +2,6 @@
 
 enum class EState
 {
-	Standby,
 	Playing,
 	Draw,
 	Check,

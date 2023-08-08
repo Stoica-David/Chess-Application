@@ -64,12 +64,6 @@ void Game::Restart()
 
 void Game::Move(Position p1, Position p2)
 {
-	if (m_state == EState::Standby)
-	{
-		m_state = EState::Playing;
-		m_whiteTimer.startTurn();
-	}
-
 	if (m_state == EState::Playing || m_state == EState::Check)
 	{
 		if (!IsPositionValid(p1) || !IsPositionValid(p2))

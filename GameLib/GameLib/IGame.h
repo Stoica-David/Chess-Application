@@ -9,7 +9,6 @@
 #include <unordered_map>
 
 using IGamePtr = std::shared_ptr<class IGame>;
-using CharMatrix = std::array<std::array<char, 8>, 8>;
 using IGameListenerWeakPtr = std::weak_ptr<IGameListener>;
 using IGameListenerPtr = std::shared_ptr<IGameListener>;
 using String = std::string;
