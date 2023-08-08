@@ -25,14 +25,13 @@ public:
 	// Setters
 	PiecesPtr& at(Position p);
 	const PiecesPtr& at(Position p) const;
-	void SetHistory(const MoveVector& v);
 	void Set(const ChessBoard& board);
 
 	// Getters
 	IPieceInfoPtr GetPieceInfo(Position p) const;
-	PiecesPtr GetPiece(Position p) const;
 	MoveVector GetHistory()const;
 	String GetCurrPGN()const;
+	BitMatrix GetPrevPositions()const;
 
 	// Functions
 	bool IsOver(EColor color) const;

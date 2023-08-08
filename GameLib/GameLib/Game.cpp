@@ -26,6 +26,7 @@ IGamePtr IGame::Produce()
 Game::Game()
 	: m_turn(EColor::White)
 	, m_state(EState::Playing)
+	, m_initialState(EState::Playing)
 	, m_whiteTimer(10)
 	, m_blackTimer(10)
 {
@@ -35,14 +36,16 @@ Game::Game(const Board& b, EColor color /*=EColor::White*/)
 	: m_turn(color)
 	, m_gameboard(b)
 	, m_state(EState::Playing)
+	, m_initialState(EState::Playing)
 	, m_whiteTimer(10)
 	, m_blackTimer(10)
 {
 }
 
-Game::Game(const CharMatrix& matrix, EColor color, EState state) 
+Game::Game(const CharMatrix& matrix, EColor color, EState state)
 	: m_turn(color)
 	, m_state(state)
+	, m_initialState(state)
 	, m_whiteTimer(10)
 	, m_blackTimer(10)
 {
@@ -55,9 +58,9 @@ void Game::Restart()
 	m_state = EState::Playing;
 
 	m_gameboard.Reset();
-	
+
 	m_PGN.Clear();
-	
+
 	NotifyRestart();
 }
 
@@ -70,8 +73,8 @@ void Game::Move(Position p1, Position p2)
 			throw PositionException("The given position is out of the table");
 		}
 
-		PiecesPtr currPiece = m_gameboard.GetPiece(p1);
-		PiecesPtr nextPiece = m_gameboard.GetPiece(p2);
+		PiecesPtr currPiece = m_gameboard.at(p1);
+		PiecesPtr nextPiece = m_gameboard.at(p2);
 
 		if (!currPiece)
 		{
@@ -138,11 +141,6 @@ void Game::PromoteTo(EPieceType pieceType)
 	SwitchTurn();
 }
 
-void Game::SetHistory(const MoveVector& v)
-{
-	m_gameboard.SetHistory(v);
-}
-
 void Game::Save(EFileFormat format, const String& file) const
 {
 	switch (format)
@@ -172,6 +170,17 @@ void Game::Load(EFileFormat format, const String& file)
 void Game::ShowConfiguration(int confNr)
 {
 	ChessBoard currBoard = m_gameboard.ConvertBitset(confNr);
+
+	if (confNr != m_gameboard.GetPrevPositions().size() - 1)
+	{
+		m_initialState = m_state;
+		UpdateState(EState::Frozen);
+	}
+	else
+	{
+		UpdateState(m_initialState);
+		m_initialState = EState::Playing;
+	}
 
 	m_gameboard.Set(currBoard);
 }
@@ -273,6 +282,11 @@ bool Game::IsTimeExpired(ChessTimer timer) const
 	return timer.isTimeExpired();
 }
 
+bool Game::IsFrozen() const
+{
+	return m_state == EState::Frozen;
+}
+
 const IGameStatus* Game::GetStatus() const
 {
 	return this;
@@ -331,7 +345,7 @@ PieceMap Game::GetPiecesLeft(EColor color)const
 	{
 		for (int j = 0; j < 8; j++)
 		{
-			PiecesPtr piece = m_gameboard.GetPiece({ i, j });
+			PiecesPtr piece = m_gameboard.at({ i, j });
 
 			if (piece && piece->GetColor() == color)
 			{
@@ -345,7 +359,7 @@ PieceMap Game::GetPiecesLeft(EColor color)const
 
 PiecesPtr Game::GetPiece(Position p) const
 {
-	return m_gameboard.GetPiece(p);
+	return m_gameboard.at(p);
 }
 
 bool Game::Stalemate() const

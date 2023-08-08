@@ -20,7 +20,7 @@ public:
 	void SetSelected(bool selected);
 
 signals:
-	void Clicked(const std::pair<int, int>& position);
+	void Clicked(const Position& position);
 
 private:
 	void paintEvent(QPaintEvent* event) override;

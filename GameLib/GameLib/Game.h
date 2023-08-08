@@ -27,7 +27,6 @@ public:
 	void ProposeDraw() override;
 	void DrawResponse(bool) override;
 	void PromoteTo(EPieceType pieceType) override;
-	void SetHistory(const MoveVector&) override;
 
 	bool IsDraw() const override;
 	bool IsOver() const override;
@@ -35,6 +34,7 @@ public:
 	bool IsCheck() const override;
 	bool IsPromoting() const override;
 	bool IsTimeExpired(ChessTimer) const override;
+	bool IsFrozen() const override;
 
 	const IGameStatus* GetStatus() const override;
 
@@ -83,6 +83,7 @@ private:
 	ChessTimer m_blackTimer;
 
 	EState m_state;
+	EState m_initialState;
 	
 	ListenersList m_listeners;
 	

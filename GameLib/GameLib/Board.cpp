@@ -44,11 +44,6 @@ const PiecesPtr& Board::at(Position p) const
 	return m_board[p.x][p.y];
 }
 
-void Board::SetHistory(const MoveVector& v)
-{
-	m_moves = v;
-}
-
 void Board::Set(const ChessBoard& board)
 {
 	m_board = board;
@@ -56,17 +51,12 @@ void Board::Set(const ChessBoard& board)
 
 IPieceInfoPtr Board::GetPieceInfo(Position p) const
 {
-	if (auto piece = GetPiece(p))
+	if (auto piece = at(p))
 	{
 		return std::make_shared<PieceInfo>(piece->GetType(), piece->GetColor());
 	}
 
 	return {};
-}
-
-PiecesPtr Board::GetPiece(Position p) const
-{
-	return m_board[p.x][p.y];
 }
 
 MoveVector Board::GetHistory() const
@@ -77,6 +67,11 @@ MoveVector Board::GetHistory() const
 String Board::GetCurrPGN() const
 {
 	return m_PGN;
+}
+
+BitMatrix Board::GetPrevPositions() const
+{
+	return m_prevPositions;
 }
 
 bool Board::IsOver(EColor color) const
@@ -421,8 +416,8 @@ void Board::Move(Position p1, Position p2)
 {
 	m_PGN.clear();
 
-	PiecesPtr currPiece = GetPiece(p1);
-	PiecesPtr nextPiece = GetPiece(p2);
+	PiecesPtr currPiece = at(p1);
+	PiecesPtr nextPiece = at(p2);
 
 	if (!currPiece)
 	{
@@ -1046,7 +1041,7 @@ bool Board::GoesTwoForward(int x1, int x2) const
 
 bool Board::CanMoveTwoForward(Position p1, Position p2) const
 {
-	return ((GetPiece(IntermediatePosition(p1))) && GoesTwoForward(p1.x, p2.x));
+	return ((at(IntermediatePosition(p1))) && GoesTwoForward(p1.x, p2.x));
 }
 
 bool Board::LeftPawnCheck(Position p) const
@@ -1259,11 +1254,11 @@ bool Board::SameBishop() const
 			{
 				if (!firstBishop)
 				{
-					firstBishop = GetPiece({ i, j }).get();
+					firstBishop = at({ i, j }).get();
 				}
 				else
 				{
-					secondBishop = GetPiece({ i, j }).get();
+					secondBishop = at({ i, j }).get();
 				}
 			}
 		}
@@ -1522,7 +1517,7 @@ void Board::EnPassant(Position p1, Position p2)
 
 		otherPawnPos = at(p1)->Is(EColor::White) ? Position(p2.x + 1, p2.y) : Position(p2.x - 1, p2.y);
 
-		at(p2) = GetPiece(p1);
+		at(p2) = at(p1);
 		at(otherPawnPos) = {};
 		at(p1) = {};
 
@@ -1550,12 +1545,12 @@ void Board::ResetEnPassant()
 
 bool Board::IsLeftPassantPossible(Position p1, Position p2) const
 {
-	return p2.y < p1.y&& GetPiece(p1)->GetLeftPassant();
+	return p2.y < p1.y&& at(p1)->GetLeftPassant();
 }
 
 bool Board::IsRightPassantPossible(Position p1, Position p2) const
 {
-	return p2.y > p1.y && GetPiece(p1)->GetRightPassant();
+	return p2.y > p1.y && at(p1)->GetRightPassant();
 }
 
 Position Board::IntermediatePosition(Position p) const

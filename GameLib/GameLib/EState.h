@@ -8,5 +8,6 @@ enum class EState
 	WhiteWon,
 	BlackWon,
 	DrawIsProposed,
-	ChoosePiece
+	ChoosePiece,
+	Frozen
 };

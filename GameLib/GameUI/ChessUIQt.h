@@ -4,6 +4,7 @@
 
 #include "ui_ChessUIQt.h"
 #include "GridButton.h"
+#include "Position.h"
 
 #include <QtWidgets/QMainWindow>
 #include <QtWidgets/qgridlayout.h>
@@ -81,7 +82,7 @@ private:
     
     std::array<std::array<GridButton*, 8>, 8> m_grid;
     
-    std::optional<std::pair<int, int>> m_selectedCell;
+    std::optional<Position> m_selectedCell;
     
     QPushButton* m_closeButton;
     QPushButton* m_minimizeButton;

@@ -19,6 +19,7 @@ public:
 	virtual bool IsCheck() const = 0;
 	virtual bool IsPromoting() const = 0;
 	virtual bool IsTimeExpired(ChessTimer) const = 0;
+	virtual bool IsFrozen() const = 0;
 
 	virtual EColor GetTurn() const = 0;
 	virtual PositionList GetMoves(Position p) const = 0;

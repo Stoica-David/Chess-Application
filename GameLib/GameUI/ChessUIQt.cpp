@@ -294,7 +294,7 @@ void ChessUIQt::OnGameOver(EOverState state)
 	}
 
 	m_exceptionLabel->setText("");
-	m_movesList->setEditTriggers(QAbstractItemView::NoEditTriggers);
+	//m_movesList->setEditTriggers(QAbstractItemView::NoEditTriggers);
 }
 
 void ChessUIQt::OnChoosePiece()
@@ -614,10 +614,10 @@ void ChessUIQt::UpdateHistory()
 	for (int i = 0; i < newHistory.size(); i++) {
 		QString itemText = QString("%1. %2%3 \t %4%5")
 			.arg(i + 1)
-			.arg(ConvertIntToChar(newHistory[i].first.second))
-			.arg(8 - newHistory[i].first.first)
-			.arg(ConvertIntToChar(newHistory[i].second.second))
-			.arg(8 - newHistory[i].second.first);
+			.arg(ConvertIntToChar(newHistory[i].first.y))
+			.arg(8 - newHistory[i].first.x)
+			.arg(ConvertIntToChar(newHistory[i].second.y))
+			.arg(8 - newHistory[i].second.y);
 
 		m_movesList->addItem(new QListWidgetItem(itemText));
 	}
@@ -718,7 +718,7 @@ void ChessUIQt::HighlightPossibleMoves(const PositionList& possibleMoves)
 {
 	for (const auto& position : possibleMoves)
 	{
-		m_grid[position.first][position.second]->SetHighlighted(true);
+		m_grid[position.x][position.y]->SetHighlighted(true);
 	}
 }
 
@@ -810,7 +810,7 @@ void ChessUIQt::GridButtonClicked(Position position)
 {
 	auto status = m_game->GetStatus();
 
-	if (status->IsOver() || status->IsDraw())
+	if (status->IsOver() || status->IsDraw() || status->IsFrozen())
 	{
 		return;
 	}
@@ -822,7 +822,7 @@ void ChessUIQt::GridButtonClicked(Position position)
 		//At second click
 		if (m_selectedCell.has_value())
 		{
-			auto& button = m_grid[m_selectedCell.value().first][m_selectedCell.value().second];
+			auto& button = m_grid[m_selectedCell.value().x][m_selectedCell.value().y];
 
 			m_selectedCell.value() == position ? UpdateBoard(GetBoard()) : m_game->Move(m_selectedCell.value(), position), UpdateHistory();
 
@@ -988,36 +988,11 @@ void ChessUIQt::OnHistoryClicked(QListWidgetItem* item)
 
 	int index = m_movesList->currentRow();
 
-	auto status = m_game->GetStatus();
-
-	MoveVector newHistory = status->GetHistory();
-
-	//m_game->Restart();
-
 	m_game->ShowConfiguration(index);
 
 	UpdateBoard(GetBoard());
 
-	//for (int i = 0; i <= index; i++)
-	//{
-	//	Position start = newHistory[i].first;
-	//	Position end = newHistory[i].second;
+	auto status = m_game->GetStatus();
 
-	//	m_game->Move(start, end);
-
-	//	QString itemText = QString("%1. %2%3 \t %4%5")
-	//		.arg(i + 1)
-	//		.arg(ConvertIntToChar(start.second))
-	//		.arg(8 - start.first)
-	//		.arg(ConvertIntToChar(end.second))
-	//		.arg(8 - end.first);
-
-	//	m_movesList->addItem(new QListWidgetItem(itemText));
-	//}
-
-	//m_game->SetHistory(newHistory);
-
-	index != newHistory.size() - 1 ? MakeButtonsUnselectable() : MakeButtonsSelectable();
-
-	UpdateHistory();
+	index != status->GetHistory().size() - 1 ? MakeButtonsUnselectable() : MakeButtonsSelectable();
 }
