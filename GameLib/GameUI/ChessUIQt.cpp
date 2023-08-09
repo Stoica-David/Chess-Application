@@ -619,7 +619,7 @@ void ChessUIQt::UpdateHistory()
 			.arg(ConvertIntToChar(newHistory[i].first.y))
 			.arg(8 - newHistory[i].first.x)
 			.arg(ConvertIntToChar(newHistory[i].second.y))
-			.arg(8 - newHistory[i].second.y);
+			.arg(8 - newHistory[i].second.x);
 
 		m_movesList->addItem(new QListWidgetItem(itemText));
 	}

@@ -1713,6 +1713,11 @@ Position Board::FindPrevPos(Position nextPos, EPieceType type, EColor color, Pos
 
 ChessBoard Board::ConvertBitset(int bitsetNr) const
 {
+	if (bitsetNr > m_prevPositions.size())
+	{
+		throw ChessException("Bitset not available!");
+	}
+
 	ChessBoard chessBoard;
 
 	Bitset currBitset = m_prevPositions[bitsetNr];

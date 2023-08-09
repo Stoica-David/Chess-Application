@@ -587,6 +587,7 @@ TEST(ChoosePieceMock, Choose4)
 
 	EXPECT_CALL(*mock, OnMove());
 	EXPECT_CALL(*mock, OnChoosePiece());
+	EXPECT_CALL(*mock, OnPieceCapture(EPieceType::Queen, EColor::White));
 
 	myGame.Move({ 6, 4 }, { 7, 3 });
 	myGame.PromoteTo(EPieceType::Rook);
@@ -665,9 +666,11 @@ TEST(GameOverTest, PromoteTest1)
 
 	auto mock = std::make_shared<MockGame>();
 
-	PositionList kingMoves = { {0, 3} };
-
 	g.AddListener(mock);
+
+	EXPECT_CALL(*mock, OnMove());
+	EXPECT_CALL(*mock, OnChoosePiece());
+	EXPECT_CALL(*mock, OnPieceCapture(EPieceType::Queen, EColor::Black));
 
 	g.Move({ 1,2 }, { 0,3 });
 	g.PromoteTo(EPieceType::Rook);

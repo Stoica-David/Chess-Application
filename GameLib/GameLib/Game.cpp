@@ -138,8 +138,6 @@ void Game::DrawResponse(bool draw)
 void Game::PromoteTo(EPieceType pieceType)
 {
 	m_gameboard.PromoteTo(pieceType, m_turn);
-
-	//m_turn = m_PGN.GetNrMove() % 2 == 1 ? EColor::Black : EColor::White;
 	
 	m_PGN.Append(m_gameboard.GenerateInitial(pieceType));
 
