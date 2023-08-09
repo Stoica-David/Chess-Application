@@ -1,7 +1,6 @@
 #pragma once
 
 #include "EOverState.h"
-#include "ChessTimer.h"
 
 class IGameListener
 {
@@ -17,8 +16,6 @@ public:
 	virtual void OnRestart() = 0;
 
 	virtual void OnPieceCapture(EPieceType, EColor) = 0;
-
-	virtual void OnNotifyTime(ChessTimer) = 0;
 
 	virtual ~IGameListener() = default;
 };

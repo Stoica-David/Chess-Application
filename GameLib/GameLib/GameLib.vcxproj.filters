@@ -37,6 +37,9 @@
     <Filter Include="Header Files\File Related">
       <UniqueIdentifier>{18fb9de5-fe1d-4dfe-9f12-d7ec10f265b5}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Header Files\Timer">
+      <UniqueIdentifier>{385412cd-c5f8-4f5a-9447-f51df061a903}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Piece.cpp">
@@ -101,9 +104,6 @@
     </ClCompile>
     <ClCompile Include="PGNHandler.cpp">
       <Filter>Source Files\PGN</Filter>
-    </ClCompile>
-    <ClCompile Include="ChessTimer.cpp">
-      <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FileUtils.cpp">
       <Filter>Source Files</Filter>
@@ -208,9 +208,6 @@
     </ClInclude>
     <ClInclude Include="PGNHandler.h">
       <Filter>Header Files\PGN</Filter>
-    </ClInclude>
-    <ClInclude Include="ChessTimer.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="IGameStatus.h">
       <Filter>Header Files\API</Filter>
