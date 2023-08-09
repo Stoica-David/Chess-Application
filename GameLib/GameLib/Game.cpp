@@ -139,9 +139,12 @@ void Game::PromoteTo(EPieceType pieceType)
 {
 	m_gameboard.PromoteTo(pieceType, m_turn);
 
-	//m_PGN.GetPGN() += m_gameboard.GenerateInitial(pieceType);
+	//m_turn = m_PGN.GetNrMove() % 2 == 1 ? EColor::Black : EColor::White;
+	
+	m_PGN.Append(m_gameboard.GenerateInitial(pieceType));
 
 	UpdateState(EState::Playing);
+
 	SwitchTurn();
 }
 
@@ -262,6 +265,8 @@ void Game::LoadPGN(const String& filePath)
 	{
 		UpdateState(EState::Playing);
 	}
+
+	m_turn = m_PGN.GetNrMove() % 2 == 1 ? EColor::Black : EColor::White;
 }
 
 void Game::AddListener(IGameListenerPtr newListener)

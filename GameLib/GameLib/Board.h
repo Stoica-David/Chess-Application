@@ -121,4 +121,6 @@ private:
 	MoveVector m_moves;
 	
 	String m_PGN;
+
+	int m_nrMove;
 };

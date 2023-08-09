@@ -29,6 +29,7 @@ public:
     //Getters
     String GetPGN()const;
     StringVector GetMoves() const;
+    int GetNrMove() const;
 
     //Save 
     void AddMove(const String&);
@@ -47,6 +48,7 @@ public:
     void Clear();
     void ResetPGN();
     void ResetHeaders();
+    void Append(const String& string);
 
 private:
     //Regex related
@@ -63,4 +65,5 @@ private:
     String m_PGN;
     StringVector m_moves;
     TagMap m_headers;
+    int m_nrMove;
 };

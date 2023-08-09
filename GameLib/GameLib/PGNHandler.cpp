@@ -31,6 +31,7 @@ static String ConvertTag(ETag tag)
 PGNHandler::PGNHandler()
 {
 	ResetHeaders();
+	m_nrMove = 0;
 }
 
 void PGNHandler::SetHeader(ETag tag, const String& value)
@@ -51,6 +52,11 @@ String PGNHandler::GetPGN() const
 StringVector PGNHandler::GetMoves() const
 {
 	return m_moves;
+}
+
+int PGNHandler::GetNrMove() const
+{
+	return m_nrMove;
 }
 
 void PGNHandler::AddMove(const String& newMove)
@@ -93,6 +99,7 @@ void PGNHandler::ParseFromPGN()
 	CommentRegex();
 	UselessCharRegex();
 	m_moves.clear();
+	m_nrMove = 0;
 
 	std::regex moveRegex(R"(\b([KQRBNP])?([a-h]?[1-8]?)?([x:])?([a-h][1-8])(=?[QRBN]?)?([+#]?)\b|O-O-O|O-O)");
 
@@ -106,6 +113,7 @@ void PGNHandler::ParseFromPGN()
 		String moveString = match[0].str();
 
 		m_moves.push_back(moveString);
+		m_nrMove++;
 	}
 }
 
@@ -157,6 +165,11 @@ void PGNHandler::ResetHeaders()
 	m_headers[ETag::White] = "[White \"?\"]";
 	m_headers[ETag::Black] = "[Black \"?\"]";
 	m_headers[ETag::Result] = "[Result \"*\"]";
+}
+
+void PGNHandler::Append(const String& string)
+{
+	m_moves[m_moves.size() - 1] += string;
 }
 
 void PGNHandler::HeaderRegex()
