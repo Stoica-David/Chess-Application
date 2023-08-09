@@ -111,6 +111,9 @@
     <ClCompile Include="Position.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="Timer.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Game.h">
@@ -214,6 +217,9 @@
     </ClInclude>
     <ClInclude Include="FileUtils.h">
       <Filter>Header Files\File Related</Filter>
+    </ClInclude>
+    <ClInclude Include="Timer.h">
+      <Filter>Header Files\Timer</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

@@ -16,6 +16,8 @@ public:
 	Game();
 	Game(const Board& b, EColor color = EColor::White);
 	Game(const CharMatrix& matrix, EColor color = EColor::White, EState state = EState::Playing);
+
+	~Game() {}
 	
 	// IGame methods
 	void AddListener(IGameListenerPtr) override;	// Observer

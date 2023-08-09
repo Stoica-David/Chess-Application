@@ -29,8 +29,10 @@ Game::Game()
 	: m_turn(EColor::White)
 	, m_state(EState::Playing)
 	, m_initialState(EState::Playing)
+	, m_whiteTimer(10)
+	, m_blackTimer(10)
 {
-	m_whiteTimer.Start(600);
+	m_whiteTimer.StartTimer();
 }
 
 Game::Game(const Board& b, EColor color /*=EColor::White*/)
@@ -38,8 +40,10 @@ Game::Game(const Board& b, EColor color /*=EColor::White*/)
 	, m_gameboard(b)
 	, m_state(EState::Playing)
 	, m_initialState(EState::Playing)
+	, m_whiteTimer(10)
+	, m_blackTimer(10)
 {
-	m_whiteTimer.Start(600);
+	m_whiteTimer.StartTimer();
 }
 
 Game::Game(const CharMatrix& matrix, EColor color, EState state)
@@ -47,8 +51,10 @@ Game::Game(const CharMatrix& matrix, EColor color, EState state)
 	, m_state(state)
 	, m_initialState(state)
 	, m_gameboard(matrix)
+	, m_whiteTimer(10)
+	, m_blackTimer(10)
 {
-	m_whiteTimer.Start(600);
+	m_whiteTimer.StartTimer();
 }
 
 void Game::Restart()
@@ -436,15 +442,15 @@ void Game::SwitchTurn()
 {
 	if (m_turn == EColor::White)
 	{
-		m_whiteTimer.Stop();
+		m_whiteTimer.StopTimer();
 		m_turn = EColor::Black;
-		m_blackTimer.Start(m_blackTimer.GetTimeLeft());
+		m_blackTimer.StartTimer();
 	}
 	else
 	{
-		m_blackTimer.Stop();
+		m_blackTimer.StopTimer();
 		m_turn = EColor::White;
-		m_whiteTimer.Start(m_whiteTimer.GetTimeLeft());
+		m_whiteTimer.StartTimer();
 	}
 }
 

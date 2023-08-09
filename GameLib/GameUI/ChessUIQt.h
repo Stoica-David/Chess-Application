@@ -36,7 +36,6 @@ private:
     void OnCheck() override;
     void OnRestart() override;
     void OnPieceCapture(EPieceType, EColor) override;
-    void OnNotifyTime(ChessTimer) override;
 
     // Initializers
     void InitializeMessage(QGridLayout* mainGridLayout);
