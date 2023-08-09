@@ -36,8 +36,6 @@ private:
 	std::condition_variable cv;
 	std::mutex mutex;
 
-	std::chrono::steady_clock::time_point start_time;
 	std::chrono::duration<int> remaining_time;
-	std::chrono::steady_clock::time_point end_time;
 	std::function<void()> notifyChange;
 };

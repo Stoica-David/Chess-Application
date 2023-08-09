@@ -1034,31 +1034,32 @@ void ChessUIQt::OnTimerChange()
 	else
 	{
 		minutesStr.push_back('0');
-		minutesStr.push_back(minutes + '0');
+		minutesStr.push_back('0' + minutes);
 	}
 
-	while (seconds)
+	char zecimal;
+	char unit = '0' + (int)(seconds % 10);
+
+	if (seconds > 9)
 	{
-		char zecimal;
-		char unit = seconds % 10 + '0';
-
-		if (seconds > 9)
-		{
-			zecimal = seconds % 100 + '0';
-			secondStr.push_back(zecimal);
-		}
-		else
-		{
-			secondStr.push_back('0');
-		}
-
-		secondStr.push_back(unit);
+		zecimal = '0' + (int)((seconds / 10) % 10);
+		secondStr.push_back(zecimal);
 	}
+	else
+	{
+		secondStr.push_back('0');
+	}
+
+	secondStr.push_back(unit);
 
 	String time = minutesStr + ":" + secondStr;
 
-	if (minutes > 9 && seconds > 9)
-		m_blackTimer = new QLabel(QString::fromStdString(time));
-
-	m_blackTimer = new QLabel("00:00");
+	if (status->GetTurn() == EColor::White)
+	{
+		m_whiteTimer->setText(QString::fromStdString(time));
+	}
+	else
+	{
+		m_blackTimer->setText(QString::fromStdString(time));
+	}
 }

@@ -17,8 +17,6 @@ Timer::~Timer()
 
 void Timer::StartTimer()
 {
-	start_time = std::chrono::steady_clock::now();
-
 	running = true;
 
 	cv.notify_all();
@@ -32,7 +30,7 @@ void Timer::StopTimer()
 
 	cv.notify_all();
 
-	end_time = std::chrono::steady_clock::now();
+	thread.join();
 }
 
 void Timer::SetNotifyChange(std::function<void()> newFunc)
@@ -60,9 +58,9 @@ void Timer::Run()
 	while (running)
 	{
 		std::unique_lock lk(mutex);
-		cv.wait_for(lk, 200ms, [&] { return !running; });
+		cv.wait_for(lk, 1s, [&] { return !running; });
 
-		remaining_time -= std::chrono::duration_cast<std::chrono::seconds>(end_time - start_time);
+		remaining_time -= std::chrono::seconds(1);
 
 		// Notify time update
 		notifyChange();
