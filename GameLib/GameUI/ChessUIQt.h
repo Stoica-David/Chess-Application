@@ -50,6 +50,7 @@ private:
     void UpdateHistory();
     void UpdateCaptured(EColor color);
     void UpdateBoard(const PairMatrix& newBoard);
+    void UpdateTimer();
 
     //Button related methods
     bool eventFilter(QObject* obj, QEvent* event);
@@ -75,6 +76,7 @@ private slots:
     void OnRestartButtonClicked();
     void OnDrawButtonClicked();
     void OnHistoryClicked(QListWidgetItem* item);
+    void OnTimerChange();
 
 private:
     Ui::ChessUIQtClass ui;

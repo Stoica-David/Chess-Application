@@ -2,8 +2,9 @@
 
 #include "GameExceptions.h"
 #include "FENException.h"
-
 #include "FileUtils.h"
+
+#include <functional>
 
 static char LastChar(const String& string)
 {
@@ -273,6 +274,9 @@ void Game::LoadPGN(const String& filePath)
 void Game::AddListener(IGameListenerPtr newListener)
 {
 	m_listeners.push_back(newListener);
+
+	m_whiteTimer.SetNotifyChange(std::bind(&Game::NotifyTimerChange, this));
+	m_blackTimer.SetNotifyChange(std::bind(&Game::NotifyTimerChange, this));
 }
 
 void Game::RemoveListener(IGameListener* listener)
@@ -362,6 +366,16 @@ PieceMap Game::GetPiecesLeft(EColor color)const
 	return leftPieces;
 }
 
+const Timer& Game::GetTimer(EColor color) const
+{
+	if (color == EColor::White)
+	{
+		return m_whiteTimer;
+	}
+	
+	return m_blackTimer;
+}
+
 PiecesPtr Game::GetPiece(Position p) const
 {
 	return m_gameboard.at(p);
@@ -434,6 +448,17 @@ void Game::NotifyCaptured(EPieceType type, EColor color)
 		if (auto sp = x.lock())
 		{
 			sp->OnPieceCapture(type, color);
+		}
+	}
+}
+
+void Game::NotifyTimerChange()
+{
+	for (const auto& x : m_listeners)
+	{
+		if (auto sp = x.lock())
+		{
+			sp->OnTimerChange();
 		}
 	}
 }

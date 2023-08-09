@@ -5,33 +5,22 @@
 #include <atomic>
 #include <mutex>
 #include <condition_variable>
+#include <functional>
 
 using namespace std::chrono_literals;
 
 class Timer
 {
 public:
-	Timer();
+	Timer(int total_minutes);
+	Timer(const Timer&) = default;
+
 	~Timer();
-
-	/*
-	void Reset() {
-		start_time = std::chrono::high_resolution_clock::now();
-	}
-
-	double ElapsedMilliseconds() const {
-		auto end_time = std::chrono::high_resolution_clock::now();
-		auto elapsed_time = std::chrono::duration_cast<std::chrono::milliseconds>(end_time - start_time);
-		return static_cast<double>(elapsed_time.count());
-	}
-
-	double ElapsedSeconds() const {
-		return ElapsedMilliseconds() / 1000.0;
-	}
-	*/
 
 	void StartTimer();
 	void StopTimer();
+
+	void SetNotifyChange(std::function<void()> newFunc);
 
 	bool IsTimeExpired() const;
 
@@ -50,4 +39,5 @@ private:
 	std::chrono::steady_clock::time_point start_time;
 	std::chrono::duration<int> remaining_time;
 	std::chrono::steady_clock::time_point end_time;
+	std::function<void()> notifyChange;
 };

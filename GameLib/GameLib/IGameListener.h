@@ -17,6 +17,8 @@ public:
 
 	virtual void OnPieceCapture(EPieceType, EColor) = 0;
 
+	virtual void OnTimerChange() = 0;
+
 	virtual ~IGameListener() = default;
 };
 

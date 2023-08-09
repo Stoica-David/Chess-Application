@@ -1,6 +1,6 @@
 #include "Timer.h"
 
-Timer::Timer() : running(false), timeLeft(600)
+Timer::Timer(int totalMinutes) : running(false), remaining_time(totalMinutes * 60)
 {
 }
 
@@ -18,12 +18,26 @@ Timer::~Timer()
 void Timer::StartTimer()
 {
 	start_time = std::chrono::steady_clock::now();
+
+	running = true;
+
+	cv.notify_all();
+
+	thread = std::thread(&Timer::Run, this);
 }
 
 void Timer::StopTimer()
 {
+	running = false;
+
+	cv.notify_all();
+
 	end_time = std::chrono::steady_clock::now();
-	remaining_time -= std::chrono::duration_cast<std::chrono::seconds>(end_time - start_time);
+}
+
+void Timer::SetNotifyChange(std::function<void()> newFunc)
+{
+	notifyChange = newFunc;
 }
 
 bool Timer::IsTimeExpired() const
@@ -48,6 +62,9 @@ void Timer::Run()
 		std::unique_lock lk(mutex);
 		cv.wait_for(lk, 200ms, [&] { return !running; });
 
+		remaining_time -= std::chrono::duration_cast<std::chrono::seconds>(end_time - start_time);
+
 		// Notify time update
+		notifyChange();
 	}
 }

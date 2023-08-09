@@ -2,6 +2,7 @@
 
 #include "Position.h"
 #include "IPieceInfo.h"
+#include "Timer.h"
 
 #include <unordered_map>
 
@@ -24,4 +25,5 @@ public:
 	virtual MoveVector GetHistory() const = 0;
 	virtual IPieceInfoPtr GetPieceInfo(Position) const = 0;
 	virtual PieceMap GetPiecesLeft(EColor) const = 0;
+	virtual const Timer& GetTimer(EColor) const = 0;
 };

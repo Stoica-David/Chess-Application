@@ -44,6 +44,7 @@ public:
 	MoveVector GetHistory()const override;
 	IPieceInfoPtr GetPieceInfo(Position) const override;
 	PieceMap GetPiecesLeft(EColor)const override;
+	const Timer& GetTimer(EColor color) const override;
 
 	void Save(EFileFormat format, const String& file) const override;
 	void Load(EFileFormat format, const String& file) override;
@@ -63,6 +64,7 @@ private:
 	void NotifyCheck();
 	void NotifyRestart();
 	void NotifyCaptured(EPieceType type, EColor color);
+	void NotifyTimerChange();
 
 	// Other methods
 	void SwitchTurn();

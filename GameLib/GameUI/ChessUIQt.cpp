@@ -460,13 +460,13 @@ void ChessUIQt::InitializeTimers(QGridLayout* mainGridLayout)
 	QGridLayout* timerGrid = new QGridLayout();
 
 	QLabel* blackTimerLbl = new QLabel("Black timer: ");
-	m_blackTimer = new QLabel("00:00");
+	m_blackTimer = new QLabel("10:00");
 
 	QPushButton* pauseTimerBtn = new QPushButton(" Pause | Resume");
 	//TODO Create slot and connect button
 
 	QLabel* whiteTimerLbl = new QLabel("    White timer: ");
-	m_whiteTimer = new QLabel("00:00");
+	m_whiteTimer = new QLabel("10:00");
 
 	timerContainer->setFixedWidth(400);
 
@@ -673,6 +673,11 @@ void ChessUIQt::UpdateBoard(const PairMatrix& newBoard)
 			m_grid[i][j]->SetHighlighted(false);
 		}
 	}
+}
+
+void ChessUIQt::UpdateTimer()
+{
+	OnTimerChange();
 }
 
 bool ChessUIQt::eventFilter(QObject* obj, QEvent* event)
@@ -997,4 +1002,63 @@ void ChessUIQt::OnHistoryClicked(QListWidgetItem* item)
 	auto status = m_game->GetStatus();
 
 	index != status->GetHistory().size() - 1 ? MakeButtonsUnselectable() : MakeButtonsSelectable();
+}
+
+void ChessUIQt::OnTimerChange()
+{
+	auto status = m_game->GetStatus();
+
+	const Timer& wTimer = status->GetTimer(EColor::White);
+	const Timer& bTimer = status->GetTimer(EColor::Black);
+
+	int seconds, minutes;
+
+	if (status->GetTurn() == EColor::White)
+	{
+		seconds = wTimer.GetSeconds();
+		minutes = wTimer.GetMinutes();
+	}
+	else
+	{
+		seconds = bTimer.GetSeconds();
+		minutes = bTimer.GetMinutes();
+	}
+
+	String minutesStr;
+	String secondStr;
+
+	if (minutes == 10)
+	{
+		minutesStr = "10";
+	}
+	else
+	{
+		minutesStr.push_back('0');
+		minutesStr.push_back(minutes + '0');
+	}
+
+	while (seconds)
+	{
+		char zecimal;
+		char unit = seconds % 10 + '0';
+
+		if (seconds > 9)
+		{
+			zecimal = seconds % 100 + '0';
+			secondStr.push_back(zecimal);
+		}
+		else
+		{
+			secondStr.push_back('0');
+		}
+
+		secondStr.push_back(unit);
+	}
+
+	String time = minutesStr + ":" + secondStr;
+
+	if (minutes > 9 && seconds > 9)
+		m_blackTimer = new QLabel(QString::fromStdString(time));
+
+	m_blackTimer = new QLabel("00:00");
 }
