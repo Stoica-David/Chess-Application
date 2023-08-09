@@ -30,6 +30,7 @@ Game::Game()
 	, m_state(EState::Playing)
 	, m_initialState(EState::Playing)
 {
+	m_whiteTimer.Start(600);
 }
 
 Game::Game(const Board& b, EColor color /*=EColor::White*/)
@@ -38,6 +39,7 @@ Game::Game(const Board& b, EColor color /*=EColor::White*/)
 	, m_state(EState::Playing)
 	, m_initialState(EState::Playing)
 {
+	m_whiteTimer.Start(600);
 }
 
 Game::Game(const CharMatrix& matrix, EColor color, EState state)
@@ -46,6 +48,7 @@ Game::Game(const CharMatrix& matrix, EColor color, EState state)
 	, m_initialState(state)
 	, m_gameboard(matrix)
 {
+	m_whiteTimer.Start(600);
 }
 
 void Game::Restart()
@@ -433,11 +436,15 @@ void Game::SwitchTurn()
 {
 	if (m_turn == EColor::White)
 	{
+		m_whiteTimer.Stop();
 		m_turn = EColor::Black;
+		m_blackTimer.Start(m_blackTimer.GetTimeLeft());
 	}
 	else
 	{
+		m_blackTimer.Stop();
 		m_turn = EColor::White;
+		m_whiteTimer.Start(m_whiteTimer.GetTimeLeft());
 	}
 }
 

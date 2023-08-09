@@ -4,6 +4,7 @@
 #include "Board.h"
 #include "PGNHandler.h"
 #include "EState.h"
+#include "Timer.h"
 
 using ListenersList = std::vector<IGameListenerWeakPtr>;
 using CharMatrix = std::array<std::array<char, 8>, 8>;
@@ -75,6 +76,9 @@ private:
 	Board m_gameboard;
 
 	EColor m_turn;
+
+	Timer m_whiteTimer;
+	Timer m_blackTimer;
 
 	EState m_state;
 	EState m_initialState;
