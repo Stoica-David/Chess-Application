@@ -1,5 +1,7 @@
 #include "ChessUIQt.h"
 #include <QtWidgets/QApplication>
+#include <QInputDialog>
+#include <QMessageBox>
 
 int main(int argc, char *argv[])
 {
@@ -7,18 +9,12 @@ int main(int argc, char *argv[])
     a.setWindowIcon(QIcon("res/greg.png"));
     std::shared_ptr<ChessUIQt> w = std::make_shared<ChessUIQt>();
 
-	auto game = IGame::Produce();
-
-    game->AddListener(w);
-
-    w->SetGame(game);
-    w->StartGame();
-
     w->Show();
+    w->PopUp();
 
     auto result = a.exec();
 
-    game->RemoveListener(w.get());
+    w->GetGame()->RemoveListener(w.get());
 
     return result;
 }

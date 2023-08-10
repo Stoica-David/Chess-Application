@@ -263,6 +263,41 @@ void ChessUIQt::Show()
 	CenterOnScreen();
 }
 
+IGamePtr ChessUIQt::GetGame() const
+{
+	return m_game;
+}
+
+void ChessUIQt::PopUp()
+{
+	QList<QString> timerOptions;
+	timerOptions.append("Yes");
+	timerOptions.append("No");
+
+	QInputDialog dialog;
+	dialog.setComboBoxItems(timerOptions);
+	dialog.setModal(true);
+
+	bool ok;
+	QString item = QInputDialog::getItem(this, tr("Pawn promote"),
+		tr("Do you want a timer? "), timerOptions, 0, false, &ok);
+
+
+	if (ok && !item.isEmpty())
+	{
+		if (item == "Yes")
+		{
+			m_game = IGame::Produce(true);
+
+		}
+
+			m_game->AddListener(shared_from_this());
+
+			StartGame();
+			
+	}
+}
+
 void ChessUIQt::OnMove()
 {
 	UpdateBoard(GetBoard());

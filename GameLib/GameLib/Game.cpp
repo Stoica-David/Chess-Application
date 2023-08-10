@@ -17,43 +17,62 @@ static char LastChar(const String& string)
 	return ' ';
 }
 
-IGamePtr IGame::Produce()
+IGamePtr IGame::Produce(bool wantTimer)
 {
-	return std::make_shared<Game>();
+	if (wantTimer)
+	{
+		return std::make_shared<Game>(wantTimer);
+	}
+	else
+	{
+		return std::make_shared<Game>();
+	}
 }
 
 // Class methods
 
-Game::Game()
+Game::Game(bool wantTimer)
 	: m_turn(EColor::White)
 	, m_state(EState::Playing)
 	, m_initialState(EState::Playing)
 	, m_whiteTimer(10)
 	, m_blackTimer(10)
+	, m_wantTimer(wantTimer)
 {
-	m_whiteTimer.StartTimer();
+	if (wantTimer)
+	{
+		m_whiteTimer.StartTimer();
+	}
 }
 
-Game::Game(const Board& b, EColor color /*=EColor::White*/)
+Game::Game(const Board& b, EColor color /*=EColor::White*/, bool wantTimer)
 	: m_turn(color)
 	, m_gameboard(b)
 	, m_state(EState::Playing)
 	, m_initialState(EState::Playing)
 	, m_whiteTimer(10)
 	, m_blackTimer(10)
+	, m_wantTimer(wantTimer)
 {
-	m_whiteTimer.StartTimer();
+	if (wantTimer)
+	{
+		m_whiteTimer.StartTimer();
+	}
 }
 
-Game::Game(const CharMatrix& matrix, EColor color, EState state)
+Game::Game(const CharMatrix& matrix, EColor color, EState state, bool wantTimer)
 	: m_turn(color)
 	, m_state(state)
 	, m_initialState(state)
 	, m_gameboard(matrix)
 	, m_whiteTimer(10)
 	, m_blackTimer(10)
+	, m_wantTimer(wantTimer)
 {
-	m_whiteTimer.StartTimer();
+	if (wantTimer)
+	{
+		m_whiteTimer.StartTimer();
+	}
 }
 
 void Game::Restart()
@@ -65,10 +84,13 @@ void Game::Restart()
 
 	m_PGN.Clear();
 
-	m_whiteTimer.RestartTimer();
-	m_blackTimer.RestartTimer();
+	if (m_wantTimer)
+	{
+		m_whiteTimer.RestartTimer();
+		m_blackTimer.RestartTimer();
 
-	m_whiteTimer.StartTimer();
+		m_whiteTimer.StartTimer();
+	}
 
 	NotifyRestart();
 }
@@ -151,7 +173,7 @@ void Game::DrawResponse(bool draw)
 void Game::PromoteTo(EPieceType pieceType)
 {
 	m_gameboard.PromoteTo(pieceType, m_turn);
-	
+
 	m_PGN.Append(m_gameboard.GenerateInitial(pieceType));
 
 	UpdateState(EState::Playing);
@@ -381,7 +403,7 @@ const Timer& Game::GetTimer(EColor color) const
 	{
 		return m_whiteTimer;
 	}
-	
+
 	return m_blackTimer;
 }
 
@@ -487,15 +509,21 @@ void Game::SwitchTurn()
 {
 	if (m_turn == EColor::White)
 	{
-		m_whiteTimer.StopTimer();
+		if (m_wantTimer)
+		{
+			m_whiteTimer.StopTimer();
+			m_blackTimer.StartTimer();
+		}
 		m_turn = EColor::Black;
-		m_blackTimer.StartTimer();
 	}
 	else
 	{
-		m_blackTimer.StopTimer();
+		if (m_wantTimer)
+		{
+			m_blackTimer.StopTimer();
+			m_whiteTimer.StartTimer();
+		}
 		m_turn = EColor::White;
-		m_whiteTimer.StartTimer();
 	}
 }
 

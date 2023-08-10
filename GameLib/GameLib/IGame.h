@@ -20,7 +20,7 @@ enum class EFileFormat
 class IGame
 {
 public:
-	static IGamePtr Produce();
+	static IGamePtr Produce(bool wantTimer = false);
 
 	virtual ~IGame() = default;
 

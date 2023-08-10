@@ -13,9 +13,9 @@ class Game : public IGame, public IGameStatus
 {
 public:
 	// Constructor
-	Game();
-	Game(const Board& b, EColor color = EColor::White);
-	Game(const CharMatrix& matrix, EColor color = EColor::White, EState state = EState::Playing);
+	Game(bool wantTimer = false);
+	Game(const Board& b, EColor color = EColor::White, bool wantTimer = false);
+	Game(const CharMatrix& matrix, EColor color = EColor::White, EState state = EState::Playing, bool wantTimer = false);
 
 	~Game() {}
 	
@@ -90,4 +90,6 @@ private:
 	ListenersList m_listeners;
 	
 	PGNHandler m_PGN;
+
+	bool m_wantTimer;
 };

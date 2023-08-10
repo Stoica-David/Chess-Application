@@ -14,11 +14,12 @@
 #include <QApplication>
 #include <QtGlobal>
 #include <utility>
+#include <memory>
 
 using PieceTypeColor = std::pair<PieceType, PieceColor>;
 using PairMatrix = std::array<std::array<PieceTypeColor, 8>, 8>;
 
-class ChessUIQt : public QMainWindow, public IGameListener
+class ChessUIQt : public QMainWindow, public IGameListener, public std::enable_shared_from_this<ChessUIQt>
 {
     Q_OBJECT
 
@@ -30,6 +31,9 @@ public:
     void StartGame();
 
     void Show();
+    IGamePtr GetGame() const;
+
+    void PopUp();
 
 private:
     // IGameListener methods
