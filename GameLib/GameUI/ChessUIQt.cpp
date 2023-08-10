@@ -817,6 +817,11 @@ void ChessUIQt::ClearPieces()
 	m_blackCapturedPiecesList->clear();
 }
 
+void ChessUIQt::RunMethod(std::function<void(void)> func)
+{
+	QMetaObject::invokeMethod(this, func, Qt::QueuedConnection);
+}
+
 void ChessUIQt::GridButtonClicked(Position position)
 {
 	auto status = m_game->GetStatus();
@@ -979,6 +984,7 @@ void ChessUIQt::OnLoadButtonClicked()
 void ChessUIQt::OnRestartButtonClicked()
 {
 	m_game->Restart();
+	OnTimerChange();
 }
 
 void ChessUIQt::OnDrawButtonClicked()
@@ -1058,14 +1064,14 @@ void ChessUIQt::OnTimerChange()
 
 	String time = minutesStr + ":" + secondStr;
 
-	RunMethod([&, status, time](){
-			if (status->GetTurn() == EColor::White)
-			{
-				m_whiteTimer->setText(QString::fromStdString(time));
-			}
-			else
-			{
-				m_blackTimer->setText(QString::fromStdString(time));
-			}
+	RunMethod([&, status, time]() {
+		if (status->GetTurn() == EColor::White)
+		{
+			m_whiteTimer->setText(QString::fromStdString(time));
+		}
+		else
+		{
+			m_blackTimer->setText(QString::fromStdString(time));
+		}
 		});
 }

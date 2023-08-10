@@ -70,10 +70,7 @@ private:
     void ShowPromoteOptions();
     void ClearPieces();
 
-    void RunMethod(std::function<void(void)> func)
-    {
-		QMetaObject::invokeMethod( this, func, Qt::QueuedConnection );
-    }
+    void RunMethod(std::function<void(void)> func);
 
 private slots:
     void GridButtonClicked(Position position);
