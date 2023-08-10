@@ -83,9 +83,7 @@ void Timer::Run()
 
 		if (IsTimeExpired())
 		{
-			notifyChange();
 			StopTimer();
-			break;
 		}
 
 		// Notify time update
