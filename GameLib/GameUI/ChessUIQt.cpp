@@ -288,13 +288,17 @@ void ChessUIQt::PopUp()
 		if (item == "Yes")
 		{
 			m_game = IGame::Produce(true);
-
+			pauseTimerBtn->setEnabled(true);
+		}
+		else
+		{
+			m_game = IGame::Produce();
+			pauseTimerBtn->setEnabled(false);
 		}
 
-			m_game->AddListener(shared_from_this());
+		m_game->AddListener(shared_from_this());
 
-			StartGame();
-			
+		StartGame();	
 	}
 }
 
@@ -370,6 +374,7 @@ void ChessUIQt::OnRestart()
 	m_blackTimer->setText("10:00");
 
 	StartGame();
+	PopUp();
 }
 
 void ChessUIQt::OnPieceCapture(EPieceType pieceType, EColor pieceColor)
@@ -1014,28 +1019,20 @@ void ChessUIQt::OnPauseButtonClicked()
 	if (status->IsFrozen())
 	{
 		UpdateTimer();
-		m_game->ResumeGame();
-		
+		m_game->ResumeGame();		
+		pauseTimerBtn->setText(" Pause ");
 	}
 	else if(status->IsPlaying())
 	{
 		UpdateTimer();
 		m_game->PauseGame();
+		pauseTimerBtn->setText(" Resume ");
 	}
 }
 
 void ChessUIQt::OnTimerChange()
 {
 	auto status = m_game->GetStatus();
-
-	if (status->IsFrozen())
-	{
-		pauseTimerBtn->setText(" Resume ");
-	}
-	else if (status->IsPlaying())
-	{
-		pauseTimerBtn->setText(" Pause ");
-	}
 
 	const Timer& wTimer = status->GetTimer(EColor::White);
 	const Timer& bTimer = status->GetTimer(EColor::Black);
