@@ -330,6 +330,9 @@ void ChessUIQt::OnRestart()
 	ClearPieces();
 	m_movesList->setEditTriggers(QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked);
 
+	m_whiteTimer->setText("10:00");
+	m_blackTimer->setText("10:00");
+
 	StartGame();
 }
 

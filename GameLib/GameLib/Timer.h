@@ -19,7 +19,7 @@ public:
 
 	void StartTimer();
 	void StopTimer();
-
+	void RestartTimer();
 	void SetNotifyChange(std::function<void()> newFunc);
 
 	bool IsTimeExpired() const;

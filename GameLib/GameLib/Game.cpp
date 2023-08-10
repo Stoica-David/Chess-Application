@@ -67,6 +67,12 @@ void Game::Restart()
 
 	m_PGN.Clear();
 
+	m_whiteTimer.RestartTimer();
+	m_blackTimer.RestartTimer();
+	
+	m_blackTimer.StopTimer();
+	m_whiteTimer.StartTimer();
+
 	NotifyRestart();
 }
 
@@ -109,16 +115,22 @@ void Game::Move(Position p1, Position p2)
 		{
 			UpdateState(EState::BlackWon);
 			NotifyGameOver(EOverState::BlackWon);
+			m_whiteTimer.StopTimer();
+			m_blackTimer.StopTimer();
 		}
 		else if (Stalemate() || m_gameboard.IsDraw() || m_gameboard.Is3Fold() || IsDraw())
 		{
 			UpdateState(EState::Draw);
 			NotifyGameOver(EOverState::Draw);
+			m_whiteTimer.StopTimer();
+			m_blackTimer.StopTimer();
 		}
 		else if (m_gameboard.IsOver(EColor::Black))
 		{
 			UpdateState(EState::WhiteWon);
 			NotifyGameOver(EOverState::WhiteWon);
+			m_whiteTimer.StopTimer();
+			m_blackTimer.StopTimer();
 		}
 		else if (m_gameboard.IsCheck(m_gameboard.FindKing(m_turn), m_turn))
 		{

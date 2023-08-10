@@ -10,7 +10,8 @@ Timer::~Timer()
 
 	cv.notify_one();
 
-	if (thread.joinable()) {
+	if (thread.joinable())
+	{
 		thread.join();
 	}
 }
@@ -21,7 +22,8 @@ void Timer::StartTimer()
 
 	cv.notify_all();
 
-	thread = std::thread(&Timer::Run, this);
+	if(!thread.joinable())
+		thread = std::thread(&Timer::Run, this);
 }
 
 void Timer::StopTimer()
@@ -30,7 +32,15 @@ void Timer::StopTimer()
 
 	cv.notify_all();
 
-	thread.join();
+	if (thread.joinable())
+	{
+		thread.join();
+	}
+}
+
+void Timer::RestartTimer()
+{
+	remaining_time = std::chrono::seconds(600);
 }
 
 void Timer::SetNotifyChange(std::function<void()> newFunc)
