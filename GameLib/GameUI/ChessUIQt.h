@@ -11,6 +11,9 @@
 #include <QPushButton>
 #include <QLabel>
 #include <QListWidget>
+#include <QApplication>
+#include <QtGlobal>
+#include <utility>
 
 using PieceTypeColor = std::pair<PieceType, PieceColor>;
 using PairMatrix = std::array<std::array<PieceTypeColor, 8>, 8>;
@@ -66,6 +69,11 @@ private:
     void CenterOnScreen();
     void ShowPromoteOptions();
     void ClearPieces();
+
+    void RunMethod(std::function<void(void)> func)
+    {
+		QMetaObject::invokeMethod( this, func, Qt::QueuedConnection );
+    }
 
 private slots:
     void GridButtonClicked(Position position);

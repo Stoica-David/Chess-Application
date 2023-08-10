@@ -19,6 +19,7 @@ public:
 
 	void StartTimer();
 	void StopTimer();
+	void PauseTimer();
 	void RestartTimer();
 	void SetNotifyChange(std::function<void()> newFunc);
 
@@ -38,4 +39,6 @@ private:
 
 	std::chrono::duration<int> remaining_time;
 	std::function<void()> notifyChange;
+
+	bool m_bSuspended;
 };

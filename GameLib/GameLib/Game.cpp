@@ -15,8 +15,6 @@ static char LastChar(const String& string)
 	}
 
 	return ' ';
-
-	/*return string.find_last_not_of();*/
 }
 
 IGamePtr IGame::Produce()
@@ -69,8 +67,7 @@ void Game::Restart()
 
 	m_whiteTimer.RestartTimer();
 	m_blackTimer.RestartTimer();
-	
-	m_blackTimer.StopTimer();
+
 	m_whiteTimer.StartTimer();
 
 	NotifyRestart();
@@ -148,7 +145,7 @@ void Game::ProposeDraw()
 
 void Game::DrawResponse(bool draw)
 {
-	m_state = draw ? EState::Draw : EState::Playing;
+	m_state = draw ? m_whiteTimer.StopTimer(), m_blackTimer.StopTimer(), EState::Draw : EState::Playing;
 }
 
 void Game::PromoteTo(EPieceType pieceType)
@@ -466,6 +463,17 @@ void Game::NotifyCaptured(EPieceType type, EColor color)
 
 void Game::NotifyTimerChange()
 {
+	if (m_whiteTimer.IsTimeExpired())
+	{
+		UpdateState(EState::BlackWon);
+		NotifyGameOver(EOverState::BlackWon);
+	}
+	else if (m_blackTimer.IsTimeExpired())
+	{
+		UpdateState(EState::WhiteWon);
+		NotifyGameOver(EOverState::WhiteWon);
+	}
+
 	for (const auto& x : m_listeners)
 	{
 		if (auto sp = x.lock())

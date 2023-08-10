@@ -274,29 +274,30 @@ void ChessUIQt::OnMove()
 
 void ChessUIQt::OnGameOver(EOverState state)
 {
-	if (state == EOverState::WhiteWon)
-	{
-		QMessageBox::information(this, "End!", " White player won!");
+	RunMethod([&, state]() {
+		if (state == EOverState::WhiteWon)
+		{
+			QMessageBox::information(this, "End!", " White player won!");
 
-		m_messageLabel->setText("White player won!");
-	}
-	else if (state == EOverState::BlackWon)
-	{
-		QMessageBox::information(this, "End!", " Black player won!");
+			m_messageLabel->setText("White player won!");
+		}
+		else if (state == EOverState::BlackWon)
+		{
+			QMessageBox::information(this, "End!", " Black player won!");
 
-		m_messageLabel->setText("Black player won!");
-	}
-	else if (state == EOverState::Draw)
-	{
-		m_game->DrawResponse(true);
+			m_messageLabel->setText("Black player won!");
+		}
+		else if (state == EOverState::Draw)
+		{
+			m_game->DrawResponse(true);
 
-		QMessageBox::information(this, "Draw!", " The game concluded as a draw!");
+			QMessageBox::information(this, "Draw!", " The game concluded as a draw!");
 
-		m_messageLabel->setText("Draw!");
-	}
+			m_messageLabel->setText("Draw!");
+		}
 
-	m_exceptionLabel->setText("");
-	//m_movesList->setEditTriggers(QAbstractItemView::NoEditTriggers);
+		m_exceptionLabel->setText("");
+		});
 }
 
 void ChessUIQt::OnChoosePiece()
@@ -1057,12 +1058,14 @@ void ChessUIQt::OnTimerChange()
 
 	String time = minutesStr + ":" + secondStr;
 
-	if (status->GetTurn() == EColor::White)
-	{
-		m_whiteTimer->setText(QString::fromStdString(time));
-	}
-	else
-	{
-		m_blackTimer->setText(QString::fromStdString(time));
-	}
+	RunMethod([&, status, time](){
+			if (status->GetTurn() == EColor::White)
+			{
+				m_whiteTimer->setText(QString::fromStdString(time));
+			}
+			else
+			{
+				m_blackTimer->setText(QString::fromStdString(time));
+			}
+		});
 }
