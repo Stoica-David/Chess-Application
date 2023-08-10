@@ -36,6 +36,7 @@ public:
 	bool IsCheck() const override;
 	bool IsPromoting() const override;
 	bool IsFrozen() const override;
+	bool IsPlaying() const override;
 
 	const IGameStatus* GetStatus() const override;
 
@@ -49,12 +50,17 @@ public:
 	void Save(EFileFormat format, const String& file) const override;
 	void Load(EFileFormat format, const String& file) override;
 
+	void PauseGame() override;
+	void ResumeGame() override;
+
 	void ShowConfiguration(int confNr);
 
 	//Other methods
 	PiecesPtr GetPiece(Position) const;
 
 	bool Stalemate() const;
+
+	void UpdateState(EState);
 
 private:
 	// Observer methods
@@ -68,7 +74,6 @@ private:
 
 	// Other methods
 	void SwitchTurn();
-	void UpdateState(EState);
 
 	void SaveFEN(const String& file) const;
 	void LoadFEN(const String& file);

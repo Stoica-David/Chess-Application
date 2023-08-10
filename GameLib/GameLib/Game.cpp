@@ -207,6 +207,29 @@ void Game::Load(EFileFormat format, const String& file)
 	}
 }
 
+void Game::PauseGame()
+{
+	UpdateState(EState::Frozen);
+	if (m_turn == EColor::White)
+		m_whiteTimer.StopTimer();
+	else
+		m_blackTimer.StopTimer();
+	NotifyTimerChange();
+}
+
+void Game::ResumeGame()
+{
+	UpdateState(EState::Playing);
+	if (m_turn == EColor::White)
+	{
+		m_whiteTimer.StartTimer();
+	}
+	else
+	{
+		m_blackTimer.StartTimer();
+	}
+}
+
 void Game::ShowConfiguration(int confNr)
 {
 	ChessBoard currBoard = m_gameboard.ConvertBitset(confNr);
@@ -325,6 +348,11 @@ void Game::RemoveListener(IGameListener* listener)
 bool Game::IsFrozen() const
 {
 	return m_state == EState::Frozen;
+}
+
+bool Game::IsPlaying() const
+{
+	return m_state == EState::Playing;
 }
 
 const IGameStatus* Game::GetStatus() const

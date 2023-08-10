@@ -85,6 +85,7 @@ private slots:
     void OnRestartButtonClicked();
     void OnDrawButtonClicked();
     void OnHistoryClicked(QListWidgetItem* item);
+    void OnPauseButtonClicked();
     void OnTimerChange();
 
 private:
@@ -96,6 +97,7 @@ private:
     
     QPushButton* m_closeButton;
     QPushButton* m_minimizeButton;
+    QPushButton* pauseTimerBtn;
     
     QLabel* m_messageLabel;
     QLabel* m_exceptionLabel;

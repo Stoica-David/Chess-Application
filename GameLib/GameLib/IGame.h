@@ -42,4 +42,8 @@ public:
 	// Save/Load functionality
 	virtual void Save(EFileFormat format, const String& file) const = 0;
 	virtual void Load(EFileFormat format, const String& file) = 0;
+
+	//Timer functionality
+	virtual void PauseGame() = 0;
+	virtual void ResumeGame() = 0;
 };

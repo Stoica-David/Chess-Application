@@ -457,7 +457,9 @@ void ChessUIQt::InitializeTimers(QGridLayout* mainGridLayout)
 	QLabel* blackTimerLbl = new QLabel("Black timer: ");
 	m_blackTimer = new QLabel("10:00");
 
-	QPushButton* pauseTimerBtn = new QPushButton(" Pause | Resume");
+	pauseTimerBtn = new QPushButton("  Pause  ");
+
+	connect(pauseTimerBtn, &QPushButton::pressed, this, &ChessUIQt::OnPauseButtonClicked);
 	//TODO Create slot and connect button
 
 	QLabel* whiteTimerLbl = new QLabel("    White timer: ");
@@ -1005,9 +1007,35 @@ void ChessUIQt::OnHistoryClicked(QListWidgetItem* item)
 	index != status->GetHistory().size() - 1 ? MakeButtonsUnselectable() : MakeButtonsSelectable();
 }
 
+void ChessUIQt::OnPauseButtonClicked()
+{
+	auto status = m_game->GetStatus();
+
+	if (status->IsFrozen())
+	{
+		UpdateTimer();
+		m_game->ResumeGame();
+		
+	}
+	else if(status->IsPlaying())
+	{
+		UpdateTimer();
+		m_game->PauseGame();
+	}
+}
+
 void ChessUIQt::OnTimerChange()
 {
 	auto status = m_game->GetStatus();
+
+	if (status->IsFrozen())
+	{
+		pauseTimerBtn->setText(" Resume ");
+	}
+	else if (status->IsPlaying())
+	{
+		pauseTimerBtn->setText(" Pause ");
+	}
 
 	const Timer& wTimer = status->GetTimer(EColor::White);
 	const Timer& bTimer = status->GetTimer(EColor::Black);
