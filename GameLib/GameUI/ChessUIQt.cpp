@@ -11,6 +11,7 @@
 #include <QFileInfo>
 #include <QMouseEvent>
 #include <QClipboard>
+#include <QApplication>
 #include <QIcon>
 #include <QEvent>
 #include <unordered_set>
@@ -275,11 +276,12 @@ void ChessUIQt::PopUp()
 	timerOptions.append("No");
 
 	QInputDialog dialog;
+	dialog.setOption(QInputDialog::NoButtons);
 	dialog.setComboBoxItems(timerOptions);
 	dialog.setModal(true);
 
 	bool ok;
-	QString item = QInputDialog::getItem(this, tr("Pawn promote"),
+	QString item = QInputDialog::getItem(this, tr("Timer"),
 		tr("Do you want a timer? "), timerOptions, 0, false, &ok);
 
 
@@ -297,8 +299,14 @@ void ChessUIQt::PopUp()
 		}
 
 		m_game->AddListener(shared_from_this());
-
-		StartGame();	
+		StartGame();
+	}
+	else
+	{
+		m_game = IGame::Produce();
+		pauseTimerBtn->setEnabled(false);
+		m_game->AddListener(shared_from_this());
+		StartGame();
 	}
 }
 
