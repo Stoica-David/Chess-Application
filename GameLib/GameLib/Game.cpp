@@ -211,10 +211,13 @@ void Game::PauseGame()
 {
 	UpdateState(EState::Frozen);
 	if (m_turn == EColor::White)
+	{
 		m_whiteTimer.StopTimer();
+	}
 	else
+	{
 		m_blackTimer.StopTimer();
-	NotifyTimerChange();
+	}
 }
 
 void Game::ResumeGame()
