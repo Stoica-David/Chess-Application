@@ -468,7 +468,7 @@ void ChessUIQt::InitializeTimers(QGridLayout* mainGridLayout)
 	QGridLayout* timerGrid = new QGridLayout();
 
 	QLabel* blackTimerLbl = new QLabel("Black timer: ");
-	m_blackTimer = new QLabel("10:00");
+	m_blackTimer = new QLabel("10:00:000");
 
 	pauseTimerBtn = new QPushButton("  Pause  ");
 
@@ -476,7 +476,7 @@ void ChessUIQt::InitializeTimers(QGridLayout* mainGridLayout)
 	//TODO Create slot and connect button
 
 	QLabel* whiteTimerLbl = new QLabel("    White timer: ");
-	m_whiteTimer = new QLabel("10:00");
+	m_whiteTimer = new QLabel("10:00:000");
 
 	timerContainer->setFixedWidth(400);
 

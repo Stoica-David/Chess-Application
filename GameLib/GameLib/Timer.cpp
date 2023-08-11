@@ -2,7 +2,7 @@
 
 Timer::Timer(int totalMinutes) 
 	: running(false)
-	, remaining_time(totalMinutes * 1000)
+	, remaining_time(totalMinutes * 60000)
 	, m_bSuspended( false )
 {
 }

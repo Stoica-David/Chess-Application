@@ -46,7 +46,6 @@ public:
 	IPieceInfoPtr GetPieceInfo(Position) const override;
 
 	PiecesLeftVector GetPiecesLeft(EColor)const override;
-	const Timer& GetTimer(EColor color) const override;
 
 	void Save(EFileFormat format, const String& file) const override;
 	void Load(EFileFormat format, const String& file) override;

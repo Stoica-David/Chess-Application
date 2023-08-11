@@ -35,7 +35,7 @@ Game::Game(bool wantTimer)
 	: m_turn(EColor::White)
 	, m_state(EState::Playing)
 	, m_initialState(EState::Playing)
-	, m_whiteTimer(3)
+	, m_whiteTimer(10)
 	, m_blackTimer(10)
 	, m_wantTimer(wantTimer)
 {
