@@ -286,7 +286,6 @@ void ChessUIQt::PopUp()
 	QString item = QInputDialog::getItem(this, tr("Timer"),
 		tr("Do you want a timer? "), timerOptions, 0, false, &ok);
 
-
 	if (ok && !item.isEmpty())
 	{
 		if (item == "Yes")
@@ -380,11 +379,10 @@ void ChessUIQt::OnRestart()
 	ClearPieces();
 	m_movesList->setEditTriggers(QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked);
 
-	m_whiteTimer->setText("10:00");
-	m_blackTimer->setText("10:00");
+	m_whiteTimer->setText("10:00:000");
+	m_blackTimer->setText("10:00:000");
 
 	StartGame();
-	PopUp();
 }
 
 void ChessUIQt::OnPieceCapture(EPieceType pieceType, EColor pieceColor)
@@ -993,6 +991,8 @@ void ChessUIQt::OnLoadButtonClicked()
 
 void ChessUIQt::OnRestartButtonClicked()
 {
+	m_game->PauseGame();
+	PopUp();
 	m_game->Restart();
 	OnTimerChange();
 }
