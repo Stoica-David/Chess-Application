@@ -23,10 +23,8 @@ public:
 	void RestartTimer();
 	void SetNotifyChange(std::function<void()> newFunc);
 
-	bool IsTimeExpired() const;
+	bool IsTimeExpired();
 
-	int GetSeconds() const;
-	int GetMinutes() const;
 	int GetMs()const;
 
 private:
