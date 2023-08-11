@@ -280,7 +280,7 @@ void ChessUIQt::PopUp()
 	dialog.setComboBoxItems(timerOptions);
 	dialog.setModal(true);
 
-	dialog.setStyleSheet("QComboBox QAbstractItemView { background-color: #DDC9B4; }");
+	dialog.setStyleSheet("QComboBox QAbstractItemView { background-color: #000; }");
 
 	bool ok;
 	QString item = QInputDialog::getItem(this, tr("Timer"),
@@ -467,15 +467,15 @@ void ChessUIQt::InitializeTimers(QGridLayout* mainGridLayout)
 	QWidget* timerContainer = new QWidget();
 	QGridLayout* timerGrid = new QGridLayout();
 
-	QLabel* blackTimerLbl = new QLabel("Black timer: ");
+	QLabel* blackTimerLbl = new QLabel("Black timer:");
 	m_blackTimer = new QLabel("10:00:000");
 
-	pauseTimerBtn = new QPushButton("  Pause  ");
+	pauseTimerBtn = new QPushButton("Pause");
 
 	connect(pauseTimerBtn, &QPushButton::pressed, this, &ChessUIQt::OnPauseButtonClicked);
 	//TODO Create slot and connect button
 
-	QLabel* whiteTimerLbl = new QLabel("    White timer: ");
+	QLabel* whiteTimerLbl = new QLabel("     White timer:");
 	m_whiteTimer = new QLabel("10:00:000");
 	timerContainer->setFixedWidth(400);
 
@@ -1034,13 +1034,13 @@ void ChessUIQt::OnPauseButtonClicked()
 	{
 		UpdateTimer();
 		m_game->ResumeGame();		
-		pauseTimerBtn->setText(" Pause ");
+		pauseTimerBtn->setText("Pause");
 	}
 	else if(status->IsPlaying())
 	{
 		UpdateTimer();
 		m_game->PauseGame();
-		pauseTimerBtn->setText(" Resume ");
+		pauseTimerBtn->setText("Resume");
 	}
 }
 
@@ -1059,7 +1059,7 @@ void ChessUIQt::OnTimerChange()
 	int seconds = ms / 1000;
 	ms %= 1000;
 
-	QString time = QTime(0, minutes, seconds, ms).toString("mm:ss.zzz");
+	QString time = QTime(0, minutes, seconds, ms).toString("mm:ss:zzz");
 
 	RunMethod([&, status, time]() {
 		if (status->GetTurn() == EColor::White)
