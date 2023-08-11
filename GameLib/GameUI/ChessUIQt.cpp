@@ -292,11 +292,15 @@ void ChessUIQt::PopUp()
 		{
 			m_game = IGame::Produce(true);
 			pauseTimerBtn->setEnabled(true);
+			m_whiteTimer->setText("10:00:000");
+			m_blackTimer->setText("10:00:000");
 		}
 		else
 		{
 			m_game = IGame::Produce();
 			pauseTimerBtn->setEnabled(false);
+			m_whiteTimer->setText("N/A");
+			m_blackTimer->setText("N/A");
 		}
 
 		m_game->AddListener(shared_from_this());
@@ -307,6 +311,9 @@ void ChessUIQt::PopUp()
 		m_game = IGame::Produce();
 		pauseTimerBtn->setEnabled(false);
 		m_game->AddListener(shared_from_this());
+
+		m_whiteTimer->setText("N/A");
+		m_blackTimer->setText("N/A");
 		StartGame();
 	}
 }
@@ -394,7 +401,7 @@ void ChessUIQt::OnPieceCapture(EPieceType pieceType, EColor pieceColor)
 
 	static const QString pieces[] = { "r", "h", "b", "q", "k", "p", "empty" };
 
-	QString imagePath = pieceColor == EColor::Black ? "res/b" : "res/w";
+	QString imagePath = pieceColor == EColor::Black ? ":/Images/res/b" : ":/Images/res/w";
 	imagePath.push_back(pieces[(int)pieceType] + ".png");
 
 	QListWidgetItem* capturedPiece = new QListWidgetItem();
@@ -468,7 +475,8 @@ void ChessUIQt::InitializeTimers(QGridLayout* mainGridLayout)
 	QGridLayout* timerGrid = new QGridLayout();
 
 	QLabel* blackTimerLbl = new QLabel("Black timer:");
-	m_blackTimer = new QLabel("10:00:000");
+
+	m_blackTimer = new QLabel("");
 
 	pauseTimerBtn = new QPushButton("Pause");
 
@@ -476,7 +484,9 @@ void ChessUIQt::InitializeTimers(QGridLayout* mainGridLayout)
 	//TODO Create slot and connect button
 
 	QLabel* whiteTimerLbl = new QLabel("     White timer:");
-	m_whiteTimer = new QLabel("10:00:000");
+
+	m_whiteTimer = new QLabel("");
+
 	timerContainer->setFixedWidth(400);
 
 	timerGrid->addWidget(blackTimerLbl, 0, 0);
@@ -536,7 +546,7 @@ void ChessUIQt::InitializeBoard(QGridLayout* mainGridLayout)
 void ChessUIQt::InitializePlayer(QGridLayout* mainGridLayout, EColor color)
 {
 	QString path, name;
-	path = color == EColor::Black ? "res/black.png" : "res/white.png";
+	path = color == EColor::Black ? ":/Images/res/black.png" : ":/Images/res/white.png";
 	name = color == EColor::Black ? "Black" : "White";
 
 	QWidget* player = new QWidget();
@@ -994,9 +1004,9 @@ void ChessUIQt::OnLoadButtonClicked()
 void ChessUIQt::OnRestartButtonClicked()
 {
 	m_game->PauseGame();
-	PopUp();
 	m_game->Restart();
 	OnTimerChange();
+	PopUp();
 }
 
 void ChessUIQt::OnDrawButtonClicked()
@@ -1033,10 +1043,10 @@ void ChessUIQt::OnPauseButtonClicked()
 	if (status->IsFrozen())
 	{
 		UpdateTimer();
-		m_game->ResumeGame();		
+		m_game->ResumeGame();
 		pauseTimerBtn->setText("Pause");
 	}
-	else if(status->IsPlaying())
+	else if (status->IsPlaying())
 	{
 		UpdateTimer();
 		m_game->PauseGame();
