@@ -477,7 +477,6 @@ void ChessUIQt::InitializeTimers(QGridLayout* mainGridLayout)
 
 	QLabel* whiteTimerLbl = new QLabel("    White timer: ");
 	m_whiteTimer = new QLabel("10:00:000");
-
 	timerContainer->setFixedWidth(400);
 
 	timerGrid->addWidget(blackTimerLbl, 0, 0);
@@ -576,8 +575,11 @@ void ChessUIQt::InitializeTabBar(QGridLayout* mainGridLayout)
 	messageLabel->setAlignment(Qt::AlignCenter);
 	messageLabel->setStyleSheet("font-size: 20px; font-weight: bold; color:#7A6C5D");
 
-	QIcon closeIcon("res/close.png");
-	QIcon minimizeIcon("res/minimize.png");
+	QPixmap closeStr(":/Images/res/close.png");
+	QPixmap minimizeStr(":/Images/res/minimize.png");
+
+	QIcon closeIcon(closeStr);
+	QIcon minimizeIcon(minimizeStr);
 
 	m_closeButton = new QPushButton(closeIcon, "", this);
 	m_closeButton->setStyleSheet("background-color: #D2C4B5; color: #7A6C5D; border: none;");

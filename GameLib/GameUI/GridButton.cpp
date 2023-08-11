@@ -6,7 +6,7 @@
 
 void GridButton::UpdatePiece()
 {
-	std::string imagePath = "res/";
+	std::string imagePath = ":/Images/res/";
 
 	switch (m_pieceColor)
 	{

@@ -104,6 +104,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <QtRcc Include="GameUI.qrc" />
+    <QtRcc Include="images.qrc" />
     <QtUic Include="ChessUIQt.ui" />
     <QtUic Include="GameUI.ui" />
     <QtMoc Include="GameUI.h" />
