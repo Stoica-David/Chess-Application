@@ -36,12 +36,12 @@ Board::Board(const Board& newBoard)
 
 PiecesPtr& Board::at(Position p)
 {
-	return m_board[p.x][p.y];
+	return m_board.at(p.x).at(p.y);
 }
 
 const PiecesPtr& Board::at(Position p) const
 {
-	return m_board[p.x][p.y];
+	return m_board.at(p.x).at(p.y);
 }
 
 void Board::Set(const ChessBoard& board)
@@ -301,8 +301,8 @@ bool Board::IsPinned(Position p) const
 	PositionList checkPattern = at(checkPos)->DeterminePattern(checkPos, kingPos);
 
 	bool kingFound = false, currFound = false;
-	
-	for (auto position:checkPattern)
+
+	for (auto position : checkPattern)
 	{
 		if (position == kingPos)
 		{
@@ -410,8 +410,18 @@ void Board::Move(Position p1, Position p2)
 {
 	m_PGN.clear();
 
-	PiecesPtr currPiece = at(p1);
-	PiecesPtr nextPiece = at(p2);
+	PiecesPtr currPiece;
+	PiecesPtr nextPiece;
+
+	try
+	{
+		currPiece = at(p1);
+		nextPiece = at(p2);
+	}
+	catch (...)
+	{
+		throw MoveException("");
+	}
 
 	if (!currPiece)
 	{
@@ -928,7 +938,14 @@ void Board::ParsePGN(StringVector Moves)
 		Position prevPos(fromX, fromY);
 		Position nextPos(toX, toY);
 
-		prevPos = FindPrevPos(nextPos, type, color, prevPos);
+		try
+		{
+			prevPos = FindPrevPos(nextPos, type, color, prevPos);
+		}
+		catch (ChessException exc)
+		{
+			throw PGNException("Can't load PGN properly!");
+		}
 
 		try
 		{
@@ -1747,7 +1764,16 @@ ChessBoard Board::ConvertBitset(int bitsetNr) const
 
 bool Board::IsPrevPos(Position currPos, Position nextPos, EPieceType type, EColor color) const
 {
-	PiecesPtr piece = at(currPos);
+	PiecesPtr piece;
+
+	try
+	{
+		piece = at(currPos);
+	}
+	catch (...)
+	{
+		throw PGNException("");
+	}
 
 	if (piece && piece->Is(type) && piece->GetColor() == color)
 	{

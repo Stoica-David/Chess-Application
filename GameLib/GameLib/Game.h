@@ -45,7 +45,6 @@ public:
 	MoveVector GetHistory()const override;
 	IPieceInfoPtr GetPieceInfo(Position) const override;
 	PieceMap GetPiecesLeft(EColor)const override;
-	const Timer& GetTimer(EColor color) const override;
 
 	void Save(EFileFormat format, const String& file) const override;
 	void Load(EFileFormat format, const String& file) override;
@@ -54,6 +53,8 @@ public:
 	void ResumeGame() override;
 
 	void ShowConfiguration(int confNr);
+
+	int GetMs(EColor color) const override;
 
 	//Other methods
 	PiecesPtr GetPiece(Position) const;

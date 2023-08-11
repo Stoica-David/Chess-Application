@@ -2,7 +2,7 @@
 
 Timer::Timer(int totalMinutes) 
 	: running(false)
-	, remaining_time(totalMinutes * 60)
+	, remaining_time(totalMinutes * 1000)
 	, m_bSuspended( false )
 {
 }
@@ -46,7 +46,7 @@ void Timer::PauseTimer()
 
 void Timer::RestartTimer()
 {
-	remaining_time = std::chrono::seconds(600);
+	remaining_time = std::chrono::milliseconds(600000);
 }
 
 void Timer::SetNotifyChange(std::function<void()> newFunc)
@@ -56,7 +56,7 @@ void Timer::SetNotifyChange(std::function<void()> newFunc)
 
 bool Timer::IsTimeExpired() const
 {
-	return remaining_time == std::chrono::seconds(0);
+	return remaining_time <= std::chrono::seconds(0);
 }
 
 int Timer::GetSeconds() const
@@ -69,17 +69,26 @@ int Timer::GetMinutes() const
 	return remaining_time.count() / 60;
 }
 
+int Timer::GetMs() const
+{
+	return (remaining_time).count();
+}
+
 void Timer::Run()
 {
 	while (running)
 	{
+		auto initial_time = std::chrono::steady_clock::now();
+
 		std::unique_lock lk(mutex);
-		cv.wait_for(lk, 1s, [&] { return !running; });
+		cv.wait_for(lk, 10ms, [&] { return !running; });
 
 		if (m_bSuspended)
 			continue;
 
-		remaining_time -= std::chrono::seconds(1);
+		auto current_time = std::chrono::steady_clock::now();
+
+		remaining_time -= std::chrono::duration_cast<std::chrono::milliseconds>(current_time - initial_time);
 
 		if (IsTimeExpired())
 		{

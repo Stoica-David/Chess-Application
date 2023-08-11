@@ -2,9 +2,9 @@
 
 #include "Position.h"
 #include "IPieceInfo.h"
-#include "Timer.h"
 
 #include <unordered_map>
+#include <chrono>
 
 using PieceMap = std::unordered_map <EPieceType, int>;
 
@@ -26,5 +26,5 @@ public:
 	virtual MoveVector GetHistory() const = 0;
 	virtual IPieceInfoPtr GetPieceInfo(Position) const = 0;
 	virtual PieceMap GetPiecesLeft(EColor) const = 0;
-	virtual const Timer& GetTimer(EColor) const = 0;
+	virtual int GetMs(EColor color) const = 0;
 };

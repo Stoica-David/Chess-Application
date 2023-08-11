@@ -27,6 +27,7 @@ public:
 
 	int GetSeconds() const;
 	int GetMinutes() const;
+	int GetMs()const;
 
 private:
 	void Run();
@@ -37,7 +38,7 @@ private:
 	std::condition_variable cv;
 	std::mutex mutex;
 
-	std::chrono::duration<int> remaining_time;
+	std::chrono::milliseconds remaining_time;
 	std::function<void()> notifyChange;
 
 	bool m_bSuspended;

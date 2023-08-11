@@ -1042,60 +1042,27 @@ void ChessUIQt::OnTimerChange()
 {
 	auto status = m_game->GetStatus();
 
-	const Timer& wTimer = status->GetTimer(EColor::White);
-	const Timer& bTimer = status->GetTimer(EColor::Black);
+	int ms;
 
-	int seconds, minutes;
+	ms = status->GetTurn() == EColor::White ? status->GetMs(EColor::White) : status->GetMs(EColor::Black);
+	qDebug() << ms;
 
-	if (status->GetTurn() == EColor::White)
-	{
-		seconds = wTimer.GetSeconds();
-		minutes = wTimer.GetMinutes();
-	}
-	else
-	{
-		seconds = bTimer.GetSeconds();
-		minutes = bTimer.GetMinutes();
-	}
+	int minutes = ms / 60000;
+	ms %= 60000;
 
-	String minutesStr;
-	String secondStr;
+	int seconds = ms / 1000;
+	ms %= 1000;
 
-	if (minutes == 10)
-	{
-		minutesStr = "10";
-	}
-	else
-	{
-		minutesStr.push_back('0');
-		minutesStr.push_back('0' + minutes);
-	}
-
-	char zecimal;
-	char unit = '0' + (int)(seconds % 10);
-
-	if (seconds > 9)
-	{
-		zecimal = '0' + (int)((seconds / 10) % 10);
-		secondStr.push_back(zecimal);
-	}
-	else
-	{
-		secondStr.push_back('0');
-	}
-
-	secondStr.push_back(unit);
-
-	String time = minutesStr + ":" + secondStr;
+	QString time = QTime(0, minutes, seconds, ms).toString("mm:ss.zzz");
 
 	RunMethod([&, status, time]() {
 		if (status->GetTurn() == EColor::White)
 		{
-			m_whiteTimer->setText(QString::fromStdString(time));
+			m_whiteTimer->setText(time);
 		}
 		else
 		{
-			m_blackTimer->setText(QString::fromStdString(time));
+			m_blackTimer->setText(time);
 		}
 		});
 }

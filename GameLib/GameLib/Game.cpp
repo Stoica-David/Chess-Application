@@ -35,7 +35,7 @@ Game::Game(bool wantTimer)
 	: m_turn(EColor::White)
 	, m_state(EState::Playing)
 	, m_initialState(EState::Playing)
-	, m_whiteTimer(10)
+	, m_whiteTimer(3)
 	, m_blackTimer(10)
 	, m_wantTimer(wantTimer)
 {
@@ -251,6 +251,14 @@ void Game::ShowConfiguration(int confNr)
 	m_gameboard.Set(currBoard);
 }
 
+int Game::GetMs(EColor color) const
+{
+	if (color == EColor::White)
+		return m_whiteTimer.GetMs();
+	else
+		return m_blackTimer.GetMs();
+}
+
 void Game::SaveFEN(const String& file) const
 {
 	String FEN = m_gameboard.GetFEN();
@@ -426,16 +434,6 @@ PieceMap Game::GetPiecesLeft(EColor color)const
 	}
 
 	return leftPieces;
-}
-
-const Timer& Game::GetTimer(EColor color) const
-{
-	if (color == EColor::White)
-	{
-		return m_whiteTimer;
-	}
-
-	return m_blackTimer;
 }
 
 PiecesPtr Game::GetPiece(Position p) const
