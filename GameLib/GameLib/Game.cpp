@@ -416,9 +416,9 @@ IPieceInfoPtr Game::GetPieceInfo(Position p) const
 	return m_gameboard.GetPieceInfo(p);
 }
 
-PieceMap Game::GetPiecesLeft(EColor color)const
+PiecesLeftVector Game::GetPiecesLeft(EColor color)const
 {
-	PieceMap leftPieces;
+	PiecesLeftVector leftPieces;
 
 	for (int i = 0; i < 8; i++)
 	{
@@ -428,7 +428,23 @@ PieceMap Game::GetPiecesLeft(EColor color)const
 
 			if (piece && piece->GetColor() == color)
 			{
-				leftPieces[piece->GetType()]++;
+				bool found = false;
+
+				for (auto& currPiece : leftPieces)
+				{
+					EPieceType leftPieceType = currPiece.first;
+
+					if (leftPieceType == piece->GetType())
+					{
+						found = true;
+						currPiece.second++;
+					}
+				}
+
+				if (!found)
+				{
+					leftPieces.push_back({ piece->GetType(), 1 });
+				}
 			}
 		}
 	}

@@ -44,7 +44,9 @@ public:
 	PositionList GetMoves(Position p) const override;
 	MoveVector GetHistory()const override;
 	IPieceInfoPtr GetPieceInfo(Position) const override;
-	PieceMap GetPiecesLeft(EColor)const override;
+
+	PiecesLeftVector GetPiecesLeft(EColor)const override;
+	const Timer& GetTimer(EColor color) const override;
 
 	void Save(EFileFormat format, const String& file) const override;
 	void Load(EFileFormat format, const String& file) override;

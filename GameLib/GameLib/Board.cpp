@@ -824,6 +824,7 @@ void Board::LoadFEN(const String& string)
 	{
 		throw FENException("Can't save properly!");
 	}
+
 }
 
 void Board::ParsePGN(StringVector Moves)

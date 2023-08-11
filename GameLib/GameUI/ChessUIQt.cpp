@@ -641,7 +641,7 @@ void ChessUIQt::UpdateCaptured(EColor color)
 
 	auto leftPieces = status->GetPiecesLeft(color);
 
-	std::unordered_set<EPieceType> allPieces = {
+	std::vector<EPieceType> allPieces = {
 		EPieceType::Rook,
 		EPieceType::Knight,
 		EPieceType::Bishop,
@@ -650,25 +650,27 @@ void ChessUIQt::UpdateCaptured(EColor color)
 		EPieceType::Pawn
 	};
 
-	for (auto currPiece : allPieces)
+	for (const auto& currPiece : allPieces)
 	{
 		if (currPiece == EPieceType::King)
 			continue;
 
 		int missingPieces = GetDefaultNumberOfPieces(currPiece);
 
-		if (leftPieces.find(currPiece) != leftPieces.end())
+		for (const auto& currLeftPiece : leftPieces)
 		{
-			int actualApperences = (*leftPieces.find(currPiece)).second;
+			if (currLeftPiece.first == currPiece)
+			{
+				int actualApperences = currLeftPiece.second;
 
-			missingPieces -= actualApperences;
+				missingPieces -= actualApperences;
+			}
 		}
 
 		for (int i = 0; i < missingPieces; i++)
 		{
 			OnPieceCapture(currPiece, color);
 		}
-
 	}
 }
 

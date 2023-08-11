@@ -7,6 +7,7 @@
 #include <chrono>
 
 using PieceMap = std::unordered_map <EPieceType, int>;
+using PiecesLeftVector = std::vector < std::pair<EPieceType, int>>;
 
 class IGameStatus
 {
@@ -25,6 +26,8 @@ public:
 	virtual PositionList GetMoves(Position p) const = 0;
 	virtual MoveVector GetHistory() const = 0;
 	virtual IPieceInfoPtr GetPieceInfo(Position) const = 0;
-	virtual PieceMap GetPiecesLeft(EColor) const = 0;
+
 	virtual int GetMs(EColor color) const = 0;
+
+	virtual PiecesLeftVector GetPiecesLeft(EColor) const = 0;
 };

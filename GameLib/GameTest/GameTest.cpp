@@ -576,8 +576,32 @@ TEST(PiecesLeftTest, PiecesLeft1)
 
 	Game g(m, EColor::Black, EState::Playing);
 
+	PiecesLeftVector whitePieces = { {EPieceType::Rook, 1},  {EPieceType::King, 1}, {EPieceType::Bishop, 2}, {EPieceType::Knight, 1}, {EPieceType::Pawn, 2} };
+
 	EXPECT_EQ(g.GetPiecesLeft(EColor::Black).size(), 6);
 	EXPECT_EQ(g.GetPiecesLeft(EColor::White).size(), 5);
+}
+
+TEST(PiecesLeftTest, PieceLeft2)
+{
+	CharMatrix m = { {
+	{'r', 'B', '-', '-', 'k', 'b', 'h', '-'},
+	{'p', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', 'P', '-', '-', '-', '-', '-', 'r'},
+	{'-', 'q', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', 'P'},
+	{'-', '-', '-', 'K', '-', 'B', 'H', 'R'}
+	} };
+
+	Game g(m, EColor::Black, EState::Playing);
+
+	PiecesLeftVector whitePieces = { {EPieceType::Bishop, 2}, {EPieceType::Pawn, 2} , {EPieceType::King, 1}, {EPieceType::Knight, 1} , {EPieceType::Rook, 1}, };
+	PiecesLeftVector blackPieces = { {EPieceType::Rook, 2}, {EPieceType::King, 1}, {EPieceType::Bishop, 1}, {EPieceType::Knight, 1}, {EPieceType::Pawn, 1}, {EPieceType::Queen, 1} };
+
+	EXPECT_EQ(g.GetPiecesLeft(EColor::White), whitePieces);
+	EXPECT_EQ(g.GetPiecesLeft(EColor::Black), blackPieces);
 }
 
 TEST(GetMovesTest, AfterPromoteTest1)
