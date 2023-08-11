@@ -19,7 +19,6 @@ public:
 
 	void StartTimer();
 	void StopTimer();
-	void PauseTimer();
 	void RestartTimer();
 	void SetNotifyChange(std::function<void()> newFunc);
 

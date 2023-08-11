@@ -37,13 +37,6 @@ void Timer::StopTimer()
 	m_bSuspended = true;
 }
 
-void Timer::PauseTimer()
-{
-	running = false;
-
-	cv.notify_one();
-}
-
 void Timer::RestartTimer()
 {
 	//600000
