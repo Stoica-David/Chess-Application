@@ -623,3 +623,23 @@ TEST(GetMovesTest, AfterPromoteTest1)
 
 	EXPECT_EQ(g.GetMoves({ 5, 6 }), v);
 }
+
+TEST(GetMovesTest, KingMovesWrongTest)
+{
+	CharMatrix m = { {
+	{'r', 'h', 'b', 'q', '-', 'b', 'h', 'r'},
+	{'p', 'p', 'p', '-', '-', 'k', '-', '-'},
+	{'-', '-', '-', 'p', 'R', '-', '-', 'p'},
+	{'-', '-', '-', '-', '-', 'P', '-', '-'},
+	{'-', '-', '-', 'H', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'P', 'P', 'P', 'P', 'P', 'P', '-', 'P'},
+	{'R', 'H', 'B', 'Q', 'K', 'B', '-', '-'}
+	} };
+
+	Game g(m, EColor::Black, EState::Playing);
+
+	PositionList v = { {1, 6}, {2, 4} };
+
+	EXPECT_EQ(g.GetMoves({1,5}), v);
+}

@@ -578,6 +578,10 @@ PositionList Board::GetMoves(Position p) const
 	{
 		newList = GetMovesPinned(p);
 	}
+	else if(at(p)->GetType() == EPieceType::King)
+	{
+		newList = GetMovesKing(p);
+	}
 	else
 	{
 		newList = GetMovesNormal(p);
@@ -714,6 +718,37 @@ PositionList Board::GetMovesPinned(Position p) const
 	}
 
 	return newList;
+}
+
+PositionList Board::GetMovesKing(Position p) const
+{
+	PositionList kingMoves = GetMovesNormal(p);
+
+	for (int i = 0; i < 8; i++)
+	{
+		for (int j = 0; j < 8; j++)
+		{
+			if (!at(Position(i, j)) || at(p)->GetColor() == at(Position(i, j))->GetColor())
+			{
+				continue;
+			}
+
+			PositionList currMoves = GetMovesNormal({ i, j });
+
+			for (const auto& currMove:currMoves)
+			{
+				for (int j = 0; j < kingMoves.size(); j++)
+				{
+					if (kingMoves[j] == currMove)
+					{
+						kingMoves.erase(kingMoves.begin() + j);
+					}
+				}
+			}
+		}
+	}
+
+	return kingMoves;
 }
 
 String Board::GetFEN() const

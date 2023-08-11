@@ -58,6 +58,7 @@ public:
 	PositionList GetMovesNormal(Position p) const;
 	PositionList GetMovesCheck(Position p) const;
 	PositionList GetMovesPinned(Position p) const;
+	PositionList GetMovesKing(Position p) const;
 
 	String GetFEN() const;
 	void LoadFEN(const String&);
