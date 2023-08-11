@@ -280,6 +280,8 @@ void ChessUIQt::PopUp()
 	dialog.setComboBoxItems(timerOptions);
 	dialog.setModal(true);
 
+	dialog.setStyleSheet("QComboBox QAbstractItemView { background-color: #DDC9B4; }");
+
 	bool ok;
 	QString item = QInputDialog::getItem(this, tr("Timer"),
 		tr("Do you want a timer? "), timerOptions, 0, false, &ok);
