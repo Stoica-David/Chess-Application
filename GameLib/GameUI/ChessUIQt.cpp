@@ -386,10 +386,7 @@ void ChessUIQt::OnRestart()
 	ClearPieces();
 	m_movesList->setEditTriggers(QAbstractItemView::DoubleClicked | QAbstractItemView::SelectedClicked);
 
-	m_whiteTimer->setText("10:00:000");
-	m_blackTimer->setText("10:00:000");
-
-	StartGame();
+	m_game->RemoveListener(this);
 }
 
 void ChessUIQt::OnPieceCapture(EPieceType pieceType, EColor pieceColor)
@@ -1005,7 +1002,6 @@ void ChessUIQt::OnRestartButtonClicked()
 {
 	m_game->PauseGame();
 	m_game->Restart();
-	OnTimerChange();
 	PopUp();
 }
 
