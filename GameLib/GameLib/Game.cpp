@@ -119,7 +119,6 @@ void Game::Move(Position p1, Position p2)
 
 		m_PGN.AddMove(m_gameboard.GetCurrPGN());
 
-
 		m_gameboard.IsPromotePossible(p2) ? UpdateState(EState::ChoosePiece), NotifyChoosePiece() : SwitchTurn();
 
 		NotifyMove();

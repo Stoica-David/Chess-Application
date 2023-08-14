@@ -104,7 +104,6 @@ TEST(ParseToPGNTest, Parse2)
 
 TEST(SavePGNFileTest, PGNFile1)
 {
-
 	PGNHandler p;
 
 	p.AddMove("e4");

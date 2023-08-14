@@ -1051,7 +1051,7 @@ String Board::ConvertMove(Position p1, Position p2) const
 			break;
 		}
 
-		if (FindOnSameLine(p1, p2))
+		if (FindOnSameLine(p1, p2) && !at(p1)->Is(EPieceType::Pawn))
 		{
 			convertedMove.push_back('a' + p1.y);
 		}
