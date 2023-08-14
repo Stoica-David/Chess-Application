@@ -102,3 +102,13 @@ PositionMatrix Rook::AllMoves(Position p) const
 
 	return newMatrix;
 }
+
+bool Rook::RookMove(Position p1, Position p2)
+{
+	auto x1 = p1.x,
+		x2 = p2.x,
+		y1 = p1.y,
+		y2 = p2.y;
+
+	return ((x1 == x2) ^ (y1 == y2));
+}

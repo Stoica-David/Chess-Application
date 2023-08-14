@@ -15,14 +15,6 @@ public:
     PositionMatrix AllMoves(Position p) const override;
 
 	// Other methods
-	static bool BishopMove(Position p1, Position p2)
-	{
-		auto x1 = p1.x,
-			x2 = p2.x,
-			y1 = p1.y,
-			y2 = p2.y;
-
-		return (AbsValue(x2, x1) == AbsValue(y2, y1) && AbsValue(x2, x1) != 0);
-	}
+	static bool BishopMove(Position p1, Position p2);
 };
 

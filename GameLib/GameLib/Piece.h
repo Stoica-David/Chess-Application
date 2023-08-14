@@ -43,25 +43,21 @@ public:
 	bool Is(EColor color) const;
 	bool Is(EPieceType type, EColor color) const;
 	bool SameColor(PiecesPtr piece) const;
+
 	char ConvertPiece() const;
 
 protected:
-	static bool IsInTable(Position p)
-	{
-		int i = p.x;
-		int j = p.y;
+	static int AbsValue(int, int);
 
-		return ((i >= 0 && i < 8) && (j >= 0 && j < 8));
-	}
+	static bool IsInTable(Position p);
 
 	bool IsColor(EColor) const;
 
-	static int AbsValue(int, int);
-
-
 protected:
-	EPieceType m_type;
 	EColor m_color;
+
+	EPieceType m_type;
+	
 	bool m_hasMoved;
 	bool m_leftPassant;
 	bool m_rightPassant;

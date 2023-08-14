@@ -17,24 +17,7 @@ public:
 
 private:
 	// Other methods
-	static bool VertL(Position p1, Position p2)
-	{
-		int x1 = p1.x,
-			y1 = p1.y,
-			x2 = p2.x,
-			y2 = p2.y;
-
-		return (AbsValue(x2, x1) == 1 && AbsValue(y2, y1) == 2);
-	}
-
-	static bool HorizontL(Position p1, Position p2)
-	{
-		int x1 = p1.x,
-			y1 = p1.y,
-			x2 = p2.x,
-			y2 = p2.y;
-
-		return (AbsValue(x2, x1) == 2 && AbsValue(y2, y1) == 1);
-	}
+	static bool VertL(Position p1, Position p2);
+	static bool HorizontL(Position p1, Position p2);
 };
 

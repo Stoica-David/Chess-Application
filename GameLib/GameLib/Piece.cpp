@@ -9,12 +9,12 @@
 #include "Pawn.h"
 
 Piece::Piece(EPieceType type, EColor color)
+	: m_type(type)
+	, m_color(color)
+	, m_hasMoved(false)
+	, m_leftPassant(false)
+	, m_rightPassant(false)
 {
-	m_type = type;
-	m_color = color;
-	m_hasMoved = false;
-	m_leftPassant = false;
-	m_rightPassant = false;
 }
 
 PiecesPtr Piece::Produce(EPieceType type, EColor color)
@@ -34,6 +34,7 @@ PiecesPtr Piece::Produce(EPieceType type, EColor color)
 	case EPieceType::Pawn:
 		return std::make_shared<Pawn>(color); 
 	}
+
 	return {};
 }
 
@@ -112,16 +113,6 @@ bool Piece::SameColor(PiecesPtr piece) const
 	return m_color == piece->m_color;
 }
 
-bool Piece::IsColor(EColor color) const
-{
-	return (m_color == color);
-}
-
-int Piece::AbsValue(int x, int y)
-{
-	return (std::abs(x - y));
-}
-
 char Piece::ConvertPiece() const
 {
 	char currChar = '\0';
@@ -154,4 +145,22 @@ char Piece::ConvertPiece() const
 	}
 
 	return currChar;
+}
+
+int Piece::AbsValue(int x, int y)
+{
+	return (std::abs(x - y));
+}
+
+bool Piece::IsInTable(Position p)
+{
+	int i = p.x;
+	int j = p.y;
+
+	return ((i >= 0 && i < 8) && (j >= 0 && j < 8));
+}
+
+bool Piece::IsColor(EColor color) const
+{
+	return (m_color == color);
 }

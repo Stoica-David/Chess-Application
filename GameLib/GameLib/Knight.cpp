@@ -80,3 +80,23 @@ PositionMatrix Knight::AllMoves(Position p) const
 
     return newMatrix;
 }
+
+bool Knight::VertL(Position p1, Position p2)
+{
+	int x1 = p1.x,
+		y1 = p1.y,
+		x2 = p2.x,
+		y2 = p2.y;
+
+	return (AbsValue(x2, x1) == 1 && AbsValue(y2, y1) == 2);
+}
+
+bool Knight::HorizontL(Position p1, Position p2)
+{
+	int x1 = p1.x,
+		y1 = p1.y,
+		x2 = p2.x,
+		y2 = p2.y;
+
+	return (AbsValue(x2, x1) == 2 && AbsValue(y2, y1) == 1);
+}
