@@ -6,6 +6,6 @@ ChessException::ChessException(const std::string& message)
 }
 
 ChessException::ChessException()
-	:std::logic_error("Unknown exception")
+	: std::logic_error("Unknown exception")
 {
 }

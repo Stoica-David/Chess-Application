@@ -5,7 +5,6 @@
 #include "IGameListener.h"
 
 #include <string>
-#include <unordered_map>
 
 using String = std::string;
 using IGamePtr = std::shared_ptr<class IGame>;
@@ -24,21 +23,14 @@ public:
 
 	virtual ~IGame() = default;
 
-
 	virtual void AddListener(IGameListenerPtr) = 0;
 	virtual void RemoveListener(IGameListener*) = 0;
 
 	virtual void Restart() = 0;
-
-
 	virtual void Move(Position, Position) = 0;
-
 	virtual void ProposeDraw() = 0;
-
 	virtual void DrawResponse(bool) = 0;
-
 	virtual void PromoteTo(EPieceType) = 0;
-
 	virtual void ShowConfiguration(int confNr) = 0;
 
 	virtual const IGameStatus* GetStatus() const = 0;

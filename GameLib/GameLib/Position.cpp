@@ -7,12 +7,17 @@ Position::Position(int x /*= -1*/, int y /*= -1*/)
 
 }
 
+bool Position::operator==(const Position& other) const
+{
+	return x == other.x && y == other.y;
+}
+
 bool Position::operator!=(const Position& other) const
 {
 	return !(*this == other);
 }
 
-bool Position::operator==(const Position& other) const
+bool Position::IsValid() const
 {
-	return x == other.x && y == other.y;
+	return x >= 0 && x < 8 && y >= 0 && y < 8;
 }

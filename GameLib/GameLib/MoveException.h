@@ -5,6 +5,7 @@
 class MoveException : public ChessException
 {
 public:
+	// Constructor
 	MoveException(const std::string&);
 };
 

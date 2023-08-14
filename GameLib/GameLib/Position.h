@@ -1,6 +1,5 @@
 #pragma once
 
-#include<utility>
 #include<vector>
 
 struct Position
@@ -13,10 +12,7 @@ struct Position
 	bool operator==(const Position& other) const;
 	bool operator!=(const Position& other) const;
 
-	bool IsValid() const
-	{
-		return x >= 0 && x < 8 && y >= 0 && y < 8;
-	}
+	bool IsValid() const;
 };
 
 using PositionList = std::vector<Position>;

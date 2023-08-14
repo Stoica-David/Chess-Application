@@ -3,16 +3,12 @@
 #include "Position.h"
 #include "IPieceInfo.h"
 
-#include <unordered_map>
-#include <chrono>
-
 using PiecesLeftVector = std::vector < std::pair<EPieceType, int>>;
 
 class IGameStatus
 {
 public:
 	virtual ~IGameStatus() = default;
-
 
 	virtual bool IsDraw() const = 0;
 
@@ -28,13 +24,15 @@ public:
 
 	virtual bool IsPlaying() const = 0;
 
+	virtual int GetMs(EColor color) const = 0;
 
 	virtual EColor GetTurn() const = 0;
-	virtual PositionList GetMoves(Position p) const = 0;
-	virtual MoveVector GetHistory() const = 0;
+	
 	virtual IPieceInfoPtr GetPieceInfo(Position) const = 0;
 
-	virtual int GetMs(EColor color) const = 0;
+	virtual PositionList GetMoves(Position p) const = 0;
+	
+	virtual MoveVector GetHistory() const = 0;
 
 	virtual PiecesLeftVector GetPiecesLeft(EColor) const = 0;
 };

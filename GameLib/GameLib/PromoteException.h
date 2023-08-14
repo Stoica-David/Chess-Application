@@ -5,6 +5,7 @@
 class PromoteException : public ChessException
 {
 public:
+	// Constructor
 	PromoteException(const std::string&);
 };
 

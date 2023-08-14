@@ -5,6 +5,7 @@
 class DoesntExistException : public ChessException
 {
 public:
+	// Constructor
 	DoesntExistException(const std::string&);
 };
 

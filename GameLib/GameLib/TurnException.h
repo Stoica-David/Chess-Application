@@ -5,6 +5,7 @@
 class TurnException : public ChessException
 {
 public:
+    // Constructor
     TurnException(const std::string&);
 };
 

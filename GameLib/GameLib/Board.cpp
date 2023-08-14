@@ -2,9 +2,7 @@
 #include "PieceInfo.h"
 #include "BoardExceptions.h"
 
-#include <sstream>
 #include <algorithm>
-#include <cstdint>
 
 Board::Board()
 {
