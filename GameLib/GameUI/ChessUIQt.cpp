@@ -1057,7 +1057,6 @@ void ChessUIQt::OnTimerChange()
 	int ms;
 
 	ms = status->GetTurn() == EColor::White ? status->GetMs(EColor::White) : status->GetMs(EColor::Black);
-	qDebug() << ms;
 
 	int minutes = ms / 60000;
 	ms %= 60000;

@@ -88,7 +88,6 @@ private:
 	bool SameBishop()const;
 	bool PawnException(Position p1, Position p2)const;
 	bool IsCastle(Position p1, Position p2) const;
-	//bool IsEnPassant(Position p1, Position p2) const;
 	bool CastleVerifyWay(Position p1, Position p2) const;
 
 	PositionList DefendedPositions(Position p, EColor color) const;

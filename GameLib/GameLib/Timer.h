@@ -7,6 +7,8 @@
 #include <condition_variable>
 #include <functional>
 
+#include "EColor.h"
+
 using namespace std::chrono_literals;
 
 class Timer
@@ -21,22 +23,25 @@ public:
 	void StopTimer();
 	void RestartTimer();
 	void SetNotifyChange(std::function<void()> newFunc);
+	void SetColor(EColor);
 
 	bool IsTimeExpired();
 
-	int GetMs()const;
+	int GetMs(EColor)const;
 
 private:
 	void Run();
 
 private:
-	std::thread thread;
-	std::atomic<bool> running;
-	std::condition_variable cv;
-	std::mutex mutex;
+	std::thread m_thread;
+	std::atomic<bool> m_running;
+	std::condition_variable m_cv;
+	std::mutex m_mutex;
 
-	std::chrono::milliseconds remaining_time;
-	std::function<void()> notifyChange;
+	std::chrono::milliseconds m_white_remaining_time;
+	std::chrono::milliseconds m_black_remaining_time;
+	std::function<void()> m_notifyChange;
 
 	bool m_bSuspended;
+	EColor m_color;
 };

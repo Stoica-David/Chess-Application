@@ -91,8 +91,7 @@ private:
 
 	EColor m_turn;
 
-	Timer m_whiteTimer;
-	Timer m_blackTimer;
+	Timer m_timer;
 
 	EState m_state;
 	EState m_initialState;

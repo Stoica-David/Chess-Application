@@ -35,13 +35,12 @@ Game::Game(bool wantTimer)
 	: m_turn(EColor::White)
 	, m_state(EState::Playing)
 	, m_initialState(EState::Playing)
-	, m_whiteTimer(10)
-	, m_blackTimer(10)
+	, m_timer(10)
 	, m_wantTimer(wantTimer)
 {
 	if (wantTimer)
 	{
-		m_whiteTimer.StartTimer();
+		m_timer.StartTimer();
 	}
 }
 
@@ -50,13 +49,12 @@ Game::Game(const Board& b, EColor color /*=EColor::White*/, bool wantTimer)
 	, m_gameboard(b)
 	, m_state(EState::Playing)
 	, m_initialState(EState::Playing)
-	, m_whiteTimer(10)
-	, m_blackTimer(10)
+	, m_timer(10)
 	, m_wantTimer(wantTimer)
 {
 	if (wantTimer)
 	{
-		m_whiteTimer.StartTimer();
+		m_timer.StartTimer();
 	}
 }
 
@@ -65,13 +63,12 @@ Game::Game(const CharMatrix& matrix, EColor color, EState state, bool wantTimer)
 	, m_state(state)
 	, m_initialState(state)
 	, m_gameboard(matrix)
-	, m_whiteTimer(10)
-	, m_blackTimer(10)
+	, m_timer(10)
 	, m_wantTimer(wantTimer)
 {
 	if (wantTimer)
 	{
-		m_whiteTimer.StartTimer();
+		m_timer.StartTimer();
 	}
 }
 
@@ -86,10 +83,9 @@ void Game::Restart()
 
 	if (m_wantTimer)
 	{
-		m_whiteTimer.RestartTimer();
-		m_blackTimer.RestartTimer();
+		m_timer.RestartTimer();
 
-		m_whiteTimer.StartTimer();
+		m_timer.StartTimer();
 	}
 
 	NotifyRestart();
@@ -132,22 +128,19 @@ void Game::Move(Position p1, Position p2)
 		{
 			UpdateState(EState::BlackWon);
 			NotifyGameOver(EOverState::BlackWon);
-			m_whiteTimer.StopTimer();
-			m_blackTimer.StopTimer();
+			m_timer.StopTimer();
 		}
 		else if (Stalemate() || m_gameboard.IsDraw() || m_gameboard.Is3Fold() || IsDraw())
 		{
 			UpdateState(EState::Draw);
 			NotifyGameOver(EOverState::Draw);
-			m_whiteTimer.StopTimer();
-			m_blackTimer.StopTimer();
+			m_timer.StopTimer();
 		}
 		else if (m_gameboard.IsOver(EColor::Black))
 		{
 			UpdateState(EState::WhiteWon);
 			NotifyGameOver(EOverState::WhiteWon);
-			m_whiteTimer.StopTimer();
-			m_blackTimer.StopTimer();
+			m_timer.StopTimer();
 		}
 		else if (m_gameboard.IsCheck(m_gameboard.FindKing(m_turn), m_turn))
 		{
@@ -165,7 +158,7 @@ void Game::ProposeDraw()
 
 void Game::DrawResponse(bool draw)
 {
-	m_state = draw ? m_whiteTimer.StopTimer(), m_blackTimer.StopTimer(), EState::Draw : EState::Playing;
+	m_state = draw ? m_timer.StopTimer(), EState::Draw : EState::Playing;
 }
 
 void Game::PromoteTo(EPieceType pieceType)
@@ -208,27 +201,13 @@ void Game::Load(EFileFormat format, const String& file)
 void Game::PauseGame()
 {
 	UpdateState(EState::Frozen);
-	if (m_turn == EColor::White)
-	{
-		m_whiteTimer.StopTimer();
-	}
-	else
-	{
-		m_blackTimer.StopTimer();
-	}
+	m_timer.StopTimer();
 }
 
 void Game::ResumeGame()
 {
 	UpdateState(EState::Playing);
-	if (m_turn == EColor::White)
-	{
-		m_whiteTimer.StartTimer();
-	}
-	else
-	{
-		m_blackTimer.StartTimer();
-	}
+	m_timer.StartTimer();
 }
 
 void Game::ShowConfiguration(int confNr)
@@ -251,10 +230,7 @@ void Game::ShowConfiguration(int confNr)
 
 int Game::GetMs(EColor color) const
 {
-	if (color == EColor::White)
-		return m_whiteTimer.GetMs();
-	else
-		return m_blackTimer.GetMs();
+	return m_timer.GetMs(color);
 }
 
 void Game::SaveFEN(const String& file) const
@@ -338,8 +314,7 @@ void Game::AddListener(IGameListenerPtr newListener)
 {
 	m_listeners.push_back(newListener);
 
-	m_whiteTimer.SetNotifyChange(std::bind(&Game::NotifyTimerChange, this));
-	m_blackTimer.SetNotifyChange(std::bind(&Game::NotifyTimerChange, this));
+	m_timer.SetNotifyChange(std::bind(&Game::NotifyTimerChange, this));
 }
 
 void Game::RemoveListener(IGameListener* listener)
@@ -528,15 +503,18 @@ void Game::NotifyCaptured(EPieceType type, EColor color)
 
 void Game::NotifyTimerChange()
 {
-	if (m_whiteTimer.IsTimeExpired())
+	if (m_timer.IsTimeExpired())
 	{
-		UpdateState(EState::BlackWon);
-		NotifyGameOver(EOverState::BlackWon);
-	}
-	else if (m_blackTimer.IsTimeExpired())
-	{
-		UpdateState(EState::WhiteWon);
-		NotifyGameOver(EOverState::WhiteWon);
+		if (m_turn == EColor::White)
+		{
+			UpdateState(EState::BlackWon);
+			NotifyGameOver(EOverState::BlackWon);
+		}
+		else
+		{
+			UpdateState(EState::WhiteWon);
+			NotifyGameOver(EOverState::WhiteWon);
+		}
 	}
 
 	for (const auto& x : m_listeners)
@@ -571,8 +549,7 @@ void Game::SwitchTurn()
 	{
 		if (m_wantTimer)
 		{
-			m_whiteTimer.StopTimer();
-			m_blackTimer.StartTimer();
+			m_timer.SetColor(EColor::Black);
 		}
 		m_turn = EColor::Black;
 	}
@@ -580,8 +557,7 @@ void Game::SwitchTurn()
 	{
 		if (m_wantTimer)
 		{
-			m_blackTimer.StopTimer();
-			m_whiteTimer.StartTimer();
+			m_timer.SetColor(EColor::White);
 		}
 		m_turn = EColor::White;
 	}

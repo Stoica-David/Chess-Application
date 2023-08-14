@@ -40,6 +40,9 @@
     <Filter Include="Header Files\Timer">
       <UniqueIdentifier>{385412cd-c5f8-4f5a-9447-f51df061a903}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Source Files\Timer">
+      <UniqueIdentifier>{4461c7a7-8907-475b-8eae-b829971345ad}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="Piece.cpp">
@@ -112,7 +115,7 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="Timer.cpp">
-      <Filter>Source Files</Filter>
+      <Filter>Source Files\Timer</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
