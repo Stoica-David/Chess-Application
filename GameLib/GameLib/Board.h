@@ -87,7 +87,8 @@ private:
 	bool KillCheck(Position p, EColor color) const;
 	bool IsDefended(Position p, EColor color) const;
 	bool SameBishop()const;
-	bool IsCastle(Position p1, Position p2) const;
+	bool IsCastle1(Position p1, Position p2) const;
+	bool IsCastle2(Position p1, Position p2) const;
 	bool CastleVerifyWay(Position p1, Position p2) const;
 
 	PositionList DefendedPositions(Position p, EColor color) const;
@@ -99,7 +100,8 @@ private:
 
 	Bitset GetCurrentPosition() const;
 
-	void Castle(Position p1, Position p2);
+	void Castle1(Position p1, Position p2);
+	void Castle2(Position p1, Position p2);
 	void UpdatePrevPositions();
 	void EnPassant(Position p1, Position p2);
 	void ResetEnPassant();

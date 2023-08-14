@@ -643,3 +643,21 @@ TEST(GetMovesTest, KingMovesWrongTest)
 
 	EXPECT_EQ(g.GetMoves({1,5}), v);
 }
+
+TEST(Castle2Test, Variation2)
+{
+	CharMatrix m = { {
+	{'r', 'h', 'b', 'q', 'k', 'b', 'h', 'r'},
+	{'p', '-', 'p', 'p', '-', '-', '-', 'p'},
+	{'-', 'p', '-', '-', '-', '-', 'p', '-'},
+	{'-', '-', '-', '-', '-', 'p', '-', '-'},
+	{'Q', '-', 'P', '-', 'p', '-', '-', '-'},
+	{'B', 'P', 'H', 'B', 'P', 'H', '-', '-'},
+	{'P', '-', '-', 'P', '-', 'P', 'P', 'P'},
+	{'R', '-', '-', '-', 'K', '-', '-', 'R'}
+	} };
+
+	Game g(m, EColor::White, EState::Playing);
+
+	EXPECT_NO_THROW(g.Move({7,4}, {7,6}));
+}

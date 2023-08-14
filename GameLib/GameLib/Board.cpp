@@ -79,7 +79,7 @@ bool Board::IsOver(EColor color) const
 
 bool Board::CastleVerifyWay(Position p1, Position p2) const
 {
-	if (IsCastle(p1, p2))
+	if (IsCastle1(p1, p2))
 	{
 		Position nextPos = p1.y > p2.y ? Position(p2.x, p2.y + 2) : Position(p2.x, p2.y - 1);
 
@@ -183,7 +183,16 @@ bool Board::IsSameWay(Position p1, Position p2, EColor color) const
 bool Board::IsCheckMate(EColor color) const
 {
 	Position kingPos = FindKing(color);
-	PiecesPtr King = at(kingPos);
+
+	PiecesPtr King;
+	try
+	{
+		King = at(kingPos);
+	}
+	catch (...)
+	{
+		return false;
+	}
 
 	if (!King || !IsCheck(kingPos, color))
 	{
@@ -426,7 +435,7 @@ void Board::Move(Position p1, Position p2)
 		throw MoveException("The move cannot be done by the piece!");
 	}
 
-	if (!currPiece->IsMoveRegular(p1, p2) && !IsCastle(p1, p2))
+	if (!currPiece->IsMoveRegular(p1, p2) && !IsCastle1(p1, p2) && !IsCastle2(p1, p2))
 	{
 		if (!currPiece->Is(EPieceType::Pawn) || (PawnException(p1, p2) && !IsEnPassant(p1, p2)))
 		{
@@ -441,11 +450,18 @@ void Board::Move(Position p1, Position p2)
 
 	m_PGN += ConvertMove(p1, p2);
 
-	bool currPiecePrevMoved = currPiece->GetHasMoved();
+	bool currPiecePrevMoved = false;
 
-	if (IsCastle(p1, p2))
+	if(currPiece)
+		currPiecePrevMoved = currPiece->GetHasMoved();
+
+	if (IsCastle1(p1, p2))
 	{
-		Castle(p1, p2);
+		Castle1(p1, p2);
+	}
+	else if (IsCastle2(p1, p2))
+	{
+		Castle2(p1, p2);
 	}
 	else if (IsEnPassant(p1, p2))
 	{
@@ -576,7 +592,7 @@ PositionList Board::GetMoves(Position p) const
 	{
 		newList = GetMovesPinned(p);
 	}
-	else if(at(p)->GetType() == EPieceType::King)
+	else if (at(p)->GetType() == EPieceType::King)
 	{
 		newList = GetMovesKing(p);
 	}
@@ -733,7 +749,7 @@ PositionList Board::GetMovesKing(Position p) const
 
 			PositionList currMoves = GetMovesNormal({ i, j });
 
-			for (const auto& currMove:currMoves)
+			for (const auto& currMove : currMoves)
 			{
 				for (int j = 0; j < kingMoves.size(); j++)
 				{
@@ -746,13 +762,13 @@ PositionList Board::GetMovesKing(Position p) const
 		}
 	}
 
-	if (IsCastle(p, Position(p.x, 0)) && VerifyTheWay(p, { p.x, 0 }))
+	if (IsCastle1(p, Position(p.x, 0)) && VerifyTheWay(p, { p.x, 0 }))
 	{
 		kingMoves.push_back({ p.x, 0 });
 		kingMoves.push_back({ p.x, 2 });
 	}
 
-	if (IsCastle(p, Position(p.x, 7)) && VerifyTheWay(p, { p.x, 7 }))
+	if (IsCastle1(p, Position(p.x, 7)) && VerifyTheWay(p, { p.x, 7 }))
 	{
 		kingMoves.push_back({ p.x, 7 });
 		kingMoves.push_back({ p.x, 6 });
@@ -1017,7 +1033,7 @@ String Board::ConvertMove(Position p1, Position p2) const
 {
 	String convertedMove;
 
-	if (IsCastle(p1, p2))
+	if (IsCastle1(p1, p2))
 	{
 		if (p1.y > p2.y)
 		{
@@ -1331,7 +1347,7 @@ bool Board::PawnException(Position p1, Position p2) const
 	return (currPiece->Is(EPieceType::Pawn) && (!PawnGoesDiagonally(p1, p2) || (PawnGoesDiagonally(p1, p2) && (!nextPiece))));
 }
 
-bool Board::IsCastle(Position p1, Position p2) const
+bool Board::IsCastle1(Position p1, Position p2) const
 {
 	PiecesPtr initialPiece = at(p1);
 	PiecesPtr finalPiece = at(p2);
@@ -1372,6 +1388,82 @@ bool Board::IsCastle(Position p1, Position p2) const
 	}
 
 	PositionList castleTiles = finalPiece->DeterminePattern(p2, p1);
+
+	for (int i = 0; i < castleTiles.size(); i++)
+	{
+		if (IsCheck(castleTiles[i], m_board[p1.x][p1.y]->GetColor()))
+		{
+			return false;
+		}
+	}
+
+	return true;
+}
+
+bool Board::IsCastle2(Position p1, Position p2) const
+{
+	PiecesPtr initialPiece = at(p1);
+	PiecesPtr finalPiece = at(p2);
+
+	Position rookPos1 = { p2.x, p2.y + 1 };
+	Position rookPos2 = { p2.x, p2.y - 2 };
+
+	if (!rookPos1.IsValid() && !rookPos2.IsValid())
+	{
+		return false;
+	}
+
+	PiecesPtr rook1 = {};
+	PiecesPtr rook2 = {};
+
+	if (rookPos1.IsValid())
+		rook1 = at(rookPos1);
+
+	if (rookPos2.IsValid())
+		rook2 = at(rookPos2);
+
+	if (!initialPiece || finalPiece || (!rook1 && !rook2))
+	{
+		return false;
+	}
+
+	if (!initialPiece->Is(EPieceType::King) || ((rook1 && !rook1->Is(EPieceType::Rook)) && (rook2 && !rook2->Is(EPieceType::Rook))))
+	{
+		return false;
+	}
+
+	if (initialPiece->GetHasMoved() || (rook1 && at(rookPos1)->GetHasMoved()) && rook2 && at(rookPos2)->GetHasMoved())
+	{
+		return false;
+	}
+
+	if ((rook1 && initialPiece->GetColor() != at(rookPos1)->GetColor()) && (rook2 && initialPiece->GetColor() != at(rookPos2)->GetColor()))
+	{
+		return false;
+	}
+
+	if ((p1.x != 0 && p1.x != 7) || (rookPos1.x != 0 && rookPos1.x != 7) || (rookPos2.x != 0 && rookPos2.x != 7))
+	{
+		return false;
+	}
+
+	if (p1.x != p2.x)
+	{
+		return false;
+	}
+
+	if (p1.y - p2.y != 2 && p2.y - p1.y != 2)
+	{
+		return false;
+	}
+
+	PositionList castleTiles;
+
+	if (rook1 && rook1->Is(EPieceType::Rook))
+		castleTiles = rook1->DeterminePattern(rookPos1, p1);
+	else
+		castleTiles = rook2->DeterminePattern(rookPos2, p1);
+
 
 	for (int i = 0; i < castleTiles.size(); i++)
 	{
@@ -1531,7 +1623,7 @@ Bitset Board::GetCurrentPosition() const
 	return newBitset;
 }
 
-void Board::Castle(Position p1, Position p2)
+void Board::Castle1(Position p1, Position p2)
 {
 	PiecesPtr currPiece = at(p1);
 	PiecesPtr nextPiece = at(p2);
@@ -1557,6 +1649,48 @@ void Board::Castle(Position p1, Position p2)
 
 		at(p1) = currPiece;
 		at(p2) = nextPiece;
+	}
+}
+
+void Board::Castle2(Position p1, Position p2)
+{
+	PiecesPtr currPiece = at(p1);
+	PiecesPtr nextPiece;
+
+	if (m_board[p2.x][p2.y + 1])
+	{
+		nextPiece = at({ p2.x, p2.y + 1 });
+		at({ p2.x, p2.y + 1 }) = {};
+	}
+	else
+	{
+		nextPiece = at({ p2.x, p2.y - 2 });
+		at({ p2.x, p2.y - 2 }) = {};
+	}
+
+	int newSecondKing, newSecondRook;
+
+	newSecondKing = p2.y;
+	newSecondRook = p1.y > p2.y ? p2.y + 1 : p2.y - 1;
+
+	m_board[p2.x][newSecondKing] = currPiece;
+	m_board[p2.x][newSecondRook] = nextPiece;
+
+	currPiece->SetHasMoved(true);
+	nextPiece->SetHasMoved(true);
+
+	at(p1) = {};
+
+	if (IsCheck({ p2.x, newSecondKing }, m_board[p2.x][newSecondKing]->GetColor()))
+	{
+		m_board[p2.x][newSecondKing] = {};
+		m_board[p2.x][newSecondRook] = {};
+
+		at(p1) = currPiece;
+		at(p2) = nextPiece;
+
+		currPiece->SetHasMoved(false);
+		nextPiece->SetHasMoved(false);
 	}
 }
 
