@@ -1026,6 +1026,8 @@ void ChessUIQt::OnRestartButtonClicked()
 
 void ChessUIQt::OnDrawButtonClicked()
 {
+	m_game->ProposeDraw();
+
 	QMessageBox::StandardButton reply = QMessageBox::question(this, "Draw proposal", "Do you accept a draw?", QMessageBox::Yes | QMessageBox::No);
 
 	reply == QMessageBox::Yes ? m_game->DrawResponse(true), m_messageLabel->setText("The players agreed to draw!") : m_game->DrawResponse(false);
@@ -1087,7 +1089,12 @@ void ChessUIQt::OnTimerChange()
 	QString time = QTime(0, minutes, seconds, ms).toString("mm:ss:zzz");
 
 	RunMethod([&, status, time]() {
-		if (status->GetTurn() == EColor::White)
+		if (status->IsOver())
+		{
+			m_whiteTimer->setText("N/A");
+			m_blackTimer->setText("N/A");
+		}
+		else if (status->GetTurn() == EColor::White)
 		{
 			m_whiteTimer->setText(time);
 		}

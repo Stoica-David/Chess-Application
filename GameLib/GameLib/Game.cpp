@@ -154,11 +154,13 @@ void Game::ProposeDraw()
 {
 	UpdateState(EState::DrawIsProposed);
 	SwitchTurn();
+
+	m_timer.SetColor(m_turn);
 }
 
 void Game::DrawResponse(bool draw)
 {
-	m_state = draw ? m_timer.StopTimer(), EState::Draw : EState::Playing;
+	m_state = draw ? m_timer.StopTimer(), EState::Draw : EState::Playing, SwitchTurn(), m_timer.SetColor(m_turn);
 }
 
 void Game::PromoteTo(EPieceType pieceType)
