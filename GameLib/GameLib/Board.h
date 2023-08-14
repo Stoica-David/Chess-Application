@@ -67,6 +67,7 @@ public:
 
 	bool FindOnSameLine(Position p1, Position p2) const;
 	bool FindOnSameColumn(Position p1, Position p2) const;
+	bool PawnException(Position p1, Position p2)const;
 
 	void ParsePGN(StringVector Moves);
 
@@ -86,7 +87,6 @@ private:
 	bool KillCheck(Position p, EColor color) const;
 	bool IsDefended(Position p, EColor color) const;
 	bool SameBishop()const;
-	bool PawnException(Position p1, Position p2)const;
 	bool IsCastle(Position p1, Position p2) const;
 	bool CastleVerifyWay(Position p1, Position p2) const;
 

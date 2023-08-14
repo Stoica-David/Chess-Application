@@ -531,8 +531,13 @@ void Game::NotifyIfCaptured(Position p1, Position p2)
 	PiecesPtr currPiece = m_gameboard.at(p1);
 	PiecesPtr nextPiece = m_gameboard.at(p2);
 
-	if (nextPiece && nextPiece->GetColor() != currPiece->GetColor() && currPiece->IsMoveRegular(p1, p2))
-		NotifyCaptured(nextPiece->GetType(), nextPiece->GetColor());
+	if (nextPiece && nextPiece->GetColor() != currPiece->GetColor())
+	{
+		if (currPiece->IsMoveRegular(p1,p2) || !m_gameboard.PawnException(p1, p2))
+		{
+			NotifyCaptured(nextPiece->GetType(), nextPiece->GetColor());
+		}
+	}
 
 	if (m_gameboard.IsEnPassant(p1, p2))
 	{
