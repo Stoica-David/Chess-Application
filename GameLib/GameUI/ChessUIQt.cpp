@@ -865,7 +865,7 @@ void ChessUIQt::GridButtonClicked(Position position)
 		{
 			auto& button = m_grid[m_selectedCell.value().x][m_selectedCell.value().y];
 
-			if (position != m_selectedCell.value() && status->GetPieceInfo(position) && status->GetPieceInfo(position)->GetColor() == status->GetPieceInfo(m_selectedCell.value())->GetColor())
+			if (position != m_selectedCell.value() && status->GetPieceInfo(position) && status->GetPieceInfo(position)->GetColor() == status->GetPieceInfo(m_selectedCell.value())->GetColor() && !(status->GetPieceInfo(m_selectedCell.value())->GetType() == EPieceType::King && status->GetPieceInfo(position)->GetType() == EPieceType::Rook))
 			{
 				button->SetSelected(false);
 				UnhighlightPossibleMoves(status->GetMoves(m_selectedCell.value()));
