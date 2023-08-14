@@ -34,7 +34,7 @@ public:
 	virtual ~IGame() = default;
 
 	/**
-	 * Adds a listeners 
+	 * @brief Adds a listeners 
 	 * Binds timer class method "SetNotifyChange" to game class method "NotifyTimerChange"
 	 * 
 	 * @param IGameListenerPtr is a shared pointer to a listener

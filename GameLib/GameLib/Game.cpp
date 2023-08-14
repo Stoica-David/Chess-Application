@@ -117,14 +117,12 @@ void Game::Move(Position p1, Position p2)
 			throw TurnException("It's the other player's turn");
 		}
 
+		NotifyIfCaptured(p1, p2);
+
 		m_gameboard.Move(p1, p2);
 
 		m_PGN.AddMove(m_gameboard.GetCurrPGN());
 
-		if (nextPiece)
-		{
-			NotifyCaptured(nextPiece->GetType(), nextPiece->GetColor());
-		}
 
 		m_gameboard.IsPromotePossible(p2) ? UpdateState(EState::ChoosePiece), NotifyChoosePiece() : SwitchTurn();
 
@@ -547,6 +545,23 @@ void Game::NotifyTimerChange()
 		{
 			sp->OnTimerChange();
 		}
+	}
+}
+
+void Game::NotifyIfCaptured(Position p1, Position p2)
+{
+	PiecesPtr currPiece = m_gameboard.at(p1);
+	PiecesPtr nextPiece = m_gameboard.at(p2);
+
+	if (nextPiece && nextPiece->GetColor() != currPiece->GetColor())
+		NotifyCaptured(nextPiece->GetType(), nextPiece->GetColor());
+
+	if (m_gameboard.IsEnPassant(p1, p2))
+	{
+		if (currPiece->GetColor() == EColor::White)
+			NotifyCaptured(EPieceType::Pawn, EColor::Black);
+		else
+			NotifyCaptured(EPieceType::Pawn, EColor::White);
 	}
 }
 

@@ -44,6 +44,7 @@ public:
 	bool Is3Fold() const;
 	bool IsPromotePossible(Position p) const;
 	bool IsPinned(Position p) const;
+	bool IsEnPassant(Position p1, Position p2) const;
 
 	Position FindCheck(Position p, EColor color) const;
 	Position FindKing(EColor) const;
@@ -87,7 +88,7 @@ private:
 	bool SameBishop()const;
 	bool PawnException(Position p1, Position p2)const;
 	bool IsCastle(Position p1, Position p2) const;
-	bool IsEnPassant(Position p1, Position p2) const;
+	//bool IsEnPassant(Position p1, Position p2) const;
 	bool CastleVerifyWay(Position p1, Position p2) const;
 
 	PositionList DefendedPositions(Position p, EColor color) const;

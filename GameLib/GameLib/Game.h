@@ -74,6 +74,9 @@ private:
 	void NotifyCaptured(EPieceType type, EColor color);
 	void NotifyTimerChange();
 
+	//Move method
+	void NotifyIfCaptured(Position, Position);
+
 	// Other methods
 	void SwitchTurn();
 
