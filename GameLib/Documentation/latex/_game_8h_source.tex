@@ -1,0 +1,111 @@
+\doxysection{Game.\+h}
+\hypertarget{_game_8h_source}{}\label{_game_8h_source}\index{C:/Users/cpopovici/Documents/GitHub/Chess-\/Application/GameLib/GameLib/Game.h@{C:/Users/cpopovici/Documents/GitHub/Chess-\/Application/GameLib/GameLib/Game.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}IGame.h"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}Board.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}PGNHandler.h"{}}}
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ "{}EState.h"{}}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}Timer.h"{}}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{using\ }ListenersList\ =\ std::vector<IGameListenerWeakPtr>;}
+\DoxyCodeLine{00010\ \textcolor{keyword}{using\ }CharMatrix\ =\ std::array<std::array<char,\ 8>,\ 8>;}
+\DoxyCodeLine{00011\ }
+\DoxyCodeLine{00012\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_game}{Game}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_i_game}{IGame}},\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_i_game_status}{IGameStatus}}}
+\DoxyCodeLine{00013\ \{}
+\DoxyCodeLine{00014\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{comment}{//\ Constructor}}
+\DoxyCodeLine{00016\ \ \ \ \ \mbox{\hyperlink{class_game}{Game}}(\textcolor{keywordtype}{bool}\ wantTimer\ =\ \textcolor{keyword}{false});}
+\DoxyCodeLine{00017\ \ \ \ \ \mbox{\hyperlink{class_game}{Game}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_board}{Board}}\&\ b,\ EColor\ color\ =\ EColor::White,\ \textcolor{keywordtype}{bool}\ wantTimer\ =\ \textcolor{keyword}{false});}
+\DoxyCodeLine{00018\ \ \ \ \ \mbox{\hyperlink{class_game}{Game}}(\textcolor{keyword}{const}\ CharMatrix\&\ matrix,\ EColor\ color\ =\ EColor::White,\ EState\ state\ =\ EState::Playing,\ \textcolor{keywordtype}{bool}\ wantTimer\ =\ \textcolor{keyword}{false});}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00020\ \ \ \ \ \mbox{\hyperlink{class_game}{\string~Game}}()\ \{\}}
+\DoxyCodeLine{00021\ \ \ \ \ }
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{comment}{//\ IGame\ methods}}
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_adbe56c50e87c6e34508d90d46d8a820e}{AddListener}}(IGameListenerPtr)\ \textcolor{keyword}{override};\ \textcolor{comment}{//\ Observer}}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_af572b8b4763edf9d71d1733bb9f5d659}{RemoveListener}}(\mbox{\hyperlink{class_i_game_listener}{IGameListener}}*)\ \textcolor{keyword}{override};\ \ \ \ \textcolor{comment}{//\ Observer}}
+\DoxyCodeLine{00025\ }
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_a4dff40885a885d9810f8ca7687eccaa7}{Restart}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00027\ }
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_a2f4a2bb3db3dec950e57523e9945d301}{Move}}(\mbox{\hyperlink{struct_position}{Position}}\ p1,\ \mbox{\hyperlink{struct_position}{Position}}\ p2)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_a9abb1957aac17118d20dd5ec40c4ed18}{ProposeDraw}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_a329432ec0157456bee22e3d7c591ead9}{DrawResponse}}(\textcolor{keywordtype}{bool})\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_abae77c0c34d36e773399c2cb29f53b8e}{PromoteTo}}(EPieceType\ pieceType)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_game_acc1aed45ff933c9975d46a37e8f76beb}{IsDraw}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_game_a4fe332c1826f7b861b045223c05f5c67}{IsOver}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_game_a905862268150da81ae3c7c5176412019}{IsDrawProposed}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_game_a59f55b810c0d082ba6234addda2a5866}{IsCheck}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_game_aed07fe822d6a2cd6162aa093653f78cc}{IsPromoting}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_game_ad97e92f001e2f4a4880f5da3912d906c}{IsFrozen}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_game_af257aedc58c04923d3e1f4d5c555785d}{IsPlaying}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00040\ }
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_i_game_status}{IGameStatus}}*\ \mbox{\hyperlink{class_game_af5b7bc62d36ceca6dceeba9366b5068f}{GetStatus}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \ \ \ \ EColor\ \mbox{\hyperlink{class_game_a91e31fed96711704d282932c6a2cad0c}{GetTurn}}()\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00044\ \ \ \ \ PositionList\ GetMoves(\mbox{\hyperlink{struct_position}{Position}}\ p)\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00045\ \ \ \ \ MoveVector\ GetHistory()\textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00046\ \ \ \ \ IPieceInfoPtr\ GetPieceInfo(\mbox{\hyperlink{struct_position}{Position}})\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00047\ }
+\DoxyCodeLine{00048\ \ \ \ \ PiecesLeftVector\ GetPiecesLeft(EColor)\textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00049\ }
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_a6e0eec94f7623d9323f2acd239285df0}{Save}}(EFileFormat\ format,\ \textcolor{keyword}{const}\ String\&\ file)\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_a289fa7d5a927a6db08b35fd87ac45e0e}{Load}}(EFileFormat\ format,\ \textcolor{keyword}{const}\ String\&\ file)\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_afa069bb3235cd6a85c24107b96b83f6a}{PauseGame}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_ac01fc3779ed8d843bde10d6611d005c4}{ResumeGame}}()\ \textcolor{keyword}{override};}
+\DoxyCodeLine{00055\ }
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_game_a7891601910f872fcae6df42e3d9c99ad}{ShowConfiguration}}(\textcolor{keywordtype}{int}\ confNr);}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordtype}{int}\ GetMs(EColor\ color)\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00059\ }
+\DoxyCodeLine{00060\ \ \ \ \ \textcolor{comment}{//Other\ methods}}
+\DoxyCodeLine{00061\ \ \ \ \ PiecesPtr\ GetPiece(\mbox{\hyperlink{struct_position}{Position}})\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordtype}{bool}\ Stalemate()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{void}\ UpdateState(EState);}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{comment}{//\ Observer\ methods}}
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordtype}{void}\ NotifyMove();}
+\DoxyCodeLine{00070\ \ \ \ \ \textcolor{keywordtype}{void}\ NotifyGameOver(EOverState);}
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keywordtype}{void}\ NotifyChoosePiece();}
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keywordtype}{void}\ NotifyCheck();}
+\DoxyCodeLine{00073\ \ \ \ \ \textcolor{keywordtype}{void}\ NotifyRestart();}
+\DoxyCodeLine{00074\ \ \ \ \ \textcolor{keywordtype}{void}\ NotifyCaptured(EPieceType\ type,\ EColor\ color);}
+\DoxyCodeLine{00075\ \ \ \ \ \textcolor{keywordtype}{void}\ NotifyTimerChange();}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \ \ \ \ \textcolor{comment}{//Move\ method}}
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keywordtype}{void}\ NotifyIfCaptured(\mbox{\hyperlink{struct_position}{Position}},\ \mbox{\hyperlink{struct_position}{Position}});}
+\DoxyCodeLine{00079\ }
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{comment}{//\ Other\ methods}}
+\DoxyCodeLine{00081\ \ \ \ \ \textcolor{keywordtype}{void}\ SwitchTurn();}
+\DoxyCodeLine{00082\ }
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keywordtype}{void}\ SaveFEN(\textcolor{keyword}{const}\ String\&\ file)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keywordtype}{void}\ LoadFEN(\textcolor{keyword}{const}\ String\&\ file);}
+\DoxyCodeLine{00085\ }
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keywordtype}{void}\ SavePGN(\textcolor{keyword}{const}\ String\&\ file)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keywordtype}{void}\ LoadPGN(\textcolor{keyword}{const}\ String\&\ file);}
+\DoxyCodeLine{00088\ }
+\DoxyCodeLine{00089\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00090\ \ \ \ \ \mbox{\hyperlink{class_board}{Board}}\ m\_gameboard;}
+\DoxyCodeLine{00091\ }
+\DoxyCodeLine{00092\ \ \ \ \ EColor\ m\_turn;}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00094\ \ \ \ \ \mbox{\hyperlink{class_timer}{Timer}}\ m\_whiteTimer;}
+\DoxyCodeLine{00095\ \ \ \ \ \mbox{\hyperlink{class_timer}{Timer}}\ m\_blackTimer;}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \ \ \ \ EState\ m\_state;}
+\DoxyCodeLine{00098\ \ \ \ \ EState\ m\_initialState;}
+\DoxyCodeLine{00099\ \ \ \ \ }
+\DoxyCodeLine{00100\ \ \ \ \ ListenersList\ m\_listeners;}
+\DoxyCodeLine{00101\ \ \ \ \ }
+\DoxyCodeLine{00102\ \ \ \ \ \mbox{\hyperlink{class_p_g_n_handler}{PGNHandler}}\ m\_PGN;}
+\DoxyCodeLine{00103\ }
+\DoxyCodeLine{00104\ \ \ \ \ \textcolor{keywordtype}{bool}\ m\_wantTimer;}
+\DoxyCodeLine{00105\ \};}
+
+\end{DoxyCode}

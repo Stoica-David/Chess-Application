@@ -1,0 +1,53 @@
+\doxysection{IGame.\+h}
+\hypertarget{_i_game_8h_source}{}\label{_i_game_8h_source}\index{D:/Documentation/source/IGame.h@{D:/Documentation/source/IGame.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}Position.h"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}IGameStatus.h"{}}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ "{}IGameListener.h"{}}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <string>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <unordered\_map>}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{keyword}{using\ }String\ =\ std::string;}
+\DoxyCodeLine{00011\ \textcolor{keyword}{using\ }IGamePtr\ =\ std::shared\_ptr<class\ IGame>;}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \textcolor{keyword}{enum\ class}\ EFileFormat}
+\DoxyCodeLine{00014\ \{}
+\DoxyCodeLine{00015\ \ \ \ \ FEN,}
+\DoxyCodeLine{00016\ \ \ \ \ PGN}
+\DoxyCodeLine{00017\ \};}
+\DoxyCodeLine{00018\ }
+\DoxyCodeLine{00019\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_i_game}{IGame}}}
+\DoxyCodeLine{00020\ \{}
+\DoxyCodeLine{00021\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keyword}{static}\ IGamePtr\ \mbox{\hyperlink{class_i_game_abc90623c9219f7b9fedaac9dc6996464}{Produce}}(\textcolor{keywordtype}{bool}\ wantTimer\ =\ \textcolor{keyword}{false});}
+\DoxyCodeLine{00031\ }
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{class_i_game_a91b14c1b6019364120d5c5e4d4c64414}{\string~IGame}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00037\ }
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_i_game_a44348b4d4879147173849561fc8c6846}{AddListener}}(IGameListenerPtr)\ =\ 0;}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_i_game_adb29c26ef9fe1f5b6edb5fb1c5ff437f}{RemoveListener}}(\mbox{\hyperlink{class_i_game_listener}{IGameListener}}*)\ =\ 0;}
+\DoxyCodeLine{00052\ }
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_i_game_a32ea1e3bcf22446f088b8dae36c7033d}{Restart}}()\ =\ 0;}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_i_game_a58f939100e63910207f9f1eda91d0f27}{Move}}(Position,\ Position)\ =\ 0;}
+\DoxyCodeLine{00072\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_i_game_a2ea8412ab7d821552b8cad6e52cd242e}{ProposeDraw}}()\ =\ 0;}
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_i_game_afa9a97809c4eff87cbb1d4acfd585f8e}{DrawResponse}}(\textcolor{keywordtype}{bool})\ =\ 0;}
+\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_i_game_a61dc0a8396e74190c11758d295dc6862}{PromoteTo}}(EPieceType)\ =\ 0;}
+\DoxyCodeLine{00094\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_i_game_ae66cd941a10fadeaaff6f95739f8a337}{ShowConfiguration}}(\textcolor{keywordtype}{int}\ confNr)\ =\ 0;}
+\DoxyCodeLine{00095\ }
+\DoxyCodeLine{00101\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keyword}{const}\ \mbox{\hyperlink{class_i_game_status}{IGameStatus}}*\ \mbox{\hyperlink{class_i_game_ac083ccc91973f8b4084bcdf0ff403492}{GetStatus}}()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00109\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_i_game_ac4893b10c4d38109fe9fb518082df2ba}{Save}}(EFileFormat\ format,\ \textcolor{keyword}{const}\ String\&\ file)\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00110\ }
+\DoxyCodeLine{00117\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_i_game_aae690e4e4985cdf4d83a07eb904b794e}{Load}}(EFileFormat\ format,\ \textcolor{keyword}{const}\ String\&\ file)\ =\ 0;}
+\DoxyCodeLine{00118\ }
+\DoxyCodeLine{00123\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_i_game_ac20ae5355439e21f0961eda1fc84c556}{PauseGame}}()\ =\ 0;}
+\DoxyCodeLine{00124\ }
+\DoxyCodeLine{00129\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_i_game_ae5aee6eae854061ed400c8a72ffcc8de}{ResumeGame}}()\ =\ 0;}
+\DoxyCodeLine{00130\ \};}
+
+\end{DoxyCode}

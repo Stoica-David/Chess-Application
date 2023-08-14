@@ -1,0 +1,30 @@
+\doxysection{Pawn.\+h}
+\hypertarget{_pawn_8h_source}{}\label{_pawn_8h_source}\index{C:/Users/cpopovici/Documents/GitHub/Chess-\/Application/GameLib/GameLib/Pawn.h@{C:/Users/cpopovici/Documents/GitHub/Chess-\/Application/GameLib/GameLib/Pawn.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ "{}Piece.h"{}}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_pawn}{Pawn}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_piece}{Piece}}}
+\DoxyCodeLine{00005\ \{}
+\DoxyCodeLine{00006\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00007\ \ \ \ \ \textcolor{comment}{//\ Constructor}}
+\DoxyCodeLine{00008\ \ \ \ \ \mbox{\hyperlink{class_pawn}{Pawn}}(EColor);}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{comment}{//\ Piece\ methods}}
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keywordtype}{bool}\ IsMoveRegular(\mbox{\hyperlink{struct_position}{Position}}\ p1,\ \mbox{\hyperlink{struct_position}{Position}}\ p2)\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \ \ \ \ PositionList\ DeterminePattern(\mbox{\hyperlink{struct_position}{Position}}\ p1,\ \mbox{\hyperlink{struct_position}{Position}}\ p2)\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \ \ \ \ PositionMatrix\ AllMoves(\mbox{\hyperlink{struct_position}{Position}}\ p)\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keywordtype}{bool}\ StartingPosition(\textcolor{keywordtype}{int}\ x)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keywordtype}{bool}\ MovesTooMuch(\mbox{\hyperlink{struct_position}{Position}}\ p1,\ \mbox{\hyperlink{struct_position}{Position}}\ p2)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{bool}\ WrongForward(\mbox{\hyperlink{struct_position}{Position}}\ p1,\ \mbox{\hyperlink{struct_position}{Position}}\ p2)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordtype}{bool}\ MovesBackwards(\mbox{\hyperlink{struct_position}{Position}}\ p1,\ \mbox{\hyperlink{struct_position}{Position}}\ p2)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{bool}\ WrongDiagonal(\mbox{\hyperlink{struct_position}{Position}}\ p1,\ \mbox{\hyperlink{struct_position}{Position}}\ p2)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00023\ \};}
+\DoxyCodeLine{00024\ }
+
+\end{DoxyCode}

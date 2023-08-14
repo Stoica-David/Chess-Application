@@ -1,0 +1,210 @@
+\doxysection{IGame Class Reference}
+\hypertarget{class_i_game}{}\label{class_i_game}\index{IGame@{IGame}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_i_game_a91b14c1b6019364120d5c5e4d4c64414}\label{class_i_game_a91b14c1b6019364120d5c5e4d4c64414} 
+virtual {\bfseries \texorpdfstring{$\sim$}{\string~}\+IGame} ()=default
+\begin{DoxyCompactList}\small\item\em Destroys game Necessary virtual destructor. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_i_game_a44348b4d4879147173849561fc8c6846}{Add\+Listener}} (IGame\+Listener\+Ptr)=0
+\begin{DoxyCompactList}\small\item\em Adds a listeners Binds timer class method \"{}\+Set\+Notify\+Change\"{} to game class method \"{}\+Notify\+Timer\+Change\"{}. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_i_game_adb29c26ef9fe1f5b6edb5fb1c5ff437f}{Remove\+Listener}} (\mbox{\hyperlink{class_i_game_listener}{IGame\+Listener}} \texorpdfstring{$\ast$}{*})=0
+\begin{DoxyCompactList}\small\item\em Removes listeners by making them weak pointers. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_i_game_a32ea1e3bcf22446f088b8dae36c7033d}{Restart}} ()=0
+\item 
+virtual void \mbox{\hyperlink{class_i_game_a58f939100e63910207f9f1eda91d0f27}{Move}} (Position, Position)=0
+\item 
+virtual void \mbox{\hyperlink{class_i_game_a2ea8412ab7d821552b8cad6e52cd242e}{Propose\+Draw}} ()=0
+\item 
+virtual void \mbox{\hyperlink{class_i_game_afa9a97809c4eff87cbb1d4acfd585f8e}{Draw\+Response}} (bool)=0
+\item 
+virtual void \mbox{\hyperlink{class_i_game_a61dc0a8396e74190c11758d295dc6862}{Promote\+To}} (EPiece\+Type)=0
+\item 
+virtual void \mbox{\hyperlink{class_i_game_ae66cd941a10fadeaaff6f95739f8a337}{Show\+Configuration}} (int conf\+Nr)=0
+\item 
+virtual const \mbox{\hyperlink{class_i_game_status}{IGame\+Status}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_i_game_ac083ccc91973f8b4084bcdf0ff403492}{Get\+Status}} () const =0
+\item 
+virtual void \mbox{\hyperlink{class_i_game_ac4893b10c4d38109fe9fb518082df2ba}{Save}} (EFile\+Format format, const String \&file) const =0
+\item 
+virtual void \mbox{\hyperlink{class_i_game_aae690e4e4985cdf4d83a07eb904b794e}{Load}} (EFile\+Format format, const String \&file)=0
+\item 
+virtual void \mbox{\hyperlink{class_i_game_ac20ae5355439e21f0961eda1fc84c556}{Pause\+Game}} ()=0
+\item 
+virtual void \mbox{\hyperlink{class_i_game_ae5aee6eae854061ed400c8a72ffcc8de}{Resume\+Game}} ()=0
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+static IGame\+Ptr \mbox{\hyperlink{class_i_game_abc90623c9219f7b9fedaac9dc6996464}{Produce}} (bool want\+Timer=false)
+\begin{DoxyCompactList}\small\item\em Produces a game Produces a game by calling the Game() constructor. \end{DoxyCompactList}\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_i_game_a44348b4d4879147173849561fc8c6846}\label{class_i_game_a44348b4d4879147173849561fc8c6846} 
+\index{IGame@{IGame}!AddListener@{AddListener}}
+\index{AddListener@{AddListener}!IGame@{IGame}}
+\doxysubsubsection{\texorpdfstring{AddListener()}{AddListener()}}
+{\footnotesize\ttfamily virtual void IGame\+::\+Add\+Listener (\begin{DoxyParamCaption}\item[{IGame\+Listener\+Ptr}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Adds a listeners Binds timer class method \"{}\+Set\+Notify\+Change\"{} to game class method \"{}\+Notify\+Timer\+Change\"{}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em IGame\+Listener\+Ptr} & is a shared pointer to a listener \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_i_game_afa9a97809c4eff87cbb1d4acfd585f8e}\label{class_i_game_afa9a97809c4eff87cbb1d4acfd585f8e} 
+\index{IGame@{IGame}!DrawResponse@{DrawResponse}}
+\index{DrawResponse@{DrawResponse}!IGame@{IGame}}
+\doxysubsubsection{\texorpdfstring{DrawResponse()}{DrawResponse()}}
+{\footnotesize\ttfamily virtual void IGame\+::\+Draw\+Response (\begin{DoxyParamCaption}\item[{bool}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Dictates is the game stops or continues depending on the other player\textquotesingle{}s response
+
+
+\begin{DoxyParams}{Parameters}
+{\em bool} & true if the player agreed to draw, false otherwise \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_i_game_ac083ccc91973f8b4084bcdf0ff403492}\label{class_i_game_ac083ccc91973f8b4084bcdf0ff403492} 
+\index{IGame@{IGame}!GetStatus@{GetStatus}}
+\index{GetStatus@{GetStatus}!IGame@{IGame}}
+\doxysubsubsection{\texorpdfstring{GetStatus()}{GetStatus()}}
+{\footnotesize\ttfamily virtual const \mbox{\hyperlink{class_i_game_status}{IGame\+Status}} \texorpdfstring{$\ast$}{*} IGame\+::\+Get\+Status (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Contains getters for all informations related to a game status
+
+\begin{DoxyReturn}{Returns}
+\doxylink{class_i_game_status}{IGame\+Status} pointer to a \doxylink{class_i_game_status}{IGame\+Status} class 
+\end{DoxyReturn}
+\Hypertarget{class_i_game_aae690e4e4985cdf4d83a07eb904b794e}\label{class_i_game_aae690e4e4985cdf4d83a07eb904b794e} 
+\index{IGame@{IGame}!Load@{Load}}
+\index{Load@{Load}!IGame@{IGame}}
+\doxysubsubsection{\texorpdfstring{Load()}{Load()}}
+{\footnotesize\ttfamily virtual void IGame\+::\+Load (\begin{DoxyParamCaption}\item[{EFile\+Format}]{format,  }\item[{const String \&}]{file }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Loads either FEN or PGN formats from computer to board
+
+
+\begin{DoxyParams}{Parameters}
+{\em format} & specifies the format in which to load the state of the board \\
+\hline
+{\em file} & the string containing the info \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_i_game_a58f939100e63910207f9f1eda91d0f27}\label{class_i_game_a58f939100e63910207f9f1eda91d0f27} 
+\index{IGame@{IGame}!Move@{Move}}
+\index{Move@{Move}!IGame@{IGame}}
+\doxysubsubsection{\texorpdfstring{Move()}{Move()}}
+{\footnotesize\ttfamily virtual void IGame\+::\+Move (\begin{DoxyParamCaption}\item[{Position}]{,  }\item[{Position}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Moves a piece from an initial position to another position Contains all the logic of pieces, checks the surroundings to see if a specific move is possible It throws specific exceptions if the move is not possible Notifies the Ui listener about the move Adds moves to the PGN format
+
+
+\begin{DoxyParams}{Parameters}
+{\em Position} & is a pair with two coordinates \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_i_game_ac20ae5355439e21f0961eda1fc84c556}\label{class_i_game_ac20ae5355439e21f0961eda1fc84c556} 
+\index{IGame@{IGame}!PauseGame@{PauseGame}}
+\index{PauseGame@{PauseGame}!IGame@{IGame}}
+\doxysubsubsection{\texorpdfstring{PauseGame()}{PauseGame()}}
+{\footnotesize\ttfamily virtual void IGame\+::\+Pause\+Game (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Updates the state of the game Stops timer \Hypertarget{class_i_game_abc90623c9219f7b9fedaac9dc6996464}\label{class_i_game_abc90623c9219f7b9fedaac9dc6996464} 
+\index{IGame@{IGame}!Produce@{Produce}}
+\index{Produce@{Produce}!IGame@{IGame}}
+\doxysubsubsection{\texorpdfstring{Produce()}{Produce()}}
+{\footnotesize\ttfamily static IGame\+Ptr IGame\+::\+Produce (\begin{DoxyParamCaption}\item[{bool}]{want\+Timer = {\ttfamily false} }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [static]}}
+
+
+
+Produces a game Produces a game by calling the Game() constructor. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em want\+Timer} & specifies type of game that user chooses\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to a \doxylink{class_i_game}{IGame} 
+\end{DoxyReturn}
+\Hypertarget{class_i_game_a61dc0a8396e74190c11758d295dc6862}\label{class_i_game_a61dc0a8396e74190c11758d295dc6862} 
+\index{IGame@{IGame}!PromoteTo@{PromoteTo}}
+\index{PromoteTo@{PromoteTo}!IGame@{IGame}}
+\doxysubsubsection{\texorpdfstring{PromoteTo()}{PromoteTo()}}
+{\footnotesize\ttfamily virtual void IGame\+::\+Promote\+To (\begin{DoxyParamCaption}\item[{EPiece\+Type}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Promotes a piece Updates the PGN Resumes the game to playing state Switches turn
+
+
+\begin{DoxyParams}{Parameters}
+{\em EPiece\+Type} & specifies the type wanted to promote in \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_i_game_a2ea8412ab7d821552b8cad6e52cd242e}\label{class_i_game_a2ea8412ab7d821552b8cad6e52cd242e} 
+\index{IGame@{IGame}!ProposeDraw@{ProposeDraw}}
+\index{ProposeDraw@{ProposeDraw}!IGame@{IGame}}
+\doxysubsubsection{\texorpdfstring{ProposeDraw()}{ProposeDraw()}}
+{\footnotesize\ttfamily virtual void IGame\+::\+Propose\+Draw (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Updates state of the game Switches turn for the other player to in order to respond \Hypertarget{class_i_game_adb29c26ef9fe1f5b6edb5fb1c5ff437f}\label{class_i_game_adb29c26ef9fe1f5b6edb5fb1c5ff437f} 
+\index{IGame@{IGame}!RemoveListener@{RemoveListener}}
+\index{RemoveListener@{RemoveListener}!IGame@{IGame}}
+\doxysubsubsection{\texorpdfstring{RemoveListener()}{RemoveListener()}}
+{\footnotesize\ttfamily virtual void IGame\+::\+Remove\+Listener (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_i_game_listener}{IGame\+Listener}} \texorpdfstring{$\ast$}{*}}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+
+
+Removes listeners by making them weak pointers. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em IGame\+Listener\texorpdfstring{$\ast$}{*}} & normal pointer to listener \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_i_game_a32ea1e3bcf22446f088b8dae36c7033d}\label{class_i_game_a32ea1e3bcf22446f088b8dae36c7033d} 
+\index{IGame@{IGame}!Restart@{Restart}}
+\index{Restart@{Restart}!IGame@{IGame}}
+\doxysubsubsection{\texorpdfstring{Restart()}{Restart()}}
+{\footnotesize\ttfamily virtual void IGame\+::\+Restart (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Restarts a game and informs Chess\+Ui\+Qt listener \Hypertarget{class_i_game_ae5aee6eae854061ed400c8a72ffcc8de}\label{class_i_game_ae5aee6eae854061ed400c8a72ffcc8de} 
+\index{IGame@{IGame}!ResumeGame@{ResumeGame}}
+\index{ResumeGame@{ResumeGame}!IGame@{IGame}}
+\doxysubsubsection{\texorpdfstring{ResumeGame()}{ResumeGame()}}
+{\footnotesize\ttfamily virtual void IGame\+::\+Resume\+Game (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Updates the state of the game Starts timer again \Hypertarget{class_i_game_ac4893b10c4d38109fe9fb518082df2ba}\label{class_i_game_ac4893b10c4d38109fe9fb518082df2ba} 
+\index{IGame@{IGame}!Save@{Save}}
+\index{Save@{Save}!IGame@{IGame}}
+\doxysubsubsection{\texorpdfstring{Save()}{Save()}}
+{\footnotesize\ttfamily virtual void IGame\+::\+Save (\begin{DoxyParamCaption}\item[{EFile\+Format}]{format,  }\item[{const String \&}]{file }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Saves either FEN or PGN formats to computer
+
+
+\begin{DoxyParams}{Parameters}
+{\em format} & specifies the format in which to save the state of the board \\
+\hline
+{\em file} & the string containing the info \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_i_game_ae66cd941a10fadeaaff6f95739f8a337}\label{class_i_game_ae66cd941a10fadeaaff6f95739f8a337} 
+\index{IGame@{IGame}!ShowConfiguration@{ShowConfiguration}}
+\index{ShowConfiguration@{ShowConfiguration}!IGame@{IGame}}
+\doxysubsubsection{\texorpdfstring{ShowConfiguration()}{ShowConfiguration()}}
+{\footnotesize\ttfamily virtual void IGame\+::\+Show\+Configuration (\begin{DoxyParamCaption}\item[{int}]{conf\+Nr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Goes in the bitset vector, takes the conf\+Nrth configuration from history Transforms this configuration into a Board Updates current board to the newly converted one 
+\begin{DoxyParams}{Parameters}
+{\em conf\+Nr} & configuration number \\
+\hline
+\end{DoxyParams}
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+D\+:/\+Documentation/source/IGame.\+h\end{DoxyCompactItemize}

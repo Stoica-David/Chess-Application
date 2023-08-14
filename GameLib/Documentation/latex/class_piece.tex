@@ -1,0 +1,148 @@
+\doxysection{Piece Class Reference}
+\hypertarget{class_piece}{}\label{class_piece}\index{Piece@{Piece}}
+Inheritance diagram for Piece\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_piece}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_piece_ae6b560ef1177e745a68b72f091d712db}\label{class_piece_ae6b560ef1177e745a68b72f091d712db} 
+{\bfseries Piece} (EPiece\+Type, EColor)
+\item 
+\Hypertarget{class_piece_afe29359a3130be5f01dd03b9f89e64cb}\label{class_piece_afe29359a3130be5f01dd03b9f89e64cb} 
+EPiece\+Type {\bfseries Get\+Type} () const
+\item 
+\Hypertarget{class_piece_aa77af5cb317980dd1d7894f6d0a02a9e}\label{class_piece_aa77af5cb317980dd1d7894f6d0a02a9e} 
+EColor {\bfseries Get\+Color} () const
+\item 
+\Hypertarget{class_piece_a36afd3f25fe8524dc8013ab253404162}\label{class_piece_a36afd3f25fe8524dc8013ab253404162} 
+bool {\bfseries Get\+Has\+Moved} () const
+\item 
+\Hypertarget{class_piece_aa64245a1a94b0d877982be964b71640e}\label{class_piece_aa64245a1a94b0d877982be964b71640e} 
+bool {\bfseries Get\+Left\+Passant} () const
+\item 
+\Hypertarget{class_piece_af432f92fb0c258d7c63ab357dcab43af}\label{class_piece_af432f92fb0c258d7c63ab357dcab43af} 
+bool {\bfseries Get\+Right\+Passant} () const
+\item 
+\Hypertarget{class_piece_aedeee030fa57a2ff7988bc60cb61684b}\label{class_piece_aedeee030fa57a2ff7988bc60cb61684b} 
+void {\bfseries Set\+Has\+Moved} (bool)
+\item 
+\Hypertarget{class_piece_a5cc23050d6241084e14222b0da8b029c}\label{class_piece_a5cc23050d6241084e14222b0da8b029c} 
+void {\bfseries Set\+Left\+Passant} (bool)
+\item 
+\Hypertarget{class_piece_a14d1cf0a33f62920c36c50bc45aaed57}\label{class_piece_a14d1cf0a33f62920c36c50bc45aaed57} 
+void {\bfseries Set\+Right\+Passant} (bool)
+\item 
+bool \mbox{\hyperlink{class_piece_ad2c5cb6fe70b6142680b13a8cecf7969}{Is\+Move\+Regular}} (\mbox{\hyperlink{struct_position}{Position}} p1, \mbox{\hyperlink{struct_position}{Position}} p2) const override
+\item 
+Position\+List \mbox{\hyperlink{class_piece_aff1d03b1f648b21360f748420d020632}{Determine\+Pattern}} (\mbox{\hyperlink{struct_position}{Position}} p1, \mbox{\hyperlink{struct_position}{Position}} p2) const override
+\item 
+Position\+Matrix \mbox{\hyperlink{class_piece_a059e7bd9b88fa71a269789b546b9a2a0}{All\+Moves}} (\mbox{\hyperlink{struct_position}{Position}} p) const override
+\item 
+\Hypertarget{class_piece_a8212f45b674c989e5cca13f5d4563a41}\label{class_piece_a8212f45b674c989e5cca13f5d4563a41} 
+bool {\bfseries Is} (EPiece\+Type type) const
+\item 
+\Hypertarget{class_piece_a640d78217e8f51f40c19622fb7cdf05a}\label{class_piece_a640d78217e8f51f40c19622fb7cdf05a} 
+bool {\bfseries Is} (EColor color) const
+\item 
+\Hypertarget{class_piece_ab6334ccce8b9c2ac9be992333b22b6a6}\label{class_piece_ab6334ccce8b9c2ac9be992333b22b6a6} 
+bool {\bfseries Is} (EPiece\+Type type, EColor color) const
+\item 
+\Hypertarget{class_piece_a9ec234d9db9be97d72c1f9cd4d2cbc19}\label{class_piece_a9ec234d9db9be97d72c1f9cd4d2cbc19} 
+bool {\bfseries Same\+Color} (Pieces\+Ptr piece) const
+\item 
+\Hypertarget{class_piece_af81de891d7f7f27174b146d8fe3bbba6}\label{class_piece_af81de891d7f7f27174b146d8fe3bbba6} 
+char {\bfseries Convert\+Piece} () const
+\end{DoxyCompactItemize}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_i_piece_a139633b7248e730b6976a79edf4debdd}\label{class_i_piece_a139633b7248e730b6976a79edf4debdd} 
+virtual bool {\bfseries Is\+Move\+Regular} (\mbox{\hyperlink{struct_position}{Position}} p1, \mbox{\hyperlink{struct_position}{Position}} p2) const =0
+\item 
+\Hypertarget{class_i_piece_aea941dcb33022bd3c545622101fda07d}\label{class_i_piece_aea941dcb33022bd3c545622101fda07d} 
+virtual Position\+List {\bfseries Determine\+Pattern} (\mbox{\hyperlink{struct_position}{Position}} p1, \mbox{\hyperlink{struct_position}{Position}} p2) const =0
+\item 
+\Hypertarget{class_i_piece_a35d3c59a98974e760f664ae5e475adea}\label{class_i_piece_a35d3c59a98974e760f664ae5e475adea} 
+virtual Position\+Matrix {\bfseries All\+Moves} (\mbox{\hyperlink{struct_position}{Position}} p) const =0
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_piece_ab44024156ef6e622bb0016b5d81caf12}\label{class_piece_ab44024156ef6e622bb0016b5d81caf12} 
+static Pieces\+Ptr {\bfseries Produce} (EPiece\+Type type, EColor color)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_piece_a6102b1b8b299ff51a6efdee5e0a0ab3d}\label{class_piece_a6102b1b8b299ff51a6efdee5e0a0ab3d} 
+bool {\bfseries Is\+Color} (EColor) const
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Static Protected Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_piece_ae8bf423c4ee61872e00d1dfa2e2377fe}\label{class_piece_ae8bf423c4ee61872e00d1dfa2e2377fe} 
+static bool {\bfseries Is\+In\+Table} (\mbox{\hyperlink{struct_position}{Position}} p)
+\item 
+\Hypertarget{class_piece_ac53e2d35bdaf0b557424591d1c66bcb2}\label{class_piece_ac53e2d35bdaf0b557424591d1c66bcb2} 
+static int {\bfseries Abs\+Value} (int, int)
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Protected Attributes}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_piece_ae8594431dc9932a611cfe3c115cb1913}\label{class_piece_ae8594431dc9932a611cfe3c115cb1913} 
+EPiece\+Type {\bfseries m\+\_\+type}
+\item 
+\Hypertarget{class_piece_a462691a8a043523d1b7f27f4ae6ed64a}\label{class_piece_a462691a8a043523d1b7f27f4ae6ed64a} 
+EColor {\bfseries m\+\_\+color}
+\item 
+\Hypertarget{class_piece_a4b88a083b123c1254736f7b3c365e3b2}\label{class_piece_a4b88a083b123c1254736f7b3c365e3b2} 
+bool {\bfseries m\+\_\+has\+Moved}
+\item 
+\Hypertarget{class_piece_a0a5c1cf89ef1dd0cc30ffdd19d46172f}\label{class_piece_a0a5c1cf89ef1dd0cc30ffdd19d46172f} 
+bool {\bfseries m\+\_\+left\+Passant}
+\item 
+\Hypertarget{class_piece_aa454c15cff0669420eaf61036dc404ca}\label{class_piece_aa454c15cff0669420eaf61036dc404ca} 
+bool {\bfseries m\+\_\+right\+Passant}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_piece_a059e7bd9b88fa71a269789b546b9a2a0}\label{class_piece_a059e7bd9b88fa71a269789b546b9a2a0} 
+\index{Piece@{Piece}!AllMoves@{AllMoves}}
+\index{AllMoves@{AllMoves}!Piece@{Piece}}
+\doxysubsubsection{\texorpdfstring{AllMoves()}{AllMoves()}}
+{\footnotesize\ttfamily Position\+Matrix Piece\+::\+All\+Moves (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_position}{Position}}}]{p }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{class_i_piece}{IPiece}}.
+
+\Hypertarget{class_piece_aff1d03b1f648b21360f748420d020632}\label{class_piece_aff1d03b1f648b21360f748420d020632} 
+\index{Piece@{Piece}!DeterminePattern@{DeterminePattern}}
+\index{DeterminePattern@{DeterminePattern}!Piece@{Piece}}
+\doxysubsubsection{\texorpdfstring{DeterminePattern()}{DeterminePattern()}}
+{\footnotesize\ttfamily Position\+List Piece\+::\+Determine\+Pattern (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_position}{Position}}}]{p1,  }\item[{\mbox{\hyperlink{struct_position}{Position}}}]{p2 }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{class_i_piece}{IPiece}}.
+
+\Hypertarget{class_piece_ad2c5cb6fe70b6142680b13a8cecf7969}\label{class_piece_ad2c5cb6fe70b6142680b13a8cecf7969} 
+\index{Piece@{Piece}!IsMoveRegular@{IsMoveRegular}}
+\index{IsMoveRegular@{IsMoveRegular}!Piece@{Piece}}
+\doxysubsubsection{\texorpdfstring{IsMoveRegular()}{IsMoveRegular()}}
+{\footnotesize\ttfamily bool Piece\+::\+Is\+Move\+Regular (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_position}{Position}}}]{p1,  }\item[{\mbox{\hyperlink{struct_position}{Position}}}]{p2 }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{class_i_piece}{IPiece}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/cpopovici/\+Documents/\+Git\+Hub/\+Chess-\/\+Application/\+Game\+Lib/\+Game\+Lib/Piece.\+h\item 
+C\+:/\+Users/cpopovici/\+Documents/\+Git\+Hub/\+Chess-\/\+Application/\+Game\+Lib/\+Game\+Lib/Piece.\+cpp\end{DoxyCompactItemize}

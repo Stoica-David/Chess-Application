@@ -9,6 +9,7 @@ bool Bishop::IsMoveRegular(Position p1, Position p2) const
 	return (BishopMove(p1, p2));
 }
 
+
 PositionList Bishop::DeterminePattern(Position p1, Position p2) const
 {
 	PositionList newPosition;
@@ -114,7 +115,7 @@ PositionMatrix Bishop::AllMoves(Position p) const
 		x++;
 		y++;
 
-		newMatrix[3].push_back({x, y});
+		newMatrix[3].push_back({ x, y });
 	}
 
 	return newMatrix;

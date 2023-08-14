@@ -1,0 +1,23 @@
+\doxysection{Queen.\+h}
+\hypertarget{_queen_8h_source}{}\label{_queen_8h_source}\index{C:/Users/cpopovici/Documents/GitHub/Chess-\/Application/GameLib/GameLib/Queen.h@{C:/Users/cpopovici/Documents/GitHub/Chess-\/Application/GameLib/GameLib/Queen.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ \textcolor{preprocessor}{\#include\ "{}Piece.h"{}}}
+\DoxyCodeLine{00003\ }
+\DoxyCodeLine{00004\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_queen}{Queen}}\ :\ \textcolor{keyword}{public}\ \mbox{\hyperlink{class_piece}{Piece}}}
+\DoxyCodeLine{00005\ \{}
+\DoxyCodeLine{00006\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00007\ \ \ \ \ \textcolor{comment}{//\ Constructor}}
+\DoxyCodeLine{00008\ \ \ \ \ \mbox{\hyperlink{class_queen}{Queen}}(EColor);}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \ \ \ \ \textcolor{comment}{//\ Piece\ methods}}
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keywordtype}{bool}\ IsMoveRegular(\mbox{\hyperlink{struct_position}{Position}}\ p1,\ \mbox{\hyperlink{struct_position}{Position}}\ p2)\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00012\ }
+\DoxyCodeLine{00013\ \ \ \ \ PositionList\ DeterminePattern(\mbox{\hyperlink{struct_position}{Position}}\ p1,\ \mbox{\hyperlink{struct_position}{Position}}\ p2)\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00014\ \ \ \ }
+\DoxyCodeLine{00015\ \ \ \ \ PositionMatrix\ AllMoves(\mbox{\hyperlink{struct_position}{Position}}\ p)\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00016\ \};}
+\DoxyCodeLine{00017\ }
+
+\end{DoxyCode}

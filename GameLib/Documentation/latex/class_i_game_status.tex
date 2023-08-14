@@ -1,0 +1,160 @@
+\doxysection{IGame\+Status Class Reference}
+\hypertarget{class_i_game_status}{}\label{class_i_game_status}\index{IGameStatus@{IGameStatus}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual bool \mbox{\hyperlink{class_i_game_status_aa4afb663c30478c2bf09b21c1c1ebafa}{Is\+Draw}} () const =0
+\item 
+virtual bool \mbox{\hyperlink{class_i_game_status_a73dd5790e5b8d30a840f215ed34260a5}{Is\+Over}} () const =0
+\item 
+virtual bool \mbox{\hyperlink{class_i_game_status_a641fa29386c448c7ffca1fc6438ca3bb}{Is\+Draw\+Proposed}} () const =0
+\item 
+virtual bool \mbox{\hyperlink{class_i_game_status_abcfa26af03e23199a2ca25fc51fdc114}{Is\+Check}} () const =0
+\item 
+virtual bool \mbox{\hyperlink{class_i_game_status_a11e074d1f8572695dc117ab927966de2}{Is\+Promoting}} () const =0
+\item 
+virtual bool \mbox{\hyperlink{class_i_game_status_a5fe4283efea9d4df8096cf7b48e182f2}{Is\+Frozen}} () const =0
+\item 
+virtual bool \mbox{\hyperlink{class_i_game_status_aad4fbd094854219eae3ac4de9cf2472b}{Is\+Playing}} () const =0
+\item 
+virtual EColor \mbox{\hyperlink{class_i_game_status_a6a6a67a198a33c7c59a1d64029e9cfcd}{Get\+Turn}} () const =0
+\item 
+virtual Position\+List \mbox{\hyperlink{class_i_game_status_ae1ab9502323d2c09d31784ddd357d269}{Get\+Moves}} (Position p) const =0
+\item 
+virtual Move\+Vector \mbox{\hyperlink{class_i_game_status_a431feea28092c2f87559db66a0c86af2}{Get\+History}} () const =0
+\item 
+virtual IPiece\+Info\+Ptr \mbox{\hyperlink{class_i_game_status_ad699960754085a943ebdee909f1cfad9}{Get\+Piece\+Info}} (Position) const =0
+\item 
+virtual int \mbox{\hyperlink{class_i_game_status_a8ff07904f52ba8cd001760488073f703}{Get\+Ms}} (EColor color) const =0
+\item 
+virtual Pieces\+Left\+Vector \mbox{\hyperlink{class_i_game_status_ac43085eb830b7c4ce8064561e25db923}{Get\+Pieces\+Left}} (EColor) const =0
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_i_game_status_a431feea28092c2f87559db66a0c86af2}\label{class_i_game_status_a431feea28092c2f87559db66a0c86af2} 
+\index{IGameStatus@{IGameStatus}!GetHistory@{GetHistory}}
+\index{GetHistory@{GetHistory}!IGameStatus@{IGameStatus}}
+\doxysubsubsection{\texorpdfstring{GetHistory()}{GetHistory()}}
+{\footnotesize\ttfamily virtual Move\+Vector IGame\+Status\+::\+Get\+History (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Obtains past moves
+
+\begin{DoxyReturn}{Returns}
+vector of positions 
+\end{DoxyReturn}
+\Hypertarget{class_i_game_status_ae1ab9502323d2c09d31784ddd357d269}\label{class_i_game_status_ae1ab9502323d2c09d31784ddd357d269} 
+\index{IGameStatus@{IGameStatus}!GetMoves@{GetMoves}}
+\index{GetMoves@{GetMoves}!IGameStatus@{IGameStatus}}
+\doxysubsubsection{\texorpdfstring{GetMoves()}{GetMoves()}}
+{\footnotesize\ttfamily virtual Position\+List IGame\+Status\+::\+Get\+Moves (\begin{DoxyParamCaption}\item[{Position}]{p }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Determines positions where a piece can move depending on surroundings 
+\begin{DoxyParams}{Parameters}
+{\em p} & position inside board \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+vector of possible positions where a piece can go 
+\end{DoxyReturn}
+\Hypertarget{class_i_game_status_a8ff07904f52ba8cd001760488073f703}\label{class_i_game_status_a8ff07904f52ba8cd001760488073f703} 
+\index{IGameStatus@{IGameStatus}!GetMs@{GetMs}}
+\index{GetMs@{GetMs}!IGameStatus@{IGameStatus}}
+\doxysubsubsection{\texorpdfstring{GetMs()}{GetMs()}}
+{\footnotesize\ttfamily virtual int IGame\+Status\+::\+Get\+Ms (\begin{DoxyParamCaption}\item[{EColor}]{color }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Obtain left milliseconds of given player
+
+
+\begin{DoxyParams}{Parameters}
+{\em color} & of player \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+int 
+\end{DoxyReturn}
+\Hypertarget{class_i_game_status_ad699960754085a943ebdee909f1cfad9}\label{class_i_game_status_ad699960754085a943ebdee909f1cfad9} 
+\index{IGameStatus@{IGameStatus}!GetPieceInfo@{GetPieceInfo}}
+\index{GetPieceInfo@{GetPieceInfo}!IGameStatus@{IGameStatus}}
+\doxysubsubsection{\texorpdfstring{GetPieceInfo()}{GetPieceInfo()}}
+{\footnotesize\ttfamily virtual IPiece\+Info\+Ptr IGame\+Status\+::\+Get\+Piece\+Info (\begin{DoxyParamCaption}\item[{Position}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Obtains information about a piece on a given position
+
+
+\begin{DoxyParams}{Parameters}
+{\em position} & on board \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+pointer to Piece\+Info 
+\end{DoxyReturn}
+\Hypertarget{class_i_game_status_ac43085eb830b7c4ce8064561e25db923}\label{class_i_game_status_ac43085eb830b7c4ce8064561e25db923} 
+\index{IGameStatus@{IGameStatus}!GetPiecesLeft@{GetPiecesLeft}}
+\index{GetPiecesLeft@{GetPiecesLeft}!IGameStatus@{IGameStatus}}
+\doxysubsubsection{\texorpdfstring{GetPiecesLeft()}{GetPiecesLeft()}}
+{\footnotesize\ttfamily virtual Pieces\+Left\+Vector IGame\+Status\+::\+Get\+Pieces\+Left (\begin{DoxyParamCaption}\item[{EColor}]{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Determine left pieces from the board
+
+
+\begin{DoxyParams}{Parameters}
+{\em color} & of pieces \\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+vector of pieces and their apparitions 
+\end{DoxyReturn}
+\Hypertarget{class_i_game_status_a6a6a67a198a33c7c59a1d64029e9cfcd}\label{class_i_game_status_a6a6a67a198a33c7c59a1d64029e9cfcd} 
+\index{IGameStatus@{IGameStatus}!GetTurn@{GetTurn}}
+\index{GetTurn@{GetTurn}!IGameStatus@{IGameStatus}}
+\doxysubsubsection{\texorpdfstring{GetTurn()}{GetTurn()}}
+{\footnotesize\ttfamily virtual EColor IGame\+Status\+::\+Get\+Turn (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Returns color of player \Hypertarget{class_i_game_status_abcfa26af03e23199a2ca25fc51fdc114}\label{class_i_game_status_abcfa26af03e23199a2ca25fc51fdc114} 
+\index{IGameStatus@{IGameStatus}!IsCheck@{IsCheck}}
+\index{IsCheck@{IsCheck}!IGameStatus@{IGameStatus}}
+\doxysubsubsection{\texorpdfstring{IsCheck()}{IsCheck()}}
+{\footnotesize\ttfamily virtual bool IGame\+Status\+::\+Is\+Check (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Checks if the game is in check state \Hypertarget{class_i_game_status_aa4afb663c30478c2bf09b21c1c1ebafa}\label{class_i_game_status_aa4afb663c30478c2bf09b21c1c1ebafa} 
+\index{IGameStatus@{IGameStatus}!IsDraw@{IsDraw}}
+\index{IsDraw@{IsDraw}!IGameStatus@{IGameStatus}}
+\doxysubsubsection{\texorpdfstring{IsDraw()}{IsDraw()}}
+{\footnotesize\ttfamily virtual bool IGame\+Status\+::\+Is\+Draw (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Checks if the game is in draw state \Hypertarget{class_i_game_status_a641fa29386c448c7ffca1fc6438ca3bb}\label{class_i_game_status_a641fa29386c448c7ffca1fc6438ca3bb} 
+\index{IGameStatus@{IGameStatus}!IsDrawProposed@{IsDrawProposed}}
+\index{IsDrawProposed@{IsDrawProposed}!IGameStatus@{IGameStatus}}
+\doxysubsubsection{\texorpdfstring{IsDrawProposed()}{IsDrawProposed()}}
+{\footnotesize\ttfamily virtual bool IGame\+Status\+::\+Is\+Draw\+Proposed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Checks if the game is in draw proposed state \Hypertarget{class_i_game_status_a5fe4283efea9d4df8096cf7b48e182f2}\label{class_i_game_status_a5fe4283efea9d4df8096cf7b48e182f2} 
+\index{IGameStatus@{IGameStatus}!IsFrozen@{IsFrozen}}
+\index{IsFrozen@{IsFrozen}!IGameStatus@{IGameStatus}}
+\doxysubsubsection{\texorpdfstring{IsFrozen()}{IsFrozen()}}
+{\footnotesize\ttfamily virtual bool IGame\+Status\+::\+Is\+Frozen (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Checks if the game is in pause state \Hypertarget{class_i_game_status_a73dd5790e5b8d30a840f215ed34260a5}\label{class_i_game_status_a73dd5790e5b8d30a840f215ed34260a5} 
+\index{IGameStatus@{IGameStatus}!IsOver@{IsOver}}
+\index{IsOver@{IsOver}!IGameStatus@{IGameStatus}}
+\doxysubsubsection{\texorpdfstring{IsOver()}{IsOver()}}
+{\footnotesize\ttfamily virtual bool IGame\+Status\+::\+Is\+Over (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Checks if the game is in over state \Hypertarget{class_i_game_status_aad4fbd094854219eae3ac4de9cf2472b}\label{class_i_game_status_aad4fbd094854219eae3ac4de9cf2472b} 
+\index{IGameStatus@{IGameStatus}!IsPlaying@{IsPlaying}}
+\index{IsPlaying@{IsPlaying}!IGameStatus@{IGameStatus}}
+\doxysubsubsection{\texorpdfstring{IsPlaying()}{IsPlaying()}}
+{\footnotesize\ttfamily virtual bool IGame\+Status\+::\+Is\+Playing (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Checks if the game is in playing state \Hypertarget{class_i_game_status_a11e074d1f8572695dc117ab927966de2}\label{class_i_game_status_a11e074d1f8572695dc117ab927966de2} 
+\index{IGameStatus@{IGameStatus}!IsPromoting@{IsPromoting}}
+\index{IsPromoting@{IsPromoting}!IGameStatus@{IGameStatus}}
+\doxysubsubsection{\texorpdfstring{IsPromoting()}{IsPromoting()}}
+{\footnotesize\ttfamily virtual bool IGame\+Status\+::\+Is\+Promoting (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Checks if the game is in choose piece state 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+D\+:/\+Documentation/source/IGame\+Status.\+h\end{DoxyCompactItemize}

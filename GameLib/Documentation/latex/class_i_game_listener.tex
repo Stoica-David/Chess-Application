@@ -1,0 +1,96 @@
+\doxysection{IGame\+Listener Class Reference}
+\hypertarget{class_i_game_listener}{}\label{class_i_game_listener}\index{IGameListener@{IGameListener}}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual void \mbox{\hyperlink{class_i_game_listener_ac9c322dafc259f37c507232221e3d4fe}{On\+Move}} ()=0
+\item 
+virtual void \mbox{\hyperlink{class_i_game_listener_a94a44af722eedb2ae7b6d047b57f387e}{On\+Game\+Over}} (EOver\+State)=0
+\item 
+virtual void \mbox{\hyperlink{class_i_game_listener_ae1ead9bbe8c72ad927c6969ffd8cdab8}{On\+Choose\+Piece}} ()=0
+\item 
+virtual void \mbox{\hyperlink{class_i_game_listener_a0d6f66ccc0b6a6d110ff2ab25fcef736}{On\+Check}} ()=0
+\item 
+virtual void \mbox{\hyperlink{class_i_game_listener_a3241499260171d7e41c4692c4352f56a}{On\+Restart}} ()=0
+\item 
+virtual void \mbox{\hyperlink{class_i_game_listener_afc68854eedd4f50ea00d154885b82d1b}{On\+Piece\+Capture}} (EPiece\+Type, EColor)=0
+\item 
+virtual void \mbox{\hyperlink{class_i_game_listener_aeb19f29bbab13aca7ad7ef75f2effe66}{On\+Timer\+Change}} ()=0
+\item 
+virtual \mbox{\hyperlink{class_i_game_listener_aa75029cbc38192375b5fcf175eebca54}{\texorpdfstring{$\sim$}{\string~}\+IGame\+Listener}} ()=default
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Constructor \& Destructor Documentation}
+\Hypertarget{class_i_game_listener_aa75029cbc38192375b5fcf175eebca54}\label{class_i_game_listener_aa75029cbc38192375b5fcf175eebca54} 
+\index{IGameListener@{IGameListener}!````~IGameListener@{\texorpdfstring{$\sim$}{\string~}IGameListener}}
+\index{````~IGameListener@{\texorpdfstring{$\sim$}{\string~}IGameListener}!IGameListener@{IGameListener}}
+\doxysubsubsection{\texorpdfstring{\texorpdfstring{$\sim$}{\string~}IGameListener()}{\string~IGameListener()}}
+{\footnotesize\ttfamily virtual IGame\+Listener\+::\texorpdfstring{$\sim$}{\string~}\+IGame\+Listener (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}, {\ttfamily [default]}}
+
+Necessary virtual destructor 
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_i_game_listener_a0d6f66ccc0b6a6d110ff2ab25fcef736}\label{class_i_game_listener_a0d6f66ccc0b6a6d110ff2ab25fcef736} 
+\index{IGameListener@{IGameListener}!OnCheck@{OnCheck}}
+\index{OnCheck@{OnCheck}!IGameListener@{IGameListener}}
+\doxysubsubsection{\texorpdfstring{OnCheck()}{OnCheck()}}
+{\footnotesize\ttfamily virtual void IGame\+Listener\+::\+On\+Check (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Updates the Ui to display check state \Hypertarget{class_i_game_listener_ae1ead9bbe8c72ad927c6969ffd8cdab8}\label{class_i_game_listener_ae1ead9bbe8c72ad927c6969ffd8cdab8} 
+\index{IGameListener@{IGameListener}!OnChoosePiece@{OnChoosePiece}}
+\index{OnChoosePiece@{OnChoosePiece}!IGameListener@{IGameListener}}
+\doxysubsubsection{\texorpdfstring{OnChoosePiece()}{OnChoosePiece()}}
+{\footnotesize\ttfamily virtual void IGame\+Listener\+::\+On\+Choose\+Piece (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Updates the Ui to display promote options when needed \Hypertarget{class_i_game_listener_a94a44af722eedb2ae7b6d047b57f387e}\label{class_i_game_listener_a94a44af722eedb2ae7b6d047b57f387e} 
+\index{IGameListener@{IGameListener}!OnGameOver@{OnGameOver}}
+\index{OnGameOver@{OnGameOver}!IGameListener@{IGameListener}}
+\doxysubsubsection{\texorpdfstring{OnGameOver()}{OnGameOver()}}
+{\footnotesize\ttfamily virtual void IGame\+Listener\+::\+On\+Game\+Over (\begin{DoxyParamCaption}\item[{EOver\+State}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Updates the Ui depending of state
+
+
+\begin{DoxyParams}{Parameters}
+{\em EOver\+State} & state to update the board to \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_i_game_listener_ac9c322dafc259f37c507232221e3d4fe}\label{class_i_game_listener_ac9c322dafc259f37c507232221e3d4fe} 
+\index{IGameListener@{IGameListener}!OnMove@{OnMove}}
+\index{OnMove@{OnMove}!IGameListener@{IGameListener}}
+\doxysubsubsection{\texorpdfstring{OnMove()}{OnMove()}}
+{\footnotesize\ttfamily virtual void IGame\+Listener\+::\+On\+Move (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Updates board every on every time a move is made \Hypertarget{class_i_game_listener_afc68854eedd4f50ea00d154885b82d1b}\label{class_i_game_listener_afc68854eedd4f50ea00d154885b82d1b} 
+\index{IGameListener@{IGameListener}!OnPieceCapture@{OnPieceCapture}}
+\index{OnPieceCapture@{OnPieceCapture}!IGameListener@{IGameListener}}
+\doxysubsubsection{\texorpdfstring{OnPieceCapture()}{OnPieceCapture()}}
+{\footnotesize\ttfamily virtual void IGame\+Listener\+::\+On\+Piece\+Capture (\begin{DoxyParamCaption}\item[{EPiece\+Type}]{,  }\item[{EColor}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Updates the Ui when a specified piece is captured Displays captured pieces
+
+
+\begin{DoxyParams}{Parameters}
+{\em EPiece\+Type} & type of piece captured \\
+\hline
+{\em EColor} & color of piece captured \\
+\hline
+\end{DoxyParams}
+\Hypertarget{class_i_game_listener_a3241499260171d7e41c4692c4352f56a}\label{class_i_game_listener_a3241499260171d7e41c4692c4352f56a} 
+\index{IGameListener@{IGameListener}!OnRestart@{OnRestart}}
+\index{OnRestart@{OnRestart}!IGameListener@{IGameListener}}
+\doxysubsubsection{\texorpdfstring{OnRestart()}{OnRestart()}}
+{\footnotesize\ttfamily virtual void IGame\+Listener\+::\+On\+Restart (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Resets timers Clears captured pieces, previous moves Starts a new game \Hypertarget{class_i_game_listener_aeb19f29bbab13aca7ad7ef75f2effe66}\label{class_i_game_listener_aeb19f29bbab13aca7ad7ef75f2effe66} 
+\index{IGameListener@{IGameListener}!OnTimerChange@{OnTimerChange}}
+\index{OnTimerChange@{OnTimerChange}!IGameListener@{IGameListener}}
+\doxysubsubsection{\texorpdfstring{OnTimerChange()}{OnTimerChange()}}
+{\footnotesize\ttfamily virtual void IGame\+Listener\+::\+On\+Timer\+Change (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Updates timer 
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+D\+:/\+Documentation/source/IGame\+Listener.\+h\end{DoxyCompactItemize}

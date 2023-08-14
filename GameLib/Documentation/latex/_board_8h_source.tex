@@ -1,0 +1,134 @@
+\doxysection{Board.\+h}
+\hypertarget{_board_8h_source}{}\label{_board_8h_source}\index{C:/Users/cpopovici/Documents/GitHub/Chess-\/Application/GameLib/GameLib/Board.h@{C:/Users/cpopovici/Documents/GitHub/Chess-\/Application/GameLib/GameLib/Board.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}Piece.h"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}IPieceInfo.h"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include<array>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include<string>}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include<bitset>}}
+\DoxyCodeLine{00009\ }
+\DoxyCodeLine{00010\ \textcolor{keyword}{using\ }ChessBoard\ =\ std::array<std::array<PiecesPtr,\ 8>,\ 8>;}
+\DoxyCodeLine{00011\ \textcolor{keyword}{using\ }CharMatrix\ =\ std::array<std::array<char,\ 8>,\ 8>;}
+\DoxyCodeLine{00012\ \textcolor{keyword}{using\ }BitMatrix\ =\ std::vector<std::bitset<256>>;}
+\DoxyCodeLine{00013\ \textcolor{keyword}{using\ }Bitset\ =\ std::bitset<256>;}
+\DoxyCodeLine{00014\ \textcolor{keyword}{using\ }String\ =\ std::string;}
+\DoxyCodeLine{00015\ \textcolor{keyword}{using\ }StringVector\ =\ std::vector<std::string>;}
+\DoxyCodeLine{00016\ }
+\DoxyCodeLine{00017\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_board}{Board}}}
+\DoxyCodeLine{00018\ \{}
+\DoxyCodeLine{00019\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{comment}{//\ Constructors}}
+\DoxyCodeLine{00021\ \ \ \ \ \mbox{\hyperlink{class_board}{Board}}();}
+\DoxyCodeLine{00022\ \ \ \ \ \mbox{\hyperlink{class_board}{Board}}(\textcolor{keyword}{const}\ CharMatrix\&);}
+\DoxyCodeLine{00023\ \ \ \ \ \mbox{\hyperlink{class_board}{Board}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_board}{Board}}\&);}
+\DoxyCodeLine{00024\ }
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{comment}{//\ Setters}}
+\DoxyCodeLine{00026\ \ \ \ \ PiecesPtr\&\ at(\mbox{\hyperlink{struct_position}{Position}}\ p);}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keyword}{const}\ PiecesPtr\&\ at(\mbox{\hyperlink{struct_position}{Position}}\ p)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{keywordtype}{void}\ Set(\textcolor{keyword}{const}\ ChessBoard\&\ board);}
+\DoxyCodeLine{00029\ }
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{comment}{//\ Getters}}
+\DoxyCodeLine{00031\ \ \ \ \ IPieceInfoPtr\ GetPieceInfo(\mbox{\hyperlink{struct_position}{Position}}\ p)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00032\ \ \ \ \ MoveVector\ GetHistory()\textcolor{keyword}{const};}
+\DoxyCodeLine{00033\ \ \ \ \ String\ GetCurrPGN()\textcolor{keyword}{const};}
+\DoxyCodeLine{00034\ \ \ \ \ BitMatrix\ GetPrevPositions()\textcolor{keyword}{const};}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{comment}{//\ Functions}}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{bool}\ IsOver(EColor\ color)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordtype}{bool}\ VerifyTheWay(\mbox{\hyperlink{struct_position}{Position}}\ p1,\ \mbox{\hyperlink{struct_position}{Position}}\ p2)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{bool}\ IsCheck(\mbox{\hyperlink{struct_position}{Position}}\ p,\ EColor\ color)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordtype}{bool}\ IsSameWay(\mbox{\hyperlink{struct_position}{Position}}\ p1,\ \mbox{\hyperlink{struct_position}{Position}}\ p2,\ EColor\ color)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{bool}\ IsCheckMate(EColor\ color)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordtype}{bool}\ IsDraw()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordtype}{bool}\ IsStalemate(EColor\ color)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordtype}{bool}\ Is3Fold()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{bool}\ IsPromotePossible(\mbox{\hyperlink{struct_position}{Position}}\ p)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{bool}\ IsPinned(\mbox{\hyperlink{struct_position}{Position}}\ p)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{bool}\ IsEnPassant(\mbox{\hyperlink{struct_position}{Position}}\ p1,\ \mbox{\hyperlink{struct_position}{Position}}\ p2)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ \mbox{\hyperlink{struct_position}{Position}}\ FindCheck(\mbox{\hyperlink{struct_position}{Position}}\ p,\ EColor\ color)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00050\ \ \ \ \ \mbox{\hyperlink{struct_position}{Position}}\ FindKing(EColor)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \ \ \ \ PieceVector\ RemainingPieces()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00053\ }
+\DoxyCodeLine{00054\ \ \ \ \ \textcolor{keywordtype}{void}\ PromoteTo(EPieceType\ pieceType,\ EColor\ color);}
+\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordtype}{void}\ Move(\mbox{\hyperlink{struct_position}{Position}}\ p1,\ \mbox{\hyperlink{struct_position}{Position}}\ p2);}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keywordtype}{void}\ Reset();}
+\DoxyCodeLine{00057\ }
+\DoxyCodeLine{00058\ \ \ \ \ PositionList\ GetMoves(\mbox{\hyperlink{struct_position}{Position}}\ p)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00059\ \ \ \ \ PositionList\ GetMovesNormal(\mbox{\hyperlink{struct_position}{Position}}\ p)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00060\ \ \ \ \ PositionList\ GetMovesCheck(\mbox{\hyperlink{struct_position}{Position}}\ p)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00061\ \ \ \ \ PositionList\ GetMovesPinned(\mbox{\hyperlink{struct_position}{Position}}\ p)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00062\ \ \ \ \ PositionList\ GetMovesKing(\mbox{\hyperlink{struct_position}{Position}}\ p)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00063\ }
+\DoxyCodeLine{00064\ \ \ \ \ String\ GetFEN()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00065\ \ \ \ \ \textcolor{keywordtype}{void}\ LoadFEN(\textcolor{keyword}{const}\ String\&);}
+\DoxyCodeLine{00066\ \ \ \ \ \textcolor{keyword}{static}\ String\ GenerateInitial(EPieceType);}
+\DoxyCodeLine{00067\ }
+\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordtype}{bool}\ FindOnSameLine(\mbox{\hyperlink{struct_position}{Position}}\ p1,\ \mbox{\hyperlink{struct_position}{Position}}\ p2)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00069\ \ \ \ \ \textcolor{keywordtype}{bool}\ FindOnSameColumn(\mbox{\hyperlink{struct_position}{Position}}\ p1,\ \mbox{\hyperlink{struct_position}{Position}}\ p2)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00070\ }
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keywordtype}{void}\ ParsePGN(StringVector\ Moves);}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00073\ \ \ \ \ String\ ConvertMove(\mbox{\hyperlink{struct_position}{Position}}\ p1,\ \mbox{\hyperlink{struct_position}{Position}}\ p2)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00074\ }
+\DoxyCodeLine{00075\ \ \ \ \ ChessBoard\ ConvertBitset(\textcolor{keywordtype}{int}\ bitsetNr)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00076\ }
+\DoxyCodeLine{00077\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00078\ \ \ \ \ \textcolor{keywordtype}{bool}\ PawnGoesDiagonally(\mbox{\hyperlink{struct_position}{Position}}\ p1,\ \mbox{\hyperlink{struct_position}{Position}}\ p2)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{keywordtype}{bool}\ GoesTwoForward(\textcolor{keywordtype}{int}\ x1,\ \textcolor{keywordtype}{int}\ x2)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00080\ \ \ \ \ \textcolor{keywordtype}{bool}\ CanMoveTwoForward(\mbox{\hyperlink{struct_position}{Position}}\ p1,\ \mbox{\hyperlink{struct_position}{Position}}\ p2)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00081\ }
+\DoxyCodeLine{00082\ \ \ \ \ \textcolor{keywordtype}{bool}\ LeftPawnCheck(\mbox{\hyperlink{struct_position}{Position}}\ p)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00083\ \ \ \ \ \textcolor{keywordtype}{bool}\ RightPawnCheck(\mbox{\hyperlink{struct_position}{Position}}\ p)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00084\ \ \ \ \ \textcolor{keywordtype}{bool}\ OnlyKing(EColor\ color)\textcolor{keyword}{const};}
+\DoxyCodeLine{00085\ \ \ \ \ \textcolor{keywordtype}{bool}\ FindHelp(\mbox{\hyperlink{struct_position}{Position}}\ p,\ EColor\ color)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00086\ \ \ \ \ \textcolor{keywordtype}{bool}\ KillCheck(\mbox{\hyperlink{struct_position}{Position}}\ p,\ EColor\ color)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keywordtype}{bool}\ IsDefended(\mbox{\hyperlink{struct_position}{Position}}\ p,\ EColor\ color)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00088\ \ \ \ \ \textcolor{keywordtype}{bool}\ SameBishop()\textcolor{keyword}{const};}
+\DoxyCodeLine{00089\ \ \ \ \ \textcolor{keywordtype}{bool}\ PawnException(\mbox{\hyperlink{struct_position}{Position}}\ p1,\ \mbox{\hyperlink{struct_position}{Position}}\ p2)\textcolor{keyword}{const};}
+\DoxyCodeLine{00090\ \ \ \ \ \textcolor{keywordtype}{bool}\ IsCastle(\mbox{\hyperlink{struct_position}{Position}}\ p1,\ \mbox{\hyperlink{struct_position}{Position}}\ p2)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00091\ \ \ \ \ \textcolor{comment}{//bool\ IsEnPassant(Position\ p1,\ Position\ p2)\ const;}}
+\DoxyCodeLine{00092\ \ \ \ \ \textcolor{keywordtype}{bool}\ CastleVerifyWay(\mbox{\hyperlink{struct_position}{Position}}\ p1,\ \mbox{\hyperlink{struct_position}{Position}}\ p2)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00093\ }
+\DoxyCodeLine{00094\ \ \ \ \ PositionList\ DefendedPositions(\mbox{\hyperlink{struct_position}{Position}}\ p,\ EColor\ color)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00095\ \ \ \ \ PositionList\ GetPassantMoves(\mbox{\hyperlink{struct_position}{Position}}\ p)\textcolor{keyword}{const};}
+\DoxyCodeLine{00096\ }
+\DoxyCodeLine{00097\ \ \ \ \ \textcolor{keywordtype}{int}\ Find(PieceVector\ v,\ EPieceType\ \mbox{\hyperlink{class_piece}{Piece}})\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00098\ }
+\DoxyCodeLine{00099\ \ \ \ \ \textcolor{keyword}{static}\ EColor\ OppositeColor(EColor\ color);}
+\DoxyCodeLine{00100\ }
+\DoxyCodeLine{00101\ \ \ \ \ Bitset\ GetCurrentPosition()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00102\ }
+\DoxyCodeLine{00103\ \ \ \ \ \textcolor{keywordtype}{void}\ Castle(\mbox{\hyperlink{struct_position}{Position}}\ p1,\ \mbox{\hyperlink{struct_position}{Position}}\ p2);}
+\DoxyCodeLine{00104\ \ \ \ \ \textcolor{keywordtype}{void}\ UpdatePrevPositions();}
+\DoxyCodeLine{00105\ \ \ \ \ \textcolor{keywordtype}{void}\ EnPassant(\mbox{\hyperlink{struct_position}{Position}}\ p1,\ \mbox{\hyperlink{struct_position}{Position}}\ p2);}
+\DoxyCodeLine{00106\ \ \ \ \ \textcolor{keywordtype}{void}\ ResetEnPassant();}
+\DoxyCodeLine{00107\ \ \ \ \ \textcolor{keywordtype}{bool}\ IsLeftPassantPossible(\mbox{\hyperlink{struct_position}{Position}}\ p1,\ \mbox{\hyperlink{struct_position}{Position}}\ p2)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00108\ \ \ \ \ \textcolor{keywordtype}{bool}\ IsRightPassantPossible(\mbox{\hyperlink{struct_position}{Position}}\ p1,\ \mbox{\hyperlink{struct_position}{Position}}\ p2)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00109\ }
+\DoxyCodeLine{00110\ \ \ \ \ \mbox{\hyperlink{struct_position}{Position}}\ IntermediatePosition(\mbox{\hyperlink{struct_position}{Position}}\ p)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00111\ }
+\DoxyCodeLine{00112\ \ \ \ \ \textcolor{keyword}{static}\ PiecesPtr\ ProducePiece(\textcolor{keywordtype}{char}\ c);}
+\DoxyCodeLine{00113\ \ \ \ \ \textcolor{keyword}{static}\ EPieceType\ GetPieceType(\textcolor{keywordtype}{char}\ c);}
+\DoxyCodeLine{00114\ }
+\DoxyCodeLine{00115\ \ \ \ \ \textcolor{keywordtype}{bool}\ IsPrevPos(\mbox{\hyperlink{struct_position}{Position}}\ currPos,\ \mbox{\hyperlink{struct_position}{Position}}\ nextPos,\ EPieceType\ type,\ EColor\ color)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00116\ \ \ \ \ \mbox{\hyperlink{struct_position}{Position}}\ FindPrevPos(\mbox{\hyperlink{struct_position}{Position}}\ nextPos,\ EPieceType\ type,\ EColor\ color,\ \mbox{\hyperlink{struct_position}{Position}}\ prevPos)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00117\ }
+\DoxyCodeLine{00118\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00119\ \ \ \ \ ChessBoard\ m\_board;}
+\DoxyCodeLine{00120\ }
+\DoxyCodeLine{00121\ \ \ \ \ BitMatrix\ m\_prevPositions;}
+\DoxyCodeLine{00122\ \ \ \ \ }
+\DoxyCodeLine{00123\ \ \ \ \ MoveVector\ m\_moves;}
+\DoxyCodeLine{00124\ \ \ \ \ }
+\DoxyCodeLine{00125\ \ \ \ \ String\ m\_PGN;}
+\DoxyCodeLine{00126\ }
+\DoxyCodeLine{00127\ \ \ \ \ \textcolor{keywordtype}{int}\ m\_nrMove;}
+\DoxyCodeLine{00128\ \};}
+
+\end{DoxyCode}

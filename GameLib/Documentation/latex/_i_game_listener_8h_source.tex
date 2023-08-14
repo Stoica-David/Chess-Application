@@ -1,0 +1,25 @@
+\doxysection{IGame\+Listener.\+h}
+\hypertarget{_i_game_listener_8h_source}{}\label{_i_game_listener_8h_source}\index{D:/Documentation/source/IGameListener.h@{D:/Documentation/source/IGameListener.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}EOverState.h"{}}}
+\DoxyCodeLine{00004\ }
+\DoxyCodeLine{00005\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_i_game_listener}{IGameListener}}}
+\DoxyCodeLine{00006\ \{}
+\DoxyCodeLine{00007\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_i_game_listener_ac9c322dafc259f37c507232221e3d4fe}{OnMove}}()\ =\ 0;}
+\DoxyCodeLine{00017\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_i_game_listener_a94a44af722eedb2ae7b6d047b57f387e}{OnGameOver}}(EOverState)\ =\ 0;}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_i_game_listener_ae1ead9bbe8c72ad927c6969ffd8cdab8}{OnChoosePiece}}()\ =\ 0;}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_i_game_listener_a0d6f66ccc0b6a6d110ff2ab25fcef736}{OnCheck}}()\ =\ 0;}
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_i_game_listener_a3241499260171d7e41c4692c4352f56a}{OnRestart}}()\ =\ 0;}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_i_game_listener_afc68854eedd4f50ea00d154885b82d1b}{OnPieceCapture}}(EPieceType,\ EColor)\ =\ 0;}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{void}\ \mbox{\hyperlink{class_i_game_listener_aeb19f29bbab13aca7ad7ef75f2effe66}{OnTimerChange}}()\ =\ 0;}
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{class_i_game_listener_aa75029cbc38192375b5fcf175eebca54}{\string~IGameListener}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00050\ \};}
+\DoxyCodeLine{00051\ }
+\DoxyCodeLine{00052\ \textcolor{keyword}{using\ }IGameListenerWeakPtr\ =\ std::weak\_ptr<IGameListener>;}
+\DoxyCodeLine{00053\ \textcolor{keyword}{using\ }IGameListenerPtr\ =\ std::shared\_ptr<IGameListener>;}
+
+\end{DoxyCode}

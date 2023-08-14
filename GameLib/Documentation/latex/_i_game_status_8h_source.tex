@@ -1,0 +1,39 @@
+\doxysection{IGame\+Status.\+h}
+\hypertarget{_i_game_status_8h_source}{}\label{_i_game_status_8h_source}\index{D:/Documentation/source/IGameStatus.h@{D:/Documentation/source/IGameStatus.h}}
+
+\begin{DoxyCode}{0}
+\DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
+\DoxyCodeLine{00002\ }
+\DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ "{}Position.h"{}}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ "{}IPieceInfo.h"{}}}
+\DoxyCodeLine{00005\ }
+\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <unordered\_map>}}
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <chrono>}}
+\DoxyCodeLine{00008\ }
+\DoxyCodeLine{00009\ \textcolor{keyword}{using\ }PieceMap\ =\ std::unordered\_map\ <EPieceType,\ int>;}
+\DoxyCodeLine{00013\ \textcolor{keyword}{using\ }PiecesLeftVector\ =\ std::vector\ <\ std::pair<EPieceType,\ int>>;}
+\DoxyCodeLine{00014\ }
+\DoxyCodeLine{00015\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_i_game_status}{IGameStatus}}}
+\DoxyCodeLine{00016\ \{}
+\DoxyCodeLine{00017\ \textcolor{keyword}{public}:}
+\DoxyCodeLine{00018\ \ \ \ \ \textcolor{keyword}{virtual}\ \mbox{\hyperlink{class_i_game_status}{\string~IGameStatus}}()\ =\ \textcolor{keywordflow}{default};}
+\DoxyCodeLine{00019\ }
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_i_game_status_aa4afb663c30478c2bf09b21c1c1ebafa}{IsDraw}}()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_i_game_status_a73dd5790e5b8d30a840f215ed34260a5}{IsOver}}()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_i_game_status_a641fa29386c448c7ffca1fc6438ca3bb}{IsDrawProposed}}()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_i_game_status_abcfa26af03e23199a2ca25fc51fdc114}{IsCheck}}()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_i_game_status_a11e074d1f8572695dc117ab927966de2}{IsPromoting}}()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_i_game_status_a5fe4283efea9d4df8096cf7b48e182f2}{IsFrozen}}()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_i_game_status_aad4fbd094854219eae3ac4de9cf2472b}{IsPlaying}}()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keyword}{virtual}\ EColor\ \mbox{\hyperlink{class_i_game_status_a6a6a67a198a33c7c59a1d64029e9cfcd}{GetTurn}}()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keyword}{virtual}\ PositionList\ \mbox{\hyperlink{class_i_game_status_ae1ab9502323d2c09d31784ddd357d269}{GetMoves}}(Position\ p)\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keyword}{virtual}\ MoveVector\ \mbox{\hyperlink{class_i_game_status_a431feea28092c2f87559db66a0c86af2}{GetHistory}}()\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00071\ \ \ \ \ \textcolor{keyword}{virtual}\ IPieceInfoPtr\ \mbox{\hyperlink{class_i_game_status_ad699960754085a943ebdee909f1cfad9}{GetPieceInfo}}(Position)\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00072\ }
+\DoxyCodeLine{00079\ \ \ \ \ \textcolor{keyword}{virtual}\ \textcolor{keywordtype}{int}\ \mbox{\hyperlink{class_i_game_status_a8ff07904f52ba8cd001760488073f703}{GetMs}}(EColor\ color)\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00080\ }
+\DoxyCodeLine{00087\ \ \ \ \ \textcolor{keyword}{virtual}\ PiecesLeftVector\ \mbox{\hyperlink{class_i_game_status_ac43085eb830b7c4ce8064561e25db923}{GetPiecesLeft}}(EColor)\ \textcolor{keyword}{const}\ =\ 0;}
+\DoxyCodeLine{00088\ \};}
+
+\end{DoxyCode}

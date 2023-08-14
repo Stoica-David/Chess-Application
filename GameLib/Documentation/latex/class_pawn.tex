@@ -1,0 +1,138 @@
+\doxysection{Pawn Class Reference}
+\hypertarget{class_pawn}{}\label{class_pawn}\index{Pawn@{Pawn}}
+Inheritance diagram for Pawn\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=3.000000cm]{class_pawn}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_pawn_a0cbd6ab64cb32e6ddd02d85b6034b86f}\label{class_pawn_a0cbd6ab64cb32e6ddd02d85b6034b86f} 
+{\bfseries Pawn} (EColor)
+\item 
+bool \mbox{\hyperlink{class_pawn_ab8c80259b54f79be02397f5ab368fd15}{Is\+Move\+Regular}} (\mbox{\hyperlink{struct_position}{Position}} p1, \mbox{\hyperlink{struct_position}{Position}} p2) const override
+\item 
+Position\+List \mbox{\hyperlink{class_pawn_a3a486fb3aead14cfccf11361a4d14e1b}{Determine\+Pattern}} (\mbox{\hyperlink{struct_position}{Position}} p1, \mbox{\hyperlink{struct_position}{Position}} p2) const override
+\item 
+Position\+Matrix \mbox{\hyperlink{class_pawn_abe824669dbc2517395f6a478025ec255}{All\+Moves}} (\mbox{\hyperlink{struct_position}{Position}} p) const override
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_piece}{Piece}}}
+\begin{DoxyCompactItemize}
+\item 
+{\bfseries Piece} (EPiece\+Type, EColor)
+\item 
+EPiece\+Type {\bfseries Get\+Type} () const
+\item 
+EColor {\bfseries Get\+Color} () const
+\item 
+bool {\bfseries Get\+Has\+Moved} () const
+\item 
+bool {\bfseries Get\+Left\+Passant} () const
+\item 
+bool {\bfseries Get\+Right\+Passant} () const
+\item 
+void {\bfseries Set\+Has\+Moved} (bool)
+\item 
+void {\bfseries Set\+Left\+Passant} (bool)
+\item 
+void {\bfseries Set\+Right\+Passant} (bool)
+\item 
+bool \mbox{\hyperlink{class_piece_ad2c5cb6fe70b6142680b13a8cecf7969}{Is\+Move\+Regular}} (\mbox{\hyperlink{struct_position}{Position}} p1, \mbox{\hyperlink{struct_position}{Position}} p2) const override
+\item 
+Position\+List \mbox{\hyperlink{class_piece_aff1d03b1f648b21360f748420d020632}{Determine\+Pattern}} (\mbox{\hyperlink{struct_position}{Position}} p1, \mbox{\hyperlink{struct_position}{Position}} p2) const override
+\item 
+Position\+Matrix \mbox{\hyperlink{class_piece_a059e7bd9b88fa71a269789b546b9a2a0}{All\+Moves}} (\mbox{\hyperlink{struct_position}{Position}} p) const override
+\item 
+bool {\bfseries Is} (EPiece\+Type type) const
+\item 
+bool {\bfseries Is} (EColor color) const
+\item 
+bool {\bfseries Is} (EPiece\+Type type, EColor color) const
+\item 
+bool {\bfseries Same\+Color} (Pieces\+Ptr piece) const
+\item 
+char {\bfseries Convert\+Piece} () const
+\end{DoxyCompactItemize}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_i_piece_a139633b7248e730b6976a79edf4debdd}\label{class_i_piece_a139633b7248e730b6976a79edf4debdd} 
+virtual bool {\bfseries Is\+Move\+Regular} (\mbox{\hyperlink{struct_position}{Position}} p1, \mbox{\hyperlink{struct_position}{Position}} p2) const =0
+\item 
+\Hypertarget{class_i_piece_aea941dcb33022bd3c545622101fda07d}\label{class_i_piece_aea941dcb33022bd3c545622101fda07d} 
+virtual Position\+List {\bfseries Determine\+Pattern} (\mbox{\hyperlink{struct_position}{Position}} p1, \mbox{\hyperlink{struct_position}{Position}} p2) const =0
+\item 
+\Hypertarget{class_i_piece_a35d3c59a98974e760f664ae5e475adea}\label{class_i_piece_a35d3c59a98974e760f664ae5e475adea} 
+virtual Position\+Matrix {\bfseries All\+Moves} (\mbox{\hyperlink{struct_position}{Position}} p) const =0
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Static Public Member Functions inherited from \mbox{\hyperlink{class_piece}{Piece}}}
+\begin{DoxyCompactItemize}
+\item 
+static Pieces\+Ptr {\bfseries Produce} (EPiece\+Type type, EColor color)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Member Functions inherited from \mbox{\hyperlink{class_piece}{Piece}}}
+\begin{DoxyCompactItemize}
+\item 
+bool {\bfseries Is\+Color} (EColor) const
+\end{DoxyCompactItemize}
+\doxysubsection*{Static Protected Member Functions inherited from \mbox{\hyperlink{class_piece}{Piece}}}
+\begin{DoxyCompactItemize}
+\item 
+static bool {\bfseries Is\+In\+Table} (\mbox{\hyperlink{struct_position}{Position}} p)
+\item 
+static int {\bfseries Abs\+Value} (int, int)
+\end{DoxyCompactItemize}
+\doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{class_piece}{Piece}}}
+\begin{DoxyCompactItemize}
+\item 
+EPiece\+Type {\bfseries m\+\_\+type}
+\item 
+EColor {\bfseries m\+\_\+color}
+\item 
+bool {\bfseries m\+\_\+has\+Moved}
+\item 
+bool {\bfseries m\+\_\+left\+Passant}
+\item 
+bool {\bfseries m\+\_\+right\+Passant}
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_pawn_abe824669dbc2517395f6a478025ec255}\label{class_pawn_abe824669dbc2517395f6a478025ec255} 
+\index{Pawn@{Pawn}!AllMoves@{AllMoves}}
+\index{AllMoves@{AllMoves}!Pawn@{Pawn}}
+\doxysubsubsection{\texorpdfstring{AllMoves()}{AllMoves()}}
+{\footnotesize\ttfamily Position\+Matrix Pawn\+::\+All\+Moves (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_position}{Position}}}]{p }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{class_i_piece}{IPiece}}.
+
+\Hypertarget{class_pawn_a3a486fb3aead14cfccf11361a4d14e1b}\label{class_pawn_a3a486fb3aead14cfccf11361a4d14e1b} 
+\index{Pawn@{Pawn}!DeterminePattern@{DeterminePattern}}
+\index{DeterminePattern@{DeterminePattern}!Pawn@{Pawn}}
+\doxysubsubsection{\texorpdfstring{DeterminePattern()}{DeterminePattern()}}
+{\footnotesize\ttfamily Position\+List Pawn\+::\+Determine\+Pattern (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_position}{Position}}}]{p1,  }\item[{\mbox{\hyperlink{struct_position}{Position}}}]{p2 }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{class_i_piece}{IPiece}}.
+
+\Hypertarget{class_pawn_ab8c80259b54f79be02397f5ab368fd15}\label{class_pawn_ab8c80259b54f79be02397f5ab368fd15} 
+\index{Pawn@{Pawn}!IsMoveRegular@{IsMoveRegular}}
+\index{IsMoveRegular@{IsMoveRegular}!Pawn@{Pawn}}
+\doxysubsubsection{\texorpdfstring{IsMoveRegular()}{IsMoveRegular()}}
+{\footnotesize\ttfamily bool Pawn\+::\+Is\+Move\+Regular (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_position}{Position}}}]{p1,  }\item[{\mbox{\hyperlink{struct_position}{Position}}}]{p2 }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{class_i_piece}{IPiece}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/cpopovici/\+Documents/\+Git\+Hub/\+Chess-\/\+Application/\+Game\+Lib/\+Game\+Lib/Pawn.\+h\item 
+C\+:/\+Users/cpopovici/\+Documents/\+Git\+Hub/\+Chess-\/\+Application/\+Game\+Lib/\+Game\+Lib/Pawn.\+cpp\end{DoxyCompactItemize}

@@ -1,0 +1,485 @@
+\doxysection{Game Class Reference}
+\hypertarget{class_game}{}\label{class_game}\index{Game@{Game}}
+Inheritance diagram for Game\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_game}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+\Hypertarget{class_game_a05a99c3bf3e89b92f3d80a3a748cd7ff}\label{class_game_a05a99c3bf3e89b92f3d80a3a748cd7ff} 
+{\bfseries Game} (bool want\+Timer=false)
+\item 
+\Hypertarget{class_game_afd9abbff67812e679546d524c7124368}\label{class_game_afd9abbff67812e679546d524c7124368} 
+{\bfseries Game} (const \mbox{\hyperlink{class_board}{Board}} \&b, EColor color=EColor\+::\+White, bool want\+Timer=false)
+\item 
+\Hypertarget{class_game_a414cae61a8df86adebb9f3b1af49cb27}\label{class_game_a414cae61a8df86adebb9f3b1af49cb27} 
+{\bfseries Game} (const Char\+Matrix \&matrix, EColor color=EColor\+::\+White, EState state=EState\+::\+Playing, bool want\+Timer=false)
+\item 
+void \mbox{\hyperlink{class_game_adbe56c50e87c6e34508d90d46d8a820e}{Add\+Listener}} (IGame\+Listener\+Ptr) override
+\begin{DoxyCompactList}\small\item\em Adds a listeners Binds timer class method \"{}\+Set\+Notify\+Change\"{} to game class method \"{}\+Notify\+Timer\+Change\"{}. \end{DoxyCompactList}\item 
+void \mbox{\hyperlink{class_game_af572b8b4763edf9d71d1733bb9f5d659}{Remove\+Listener}} (\mbox{\hyperlink{class_i_game_listener}{IGame\+Listener}} \texorpdfstring{$\ast$}{*}) override
+\item 
+void \mbox{\hyperlink{class_game_a4dff40885a885d9810f8ca7687eccaa7}{Restart}} () override
+\item 
+void \mbox{\hyperlink{class_game_a2f4a2bb3db3dec950e57523e9945d301}{Move}} (\mbox{\hyperlink{struct_position}{Position}} p1, \mbox{\hyperlink{struct_position}{Position}} p2) override
+\item 
+void \mbox{\hyperlink{class_game_a9abb1957aac17118d20dd5ec40c4ed18}{Propose\+Draw}} () override
+\item 
+void \mbox{\hyperlink{class_game_a329432ec0157456bee22e3d7c591ead9}{Draw\+Response}} (bool) override
+\item 
+void \mbox{\hyperlink{class_game_abae77c0c34d36e773399c2cb29f53b8e}{Promote\+To}} (EPiece\+Type piece\+Type) override
+\item 
+bool \mbox{\hyperlink{class_game_acc1aed45ff933c9975d46a37e8f76beb}{Is\+Draw}} () const override
+\item 
+bool \mbox{\hyperlink{class_game_a4fe332c1826f7b861b045223c05f5c67}{Is\+Over}} () const override
+\item 
+bool \mbox{\hyperlink{class_game_a905862268150da81ae3c7c5176412019}{Is\+Draw\+Proposed}} () const override
+\item 
+bool \mbox{\hyperlink{class_game_a59f55b810c0d082ba6234addda2a5866}{Is\+Check}} () const override
+\item 
+bool \mbox{\hyperlink{class_game_aed07fe822d6a2cd6162aa093653f78cc}{Is\+Promoting}} () const override
+\item 
+bool \mbox{\hyperlink{class_game_ad97e92f001e2f4a4880f5da3912d906c}{Is\+Frozen}} () const override
+\item 
+bool \mbox{\hyperlink{class_game_af257aedc58c04923d3e1f4d5c555785d}{Is\+Playing}} () const override
+\item 
+const \mbox{\hyperlink{class_i_game_status}{IGame\+Status}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_game_af5b7bc62d36ceca6dceeba9366b5068f}{Get\+Status}} () const override
+\item 
+EColor \mbox{\hyperlink{class_game_a91e31fed96711704d282932c6a2cad0c}{Get\+Turn}} () const override
+\item 
+Position\+List \mbox{\hyperlink{class_game_ab17af104b7776148132e29c294e85a3a}{Get\+Moves}} (\mbox{\hyperlink{struct_position}{Position}} p) const override
+\item 
+Move\+Vector \mbox{\hyperlink{class_game_a93433da4d0087838df3fc0ef3caee289}{Get\+History}} () const override
+\item 
+IPiece\+Info\+Ptr \mbox{\hyperlink{class_game_aca6957c8c154836e0154edfa0e2d8d34}{Get\+Piece\+Info}} (\mbox{\hyperlink{struct_position}{Position}}) const override
+\item 
+Pieces\+Left\+Vector \mbox{\hyperlink{class_game_aca0bf5396e5bcac7f49f01d894dcda54}{Get\+Pieces\+Left}} (EColor) const override
+\item 
+void \mbox{\hyperlink{class_game_a6e0eec94f7623d9323f2acd239285df0}{Save}} (EFile\+Format format, const String \&file) const override
+\item 
+void \mbox{\hyperlink{class_game_a289fa7d5a927a6db08b35fd87ac45e0e}{Load}} (EFile\+Format format, const String \&file) override
+\item 
+void \mbox{\hyperlink{class_game_afa069bb3235cd6a85c24107b96b83f6a}{Pause\+Game}} () override
+\item 
+void \mbox{\hyperlink{class_game_ac01fc3779ed8d843bde10d6611d005c4}{Resume\+Game}} () override
+\item 
+void \mbox{\hyperlink{class_game_a7891601910f872fcae6df42e3d9c99ad}{Show\+Configuration}} (int conf\+Nr)
+\item 
+int \mbox{\hyperlink{class_game_a143e20dee2259bf81fbf95c832371af1}{Get\+Ms}} (EColor color) const override
+\item 
+\Hypertarget{class_game_a057e700efabd262f429184a971bae2d6}\label{class_game_a057e700efabd262f429184a971bae2d6} 
+Pieces\+Ptr {\bfseries Get\+Piece} (\mbox{\hyperlink{struct_position}{Position}}) const
+\item 
+\Hypertarget{class_game_a4d72704c6f6ac2d235884976be8d0ea6}\label{class_game_a4d72704c6f6ac2d235884976be8d0ea6} 
+bool {\bfseries Stalemate} () const
+\item 
+\Hypertarget{class_game_a7b1ef617873e1d97ab8bd6f59c666a20}\label{class_game_a7b1ef617873e1d97ab8bd6f59c666a20} 
+void {\bfseries Update\+State} (EState)
+\end{DoxyCompactItemize}
+\doxysubsection*{Public Member Functions inherited from \mbox{\hyperlink{class_i_game}{IGame}}}
+\begin{DoxyCompactItemize}
+\item 
+virtual \mbox{\hyperlink{class_i_game_a91b14c1b6019364120d5c5e4d4c64414}{\texorpdfstring{$\sim$}{\string~}\+IGame}} ()=default
+\item 
+virtual void \mbox{\hyperlink{class_i_game_a44348b4d4879147173849561fc8c6846}{Add\+Listener}} (IGame\+Listener\+Ptr)=0
+\begin{DoxyCompactList}\small\item\em Adds a listeners Binds timer class method \"{}\+Set\+Notify\+Change\"{} to game class method \"{}\+Notify\+Timer\+Change\"{}. \end{DoxyCompactList}\item 
+virtual void \mbox{\hyperlink{class_i_game_adb29c26ef9fe1f5b6edb5fb1c5ff437f}{Remove\+Listener}} (\mbox{\hyperlink{class_i_game_listener}{IGame\+Listener}} \texorpdfstring{$\ast$}{*})=0
+\item 
+virtual void \mbox{\hyperlink{class_i_game_a32ea1e3bcf22446f088b8dae36c7033d}{Restart}} ()=0
+\item 
+virtual void \mbox{\hyperlink{class_i_game_a58f939100e63910207f9f1eda91d0f27}{Move}} (\mbox{\hyperlink{struct_position}{Position}}, \mbox{\hyperlink{struct_position}{Position}})=0
+\item 
+virtual void \mbox{\hyperlink{class_i_game_a2ea8412ab7d821552b8cad6e52cd242e}{Propose\+Draw}} ()=0
+\item 
+virtual void \mbox{\hyperlink{class_i_game_afa9a97809c4eff87cbb1d4acfd585f8e}{Draw\+Response}} (bool)=0
+\item 
+virtual void \mbox{\hyperlink{class_i_game_a61dc0a8396e74190c11758d295dc6862}{Promote\+To}} (EPiece\+Type)=0
+\item 
+virtual void \mbox{\hyperlink{class_i_game_ae66cd941a10fadeaaff6f95739f8a337}{Show\+Configuration}} (int conf\+Nr)=0
+\item 
+virtual const \mbox{\hyperlink{class_i_game_status}{IGame\+Status}} \texorpdfstring{$\ast$}{*} \mbox{\hyperlink{class_i_game_ac083ccc91973f8b4084bcdf0ff403492}{Get\+Status}} () const =0
+\item 
+virtual void \mbox{\hyperlink{class_i_game_ac4893b10c4d38109fe9fb518082df2ba}{Save}} (EFile\+Format format, const String \&file) const =0
+\item 
+virtual void \mbox{\hyperlink{class_i_game_aae690e4e4985cdf4d83a07eb904b794e}{Load}} (EFile\+Format format, const String \&file)=0
+\item 
+virtual void \mbox{\hyperlink{class_i_game_ac20ae5355439e21f0961eda1fc84c556}{Pause\+Game}} ()=0
+\item 
+virtual void \mbox{\hyperlink{class_i_game_ae5aee6eae854061ed400c8a72ffcc8de}{Resume\+Game}} ()=0
+\end{DoxyCompactItemize}
+\begin{DoxyCompactItemize}
+\item 
+virtual bool \mbox{\hyperlink{class_i_game_status_aa4afb663c30478c2bf09b21c1c1ebafa}{Is\+Draw}} () const =0
+\item 
+virtual bool \mbox{\hyperlink{class_i_game_status_a73dd5790e5b8d30a840f215ed34260a5}{Is\+Over}} () const =0
+\item 
+virtual bool \mbox{\hyperlink{class_i_game_status_a641fa29386c448c7ffca1fc6438ca3bb}{Is\+Draw\+Proposed}} () const =0
+\item 
+virtual bool \mbox{\hyperlink{class_i_game_status_abcfa26af03e23199a2ca25fc51fdc114}{Is\+Check}} () const =0
+\item 
+virtual bool \mbox{\hyperlink{class_i_game_status_a11e074d1f8572695dc117ab927966de2}{Is\+Promoting}} () const =0
+\item 
+virtual bool \mbox{\hyperlink{class_i_game_status_a5fe4283efea9d4df8096cf7b48e182f2}{Is\+Frozen}} () const =0
+\item 
+virtual bool \mbox{\hyperlink{class_i_game_status_aad4fbd094854219eae3ac4de9cf2472b}{Is\+Playing}} () const =0
+\item 
+virtual EColor \mbox{\hyperlink{class_i_game_status_a6a6a67a198a33c7c59a1d64029e9cfcd}{Get\+Turn}} () const =0
+\item 
+\Hypertarget{class_i_game_status_ae1ab9502323d2c09d31784ddd357d269}\label{class_i_game_status_ae1ab9502323d2c09d31784ddd357d269} 
+virtual Position\+List {\bfseries Get\+Moves} (\mbox{\hyperlink{struct_position}{Position}} p) const =0
+\item 
+\Hypertarget{class_i_game_status_a431feea28092c2f87559db66a0c86af2}\label{class_i_game_status_a431feea28092c2f87559db66a0c86af2} 
+virtual Move\+Vector {\bfseries Get\+History} () const =0
+\item 
+\Hypertarget{class_i_game_status_ad699960754085a943ebdee909f1cfad9}\label{class_i_game_status_ad699960754085a943ebdee909f1cfad9} 
+virtual IPiece\+Info\+Ptr {\bfseries Get\+Piece\+Info} (\mbox{\hyperlink{struct_position}{Position}}) const =0
+\item 
+\Hypertarget{class_i_game_status_a8ff07904f52ba8cd001760488073f703}\label{class_i_game_status_a8ff07904f52ba8cd001760488073f703} 
+virtual int {\bfseries Get\+Ms} (EColor color) const =0
+\item 
+\Hypertarget{class_i_game_status_ac43085eb830b7c4ce8064561e25db923}\label{class_i_game_status_ac43085eb830b7c4ce8064561e25db923} 
+virtual Pieces\+Left\+Vector {\bfseries Get\+Pieces\+Left} (EColor) const =0
+\end{DoxyCompactItemize}
+\doxysubsubsection*{Additional Inherited Members}
+\doxysubsection*{Static Public Member Functions inherited from \mbox{\hyperlink{class_i_game}{IGame}}}
+\begin{DoxyCompactItemize}
+\item 
+static IGame\+Ptr \mbox{\hyperlink{class_i_game_a8f81f8831c7020bcb90e8175c3d4276a}{Produce}} (bool want\+Timer=false)
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_game_adbe56c50e87c6e34508d90d46d8a820e}\label{class_game_adbe56c50e87c6e34508d90d46d8a820e} 
+\index{Game@{Game}!AddListener@{AddListener}}
+\index{AddListener@{AddListener}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{AddListener()}{AddListener()}}
+{\footnotesize\ttfamily void Game\+::\+Add\+Listener (\begin{DoxyParamCaption}\item[{IGame\+Listener\+Ptr}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Adds a listeners Binds timer class method \"{}\+Set\+Notify\+Change\"{} to game class method \"{}\+Notify\+Timer\+Change\"{}. 
+
+
+\begin{DoxyParams}{Parameters}
+{\em IGame\+Listener\+Ptr} & is a shared pointer to a listener \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{class_i_game_a44348b4d4879147173849561fc8c6846}{IGame}}.
+
+\Hypertarget{class_game_a329432ec0157456bee22e3d7c591ead9}\label{class_game_a329432ec0157456bee22e3d7c591ead9} 
+\index{Game@{Game}!DrawResponse@{DrawResponse}}
+\index{DrawResponse@{DrawResponse}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{DrawResponse()}{DrawResponse()}}
+{\footnotesize\ttfamily void Game\+::\+Draw\+Response (\begin{DoxyParamCaption}\item[{bool}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Dictates is the game stops or continues depending on the other player\textquotesingle{}s response
+
+
+\begin{DoxyParams}{Parameters}
+{\em bool} & true if the player agreed to draw, false otherwise \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{class_i_game_afa9a97809c4eff87cbb1d4acfd585f8e}{IGame}}.
+
+\Hypertarget{class_game_a93433da4d0087838df3fc0ef3caee289}\label{class_game_a93433da4d0087838df3fc0ef3caee289} 
+\index{Game@{Game}!GetHistory@{GetHistory}}
+\index{GetHistory@{GetHistory}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{GetHistory()}{GetHistory()}}
+{\footnotesize\ttfamily Move\+Vector Game\+::\+Get\+History (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{class_i_game_status}{IGame\+Status}}.
+
+\Hypertarget{class_game_ab17af104b7776148132e29c294e85a3a}\label{class_game_ab17af104b7776148132e29c294e85a3a} 
+\index{Game@{Game}!GetMoves@{GetMoves}}
+\index{GetMoves@{GetMoves}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{GetMoves()}{GetMoves()}}
+{\footnotesize\ttfamily Position\+List Game\+::\+Get\+Moves (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_position}{Position}}}]{p }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{class_i_game_status}{IGame\+Status}}.
+
+\Hypertarget{class_game_a143e20dee2259bf81fbf95c832371af1}\label{class_game_a143e20dee2259bf81fbf95c832371af1} 
+\index{Game@{Game}!GetMs@{GetMs}}
+\index{GetMs@{GetMs}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{GetMs()}{GetMs()}}
+{\footnotesize\ttfamily int Game\+::\+Get\+Ms (\begin{DoxyParamCaption}\item[{EColor}]{color }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{class_i_game_status}{IGame\+Status}}.
+
+\Hypertarget{class_game_aca6957c8c154836e0154edfa0e2d8d34}\label{class_game_aca6957c8c154836e0154edfa0e2d8d34} 
+\index{Game@{Game}!GetPieceInfo@{GetPieceInfo}}
+\index{GetPieceInfo@{GetPieceInfo}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{GetPieceInfo()}{GetPieceInfo()}}
+{\footnotesize\ttfamily IPiece\+Info\+Ptr Game\+::\+Get\+Piece\+Info (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_position}{Position}}}]{p }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{class_i_game_status}{IGame\+Status}}.
+
+\Hypertarget{class_game_aca0bf5396e5bcac7f49f01d894dcda54}\label{class_game_aca0bf5396e5bcac7f49f01d894dcda54} 
+\index{Game@{Game}!GetPiecesLeft@{GetPiecesLeft}}
+\index{GetPiecesLeft@{GetPiecesLeft}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{GetPiecesLeft()}{GetPiecesLeft()}}
+{\footnotesize\ttfamily Pieces\+Left\+Vector Game\+::\+Get\+Pieces\+Left (\begin{DoxyParamCaption}\item[{EColor}]{color }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+
+
+Implements \mbox{\hyperlink{class_i_game_status}{IGame\+Status}}.
+
+\Hypertarget{class_game_af5b7bc62d36ceca6dceeba9366b5068f}\label{class_game_af5b7bc62d36ceca6dceeba9366b5068f} 
+\index{Game@{Game}!GetStatus@{GetStatus}}
+\index{GetStatus@{GetStatus}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{GetStatus()}{GetStatus()}}
+{\footnotesize\ttfamily const \mbox{\hyperlink{class_i_game_status}{IGame\+Status}} \texorpdfstring{$\ast$}{*} Game\+::\+Get\+Status (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Contains getters for all informations related to a game status
+
+\begin{DoxyReturn}{Returns}
+\doxylink{class_i_game_status}{IGame\+Status} pointer to a \doxylink{class_i_game_status}{IGame\+Status} class 
+\end{DoxyReturn}
+
+
+Implements \mbox{\hyperlink{class_i_game_ac083ccc91973f8b4084bcdf0ff403492}{IGame}}.
+
+\Hypertarget{class_game_a91e31fed96711704d282932c6a2cad0c}\label{class_game_a91e31fed96711704d282932c6a2cad0c} 
+\index{Game@{Game}!GetTurn@{GetTurn}}
+\index{GetTurn@{GetTurn}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{GetTurn()}{GetTurn()}}
+{\footnotesize\ttfamily EColor Game\+::\+Get\+Turn (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Returns color of player 
+
+Implements \mbox{\hyperlink{class_i_game_status_a6a6a67a198a33c7c59a1d64029e9cfcd}{IGame\+Status}}.
+
+\Hypertarget{class_game_a59f55b810c0d082ba6234addda2a5866}\label{class_game_a59f55b810c0d082ba6234addda2a5866} 
+\index{Game@{Game}!IsCheck@{IsCheck}}
+\index{IsCheck@{IsCheck}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{IsCheck()}{IsCheck()}}
+{\footnotesize\ttfamily bool Game\+::\+Is\+Check (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Checks if the game is in check state 
+
+Implements \mbox{\hyperlink{class_i_game_status_abcfa26af03e23199a2ca25fc51fdc114}{IGame\+Status}}.
+
+\Hypertarget{class_game_acc1aed45ff933c9975d46a37e8f76beb}\label{class_game_acc1aed45ff933c9975d46a37e8f76beb} 
+\index{Game@{Game}!IsDraw@{IsDraw}}
+\index{IsDraw@{IsDraw}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{IsDraw()}{IsDraw()}}
+{\footnotesize\ttfamily bool Game\+::\+Is\+Draw (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Checks if the game is in draw state 
+
+Implements \mbox{\hyperlink{class_i_game_status_aa4afb663c30478c2bf09b21c1c1ebafa}{IGame\+Status}}.
+
+\Hypertarget{class_game_a905862268150da81ae3c7c5176412019}\label{class_game_a905862268150da81ae3c7c5176412019} 
+\index{Game@{Game}!IsDrawProposed@{IsDrawProposed}}
+\index{IsDrawProposed@{IsDrawProposed}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{IsDrawProposed()}{IsDrawProposed()}}
+{\footnotesize\ttfamily bool Game\+::\+Is\+Draw\+Proposed (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Checks if the game is in draw proposed state 
+
+Implements \mbox{\hyperlink{class_i_game_status_a641fa29386c448c7ffca1fc6438ca3bb}{IGame\+Status}}.
+
+\Hypertarget{class_game_ad97e92f001e2f4a4880f5da3912d906c}\label{class_game_ad97e92f001e2f4a4880f5da3912d906c} 
+\index{Game@{Game}!IsFrozen@{IsFrozen}}
+\index{IsFrozen@{IsFrozen}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{IsFrozen()}{IsFrozen()}}
+{\footnotesize\ttfamily bool Game\+::\+Is\+Frozen (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Checks if the game is in pause state 
+
+Implements \mbox{\hyperlink{class_i_game_status_a5fe4283efea9d4df8096cf7b48e182f2}{IGame\+Status}}.
+
+\Hypertarget{class_game_a4fe332c1826f7b861b045223c05f5c67}\label{class_game_a4fe332c1826f7b861b045223c05f5c67} 
+\index{Game@{Game}!IsOver@{IsOver}}
+\index{IsOver@{IsOver}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{IsOver()}{IsOver()}}
+{\footnotesize\ttfamily bool Game\+::\+Is\+Over (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Checks if the game is in over state 
+
+Implements \mbox{\hyperlink{class_i_game_status_a73dd5790e5b8d30a840f215ed34260a5}{IGame\+Status}}.
+
+\Hypertarget{class_game_af257aedc58c04923d3e1f4d5c555785d}\label{class_game_af257aedc58c04923d3e1f4d5c555785d} 
+\index{Game@{Game}!IsPlaying@{IsPlaying}}
+\index{IsPlaying@{IsPlaying}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{IsPlaying()}{IsPlaying()}}
+{\footnotesize\ttfamily bool Game\+::\+Is\+Playing (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Checks if the game is in playing state 
+
+Implements \mbox{\hyperlink{class_i_game_status_aad4fbd094854219eae3ac4de9cf2472b}{IGame\+Status}}.
+
+\Hypertarget{class_game_aed07fe822d6a2cd6162aa093653f78cc}\label{class_game_aed07fe822d6a2cd6162aa093653f78cc} 
+\index{Game@{Game}!IsPromoting@{IsPromoting}}
+\index{IsPromoting@{IsPromoting}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{IsPromoting()}{IsPromoting()}}
+{\footnotesize\ttfamily bool Game\+::\+Is\+Promoting (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Checks if the game is in choose piece state 
+
+Implements \mbox{\hyperlink{class_i_game_status_a11e074d1f8572695dc117ab927966de2}{IGame\+Status}}.
+
+\Hypertarget{class_game_a289fa7d5a927a6db08b35fd87ac45e0e}\label{class_game_a289fa7d5a927a6db08b35fd87ac45e0e} 
+\index{Game@{Game}!Load@{Load}}
+\index{Load@{Load}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{Load()}{Load()}}
+{\footnotesize\ttfamily void Game\+::\+Load (\begin{DoxyParamCaption}\item[{EFile\+Format}]{format,  }\item[{const String \&}]{file }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Loads either FEN or PGN formats from computer to board
+
+
+\begin{DoxyParams}{Parameters}
+{\em format} & specifies the format in which to load the state of the board \\
+\hline
+{\em file} & the string containing the info \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{class_i_game_aae690e4e4985cdf4d83a07eb904b794e}{IGame}}.
+
+\Hypertarget{class_game_a2f4a2bb3db3dec950e57523e9945d301}\label{class_game_a2f4a2bb3db3dec950e57523e9945d301} 
+\index{Game@{Game}!Move@{Move}}
+\index{Move@{Move}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{Move()}{Move()}}
+{\footnotesize\ttfamily void Game\+::\+Move (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_position}{Position}}}]{,  }\item[{\mbox{\hyperlink{struct_position}{Position}}}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Moves a piece from an initial position to another position Contains all the logic of pieces, checks the surroundings to see if a specific move is possible It throws specific exceptions if the move is not possible Notifies the Ui listener about the move Adds moves to the PGN format
+
+
+\begin{DoxyParams}{Parameters}
+{\em \doxylink{struct_position}{Position}} & is a pair with two coordinates \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{class_i_game_a58f939100e63910207f9f1eda91d0f27}{IGame}}.
+
+\Hypertarget{class_game_afa069bb3235cd6a85c24107b96b83f6a}\label{class_game_afa069bb3235cd6a85c24107b96b83f6a} 
+\index{Game@{Game}!PauseGame@{PauseGame}}
+\index{PauseGame@{PauseGame}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{PauseGame()}{PauseGame()}}
+{\footnotesize\ttfamily void Game\+::\+Pause\+Game (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Updates the state of the game Stops timer 
+
+Implements \mbox{\hyperlink{class_i_game_ac20ae5355439e21f0961eda1fc84c556}{IGame}}.
+
+\Hypertarget{class_game_abae77c0c34d36e773399c2cb29f53b8e}\label{class_game_abae77c0c34d36e773399c2cb29f53b8e} 
+\index{Game@{Game}!PromoteTo@{PromoteTo}}
+\index{PromoteTo@{PromoteTo}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{PromoteTo()}{PromoteTo()}}
+{\footnotesize\ttfamily void Game\+::\+Promote\+To (\begin{DoxyParamCaption}\item[{EPiece\+Type}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Promotes a piece Updates the PGN Resumes the game to playing state Switches turn
+
+
+\begin{DoxyParams}{Parameters}
+{\em EPiece\+Type} & specifies the type wanted to promote in \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{class_i_game_a61dc0a8396e74190c11758d295dc6862}{IGame}}.
+
+\Hypertarget{class_game_a9abb1957aac17118d20dd5ec40c4ed18}\label{class_game_a9abb1957aac17118d20dd5ec40c4ed18} 
+\index{Game@{Game}!ProposeDraw@{ProposeDraw}}
+\index{ProposeDraw@{ProposeDraw}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{ProposeDraw()}{ProposeDraw()}}
+{\footnotesize\ttfamily void Game\+::\+Propose\+Draw (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Updates state of the game Switches turn for the other player to in order to respond 
+
+Implements \mbox{\hyperlink{class_i_game_a2ea8412ab7d821552b8cad6e52cd242e}{IGame}}.
+
+\Hypertarget{class_game_af572b8b4763edf9d71d1733bb9f5d659}\label{class_game_af572b8b4763edf9d71d1733bb9f5d659} 
+\index{Game@{Game}!RemoveListener@{RemoveListener}}
+\index{RemoveListener@{RemoveListener}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{RemoveListener()}{RemoveListener()}}
+{\footnotesize\ttfamily void Game\+::\+Remove\+Listener (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{class_i_game_listener}{IGame\+Listener}} \texorpdfstring{$\ast$}{*}}]{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Removes listeners by making them weak pointers
+
+
+\begin{DoxyParams}{Parameters}
+{\em IGame\+Listener\texorpdfstring{$\ast$}{*}} & normal pointer to listener \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{class_i_game_adb29c26ef9fe1f5b6edb5fb1c5ff437f}{IGame}}.
+
+\Hypertarget{class_game_a4dff40885a885d9810f8ca7687eccaa7}\label{class_game_a4dff40885a885d9810f8ca7687eccaa7} 
+\index{Game@{Game}!Restart@{Restart}}
+\index{Restart@{Restart}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{Restart()}{Restart()}}
+{\footnotesize\ttfamily void Game\+::\+Restart (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Restarts a game and informs Chess\+Ui\+Qt listener 
+
+Implements \mbox{\hyperlink{class_i_game_a32ea1e3bcf22446f088b8dae36c7033d}{IGame}}.
+
+\Hypertarget{class_game_ac01fc3779ed8d843bde10d6611d005c4}\label{class_game_ac01fc3779ed8d843bde10d6611d005c4} 
+\index{Game@{Game}!ResumeGame@{ResumeGame}}
+\index{ResumeGame@{ResumeGame}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{ResumeGame()}{ResumeGame()}}
+{\footnotesize\ttfamily void Game\+::\+Resume\+Game (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Updates the state of the game Starts timer again 
+
+Implements \mbox{\hyperlink{class_i_game_ae5aee6eae854061ed400c8a72ffcc8de}{IGame}}.
+
+\Hypertarget{class_game_a6e0eec94f7623d9323f2acd239285df0}\label{class_game_a6e0eec94f7623d9323f2acd239285df0} 
+\index{Game@{Game}!Save@{Save}}
+\index{Save@{Save}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{Save()}{Save()}}
+{\footnotesize\ttfamily void Game\+::\+Save (\begin{DoxyParamCaption}\item[{EFile\+Format}]{format,  }\item[{const String \&}]{file }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
+
+Saves either FEN or PGN formats to computer
+
+
+\begin{DoxyParams}{Parameters}
+{\em format} & specifies the format in which to save the state of the board \\
+\hline
+{\em file} & the string containing the info \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{class_i_game_ac4893b10c4d38109fe9fb518082df2ba}{IGame}}.
+
+\Hypertarget{class_game_a7891601910f872fcae6df42e3d9c99ad}\label{class_game_a7891601910f872fcae6df42e3d9c99ad} 
+\index{Game@{Game}!ShowConfiguration@{ShowConfiguration}}
+\index{ShowConfiguration@{ShowConfiguration}!Game@{Game}}
+\doxysubsubsection{\texorpdfstring{ShowConfiguration()}{ShowConfiguration()}}
+{\footnotesize\ttfamily void Game\+::\+Show\+Configuration (\begin{DoxyParamCaption}\item[{int}]{conf\+Nr }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [virtual]}}
+
+Goes in the bitset vector, takes the conf\+Nrth configuration from history Transforms this configuration into a \doxylink{class_board}{Board} Updates current board to the newly converted one 
+\begin{DoxyParams}{Parameters}
+{\em conf\+Nr} & configuration number \\
+\hline
+\end{DoxyParams}
+
+
+Implements \mbox{\hyperlink{class_i_game_ae66cd941a10fadeaaff6f95739f8a337}{IGame}}.
+
+
+
+The documentation for this class was generated from the following files\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/cpopovici/\+Documents/\+Git\+Hub/\+Chess-\/\+Application/\+Game\+Lib/\+Game\+Lib/Game.\+h\item 
+C\+:/\+Users/cpopovici/\+Documents/\+Git\+Hub/\+Chess-\/\+Application/\+Game\+Lib/\+Game\+Lib/Game.\+cpp\end{DoxyCompactItemize}
