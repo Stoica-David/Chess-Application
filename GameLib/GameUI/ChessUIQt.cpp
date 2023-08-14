@@ -646,6 +646,13 @@ void ChessUIQt::UpdateHistory()
 
 		m_movesList->addItem(new QListWidgetItem(itemText));
 	}
+
+	QListWidgetItem* lastItem = m_movesList->item(m_movesList->count() - 1);
+	if (lastItem)
+	{
+		m_movesList->scrollToItem(lastItem);
+	}
+
 }
 
 void ChessUIQt::UpdateCaptured(EColor color)

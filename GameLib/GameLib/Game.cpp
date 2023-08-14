@@ -72,6 +72,24 @@ Game::Game(const CharMatrix& matrix, EColor color, EState state, bool wantTimer)
 	}
 }
 
+Game::Game(std::function<void()> function, bool wantTimer /*= false*/)
+	: m_turn(EColor::White)
+	, m_state(EState::Playing)
+	, m_initialState(EState::Playing)
+	, m_timer(1, wantTimer)
+	, m_wantTimer(wantTimer)
+{
+	auto nothing = []() {
+
+	};
+	m_timer.SetNotifyChange(nothing);
+
+	if (wantTimer)
+	{
+		m_timer.StartTimer();
+	}
+}
+
 void Game::Restart()
 {
 	m_turn = EColor::White;

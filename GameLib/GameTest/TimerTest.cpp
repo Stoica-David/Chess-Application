@@ -39,7 +39,24 @@ TEST(TimeRanOutTest, RanOut2)
 
 	std::this_thread::sleep_for(std::chrono::milliseconds(1100));
 
-	t.StopTimer();
-
 	EXPECT_EQ(t.IsTimeExpired(), true);
+}
+
+TEST(RestartTimerTest, Restart1)
+{
+	auto nothing = []() {
+
+	};
+
+	Timer t(1, true);
+
+	t.SetNotifyChange(nothing);
+
+	t.StartTimer();
+
+	std::this_thread::sleep_for(std::chrono::milliseconds(1200));
+
+	t.RestartTimer();
+
+	EXPECT_EQ(t.IsTimeExpired(), false);
 }

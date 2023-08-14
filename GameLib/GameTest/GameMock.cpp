@@ -679,3 +679,4 @@ TEST(GameOverTest, PromoteTest1)
 
 	g.RemoveListener(mock.get());
 }
+

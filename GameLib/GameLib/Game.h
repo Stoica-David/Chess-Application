@@ -14,6 +14,7 @@ class Game : public IGame, public IGameStatus
 public:
 	// Constructor
 	Game(bool wantTimer = false);
+	Game(std::function<void()>, bool wantTimer = false);
 	Game(const Board& b, EColor color = EColor::White, bool wantTimer = false);
 	Game(const CharMatrix& matrix, EColor color = EColor::White, EState state = EState::Playing, bool wantTimer = false);
 
