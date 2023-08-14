@@ -158,6 +158,7 @@
     <ClCompile Include="GameMock.cpp" />
     <ClCompile Include="PGNTest.cpp" />
     <ClCompile Include="PieceTest.cpp" />
+    <ClCompile Include="TimerTest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

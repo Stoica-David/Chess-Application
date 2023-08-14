@@ -15,6 +15,7 @@ class Timer
 {
 public:
 	Timer(int total_minutes);
+	Timer(int, bool);
 	Timer(const Timer&) = default;
 
 	~Timer();

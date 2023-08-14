@@ -9,6 +9,15 @@ Timer::Timer(int totalMinutes)
 {
 }
 
+Timer::Timer(int seconds, bool)
+	: m_running(false)
+	, m_white_remaining_time(seconds * 1000)
+	, m_black_remaining_time(seconds * 1000)
+	, m_bSuspended(false)
+	, m_color(EColor::White)
+{
+}
+
 Timer::~Timer()
 {
 	m_running = false;
@@ -102,6 +111,7 @@ void Timer::Run()
 		}
 
 		// Notify time update
+		//if(m_notifyChange)
 		m_notifyChange();
 	}
 }
