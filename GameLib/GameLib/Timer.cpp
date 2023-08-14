@@ -94,23 +94,29 @@ void Timer::Run()
 		auto current_time = std::chrono::steady_clock::now();
 
 		if (m_color == EColor::White)
+		{
 			m_white_remaining_time -= std::chrono::duration_cast<std::chrono::milliseconds>(current_time - initial_time);
+
+			if (m_white_remaining_time < std::chrono::milliseconds(0))
+			{
+				m_white_remaining_time = std::chrono::milliseconds(0);
+			}
+		}
 		else
+		{
 			m_black_remaining_time -= std::chrono::duration_cast<std::chrono::milliseconds>(current_time - initial_time);
 
-		if (m_white_remaining_time < std::chrono::milliseconds(0))
-			m_white_remaining_time = std::chrono::milliseconds(0);
-
-		if (m_black_remaining_time < std::chrono::milliseconds(0))
-			m_black_remaining_time = std::chrono::milliseconds(0);
+			if (m_black_remaining_time < std::chrono::milliseconds(0))
+			{
+				m_black_remaining_time = std::chrono::milliseconds(0);
+			}
+		}
 
 		if (IsTimeExpired())
 		{
 			StopTimer();
 		}
 
-		// Notify time update
-		//if(m_notifyChange)
 		m_notifyChange();
 	}
 }

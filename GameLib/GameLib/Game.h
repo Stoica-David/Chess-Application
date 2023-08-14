@@ -6,8 +6,8 @@
 #include "EState.h"
 #include "Timer.h"
 
-using ListenersList = std::vector<IGameListenerWeakPtr>;
 using CharMatrix = std::array<std::array<char, 8>, 8>;
+using ListenersList = std::vector<IGameListenerWeakPtr>;
 
 class Game : public IGame, public IGameStatus
 {
