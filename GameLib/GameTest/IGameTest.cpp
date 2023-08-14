@@ -226,7 +226,7 @@ TEST_F(IGameTest, GetMovesQueen)
 	EXPECT_EQ(myStatus->GetMoves({ 0,3 }), bQueenMoves);
 }
 
-TEST_F(IGameTest, GetMovesKing)
+TEST_F(IGameTest, GetMovesKing1)
 {
 	EXPECT_EQ(myStatus->GetMoves({ 7,4 }), PositionList());
 	EXPECT_EQ(myStatus->GetMoves({ 0,4 }), PositionList());

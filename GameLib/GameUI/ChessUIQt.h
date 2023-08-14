@@ -12,6 +12,7 @@
 #include <QLabel>
 #include <QListWidget>
 #include <QApplication>
+#include <QScrollArea>
 #include <QtGlobal>
 #include <utility>
 #include <memory>
@@ -109,6 +110,6 @@ private:
     
     QLabel* m_blackTimer;
     QLabel* m_whiteTimer;
-    
+
     IGamePtr m_game;
 };

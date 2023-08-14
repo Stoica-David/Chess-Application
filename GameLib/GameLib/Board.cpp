@@ -746,6 +746,18 @@ PositionList Board::GetMovesKing(Position p) const
 		}
 	}
 
+	if (IsCastle(p, Position(p.x, 0)) && VerifyTheWay(p, { p.x, 0 }))
+	{
+		kingMoves.push_back({ p.x, 0 });
+		kingMoves.push_back({ p.x, 2 });
+	}
+
+	if (IsCastle(p, Position(p.x, 7)) && VerifyTheWay(p, { p.x, 7 }))
+	{
+		kingMoves.push_back({ p.x, 7 });
+		kingMoves.push_back({ p.x, 6 });
+	}
+
 	return kingMoves;
 }
 

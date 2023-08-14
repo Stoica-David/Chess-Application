@@ -7,13 +7,13 @@
 #include <QInputDialog>
 #include <QMessageBox>
 #include <QFileDialog>
-#include <QScrollArea>
 #include <QFileInfo>
 #include <QMouseEvent>
 #include <QClipboard>
 #include <QApplication>
 #include <QIcon>
 #include <QEvent>
+#include <QtWidgets>
 #include <unordered_set>
 #include <fstream>
 #include <sstream>
@@ -472,8 +472,10 @@ void ChessUIQt::InitializeTimers(QGridLayout* mainGridLayout)
 	QGridLayout* timerGrid = new QGridLayout();
 
 	QLabel* blackTimerLbl = new QLabel("Black timer:");
+	blackTimerLbl->setStyleSheet("font-size: 13px; font-weight: bold; color:#7A6C5D");
 
 	m_blackTimer = new QLabel("");
+	m_blackTimer->setStyleSheet("font-size: 12px; font-weight: bold; color:#7A6C5D");
 
 	pauseTimerBtn = new QPushButton("Pause");
 
@@ -481,8 +483,10 @@ void ChessUIQt::InitializeTimers(QGridLayout* mainGridLayout)
 	//TODO Create slot and connect button
 
 	QLabel* whiteTimerLbl = new QLabel("     White timer:");
+	whiteTimerLbl->setStyleSheet("font-size: 12px; font-weight: bold; color:#7A6C5D");
 
 	m_whiteTimer = new QLabel("");
+	m_whiteTimer->setStyleSheet("font-size: 12px; font-weight: bold; color:#7A6C5D");
 
 	timerContainer->setFixedWidth(400);
 
@@ -882,7 +886,7 @@ void ChessUIQt::GridButtonClicked(Position position)
 			}
 		}
 		//At first click
-		else if (status->GetPieceInfo(position) && status->GetPieceInfo(position)->GetColor() == status->GetTurn() && !status->GetMoves(position).empty())
+		else if (status->GetPieceInfo(position) && status->GetPieceInfo(position)->GetColor() == status->GetTurn())
 		{
 			m_selectedCell = position;
 			m_grid[position.x][position.y]->SetSelected(true);
