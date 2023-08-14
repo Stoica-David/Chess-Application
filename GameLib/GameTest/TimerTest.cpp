@@ -37,7 +37,7 @@ TEST(TimeRanOutTest, RanOut2)
 
 	t.StartTimer();
 
-	std::this_thread::sleep_for(std::chrono::milliseconds(1010));
+	std::this_thread::sleep_for(std::chrono::milliseconds(1100));
 
 	t.StopTimer();
 
