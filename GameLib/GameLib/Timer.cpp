@@ -26,12 +26,12 @@ void Timer::StartTimer()
 	m_running = true;
 	m_bSuspended = false;
 
+	m_cv.notify_all();
+
 	if (!m_thread.joinable())
 	{
 		m_thread = std::thread(&Timer::Run, this);
 	}
-
-	m_cv.notify_all();
 }
 
 void Timer::StopTimer()

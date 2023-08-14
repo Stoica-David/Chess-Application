@@ -750,6 +750,14 @@ void ChessUIQt::HighlightPossibleMoves(const PositionList& possibleMoves)
 	}
 }
 
+void ChessUIQt::UnhighlightPossibleMoves(const PositionList& possibleMoves)
+{
+	for (const auto& position : possibleMoves)
+	{
+		m_grid[position.x][position.y]->SetHighlighted(false);
+	}
+}
+
 void ChessUIQt::MakeButtonsSelectable()
 {
 	for (int i = 0; i < 8; i++)
@@ -857,10 +865,21 @@ void ChessUIQt::GridButtonClicked(Position position)
 		{
 			auto& button = m_grid[m_selectedCell.value().x][m_selectedCell.value().y];
 
-			m_selectedCell.value() == position ? UpdateBoard(GetBoard()) : m_game->Move(m_selectedCell.value(), position), UpdateHistory();
+			if (position != m_selectedCell.value() && status->GetPieceInfo(position) && status->GetPieceInfo(position)->GetColor() == status->GetPieceInfo(m_selectedCell.value())->GetColor())
+			{
+				button->SetSelected(false);
+				UnhighlightPossibleMoves(status->GetMoves(m_selectedCell.value()));
+				m_selectedCell = position;
+				m_grid[position.x][position.y]->SetSelected(true);
+				HighlightPossibleMoves(status->GetMoves(position));
+			}
+			else
+			{
+				m_selectedCell.value() == position ? UpdateBoard(GetBoard()) : m_game->Move(m_selectedCell.value(), position), UpdateHistory();
 
-			button->SetSelected(false);
-			m_selectedCell.reset();
+				button->SetSelected(false);
+				m_selectedCell.reset();
+			}
 		}
 		//At first click
 		else if (status->GetPieceInfo(position) && status->GetPieceInfo(position)->GetColor() == status->GetTurn() && !status->GetMoves(position).empty())
@@ -1026,6 +1045,7 @@ void ChessUIQt::OnHistoryClicked(QListWidgetItem* item)
 	m_game->ShowConfiguration(index);
 
 	UpdateBoard(GetBoard());
+	m_movesList->clearSelection();
 
 	auto status = m_game->GetStatus();
 

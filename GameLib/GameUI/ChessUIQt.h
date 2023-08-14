@@ -64,6 +64,7 @@ private:
 	
     void ApplyButtonStyles(QPushButton* button);
     void HighlightPossibleMoves(const PositionList& possibleMoves);
+    void UnhighlightPossibleMoves(const PositionList& possibleMoves);
     void MakeButtonsSelectable();
     void MakeButtonsUnselectable();
 
