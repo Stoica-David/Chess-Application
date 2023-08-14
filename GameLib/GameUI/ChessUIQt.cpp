@@ -472,7 +472,7 @@ void ChessUIQt::InitializeTimers(QGridLayout* mainGridLayout)
 	QGridLayout* timerGrid = new QGridLayout();
 
 	QLabel* blackTimerLbl = new QLabel("Black timer:");
-	blackTimerLbl->setStyleSheet("font-size: 13px; font-weight: bold; color:#7A6C5D");
+	blackTimerLbl->setStyleSheet("font-size: 12px; font-weight: bold; color:#7A6C5D");
 
 	m_blackTimer = new QLabel("");
 	m_blackTimer->setStyleSheet("font-size: 12px; font-weight: bold; color:#7A6C5D");
