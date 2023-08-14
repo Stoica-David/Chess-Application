@@ -28,7 +28,9 @@ public:
 
     //Getters
     String GetPGN()const;
+    
     StringVector GetMoves() const;
+
     int GetNrMove() const;
 
     //Save 
@@ -62,8 +64,11 @@ private:
     void ParseToPGN();
 
 private:
-    String m_PGN;
-    StringVector m_moves;
-    TagMap m_headers;
     int m_nrMove;
+
+    String m_PGN;
+    
+    StringVector m_moves;
+    
+    TagMap m_headers;
 };

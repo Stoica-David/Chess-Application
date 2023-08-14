@@ -22,9 +22,6 @@
     <Filter Include="Source Files\Pieces">
       <UniqueIdentifier>{df3498a1-35a6-4755-9a91-89c878c23998}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Source Files\Exceptions">
-      <UniqueIdentifier>{83cc8220-cbf7-4e6c-bfd5-a8a1aae858b0}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Header Files\Pieces">
       <UniqueIdentifier>{ca71fb11-4e84-41e5-a5f0-a2523140db1f}</UniqueIdentifier>
     </Filter>
@@ -42,6 +39,18 @@
     </Filter>
     <Filter Include="Source Files\Timer">
       <UniqueIdentifier>{4461c7a7-8907-475b-8eae-b829971345ad}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\File Related">
+      <UniqueIdentifier>{176afe2c-43f4-461d-8621-cd59af26e39a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\API">
+      <UniqueIdentifier>{588f34b0-12d2-47b4-9bbb-d0a199ec8c59}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Source Files\API\Exceptions">
+      <UniqueIdentifier>{83cc8220-cbf7-4e6c-bfd5-a8a1aae858b0}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Header Files\States">
+      <UniqueIdentifier>{33e8e3bc-a17d-40ed-95b3-c4fac851315e}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -70,28 +79,28 @@
       <Filter>Source Files\Pieces</Filter>
     </ClCompile>
     <ClCompile Include="ChessException.cpp">
-      <Filter>Source Files\Exceptions</Filter>
+      <Filter>Source Files\API\Exceptions</Filter>
     </ClCompile>
     <ClCompile Include="DoesntExistException.cpp">
-      <Filter>Source Files\Exceptions</Filter>
+      <Filter>Source Files\API\Exceptions</Filter>
     </ClCompile>
     <ClCompile Include="InTheWayException.cpp">
-      <Filter>Source Files\Exceptions</Filter>
+      <Filter>Source Files\API\Exceptions</Filter>
     </ClCompile>
     <ClCompile Include="MoveException.cpp">
-      <Filter>Source Files\Exceptions</Filter>
+      <Filter>Source Files\API\Exceptions</Filter>
     </ClCompile>
     <ClCompile Include="PositionException.cpp">
-      <Filter>Source Files\Exceptions</Filter>
+      <Filter>Source Files\API\Exceptions</Filter>
     </ClCompile>
     <ClCompile Include="PromoteException.cpp">
-      <Filter>Source Files\Exceptions</Filter>
+      <Filter>Source Files\API\Exceptions</Filter>
     </ClCompile>
     <ClCompile Include="StillCheckException.cpp">
-      <Filter>Source Files\Exceptions</Filter>
+      <Filter>Source Files\API\Exceptions</Filter>
     </ClCompile>
     <ClCompile Include="TurnException.cpp">
-      <Filter>Source Files\Exceptions</Filter>
+      <Filter>Source Files\API\Exceptions</Filter>
     </ClCompile>
     <ClCompile Include="Game.cpp">
       <Filter>Source Files</Filter>
@@ -100,22 +109,22 @@
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="FENException.cpp">
-      <Filter>Source Files\Exceptions</Filter>
+      <Filter>Source Files\API\Exceptions</Filter>
     </ClCompile>
     <ClCompile Include="PGNException.cpp">
-      <Filter>Source Files\Exceptions</Filter>
+      <Filter>Source Files\API\Exceptions</Filter>
     </ClCompile>
     <ClCompile Include="PGNHandler.cpp">
       <Filter>Source Files\PGN</Filter>
     </ClCompile>
-    <ClCompile Include="FileUtils.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Position.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
     <ClCompile Include="Timer.cpp">
       <Filter>Source Files\Timer</Filter>
+    </ClCompile>
+    <ClCompile Include="FileUtils.cpp">
+      <Filter>Source Files\File Related</Filter>
+    </ClCompile>
+    <ClCompile Include="Position.cpp">
+      <Filter>Source Files\API</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -139,9 +148,6 @@
     </ClInclude>
     <ClInclude Include="IPieceInfo.h">
       <Filter>Header Files\API</Filter>
-    </ClInclude>
-    <ClInclude Include="EState.h">
-      <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="BoardExceptions.h">
       <Filter>Header Files\API\Exceptions</Filter>
@@ -226,6 +232,9 @@
     </ClInclude>
     <ClInclude Include="Thread.h">
       <Filter>Header Files\Timer</Filter>
+    </ClInclude>
+    <ClInclude Include="EState.h">
+      <Filter>Header Files\States</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

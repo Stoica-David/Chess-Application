@@ -2,7 +2,6 @@
 #include "PGNException.h"
 #include "FileUtils.h"
 
-#include <string>
 #include <fstream>
 #include <sstream>
 #include <regex>
@@ -27,6 +26,8 @@ static String ConvertTag(ETag tag)
 		return "Result";
 	}
 }
+
+// Class methods
 
 PGNHandler::PGNHandler()
 {
@@ -64,26 +65,7 @@ void PGNHandler::AddMove(const String& newMove)
 	m_moves.push_back(newMove);
 }
 
-void PGNHandler::ParseToPGN()
-{
-	AddHeaders();
-
-	int moveNumber = 1;
-	for (size_t i = 0; i < m_moves.size(); i += 2) 
-	{
-		m_PGN += std::to_string(moveNumber) + "." + m_moves[i] + " ";
-
-		if (i + 1 < m_moves.size())
-		{
-			m_PGN += m_moves[i + 1] + " ";
-		}
-		moveNumber++;
-	}
-
-	AddEndGame();
-}
-
-void PGNHandler::SavePGNToFile(const String& filePath) 
+void PGNHandler::SavePGNToFile(const String& filePath)
 {
 	ParseToPGN();
 
@@ -220,4 +202,23 @@ void PGNHandler::AddEndGame()
 	{
 		m_PGN += "*";
 	}
+}
+
+void PGNHandler::ParseToPGN()
+{
+	AddHeaders();
+
+	int moveNumber = 1;
+	for (size_t i = 0; i < m_moves.size(); i += 2)
+	{
+		m_PGN += std::to_string(moveNumber) + "." + m_moves[i] + " ";
+
+		if (i + 1 < m_moves.size())
+		{
+			m_PGN += m_moves[i + 1] + " ";
+		}
+		moveNumber++;
+	}
+
+	AddEndGame();
 }
