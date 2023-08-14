@@ -482,7 +482,7 @@ void ChessUIQt::InitializeTimers(QGridLayout* mainGridLayout)
 	connect(pauseTimerBtn, &QPushButton::pressed, this, &ChessUIQt::OnPauseButtonClicked);
 	//TODO Create slot and connect button
 
-	QLabel* whiteTimerLbl = new QLabel("     White timer:");
+	QLabel* whiteTimerLbl = new QLabel("  White timer:");
 	whiteTimerLbl->setStyleSheet("font-size: 12px; font-weight: bold; color:#7A6C5D");
 
 	m_whiteTimer = new QLabel("");
