@@ -255,3 +255,155 @@ TEST_F(IGameTest, GetHistoryTest)
 	EXPECT_EQ(myStatus->GetHistory(), currMoves);
 }
 
+TEST_F(IGameTest, CastleWhite1)
+{
+	EXPECT_NO_THROW(myInstance->Move({ 7, 6 }, { 5, 5 }));
+	EXPECT_NO_THROW(myInstance->Move({ 1, 0 }, { 2, 0 }));
+	EXPECT_NO_THROW(myInstance->Move({ 6, 6 }, { 5, 6 }));
+	EXPECT_NO_THROW(myInstance->Move({ 1, 1 }, { 2, 1 }));
+	EXPECT_NO_THROW(myInstance->Move({ 7, 5 }, { 6, 6 }));
+	EXPECT_NO_THROW(myInstance->Move({ 2, 0 }, { 3, 0 }));
+	EXPECT_NO_THROW(myInstance->Move({ 7, 4 }, { 7, 7 }));
+
+	EXPECT_EQ(myStatus->GetPieceInfo({ 7, 5 })->GetType(), EPieceType::Rook);
+	EXPECT_EQ(myStatus->GetPieceInfo({ 7, 6 })->GetType(), EPieceType::King);
+}
+
+TEST_F(IGameTest, CastleWhite2)
+{
+	EXPECT_NO_THROW(myInstance->Move({ 6, 3 }, { 4, 3 }));
+	EXPECT_NO_THROW(myInstance->Move({ 1, 3 }, { 3, 3 }));
+	EXPECT_NO_THROW(myInstance->Move({ 7, 3 }, { 5, 3 }));
+	EXPECT_NO_THROW(myInstance->Move({ 1, 0 }, { 2, 0 }));
+	EXPECT_NO_THROW(myInstance->Move({ 7, 2 }, { 6, 3 }));
+	EXPECT_NO_THROW(myInstance->Move({ 1, 1 }, { 2, 1 }));
+	EXPECT_NO_THROW(myInstance->Move({ 7, 1 }, { 5, 0 }));
+	EXPECT_NO_THROW(myInstance->Move({ 1, 7 }, { 2, 7 }));
+	EXPECT_NO_THROW(myInstance->Move({ 7, 4 }, { 7, 0 }));
+
+	EXPECT_EQ(myStatus->GetPieceInfo({ 7, 2 })->GetType(), EPieceType::King);
+	EXPECT_EQ(myStatus->GetPieceInfo({ 7, 3 })->GetType(), EPieceType::Rook);
+}
+
+TEST_F(IGameTest, CastleWhite3)
+{
+	EXPECT_NO_THROW(myInstance->Move({ 7, 6 }, { 5, 5 }));
+	EXPECT_NO_THROW(myInstance->Move({ 1, 0 }, { 2, 0 }));
+	EXPECT_NO_THROW(myInstance->Move({ 6, 6 }, { 5, 6 }));
+	EXPECT_NO_THROW(myInstance->Move({ 1, 1 }, { 2, 1 }));
+	EXPECT_NO_THROW(myInstance->Move({ 7, 5 }, { 6, 6 }));
+	EXPECT_NO_THROW(myInstance->Move({ 2, 0 }, { 3, 0 }));
+	EXPECT_NO_THROW(myInstance->Move({ 7, 4 }, { 7, 6 }));
+
+	EXPECT_EQ(myStatus->GetPieceInfo({ 7, 5 })->GetType(), EPieceType::Rook);
+	EXPECT_EQ(myStatus->GetPieceInfo({ 7, 6 })->GetType(), EPieceType::King);
+}
+
+TEST_F(IGameTest, CastleWhite4)
+{
+	EXPECT_NO_THROW(myInstance->Move({ 6, 3 }, { 4, 3 }));
+	EXPECT_NO_THROW(myInstance->Move({ 1, 3 }, { 3, 3 }));
+	EXPECT_NO_THROW(myInstance->Move({ 7, 3 }, { 5, 3 }));
+	EXPECT_NO_THROW(myInstance->Move({ 1, 0 }, { 2, 0 }));
+	EXPECT_NO_THROW(myInstance->Move({ 7, 2 }, { 6, 3 }));
+	EXPECT_NO_THROW(myInstance->Move({ 1, 1 }, { 2, 1 }));
+	EXPECT_NO_THROW(myInstance->Move({ 7, 1 }, { 5, 0 }));
+	EXPECT_NO_THROW(myInstance->Move({ 1, 7 }, { 2, 7 }));
+	EXPECT_NO_THROW(myInstance->Move({ 7, 4 }, { 7, 2 }));
+
+	EXPECT_EQ(myStatus->GetPieceInfo({ 7, 2 })->GetType(), EPieceType::King);
+	EXPECT_EQ(myStatus->GetPieceInfo({ 7, 3 })->GetType(), EPieceType::Rook);
+}
+
+TEST_F(IGameTest, CastleWhite5)
+{
+	EXPECT_NO_THROW(myInstance->Move({ 6, 3 }, { 4, 3 }));
+	EXPECT_NO_THROW(myInstance->Move({ 1, 3 }, { 3, 3 }));
+	EXPECT_NO_THROW(myInstance->Move({ 7, 3 }, { 5, 3 }));
+	EXPECT_NO_THROW(myInstance->Move({ 1, 0 }, { 2, 0 }));
+	EXPECT_NO_THROW(myInstance->Move({ 7, 2 }, { 6, 3 }));
+	EXPECT_NO_THROW(myInstance->Move({ 1, 1 }, { 2, 1 }));
+	EXPECT_NO_THROW(myInstance->Move({ 7, 1 }, { 5, 0 }));
+	EXPECT_NO_THROW(myInstance->Move({ 1, 7 }, { 2, 7 }));
+	EXPECT_THROW(myInstance->Move({ 7, 4 }, { 7, 1 }), MoveException);
+}
+
+TEST_F(IGameTest, CastleBlack1)
+{
+	EXPECT_NO_THROW(myInstance->Move({ 6, 0 }, { 5, 0 }));
+	EXPECT_NO_THROW(myInstance->Move({ 1, 4 }, { 2, 4 }));
+	EXPECT_NO_THROW(myInstance->Move({ 6, 1 }, { 5, 1 }));
+	EXPECT_NO_THROW(myInstance->Move({ 0, 5 }, { 1, 4 }));
+	EXPECT_NO_THROW(myInstance->Move({ 6, 2 }, { 5, 2 }));
+	EXPECT_NO_THROW(myInstance->Move({ 0, 6 }, { 2, 5 }));
+	EXPECT_NO_THROW(myInstance->Move({ 5, 0 }, { 4, 0 }));
+	EXPECT_NO_THROW(myInstance->Move({ 0, 4 }, { 0, 7 }));
+
+	EXPECT_EQ(myStatus->GetPieceInfo({ 0, 6 })->GetType(), EPieceType::King);
+	EXPECT_EQ(myStatus->GetPieceInfo({ 0, 5 })->GetType(), EPieceType::Rook);
+}
+
+TEST_F(IGameTest, CastleBlack2)
+{
+	EXPECT_NO_THROW(myInstance->Move({ 6, 0 }, { 5, 0 }));
+	EXPECT_NO_THROW(myInstance->Move({ 1, 4 }, { 2, 4 }));
+	EXPECT_NO_THROW(myInstance->Move({ 6, 1 }, { 5, 1 }));
+	EXPECT_NO_THROW(myInstance->Move({ 0, 5 }, { 1, 4 }));
+	EXPECT_NO_THROW(myInstance->Move({ 6, 2 }, { 5, 2 }));
+	EXPECT_NO_THROW(myInstance->Move({ 0, 6 }, { 2, 5 }));
+	EXPECT_NO_THROW(myInstance->Move({ 5, 0 }, { 4, 0 }));
+	EXPECT_NO_THROW(myInstance->Move({ 0, 4 }, { 0, 6 }));
+
+	EXPECT_EQ(myStatus->GetPieceInfo({ 0, 6 })->GetType(), EPieceType::King);
+	EXPECT_EQ(myStatus->GetPieceInfo({ 0, 5 })->GetType(), EPieceType::Rook);
+}
+
+TEST_F(IGameTest, CastleBlack3)
+{
+	EXPECT_NO_THROW(myInstance->Move({ 6, 0 }, { 5, 0 }));
+	EXPECT_NO_THROW(myInstance->Move({ 1, 3 }, { 3, 3 }));
+	EXPECT_NO_THROW(myInstance->Move({ 6, 1 }, { 5, 1 }));
+	EXPECT_NO_THROW(myInstance->Move({ 0, 3 }, { 2, 3 }));
+	EXPECT_NO_THROW(myInstance->Move({ 6, 2 }, { 5, 2 }));
+	EXPECT_NO_THROW(myInstance->Move({ 0, 2 }, { 1, 3 }));
+	EXPECT_NO_THROW(myInstance->Move({ 5, 0 }, { 4, 0 }));
+	EXPECT_NO_THROW(myInstance->Move({ 0, 1 }, { 2, 0 }));
+	EXPECT_NO_THROW(myInstance->Move({ 6, 7 }, { 5, 7 }));
+	EXPECT_NO_THROW(myInstance->Move({ 0, 4 }, { 0, 0 }));
+
+	EXPECT_EQ(myStatus->GetPieceInfo({ 0, 2 })->GetType(), EPieceType::King);
+	EXPECT_EQ(myStatus->GetPieceInfo({ 0, 3 })->GetType(), EPieceType::Rook);
+}
+
+TEST_F(IGameTest, CastleBlack4)
+{
+	EXPECT_NO_THROW(myInstance->Move({ 6, 0 }, { 5, 0 }));
+	EXPECT_NO_THROW(myInstance->Move({ 1, 3 }, { 3, 3 }));
+	EXPECT_NO_THROW(myInstance->Move({ 6, 1 }, { 5, 1 }));
+	EXPECT_NO_THROW(myInstance->Move({ 0, 3 }, { 2, 3 }));
+	EXPECT_NO_THROW(myInstance->Move({ 6, 2 }, { 5, 2 }));
+	EXPECT_NO_THROW(myInstance->Move({ 0, 2 }, { 1, 3 }));
+	EXPECT_NO_THROW(myInstance->Move({ 5, 0 }, { 4, 0 }));
+	EXPECT_NO_THROW(myInstance->Move({ 0, 1 }, { 2, 0 }));
+	EXPECT_NO_THROW(myInstance->Move({ 6, 7 }, { 5, 7 }));
+	EXPECT_NO_THROW(myInstance->Move({ 0, 4 }, { 0, 2 }));
+
+	EXPECT_EQ(myStatus->GetPieceInfo({ 0, 2 })->GetType(), EPieceType::King);
+	EXPECT_EQ(myStatus->GetPieceInfo({ 0, 3 })->GetType(), EPieceType::Rook);
+}
+
+TEST_F(IGameTest, CastleBlack5)
+{
+	EXPECT_NO_THROW(myInstance->Move({ 6, 0 }, { 5, 0 }));
+	EXPECT_NO_THROW(myInstance->Move({ 1, 3 }, { 3, 3 }));
+	EXPECT_NO_THROW(myInstance->Move({ 6, 1 }, { 5, 1 }));
+	EXPECT_NO_THROW(myInstance->Move({ 0, 3 }, { 2, 3 }));
+	EXPECT_NO_THROW(myInstance->Move({ 6, 2 }, { 5, 2 }));
+	EXPECT_NO_THROW(myInstance->Move({ 0, 2 }, { 1, 3 }));
+	EXPECT_NO_THROW(myInstance->Move({ 5, 0 }, { 4, 0 }));
+	EXPECT_NO_THROW(myInstance->Move({ 0, 1 }, { 2, 0 }));
+	EXPECT_NO_THROW(myInstance->Move({ 6, 7 }, { 5, 7 }));
+	EXPECT_THROW(myInstance->Move({ 0, 4 }, { 0, 1 }), MoveException);
+}
+
+
