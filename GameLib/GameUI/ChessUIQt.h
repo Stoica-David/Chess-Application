@@ -53,6 +53,12 @@ private:
     void InitializeBoard(QGridLayout* mainGridLayout);
     void InitializePlayer(QGridLayout* mainGridLayout, EColor);
     void InitializeTabBar(QGridLayout* mainGridLayout);
+	void InitializePlayerPieces(QListWidget*&, EColor) const;
+    void InitializeTabButtons();
+
+	void SetTimers(bool isTimer);
+    void AddMissingPieces(int, EPieceType, EColor);
+    int ActualNumberPieces(int&, PiecesLeftVector, EPieceType) const;
 
     //Update methods
     void UpdateHistory();

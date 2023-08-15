@@ -61,6 +61,7 @@ static std::string StateToString(IGamePtr game)
 		return "EState::BlackWon";
 	if (status->IsPromoting())
 		return "EState::ChoosePiece";
+
 	return "EState::Playing";
 }
 
@@ -73,11 +74,7 @@ static std::string ColorToString(IGamePtr game)
 
 void AppendExtraInfo(std::string& m, IGamePtr game)
 {
-	m += "Game g(m, ";
-	m += ColorToString(game);
-	m += ", ";
-	m += StateToString(game);
-	m += ");";
+	m += "Game g(m, " + ColorToString(game) + ", " + StateToString(game) + ");";
 }
 
 static int GetDefaultNumberOfPieces(EPieceType type)
@@ -291,16 +288,12 @@ void ChessUIQt::PopUp()
 		if (item == "Yes")
 		{
 			m_game = IGame::Produce(true);
-			pauseTimerBtn->setEnabled(true);
-			m_whiteTimer->setText("10:00:000");
-			m_blackTimer->setText("10:00:000");
+			SetTimers(true);
 		}
 		else
 		{
 			m_game = IGame::Produce();
-			pauseTimerBtn->setEnabled(false);
-			m_whiteTimer->setText("N/A");
-			m_blackTimer->setText("N/A");
+			SetTimers(false);
 		}
 
 		m_game->AddListener(shared_from_this());
@@ -309,11 +302,8 @@ void ChessUIQt::PopUp()
 	else
 	{
 		m_game = IGame::Produce();
-		pauseTimerBtn->setEnabled(false);
+		SetTimers(false);
 		m_game->AddListener(shared_from_this());
-
-		m_whiteTimer->setText("N/A");
-		m_blackTimer->setText("N/A");
 		StartGame();
 	}
 }
@@ -480,7 +470,6 @@ void ChessUIQt::InitializeTimers(QGridLayout* mainGridLayout)
 	pauseTimerBtn = new QPushButton("Pause");
 
 	connect(pauseTimerBtn, &QPushButton::pressed, this, &ChessUIQt::OnPauseButtonClicked);
-	//TODO Create slot and connect button
 
 	QLabel* whiteTimerLbl = new QLabel("  White timer:");
 	whiteTimerLbl->setStyleSheet("font-size: 12px; font-weight: bold; color:#7A6C5D");
@@ -563,16 +552,13 @@ void ChessUIQt::InitializePlayer(QGridLayout* mainGridLayout, EColor color)
 
 	color == EColor::Black ? m_blackCapturedPiecesList = new QListWidget() : m_whiteCapturedPiecesList = new QListWidget();
 
-	QListWidget* playerPieces;
-	playerPieces = color == EColor::Black ? m_blackCapturedPiecesList : m_whiteCapturedPiecesList;
-	playerPieces->setFlow(QListWidget::LeftToRight);
-	playerPieces->setStyleSheet("QListWidget::item, QListWidget{background-color:transparent; border: none}");
-	playerPieces->setMaximumHeight(30);
-	playerPieces->setFixedWidth(400);
+	QListWidget* playerCapturedPieces = new QListWidget;
+	
+	InitializePlayerPieces(playerCapturedPieces, color);
 
 	playerGrid->addWidget(profilePicture, 0, 0, 2, 1);
 	playerGrid->addWidget(profileName, 0, 1, Qt::AlignTop);
-	playerGrid->addWidget(playerPieces, 1, 1, Qt::AlignCenter);
+	playerGrid->addWidget(playerCapturedPieces, 1, 1, Qt::AlignCenter);
 
 	player->setLayout(playerGrid);
 
@@ -586,23 +572,7 @@ void ChessUIQt::InitializeTabBar(QGridLayout* mainGridLayout)
 	messageLabel->setAlignment(Qt::AlignCenter);
 	messageLabel->setStyleSheet("font-size: 20px; font-weight: bold; color:#7A6C5D");
 
-	QPixmap closeStr(":/Images/res/close.png");
-	QPixmap minimizeStr(":/Images/res/minimize.png");
-
-	QIcon closeIcon(closeStr);
-	QIcon minimizeIcon(minimizeStr);
-
-	m_closeButton = new QPushButton(closeIcon, "", this);
-	m_closeButton->setStyleSheet("background-color: #D2C4B5; color: #7A6C5D; border: none;");
-	m_closeButton->setFixedHeight(30);
-	m_closeButton->setFixedWidth(30);
-	m_closeButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
-
-	m_minimizeButton = new QPushButton(minimizeIcon, "", this);
-	m_minimizeButton->setStyleSheet("background-color: #D2C4B5; color: #7A6C5D; border: none;");
-	m_minimizeButton->setFixedHeight(30);
-	m_minimizeButton->setFixedWidth(30);
-	m_minimizeButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+	InitializeTabButtons();
 
 	QHBoxLayout* titleBarLayout = new QHBoxLayout();
 
@@ -675,22 +645,11 @@ void ChessUIQt::UpdateCaptured(EColor color)
 		if (currPiece == EPieceType::King)
 			continue;
 
-		int missingPieces = GetDefaultNumberOfPieces(currPiece);
+		int defaultNumberPiece = GetDefaultNumberOfPieces(currPiece);
 
-		for (const auto& currLeftPiece : leftPieces)
-		{
-			if (currLeftPiece.first == currPiece)
-			{
-				int actualApperences = currLeftPiece.second;
+		int nrMissingPieces = ActualNumberPieces(defaultNumberPiece, leftPieces, currPiece);
 
-				missingPieces -= actualApperences;
-			}
-		}
-
-		for (int i = 0; i < missingPieces; i++)
-		{
-			OnPieceCapture(currPiece, color);
-		}
+		AddMissingPieces(nrMissingPieces, currPiece, color);
 	}
 }
 
@@ -1114,4 +1073,73 @@ void ChessUIQt::OnTimerChange()
 			m_blackTimer->setText(time);
 		}
 		});
+}
+
+void ChessUIQt::SetTimers(bool isTimer)
+{
+	if (isTimer)
+	{
+		pauseTimerBtn->setEnabled(true);
+		m_whiteTimer->setText("10:00:000");
+		m_blackTimer->setText("10:00:000");
+	}
+	else
+	{
+		pauseTimerBtn->setEnabled(false);
+		m_whiteTimer->setText("N/A");
+		m_blackTimer->setText("N/A");
+	}
+}
+
+void ChessUIQt::AddMissingPieces(int nrMissingPieces, EPieceType type, EColor color)
+{
+	for (int i = 0; i < nrMissingPieces; i++)
+	{
+		OnPieceCapture(type, color);
+	}
+}
+
+int ChessUIQt::ActualNumberPieces(int& defaultNumberPiece, PiecesLeftVector leftPieces, EPieceType currPiece) const
+{
+	for (const auto& currLeftPiece : leftPieces)
+	{
+		if (currLeftPiece.first == currPiece)
+		{
+			int actualApperences = currLeftPiece.second;
+
+			defaultNumberPiece -= actualApperences;
+		}
+	}
+
+	return defaultNumberPiece;
+}
+
+void ChessUIQt::InitializePlayerPieces(QListWidget*& playerPieces, EColor color) const
+{
+	playerPieces = color == EColor::Black ? m_blackCapturedPiecesList : m_whiteCapturedPiecesList;
+	playerPieces->setFlow(QListWidget::LeftToRight);
+	playerPieces->setStyleSheet("QListWidget::item, QListWidget{background-color:transparent; border: none}");
+	playerPieces->setMaximumHeight(30);
+	playerPieces->setFixedWidth(400);
+}
+
+void ChessUIQt::InitializeTabButtons()
+{
+	QPixmap closeStr(":/Images/res/close.png");
+	QPixmap minimizeStr(":/Images/res/minimize.png");
+
+	QIcon closeIcon(closeStr);
+	QIcon minimizeIcon(minimizeStr);
+
+	m_closeButton = new QPushButton(closeIcon, "", this);
+	m_closeButton->setStyleSheet("background-color: #D2C4B5; color: #7A6C5D; border: none;");
+	m_closeButton->setFixedHeight(30);
+	m_closeButton->setFixedWidth(30);
+	m_closeButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
+
+	m_minimizeButton = new QPushButton(minimizeIcon, "", this);
+	m_minimizeButton->setStyleSheet("background-color: #D2C4B5; color: #7A6C5D; border: none;");
+	m_minimizeButton->setFixedHeight(30);
+	m_minimizeButton->setFixedWidth(30);
+	m_minimizeButton->setSizePolicy(QSizePolicy::Fixed, QSizePolicy::Fixed);
 }
