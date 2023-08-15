@@ -798,6 +798,10 @@ void ChessUIQt::ShowPromoteOptions()
 
 	if (ok && !item.isEmpty())
 	{
+		auto status = m_game->GetStatus();
+
+		status->GetTurn() == EColor::White ? OnPieceCapture(EPieceType::Pawn, EColor::White) : OnPieceCapture(EPieceType::Pawn, EColor::Black);
+
 		m_game->PromoteTo(ConvertToEnum(item.toStdString()));
 
 		QMessageBox notification;
