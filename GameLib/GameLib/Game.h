@@ -60,6 +60,7 @@ public:
 
 	int GetTotalTime() const override;
 	int GetRemainingTime(EColor color) const override;
+	int GetCurrentMoveTime() const override;
 	int GetThinkingTime(int nrMove) const override;
 	int GetTimerResolution() const override;
 	

@@ -35,6 +35,7 @@ public:
 
 	int GetInitialTime() const;
 	int GetRemainingTime(EColor) const;
+	int GetCurrentMoveTime() const;
 	int GetTimeForMove(EColor) const;
 	int GetThinkingTimes(int nrMove) const;
 	int GetTimerResolution() const;

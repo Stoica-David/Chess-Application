@@ -95,6 +95,11 @@ int Timer::GetRemainingTime(EColor color) const
 	return color == EColor::White ? (m_white_remaining_time).count() : (m_black_remaining_time).count();
 }
 
+int Timer::GetCurrentMoveTime() const
+{
+	return m_toDecrease_time.count();
+}
+
 int Timer::GetTimeForMove(EColor color) const
 {
 	return color == EColor::White ? m_white_thinking_time.count() : m_black_thinking_time.count();

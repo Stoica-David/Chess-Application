@@ -259,6 +259,11 @@ int Game::GetRemainingTime(EColor color) const
 	return m_timer.GetRemainingTime(color);
 }
 
+int Game::GetCurrentMoveTime() const
+{
+	return m_timer.GetCurrentMoveTime();
+}
+
 int Game::GetThinkingTime(int nrMove) const
 {
 	return m_timer.GetThinkingTimes(nrMove);
