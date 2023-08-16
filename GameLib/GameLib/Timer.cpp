@@ -60,7 +60,7 @@ void Timer::StopTimer()
 	m_cv.notify_all();
 }
 
-void Timer::RestartTimer()
+void Timer::ResetTimer()
 {
 	m_white_remaining_time = std::chrono::milliseconds(600000);
 	m_black_remaining_time = std::chrono::milliseconds(600000);

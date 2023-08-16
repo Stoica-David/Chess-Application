@@ -56,7 +56,7 @@ TEST(RestartTimerTest, Restart1)
 
 	std::this_thread::sleep_for(std::chrono::milliseconds(1200));
 
-	t.RestartTimer();
+	t.ResetTimer();
 
 	EXPECT_EQ(t.IsTimeExpired(), false);
 }

@@ -72,16 +72,15 @@ Game::Game(const CharMatrix& matrix, EColor color, EState state, bool wantTimer)
 	}
 }
 
-Game::Game(std::function<void()> function, bool wantTimer /*= false*/)
+Game::Game(std::function<void()> function, bool wantTimer /*= false*/)	// for testing
 	: m_turn(EColor::White)
 	, m_state(EState::Playing)
 	, m_initialState(EState::Playing)
 	, m_timer(1, wantTimer)
 	, m_wantTimer(wantTimer)
 {
-	auto nothing = []() {
+	auto nothing = []() {};
 
-	};
 	m_timer.SetNotifyChange(nothing);
 
 	if (wantTimer)
@@ -101,8 +100,7 @@ void Game::Restart()
 
 	if (m_wantTimer)
 	{
-		m_timer.RestartTimer();
-
+		m_timer.ResetTimer();
 		m_timer.StartTimer();
 	}
 
@@ -561,9 +559,13 @@ void Game::NotifyIfCaptured(Position p1, Position p2)
 	if (m_gameboard.IsEnPassant(p1, p2))
 	{
 		if (currPiece->GetColor() == EColor::White)
+		{
 			NotifyCaptured(EPieceType::Pawn, EColor::Black);
+		}
 		else
+		{
 			NotifyCaptured(EPieceType::Pawn, EColor::White);
+		}
 	}
 }
 

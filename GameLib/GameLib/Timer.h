@@ -27,7 +27,7 @@ public:
 	// Flow of the timer
 	void StartTimer();
 	void StopTimer();
-	void RestartTimer();
+	void ResetTimer();
 
 	// Time related
 	bool IsTimeExpired();
