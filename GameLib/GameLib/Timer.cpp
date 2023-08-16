@@ -1,20 +1,16 @@
 #include "Timer.h"
 
-Timer::Timer(int totalMinutes)
-	: m_running(false)
-	, m_white_remaining_time(totalMinutes * 60000)
-	, m_black_remaining_time(totalMinutes * 60000)
-	, m_bSuspended(false)
-	, m_color(EColor::White)
-{
-}
-
 Timer::Timer(int seconds, bool)
 	: m_running(false)
 	, m_white_remaining_time(seconds * 1000)
 	, m_black_remaining_time(seconds * 1000)
 	, m_bSuspended(false)
 	, m_color(EColor::White)
+{
+}
+
+Timer::Timer(int totalMinutes)
+	: Timer(totalMinutes * 60, true)
 {
 }
 
