@@ -129,9 +129,14 @@ private:
 	PositionList GetMovesPinned(Position p) const;
 	PositionList GetMovesKing(Position p) const;
 	PositionList GetPassantMoves(Position p)const;
+	PositionList GetMovesCheckKing(Position p)const;
+	PositionList GetMovesCheckOther(Position p)const;
 
 	// PGN
 	bool IsPrevPos(Position currPos, Position nextPos, EPieceType type, EColor color) const;
+
+	void PGNCastleCase1(Board initialBoard, EColor color);
+	void PGNCastleCase2(Board initialBoard, EColor color);
 
 	Position FindPrevPos(Position nextPos, EPieceType type, EColor color, Position prevPos) const;
 

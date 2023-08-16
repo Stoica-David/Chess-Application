@@ -146,6 +146,7 @@ bool Board::IsCheckMate(EColor color) const
 	Position kingPos = FindKing(color);
 
 	PiecesPtr King;
+
 	try
 	{
 		King = at(kingPos);
@@ -224,30 +225,15 @@ bool Board::IsPinned(Position p) const
 	Position kingPos = FindKing(currColor);
 	PositionList behindCurr = at(checkPos)->DeterminePattern(p, kingPos);
 
-	for (int i = 0; i < behindCurr.size(); i++)
+	if (std::find(behindCurr.begin(), behindCurr.end(), kingPos) == behindCurr.end())
 	{
-		if (at(behindCurr[i]) && behindCurr[i] != kingPos)
-		{
-			return false;
-		}
+		return false;
 	}
 
 	PositionList checkPattern = at(checkPos)->DeterminePattern(checkPos, kingPos);
 
-	bool kingFound = false, currFound = false;
-
-	for (auto position : checkPattern)
-	{
-		if (position == kingPos)
-		{
-			kingFound = true;
-		}
-
-		if (position == p)
-		{
-			currFound = true;
-		}
-	}
+	bool kingFound = std::find(checkPattern.begin(), checkPattern.end(), kingPos) != checkPattern.end() ? true : false, 
+		 currFound = std::find(checkPattern.begin(), checkPattern.end(), p) != checkPattern.end() ? true : false;
 
 	return kingFound && currFound;
 }
@@ -359,12 +345,7 @@ bool Board::IsEnPassant(Position p1, Position p2) const
 		return false;
 	}
 
-	if (!currPiece->GetLeftPassant() && !currPiece->GetRightPassant())
-	{
-		return false;
-	}
-
-	if (!PawnGoesDiagonally(p1, p2))
+	if ((!currPiece->GetLeftPassant() && !currPiece->GetRightPassant()) || !PawnGoesDiagonally(p1, p2))
 	{
 		return false;
 	}
@@ -383,12 +364,9 @@ bool Board::FindOnSameColumn(Position p1, Position p2) const
 		{
 			PositionList currMoves = GetMoves({ i, j });
 
-			for (int k = 0; k < currMoves.size(); k++)
+			if (std::find(currMoves.begin(), currMoves.end(), p2) != currMoves.end())
 			{
-				if (currMoves[k] == p2)
-				{
-					return true;
-				}
+				return true;
 			}
 		}
 	}
@@ -449,7 +427,6 @@ Position Board::FindKing(EColor color) const
 void Board::Move(Position p1, Position p2)
 {
 	m_PGN.clear();
-
 	PiecesPtr currPiece;
 	PiecesPtr nextPiece;
 
@@ -486,7 +463,9 @@ void Board::Move(Position p1, Position p2)
 	bool currPiecePrevMoved = false;
 
 	if (currPiece)
+	{ 
 		currPiecePrevMoved = currPiece->GetHasMoved();
+	}
 
 	if (IsCastle1(p1, p2))
 	{
@@ -577,8 +556,8 @@ void Board::PromoteTo(EPieceType pieceType, EColor color)
 	{
 		if (m_board[0][i] && m_board[0][i]->Is(EPieceType::Pawn))
 		{
-			found = true;
 			pieceToPromote = { 0, i };
+			found = true;
 		}
 
 		if (m_board[7][i] && m_board[7][i]->Is(EPieceType::Pawn))
@@ -588,12 +567,7 @@ void Board::PromoteTo(EPieceType pieceType, EColor color)
 		}
 	}
 
-	if (!found)
-	{
-		throw PromoteException("Can't promote!\n");
-	}
-
-	at(pieceToPromote) = Piece::Produce(pieceType, color);
+	!found ? throw PromoteException("Can't promote!\n") : at(pieceToPromote) = Piece::Produce(pieceType, color);	
 }
 
 PositionList Board::GetMoves(Position p) const
@@ -602,35 +576,33 @@ PositionList Board::GetMoves(Position p) const
 
 	PositionList newList;
 
-	if (!currPiece)
+	if (currPiece)
 	{
-		return {};
-	}
-
-	if (IsCheck(FindKing(currPiece->GetColor()), currPiece->GetColor()))
-	{
-		newList = GetMovesCheck(p);
-	}
-	else if (IsPinned(p))
-	{
-		newList = GetMovesPinned(p);
-	}
-	else if (at(p)->GetType() == EPieceType::King)
-	{
-		newList = GetMovesKing(p);
-	}
-	else
-	{
-		newList = GetMovesNormal(p);
-	}
-
-	if (currPiece->Is(EPieceType::Pawn))
-	{
-		PositionList enPassantMoves = GetPassantMoves(p);
-
-		for (int i = 0; i < enPassantMoves.size(); i++)
+		if (IsCheck(FindKing(currPiece->GetColor()), currPiece->GetColor()))
 		{
-			newList.push_back(enPassantMoves[i]);
+			newList = GetMovesCheck(p);
+		}
+		else if (IsPinned(p))
+		{
+			newList = GetMovesPinned(p);
+		}
+		else if (at(p)->GetType() == EPieceType::King)
+		{
+			newList = GetMovesKing(p);
+		}
+		else
+		{
+			newList = GetMovesNormal(p);
+		}
+
+		if (currPiece->Is(EPieceType::Pawn))
+		{
+			PositionList enPassantMoves = GetPassantMoves(p);
+
+			for (int i = 0; i < enPassantMoves.size(); i++)
+			{
+				newList.push_back(enPassantMoves[i]);
+			}
 		}
 	}
 
@@ -644,45 +616,7 @@ PositionList Board::GetMovesCheck(Position p) const
 
 	PositionList newList;
 
-	if (currPiece->Is(EPieceType::King))
-	{
-		newList = GetMovesNormal(p);
-
-		for (int i = 0; i < newList.size(); i++)
-		{
-			if (IsCheck(newList[i], currColor) || IsSameWay(p, newList[i], currColor))
-			{
-				if (!currPiece->Is(EPieceType::Pawn) || PawnGoesDiagonally(p, newList[i]))
-				{
-					newList.erase(newList.begin() + i);
-					i--;
-				}
-			}
-		}
-	}
-	else
-	{
-		Position kingPos = FindKing(currColor);
-		PiecesPtr king = at(kingPos);
-
-		Position checkPos = FindCheck(kingPos, currColor);
-		PiecesPtr checkPiece = at(checkPos);
-
-		PositionList checkPattern = checkPiece->DeterminePattern(checkPos, kingPos);
-
-		PositionList currMoves = GetMovesNormal(p);
-
-		for (const auto& move : currMoves)
-		{
-			if (std::find(checkPattern.begin(), checkPattern.end(), move) != checkPattern.end())
-				newList.push_back(move);
-		}
-
-		if (std::find(currMoves.begin(), currMoves.end(), checkPos) != currMoves.end())
-			newList.push_back(checkPos);
-	}
-
-	return newList;
+	return currPiece->Is(EPieceType::King) ? GetMovesCheckKing(p) : GetMovesCheckOther(p);
 }
 
 String Board::GetFEN() const
@@ -760,7 +694,6 @@ void Board::LoadFEN(const String& string)
 	{
 		throw FENException("Can't save properly!");
 	}
-
 }
 
 void Board::ParsePGN(StringVector Moves)
@@ -777,60 +710,20 @@ void Board::ParsePGN(StringVector Moves)
 
 		if (moveString == "O-O-O")
 		{
-			try
-			{
-				if (color == EColor::Black)
-				{
-					Move({ 0,4 }, { 0,0 });
-				}
-				else
-				{
-					Move({ 7,4 }, { 7,0 });
-				}
-			}
-			catch (ChessException exc)
-			{
-				Reset();
-				(*this) = initialBoard;
-				throw PGNException("Can't load PGN properly!");
-			}
+			PGNCastleCase1(initialBoard, color);
 
 			nrMove++;
 			continue;
 		}
 		else if (moveString == "O-O")
 		{
-			try
-			{
-				if (color == EColor::Black)
-				{
-					Move({ 0,4 }, { 0,7 });
-				}
-				else
-				{
-					Move({ 7,4 }, { 7,7 });
-				}
-			}
-			catch (ChessException exc)
-			{
-				Reset();
-				(*this) = initialBoard;
-				throw PGNException("Can't load PGN properly!");
-			}
+			PGNCastleCase2(initialBoard, color);
 
 			nrMove++;
 			continue;
 		}
 
-		if (isupper(moveString[0]))
-		{
-			type = GetPieceType(moveString[0]);
-			moveString.erase(moveString.begin());
-		}
-		else
-		{
-			type = EPieceType::Pawn;
-		}
+		type = isupper(moveString[0]) ? moveString.erase(moveString.begin()), GetPieceType(moveString[0]) : EPieceType::Pawn;
 
 		bool toPromote = false;
 
@@ -842,7 +735,7 @@ void Board::ParsePGN(StringVector Moves)
 			moveString.pop_back();
 		}
 
-		int toX, toY, fromX = -1, fromY = -1;
+		int toX = -1, toY = -1, fromX = -1, fromY = -1;
 
 		if (moveString.size() == 4)
 		{
@@ -854,14 +747,7 @@ void Board::ParsePGN(StringVector Moves)
 		}
 		else if (moveString.size() == 3)
 		{
-			if (isdigit(moveString[0]))
-			{
-				fromX = 8 - (moveString[0] - '0');
-			}
-			else
-			{
-				fromY = moveString[0] - 'a';
-			}
+			isdigit(moveString[0]) ? fromX = 8 - (moveString[0] - '0') : fromY = moveString[0] - 'a';
 
 			toX = 8 - (moveString[2] - '0');
 			toY = moveString[1] - 'a';
@@ -906,35 +792,27 @@ void Board::ParsePGN(StringVector Moves)
 
 String Board::GenerateInitial(EPieceType pieceType)
 {
-	String last;
-
 	switch (pieceType)
 	{
 	case EPieceType::Rook:
 	{
-		last += "=R";
-		break;
+		return "=R";
 	}
 	case EPieceType::Knight:
 	{
-		last += "=N";
-		break;
+		return "=N";
 	}
 	case EPieceType::Bishop:
 	{
-		last += "=B";
-		break;
+		return "=B";
 	}
 	case EPieceType::Queen:
 	{
-		last += "=Q";
-		break;
+		return "=Q";
 	}
 	default:
 		throw PromoteException("Can't promote!\n");
 	}
-
-	return last;
 }
 
 ChessBoard Board::ConvertBitset(int bitsetNr) const
@@ -943,7 +821,6 @@ ChessBoard Board::ConvertBitset(int bitsetNr) const
 	{
 		throw ChessException("Bitset not available!");
 	}
-
 	ChessBoard chessBoard;
 
 	Bitset currBitset = m_prevPositions[bitsetNr];
@@ -1029,8 +906,8 @@ bool Board::OnlyKing(EColor color) const
 
 bool Board::SameBishop() const
 {
-	Piece* firstBishop = nullptr;
-	Piece* secondBishop = nullptr;
+	PiecesPtr firstBishop;
+	PiecesPtr secondBishop;
 
 	for (int i = 0; i < 8; i++)
 	{
@@ -1040,14 +917,7 @@ bool Board::SameBishop() const
 
 			if (currPiece && currPiece->Is(EPieceType::Bishop))
 			{
-				if (!firstBishop)
-				{
-					firstBishop = at({ i, j }).get();
-				}
-				else
-				{
-					secondBishop = at({ i, j }).get();
-				}
+				!firstBishop ? firstBishop = at({ i, j }) : secondBishop = at({ i, j });
 			}
 		}
 	}
@@ -1169,12 +1039,7 @@ bool Board::KillCheck(Position p, EColor color) const
 
 				if (it != moves.end())
 				{
-					if (currPiece->GetType() == EPieceType::King && IsDefended(toKill, notColor))
-					{
-						break;
-					}
-
-					if (currPiece->GetType() == EPieceType::Pawn && !PawnGoesDiagonally({ i,j }, moves[0]))
+					if (currPiece->GetType() == EPieceType::King && (IsDefended(toKill, notColor) || !PawnGoesDiagonally({ i,j }, moves[0])))
 					{
 						break;
 					}
@@ -1227,12 +1092,9 @@ bool Board::FindOnSameLine(Position p1, Position p2) const
 		{
 			PositionList currMoves = GetMoves({ i, j });
 
-			for (int k = 0; k < currMoves.size(); k++)
+			if (std::find(currMoves.begin(), currMoves.end(), p2) != currMoves.end())
 			{
-				if (currMoves[k] == p2)
-				{
-					return true;
-				}
+				return true;
 			}
 		}
 	}
@@ -1741,32 +1603,67 @@ PositionList Board::GetPassantMoves(Position p) const
 	{
 		if (LeftPawnCheck(p))
 		{
-			if (at(p)->GetColor() == EColor::White)
-			{
-				enPassantMoves.push_back({ p.x - 1, p.y - 1 });
-			}
-			else
-			{
-				enPassantMoves.push_back({ p.x + 1, p.y - 1 });
-			}
+			enPassantMoves.push_back(at(p)->GetColor() == EColor::White ? Position(p.x - 1, p.y - 1) : Position(p.x + 1, p.y - 1));
 		}
 	}
 	else if (at(p)->GetRightPassant() == true)
 	{
 		if (RightPawnCheck(p))
 		{
-			if (at(p)->GetColor() == EColor::White)
-			{
-				enPassantMoves.push_back({ p.x - 1, p.y + 1 });
-			}
-			else
-			{
-				enPassantMoves.push_back({ p.x + 1, p.y + 1 });
-			}
+			enPassantMoves.push_back(at(p)->GetColor() == EColor::White ? Position(p.x - 1, p.y + 1) : Position(p.x + 1, p.y + 1));
 		}
 	}
 
 	return enPassantMoves;
+}
+
+PositionList Board::GetMovesCheckKing(Position p) const
+{
+	PiecesPtr currPiece = at(p);
+
+	PositionList newList = GetMovesNormal(p);
+
+	for (int i = 0; i < newList.size(); i++)
+	{
+		if (IsCheck(newList[i], currPiece->GetColor()) || IsSameWay(p, newList[i], currPiece->GetColor()))
+		{
+			if (!currPiece->Is(EPieceType::Pawn) || PawnGoesDiagonally(p, newList[i]))
+			{
+				newList.erase(newList.begin() + i);
+				i--;
+			}
+		}
+	}
+
+	return newList;
+}
+
+PositionList Board::GetMovesCheckOther(Position p) const
+{
+	Position kingPos = FindKing(at(p)->GetColor());
+	PiecesPtr king = at(kingPos);
+
+	Position checkPos = FindCheck(kingPos, at(p)->GetColor());
+	PiecesPtr checkPiece = at(checkPos);
+
+	PositionList checkPattern = checkPiece->DeterminePattern(checkPos, kingPos);
+	PositionList currMoves = GetMovesNormal(p);
+	PositionList newList;
+
+	for (const auto& move : currMoves)
+	{
+		if (std::find(checkPattern.begin(), checkPattern.end(), move) != checkPattern.end())
+		{
+			newList.push_back(move);
+		}
+	}
+
+	if (std::find(currMoves.begin(), currMoves.end(), checkPos) != currMoves.end())
+	{
+		newList.push_back(checkPos);
+	}
+
+	return newList;
 }
 
 bool Board::IsPrevPos(Position currPos, Position nextPos, EPieceType type, EColor color) const
@@ -1786,16 +1683,55 @@ bool Board::IsPrevPos(Position currPos, Position nextPos, EPieceType type, EColo
 	{
 		PositionList moves = GetMoves(currPos);
 
-		for (const auto& currMove : moves)
+		if (std::find(moves.begin(), moves.end(), nextPos) != moves.end())
 		{
-			if (currMove == nextPos)
-			{
-				return true;
-			}
+			return true;
 		}
 	}
 
 	return false;
+}
+
+void Board::PGNCastleCase1(Board initialBoard, EColor color)
+{
+	try
+	{
+		if (color == EColor::Black)
+		{
+			Move({ 0,4 }, { 0,0 });
+		}
+		else
+		{
+			Move({ 7,4 }, { 7,0 });
+		}
+	}
+	catch (ChessException exc)
+	{
+		Reset();
+		(*this) = initialBoard;
+		throw PGNException("Can't load PGN properly!");
+	}
+}
+
+void Board::PGNCastleCase2(Board initialBoard, EColor color)
+{
+	try
+	{
+		if (color == EColor::Black)
+		{
+			Move({ 0,4 }, { 0,7 });
+		}
+		else
+		{
+			Move({ 7,4 }, { 7,7 });
+		}
+	}
+	catch (ChessException exc)
+	{
+		Reset();
+		(*this) = initialBoard;
+		throw PGNException("Can't load PGN properly!");
+	}
 }
 
 Position Board::FindPrevPos(Position nextPos, EPieceType type, EColor color, Position prevPos) const
@@ -1855,14 +1791,7 @@ String Board::ConvertMove(Position p1, Position p2) const
 
 	if (IsCastle1(p1, p2))
 	{
-		if (p1.y > p2.y)
-		{
-			convertedMove += "O-O-O";
-		}
-		else
-		{
-			convertedMove += "O-O";
-		}
+		convertedMove += p1.y > p2.y ? "O-O-O" : "O-O";
 	}
 	else
 	{
@@ -1882,8 +1811,6 @@ String Board::ConvertMove(Position p1, Position p2) const
 			break;
 		case EPieceType::King:
 			convertedMove.push_back('K');
-			break;
-		default:
 			break;
 		}
 
@@ -1960,8 +1887,6 @@ EPieceType Board::GetPieceType(char c)
 	default:
 		throw FENException("");
 	}
-
-	return {};
 }
 
 EColor Board::OppositeColor(EColor color)

@@ -993,7 +993,7 @@ void ChessUIQt::OnLoadButtonClicked()
 
 void ChessUIQt::OnRestartButtonClicked()
 {
-	m_game->PauseGame();
+	m_game->Pause();
 	m_game->Restart();
 	PopUp();
 }
@@ -1035,13 +1035,13 @@ void ChessUIQt::OnPauseButtonClicked()
 	if (status->IsFrozen())
 	{
 		UpdateTimer();
-		m_game->ResumeGame();
+		m_game->Resume();
 		pauseTimerBtn->setText("Pause");
 	}
 	else if (status->IsPlaying())
 	{
 		UpdateTimer();
-		m_game->PauseGame();
+		m_game->Pause();
 		pauseTimerBtn->setText("Resume");
 	}
 }

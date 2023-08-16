@@ -51,8 +51,8 @@ public:
 	void Save(EFileFormat format, const String& file) const override;
 	void Load(EFileFormat format, const String& file) override;
 
-	void PauseGame() override;
-	void ResumeGame() override;
+	void Pause() override;
+	void Resume() override;
 
 	void ShowConfiguration(int confNr);
 

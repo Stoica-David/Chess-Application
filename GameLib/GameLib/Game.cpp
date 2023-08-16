@@ -215,13 +215,13 @@ void Game::Load(EFileFormat format, const String& file)
 	}
 }
 
-void Game::PauseGame()
+void Game::Pause()
 {
 	UpdateState(EState::Frozen);
 	m_timer.StopTimer();
 }
 
-void Game::ResumeGame()
+void Game::Resume()
 {
 	UpdateState(EState::Playing);
 	m_timer.StartTimer();

@@ -38,6 +38,6 @@ public:
 	virtual void Save(EFileFormat format, const String& file) const = 0;
 	virtual void Load(EFileFormat format, const String& file) = 0;
 
-	virtual void PauseGame() = 0;
-	virtual void ResumeGame() = 0;
+	virtual void Pause() = 0;
+	virtual void Resume() = 0;
 };
