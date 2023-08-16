@@ -37,6 +37,7 @@ public:
 	int GetRemainingTime(EColor) const;
 	int GetTimeForMove(EColor) const;
 	int GetThinkingTimes(int nrMove) const;
+	int GetTimerResolution() const;
 
 private:
 	void Run();

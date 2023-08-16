@@ -58,9 +58,12 @@ public:
 
 	void ShowConfiguration(int confNr);
 
-	int GetInitialTime() const override;
+	int GetTotalTime() const override;
 	int GetRemainingTime(EColor color) const override;
 	int GetThinkingTime(int nrMove) const override;
+	int GetTimerResolution() const override;
+	
+	int GetNrMoves() const override;
 	
 	void SetTimerResolution(int ms) override;
 
@@ -106,6 +109,8 @@ private:
 	ListenersList m_listeners;
 	
 	PGNHandler m_PGN;
+
+	int m_nrMoves;
 
 	bool m_wantTimer;
 };

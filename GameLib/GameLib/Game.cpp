@@ -36,6 +36,7 @@ Game::Game(bool wantTimer)
 	, m_state(EState::Playing)
 	, m_initialState(EState::Playing)
 	, m_timer(10)
+	, m_nrMoves(0)
 	, m_wantTimer(wantTimer)
 {
 	if (wantTimer)
@@ -50,6 +51,7 @@ Game::Game(const Board& b, EColor color /*=EColor::White*/, bool wantTimer)
 	, m_state(EState::Playing)
 	, m_initialState(EState::Playing)
 	, m_timer(10)
+	, m_nrMoves(0)
 	, m_wantTimer(wantTimer)
 {
 	if (wantTimer)
@@ -64,6 +66,7 @@ Game::Game(const CharMatrix& matrix, EColor color, EState state, bool wantTimer)
 	, m_initialState(state)
 	, m_gameboard(matrix)
 	, m_timer(10)
+	, m_nrMoves(0)
 	, m_wantTimer(wantTimer)
 {
 	if (wantTimer)
@@ -138,6 +141,7 @@ void Game::Move(Position p1, Position p2)
 		m_gameboard.IsPromotePossible(p2) ? UpdateState(EState::ChoosePiece), NotifyChoosePiece() : SwitchTurn();
 
 		NotifyMove();
+		m_nrMoves++;
 
 		if (m_gameboard.IsOver(EColor::White))
 		{
@@ -245,7 +249,7 @@ void Game::ShowConfiguration(int confNr)
 	m_gameboard.Set(currBoard);
 }
 
-int Game::GetInitialTime() const
+int Game::GetTotalTime() const
 {
 	return m_timer.GetInitialTime();
 }
@@ -258,6 +262,16 @@ int Game::GetRemainingTime(EColor color) const
 int Game::GetThinkingTime(int nrMove) const
 {
 	return m_timer.GetThinkingTimes(nrMove);
+}
+
+int Game::GetTimerResolution() const
+{
+	return m_timer.GetTimerResolution();
+}
+
+int Game::GetNrMoves() const
+{
+	return m_nrMoves;
 }
 
 void Game::SetTimerResolution(int ms)
@@ -378,7 +392,7 @@ const IGameStatus* Game::GetStatus() const
 
 const ITimerInfo* Game::GetTimer() const
 {
-	return this;
+	return m_wantTimer ? this : nullptr;
 }
 
 bool Game::IsDraw() const

@@ -105,6 +105,11 @@ int Timer::GetThinkingTimes(int nrMove) const
 	return m_thinking_times[nrMove].count();
 }
 
+int Timer::GetTimerResolution() const
+{
+	return m_timer_resolution.count();
+}
+
 static std::chrono::milliseconds TimeInMillis(const std::chrono::steady_clock::time_point& initial_time)
 {
 	auto current_time = std::chrono::steady_clock::now();

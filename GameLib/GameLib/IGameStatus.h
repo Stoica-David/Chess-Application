@@ -24,6 +24,8 @@ public:
 
 	virtual bool IsPlaying() const = 0;
 
+	virtual int GetNrMoves() const = 0;
+
 	virtual EColor GetTurn() const = 0;
 	
 	virtual IPieceInfoPtr GetPieceInfo(Position) const = 0;
