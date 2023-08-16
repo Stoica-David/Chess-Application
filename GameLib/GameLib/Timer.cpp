@@ -1,10 +1,16 @@
 #include "Timer.h"
 
+using namespace std::chrono_literals;
+
 Timer::Timer(int seconds, bool)
 	: m_running(false)
 	, m_initial_time(seconds * 1000)
 	, m_white_remaining_time(m_initial_time)
 	, m_black_remaining_time(m_initial_time)
+	, m_timer_resolution(1ms)
+	, m_white_thinking_time(0ms)
+	, m_black_thinking_time(0ms)
+	, m_toDecrease_time(0ms)
 	, m_bSuspended(false)
 	, m_color(EColor::White)
 {
@@ -29,12 +35,23 @@ Timer::~Timer()
 
 void Timer::SetColor(EColor color)
 {
+	color == EColor::White ? m_white_thinking_time += m_toDecrease_time : m_black_thinking_time += m_toDecrease_time;
+
+	m_thinking_times.push_back(m_toDecrease_time);
+
+	m_toDecrease_time = 0ms;
+
 	m_color = color;
 }
 
 void Timer::SetNotifyChange(TimerCallback newFunc)
 {
 	m_notifyChange = newFunc;
+}
+
+void Timer::SetTimerResolution(int ms)
+{
+	m_timer_resolution = static_cast<std::chrono::milliseconds>(ms);
 }
 
 void Timer::StartTimer()
@@ -68,12 +85,30 @@ bool Timer::IsTimeExpired()
 	return m_white_remaining_time <= std::chrono::milliseconds(0) || m_black_remaining_time <= std::chrono::milliseconds(0);
 }
 
-int Timer::GetMs(EColor color) const
+int Timer::GetInitialTime() const
 {
-	if (color == EColor::White)
-		return (m_white_remaining_time).count();
-	else
-		return (m_black_remaining_time).count();
+	return m_initial_time.count();
+}
+
+int Timer::GetRemainingTime(EColor color) const
+{
+	return color == EColor::White ? (m_white_remaining_time).count() : (m_black_remaining_time).count();
+}
+
+int Timer::GetTimeForMove(EColor color) const
+{
+	return color == EColor::White ? m_white_thinking_time.count() : m_black_thinking_time.count();
+}
+
+int Timer::GetThinkingTimes(int nrMove) const
+{
+	return m_thinking_times[nrMove].count();
+}
+
+static std::chrono::milliseconds TimeInMillis(const std::chrono::steady_clock::time_point& initial_time)
+{
+	auto current_time = std::chrono::steady_clock::now();
+	return std::chrono::duration_cast<std::chrono::milliseconds>(current_time - initial_time);
 }
 
 void Timer::Run()
@@ -83,31 +118,18 @@ void Timer::Run()
 		auto initial_time = std::chrono::steady_clock::now();
 
 		std::unique_lock lk(m_mutex);
-		m_cv.wait_for(lk, 10ms, [&] { return !m_running; });
+		m_cv.wait_for(lk, m_timer_resolution, [&] { return !m_running; });
 
 		if (m_bSuspended)
 			continue;
 
-		auto current_time = std::chrono::steady_clock::now();
+		auto elapsed_time = TimeInMillis(initial_time);
+		m_toDecrease_time += elapsed_time;
 
-		if (m_color == EColor::White)
-		{
-			m_white_remaining_time -= std::chrono::duration_cast<std::chrono::milliseconds>(current_time - initial_time);
+		initial_time = std::chrono::steady_clock::now();
 
-			if (m_white_remaining_time < std::chrono::milliseconds(0))
-			{
-				m_white_remaining_time = std::chrono::milliseconds(0);
-			}
-		}
-		else
-		{
-			m_black_remaining_time -= std::chrono::duration_cast<std::chrono::milliseconds>(current_time - initial_time);
-
-			if (m_black_remaining_time < std::chrono::milliseconds(0))
-			{
-				m_black_remaining_time = std::chrono::milliseconds(0);
-			}
-		}
+		auto& remainingTime = m_color == EColor::White ? m_white_remaining_time : m_black_remaining_time;
+		remainingTime = elapsed_time < remainingTime ? remainingTime - elapsed_time : 0ms;
 
 		if (IsTimeExpired())
 		{

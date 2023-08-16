@@ -56,7 +56,11 @@ public:
 
 	void ShowConfiguration(int confNr);
 
-	int GetMs(EColor color) const override;
+	int GetInitialTime() const override;
+	int GetRemainingTime(EColor color) const override;
+	int GetThinkingTime(int nrMove) const override;
+	
+	void SetTimerResolution(int ms) override;
 
 	//Other methods
 	PiecesPtr GetPiece(Position) const;

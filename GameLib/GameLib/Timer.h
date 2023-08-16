@@ -2,11 +2,11 @@
 
 #include <chrono>
 #include <functional>
+#include <vector>
 
 #include "EColor.h"
 #include "Thread.h"
 
-using namespace std::chrono_literals;
 using TimerCallback = std::function<void()>;
 
 class Timer
@@ -23,6 +23,7 @@ public:
 	// Setters
 	void SetColor(EColor);
 	void SetNotifyChange(TimerCallback newFunc);
+	void SetTimerResolution(int ms);
 	
 	// Flow of the timer
 	void StartTimer();
@@ -32,7 +33,10 @@ public:
 	// Time related
 	bool IsTimeExpired();
 
-	int GetMs(EColor)const;
+	int GetInitialTime() const;
+	int GetRemainingTime(EColor) const;
+	int GetTimeForMove(EColor) const;
+	int GetThinkingTimes(int nrMove) const;
 
 private:
 	void Run();
@@ -49,6 +53,12 @@ private:
 	std::chrono::milliseconds m_initial_time;
 	std::chrono::milliseconds m_white_remaining_time;
 	std::chrono::milliseconds m_black_remaining_time;
+	std::chrono::milliseconds m_timer_resolution;
+	std::chrono::milliseconds m_white_thinking_time;
+	std::chrono::milliseconds m_black_thinking_time;
+	std::chrono::milliseconds m_toDecrease_time;
+
+	std::vector<std::chrono::milliseconds> m_thinking_times;
 
 	EColor m_color;
 

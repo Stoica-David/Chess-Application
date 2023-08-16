@@ -506,7 +506,7 @@ void ChessUIQt::InitializeHistory(QGridLayout* mainGridLayout)
 	connect(m_movesList, &QListWidget::itemActivated, this, &ChessUIQt::OnHistoryClicked);
 
 	scrollArea->setWidget(m_movesList);
-	scrollArea->setStyleSheet("background-color: #D2C4B5; height: 30px;");
+	scrollArea->setStyleSheet("background-color: #D2C4B5; height: 30px; font-size: 12px; font-weight: bold; color:#7A6C5D");
 
 	mainGridLayout->addWidget(scrollArea, 3, 0, 3, 1);
 }
@@ -598,6 +598,19 @@ void ChessUIQt::InitializeTabBar(QGridLayout* mainGridLayout)
 	m_minimizeButton->installEventFilter(this);
 }
 
+static QString ConvertToTime(int ms)
+{
+	int minutes = ms / 60000;
+	ms %= 60000;
+
+	int seconds = ms / 1000;
+	ms %= 1000;
+
+	QString time = QTime(0, minutes, seconds, ms).toString("mm:ss:zzz");
+
+	return time;
+}
+
 void ChessUIQt::UpdateHistory()
 {
 	m_movesList->clear();
@@ -607,12 +620,13 @@ void ChessUIQt::UpdateHistory()
 	MoveVector newHistory = status->GetHistory();
 
 	for (int i = 0; i < newHistory.size(); i++) {
-		QString itemText = QString("%1. %2%3 \t %4%5")
+		QString itemText = QString("%1. %2%3 \t %4%5 \t %6")
 			.arg(i + 1)
 			.arg(ConvertIntToChar(newHistory[i].first.y))
 			.arg(8 - newHistory[i].first.x)
 			.arg(ConvertIntToChar(newHistory[i].second.y))
-			.arg(8 - newHistory[i].second.x);
+			.arg(8 - newHistory[i].second.x)
+			.arg(ConvertToTime(status->GetThinkingTime(i)));
 
 		m_movesList->addItem(new QListWidgetItem(itemText));
 	}
@@ -1052,7 +1066,7 @@ void ChessUIQt::OnTimerChange()
 
 	int ms;
 
-	ms = status->GetTurn() == EColor::White ? status->GetMs(EColor::White) : status->GetMs(EColor::Black);
+	ms = status->GetTurn() == EColor::White ? status->GetRemainingTime(EColor::White) : status->GetRemainingTime(EColor::Black);
 
 	int minutes = ms / 60000;
 	ms %= 60000;

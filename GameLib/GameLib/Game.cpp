@@ -245,9 +245,24 @@ void Game::ShowConfiguration(int confNr)
 	m_gameboard.Set(currBoard);
 }
 
-int Game::GetMs(EColor color) const
+int Game::GetInitialTime() const
 {
-	return m_timer.GetMs(color);
+	return m_timer.GetInitialTime();
+}
+
+int Game::GetRemainingTime(EColor color) const
+{
+	return m_timer.GetRemainingTime(color);
+}
+
+int Game::GetThinkingTime(int nrMove) const
+{
+	return m_timer.GetThinkingTimes(nrMove);
+}
+
+void Game::SetTimerResolution(int ms)
+{
+	m_timer.SetTimerResolution(ms);
 }
 
 void Game::SaveFEN(const String& file) const
