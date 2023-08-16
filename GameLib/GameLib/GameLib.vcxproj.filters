@@ -236,5 +236,8 @@
     <ClInclude Include="EState.h">
       <Filter>Header Files\States</Filter>
     </ClInclude>
+    <ClInclude Include="ITimerInfo.h">
+      <Filter>Header Files\API</Filter>
+    </ClInclude>
   </ItemGroup>
 </Project>

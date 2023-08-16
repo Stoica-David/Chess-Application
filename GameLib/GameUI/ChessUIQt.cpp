@@ -616,6 +616,7 @@ void ChessUIQt::UpdateHistory()
 	m_movesList->clear();
 
 	auto status = m_game->GetStatus();
+	auto timer = m_game->GetTimer();
 
 	MoveVector newHistory = status->GetHistory();
 
@@ -626,7 +627,7 @@ void ChessUIQt::UpdateHistory()
 			.arg(8 - newHistory[i].first.x)
 			.arg(ConvertIntToChar(newHistory[i].second.y))
 			.arg(8 - newHistory[i].second.x)
-			.arg(ConvertToTime(status->GetThinkingTime(i)));
+			.arg(ConvertToTime(timer->GetThinkingTime(i)));
 
 		m_movesList->addItem(new QListWidgetItem(itemText));
 	}
@@ -1063,10 +1064,11 @@ void ChessUIQt::OnPauseButtonClicked()
 void ChessUIQt::OnTimerChange()
 {
 	auto status = m_game->GetStatus();
+	auto timer = m_game->GetTimer();
 
 	int ms;
 
-	ms = status->GetTurn() == EColor::White ? status->GetRemainingTime(EColor::White) : status->GetRemainingTime(EColor::Black);
+	ms = status->GetTurn() == EColor::White ? timer->GetRemainingTime(EColor::White) : timer->GetRemainingTime(EColor::Black);
 
 	int minutes = ms / 60000;
 	ms %= 60000;

@@ -3,6 +3,7 @@
 #include "Position.h"
 #include "IGameStatus.h"
 #include "IGameListener.h"
+#include "ITimerInfo.h"
 
 #include <string>
 
@@ -37,6 +38,7 @@ public:
 	virtual void ShowConfiguration(int confNr) = 0;
 
 	virtual const IGameStatus* GetStatus() const = 0;
+	virtual const ITimerInfo* GetTimer() const = 0;
 
 	virtual void Save(EFileFormat format, const String& file) const = 0;
 	virtual void Load(EFileFormat format, const String& file) = 0;
