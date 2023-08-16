@@ -1,7 +1,6 @@
 var searchData=
 [
-  ['pausegame_0',['PauseGame',['../class_i_game.html#ac20ae5355439e21f0961eda1fc84c556',1,'IGame']]],
-  ['produce_1',['Produce',['../class_i_game.html#abc90623c9219f7b9fedaac9dc6996464',1,'IGame']]],
-  ['promoteto_2',['PromoteTo',['../class_i_game.html#a61dc0a8396e74190c11758d295dc6862',1,'IGame']]],
-  ['proposedraw_3',['ProposeDraw',['../class_i_game.html#a2ea8412ab7d821552b8cad6e52cd242e',1,'IGame']]]
+  ['removelistener_0',['RemoveListener',['../class_game.html#af572b8b4763edf9d71d1733bb9f5d659',1,'Game::RemoveListener()'],['../class_i_game.html#adb29c26ef9fe1f5b6edb5fb1c5ff437f',1,'IGame::RemoveListener()']]],
+  ['restart_1',['Restart',['../class_game.html#a4dff40885a885d9810f8ca7687eccaa7',1,'Game::Restart()'],['../class_i_game.html#a32ea1e3bcf22446f088b8dae36c7033d',1,'IGame::Restart()']]],
+  ['resume_2',['Resume',['../class_game.html#a4654c5ed9de1387dcb2b1f25c88d56f1',1,'Game::Resume()'],['../class_i_game.html#aa77988c536b98128c70844fb83180a8d',1,'IGame::Resume()']]]
 ];

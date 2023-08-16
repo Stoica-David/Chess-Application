@@ -32,44 +32,49 @@
 \DoxyCodeLine{00028\ }
 \DoxyCodeLine{00029\ \ \ \ \ \textcolor{comment}{//Getters}}
 \DoxyCodeLine{00030\ \ \ \ \ String\ GetPGN()\textcolor{keyword}{const};}
-\DoxyCodeLine{00031\ \ \ \ \ StringVector\ GetMoves()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00032\ \ \ \ \ \textcolor{keywordtype}{int}\ GetNrMove()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00031\ \ \ \ \ }
+\DoxyCodeLine{00032\ \ \ \ \ StringVector\ GetMoves()\ \textcolor{keyword}{const};}
 \DoxyCodeLine{00033\ }
-\DoxyCodeLine{00034\ \ \ \ \ \textcolor{comment}{//Save\ }}
-\DoxyCodeLine{00035\ \ \ \ \ \textcolor{keywordtype}{void}\ AddMove(\textcolor{keyword}{const}\ String\&);}
-\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordtype}{void}\ SavePGNToFile(\textcolor{keyword}{const}\ String\&\ filePath);}
-\DoxyCodeLine{00037\ \ \ \ \ }
-\DoxyCodeLine{00038\ \ \ \ \ \textcolor{comment}{//Load}}
-\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{void}\ ParseFromPGN();}
-\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordtype}{void}\ LoadPGNFromFile(\textcolor{keyword}{const}\ String\&\ filePath);}
-\DoxyCodeLine{00041\ \ \ \ \ }
-\DoxyCodeLine{00042\ \ \ \ \ \textcolor{comment}{//Check\ GameOver}}
-\DoxyCodeLine{00043\ \ \ \ \ \textcolor{keywordtype}{bool}\ IsOverWhite()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordtype}{bool}\ IsOverBlack()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{bool}\ IsDraw()\ \textcolor{keyword}{const};}
-\DoxyCodeLine{00046\ \ \ \ \ }
-\DoxyCodeLine{00047\ \ \ \ \ \textcolor{comment}{//Other\ methods}}
-\DoxyCodeLine{00048\ \ \ \ \ \textcolor{keywordtype}{void}\ Clear();}
-\DoxyCodeLine{00049\ \ \ \ \ \textcolor{keywordtype}{void}\ ResetPGN();}
-\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordtype}{void}\ ResetHeaders();}
-\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{void}\ Append(\textcolor{keyword}{const}\ String\&\ \textcolor{keywordtype}{string});}
-\DoxyCodeLine{00052\ }
-\DoxyCodeLine{00053\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00054\ \ \ \ \ \textcolor{comment}{//Regex\ related}}
-\DoxyCodeLine{00055\ \ \ \ \ \textcolor{keywordtype}{void}\ HeaderRegex();}
-\DoxyCodeLine{00056\ \ \ \ \ \textcolor{keywordtype}{void}\ CommentRegex();}
-\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordtype}{void}\ UselessCharRegex();}
-\DoxyCodeLine{00058\ }
-\DoxyCodeLine{00059\ \ \ \ \ \textcolor{comment}{//Save\ related}}
-\DoxyCodeLine{00060\ \ \ \ \ \textcolor{keywordtype}{void}\ AddHeaders();}
-\DoxyCodeLine{00061\ \ \ \ \ \textcolor{keywordtype}{void}\ AddEndGame();}
-\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordtype}{void}\ ParseToPGN();}
-\DoxyCodeLine{00063\ }
-\DoxyCodeLine{00064\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00065\ \ \ \ \ String\ m\_PGN;}
-\DoxyCodeLine{00066\ \ \ \ \ StringVector\ m\_moves;}
-\DoxyCodeLine{00067\ \ \ \ \ TagMap\ m\_headers;}
-\DoxyCodeLine{00068\ \ \ \ \ \textcolor{keywordtype}{int}\ m\_nrMove;}
-\DoxyCodeLine{00069\ \};}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordtype}{int}\ GetNrMove()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{comment}{//Save\ }}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{void}\ AddMove(\textcolor{keyword}{const}\ String\&);}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordtype}{void}\ SavePGNToFile(\textcolor{keyword}{const}\ String\&\ filePath);}
+\DoxyCodeLine{00039\ \ \ \ \ }
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{comment}{//Load}}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{void}\ ParseFromPGN();}
+\DoxyCodeLine{00042\ \ \ \ \ \textcolor{keywordtype}{void}\ LoadPGNFromFile(\textcolor{keyword}{const}\ String\&\ filePath);}
+\DoxyCodeLine{00043\ \ \ \ \ }
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{comment}{//Check\ GameOver}}
+\DoxyCodeLine{00045\ \ \ \ \ \textcolor{keywordtype}{bool}\ IsOverWhite()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00046\ \ \ \ \ \textcolor{keywordtype}{bool}\ IsOverBlack()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00047\ \ \ \ \ \textcolor{keywordtype}{bool}\ IsDraw()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00048\ \ \ \ \ }
+\DoxyCodeLine{00049\ \ \ \ \ \textcolor{comment}{//Other\ methods}}
+\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keywordtype}{void}\ Clear();}
+\DoxyCodeLine{00051\ \ \ \ \ \textcolor{keywordtype}{void}\ ResetPGN();}
+\DoxyCodeLine{00052\ \ \ \ \ \textcolor{keywordtype}{void}\ ResetHeaders();}
+\DoxyCodeLine{00053\ \ \ \ \ \textcolor{keywordtype}{void}\ Append(\textcolor{keyword}{const}\ String\&\ \textcolor{keywordtype}{string});}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00056\ \ \ \ \ \textcolor{comment}{//Regex\ related}}
+\DoxyCodeLine{00057\ \ \ \ \ \textcolor{keywordtype}{void}\ HeaderRegex();}
+\DoxyCodeLine{00058\ \ \ \ \ \textcolor{keywordtype}{void}\ CommentRegex();}
+\DoxyCodeLine{00059\ \ \ \ \ \textcolor{keywordtype}{void}\ UselessCharRegex();}
+\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00061\ \ \ \ \ \textcolor{comment}{//Save\ related}}
+\DoxyCodeLine{00062\ \ \ \ \ \textcolor{keywordtype}{void}\ AddHeaders();}
+\DoxyCodeLine{00063\ \ \ \ \ \textcolor{keywordtype}{void}\ AddEndGame();}
+\DoxyCodeLine{00064\ \ \ \ \ \textcolor{keywordtype}{void}\ ParseToPGN();}
+\DoxyCodeLine{00065\ }
+\DoxyCodeLine{00066\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordtype}{int}\ m\_nrMove;}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \ \ String\ m\_PGN;}
+\DoxyCodeLine{00070\ \ \ \ \ }
+\DoxyCodeLine{00071\ \ \ \ \ StringVector\ m\_moves;}
+\DoxyCodeLine{00072\ \ \ \ \ }
+\DoxyCodeLine{00073\ \ \ \ \ TagMap\ m\_headers;}
+\DoxyCodeLine{00074\ \};}
 
 \end{DoxyCode}

@@ -6,8 +6,20 @@
 \Hypertarget{class_timer_a106660d536e5f59ecd526004d888559e}\label{class_timer_a106660d536e5f59ecd526004d888559e} 
 {\bfseries Timer} (int total\+\_\+minutes)
 \item 
+\Hypertarget{class_timer_a5786bae7e16506820a621c26f5943874}\label{class_timer_a5786bae7e16506820a621c26f5943874} 
+{\bfseries Timer} (int, bool)
+\item 
 \Hypertarget{class_timer_affd9d41e5d5f9957b9471ec79ddf214d}\label{class_timer_affd9d41e5d5f9957b9471ec79ddf214d} 
 {\bfseries Timer} (const \mbox{\hyperlink{class_timer}{Timer}} \&)=default
+\item 
+\Hypertarget{class_timer_aef4829129474a4f869b673768787039e}\label{class_timer_aef4829129474a4f869b673768787039e} 
+void {\bfseries Set\+Color} (EColor)
+\item 
+\Hypertarget{class_timer_a1b514f0069e8265dff8155be7999d51a}\label{class_timer_a1b514f0069e8265dff8155be7999d51a} 
+void {\bfseries Set\+Notify\+Change} (Timer\+Callback new\+Func)
+\item 
+\Hypertarget{class_timer_add6cb5794535b29b870aef99507cc741}\label{class_timer_add6cb5794535b29b870aef99507cc741} 
+void {\bfseries Set\+Timer\+Resolution} (int ms)
 \item 
 \Hypertarget{class_timer_a49838bb0d401f745ce6756a7fc5882e3}\label{class_timer_a49838bb0d401f745ce6756a7fc5882e3} 
 void {\bfseries Start\+Timer} ()
@@ -15,17 +27,29 @@ void {\bfseries Start\+Timer} ()
 \Hypertarget{class_timer_a8ebf0e6d027f40f1b419f83f7a1d218a}\label{class_timer_a8ebf0e6d027f40f1b419f83f7a1d218a} 
 void {\bfseries Stop\+Timer} ()
 \item 
-\Hypertarget{class_timer_a20426b9ee876ea51c7f96f758678ffb9}\label{class_timer_a20426b9ee876ea51c7f96f758678ffb9} 
-void {\bfseries Restart\+Timer} ()
-\item 
-\Hypertarget{class_timer_ad56f45efcd8a10464a82c33ccb66b2b9}\label{class_timer_ad56f45efcd8a10464a82c33ccb66b2b9} 
-void {\bfseries Set\+Notify\+Change} (std\+::function$<$ void()$>$ new\+Func)
+\Hypertarget{class_timer_a715ede39b7d011d59759ad657bd3da7d}\label{class_timer_a715ede39b7d011d59759ad657bd3da7d} 
+void {\bfseries Reset\+Timer} ()
 \item 
 \Hypertarget{class_timer_afdd703d78f4d4246dc07d2647e5efdae}\label{class_timer_afdd703d78f4d4246dc07d2647e5efdae} 
 bool {\bfseries Is\+Time\+Expired} ()
 \item 
-\Hypertarget{class_timer_a5eabb63b23e2bf2370cdf022bd5f7b61}\label{class_timer_a5eabb63b23e2bf2370cdf022bd5f7b61} 
-int {\bfseries Get\+Ms} () const
+\Hypertarget{class_timer_a29d90d08731fa000d30c47ec2ab5d4b4}\label{class_timer_a29d90d08731fa000d30c47ec2ab5d4b4} 
+int {\bfseries Get\+Initial\+Time} () const
+\item 
+\Hypertarget{class_timer_ad510b36e3435580b404bd3bd06ce6e5b}\label{class_timer_ad510b36e3435580b404bd3bd06ce6e5b} 
+int {\bfseries Get\+Remaining\+Time} (EColor) const
+\item 
+\Hypertarget{class_timer_a6e8668cadec48fc35df126ae27475340}\label{class_timer_a6e8668cadec48fc35df126ae27475340} 
+int {\bfseries Get\+Current\+Move\+Time} () const
+\item 
+\Hypertarget{class_timer_aa031ce91694c43bee4e936043b179ff7}\label{class_timer_aa031ce91694c43bee4e936043b179ff7} 
+int {\bfseries Get\+Time\+For\+Move} (EColor) const
+\item 
+\Hypertarget{class_timer_ae2cc171b181292a9a94496f52fd0d837}\label{class_timer_ae2cc171b181292a9a94496f52fd0d837} 
+int {\bfseries Get\+Thinking\+Times} (int nr\+Move) const
+\item 
+\Hypertarget{class_timer_aab0b22fd34da3039c705bab5273fa7fb}\label{class_timer_aab0b22fd34da3039c705bab5273fa7fb} 
+int {\bfseries Get\+Timer\+Resolution} () const
 \end{DoxyCompactItemize}
 
 

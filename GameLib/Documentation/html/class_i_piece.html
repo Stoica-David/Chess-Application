@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.7"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Chess Application: IPiece Class Reference</title>
+<title>My Project: IPiece Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Chess Application
+   <div id="projectname">My Project
    </div>
   </td>
  </tr>
@@ -75,14 +75,29 @@ $(function() {
   <div class="headertitle"><div class="title">IPiece Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div></div>
 </div><!--header-->
 <div class="contents">
+<div class="dynheader">
+Inheritance diagram for IPiece:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="class_i_piece.png" usemap="#IPiece_map" alt=""/>
+  <map id="IPiece_map" name="IPiece_map">
+<area href="class_piece.html" alt="Piece" shape="rect" coords="150,56,200,80"/>
+<area href="class_bishop.html" alt="Bishop" shape="rect" coords="0,112,50,136"/>
+<area href="class_king.html" alt="King" shape="rect" coords="60,112,110,136"/>
+<area href="class_knight.html" alt="Knight" shape="rect" coords="120,112,170,136"/>
+<area href="class_pawn.html" alt="Pawn" shape="rect" coords="180,112,230,136"/>
+<area href="class_queen.html" alt="Queen" shape="rect" coords="240,112,290,136"/>
+<area href="class_rook.html" alt="Rook" shape="rect" coords="300,112,350,136"/>
+  </map>
+</div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
-<tr class="memitem:a139633b7248e730b6976a79edf4debdd"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_piece.html#a139633b7248e730b6976a79edf4debdd">IsMoveRegular</a> (Position p1, Position p2) const =0</td></tr>
+<tr class="memitem:a139633b7248e730b6976a79edf4debdd"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_piece.html#a139633b7248e730b6976a79edf4debdd">IsMoveRegular</a> (<a class="el" href="struct_position.html">Position</a> p1, <a class="el" href="struct_position.html">Position</a> p2) const =0</td></tr>
 <tr class="separator:a139633b7248e730b6976a79edf4debdd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aea941dcb33022bd3c545622101fda07d"><td class="memItemLeft" align="right" valign="top">virtual PositionList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_piece.html#aea941dcb33022bd3c545622101fda07d">DeterminePattern</a> (Position p1, Position p2) const =0</td></tr>
+<tr class="memitem:aea941dcb33022bd3c545622101fda07d"><td class="memItemLeft" align="right" valign="top">virtual PositionList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_piece.html#aea941dcb33022bd3c545622101fda07d">DeterminePattern</a> (<a class="el" href="struct_position.html">Position</a> p1, <a class="el" href="struct_position.html">Position</a> p2) const =0</td></tr>
 <tr class="separator:aea941dcb33022bd3c545622101fda07d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a35d3c59a98974e760f664ae5e475adea"><td class="memItemLeft" align="right" valign="top">virtual PositionMatrix&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_piece.html#a35d3c59a98974e760f664ae5e475adea">AllMoves</a> (Position p) const =0</td></tr>
+<tr class="memitem:a35d3c59a98974e760f664ae5e475adea"><td class="memItemLeft" align="right" valign="top">virtual PositionMatrix&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_piece.html#a35d3c59a98974e760f664ae5e475adea">AllMoves</a> (<a class="el" href="struct_position.html">Position</a> p) const =0</td></tr>
 <tr class="separator:a35d3c59a98974e760f664ae5e475adea"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
@@ -98,7 +113,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">virtual PositionMatrix IPiece::AllMoves </td>
           <td>(</td>
-          <td class="paramtype">Position&#160;</td>
+          <td class="paramtype"><a class="el" href="struct_position.html">Position</a>&#160;</td>
           <td class="paramname"><em>p</em></td><td>)</td>
           <td> const</td>
         </tr>
@@ -118,6 +133,8 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>matrix of position vectors for every direction in which the piece can go </dd></dl>
 
+<p>Implemented in <a class="el" href="class_bishop.html#aac75dea2f4b91539d6b7abcd7d25aed6">Bishop</a>, <a class="el" href="class_king.html#a4be3e3028ba7df9ce7048f378a1853b6">King</a>, <a class="el" href="class_knight.html#ae065344349ed7957bff108e3b2967d59">Knight</a>, <a class="el" href="class_pawn.html#abe824669dbc2517395f6a478025ec255">Pawn</a>, <a class="el" href="class_piece.html#a059e7bd9b88fa71a269789b546b9a2a0">Piece</a>, <a class="el" href="class_queen.html#ae00cc4e90b25fcb21c7dd903767064bf">Queen</a>, and <a class="el" href="class_rook.html#a0e98aa9772be2b32154298706f9d65e0">Rook</a>.</p>
+
 </div>
 </div>
 <a id="aea941dcb33022bd3c545622101fda07d" name="aea941dcb33022bd3c545622101fda07d"></a>
@@ -132,13 +149,13 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">virtual PositionList IPiece::DeterminePattern </td>
           <td>(</td>
-          <td class="paramtype">Position&#160;</td>
+          <td class="paramtype"><a class="el" href="struct_position.html">Position</a>&#160;</td>
           <td class="paramname"><em>p1</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Position&#160;</td>
+          <td class="paramtype"><a class="el" href="struct_position.html">Position</a>&#160;</td>
           <td class="paramname"><em>p2</em>&#160;</td>
         </tr>
         <tr>
@@ -163,6 +180,8 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>vector of positions the piece travels to until p2 in reached </dd></dl>
 
+<p>Implemented in <a class="el" href="class_bishop.html#a232cb18a9bc8a3398fe7ca83db190a1d">Bishop</a>, <a class="el" href="class_king.html#a4b58f5f937efa528b6ff0e8c2a33db0e">King</a>, <a class="el" href="class_knight.html#a6395bf6ec5c9ad989510061ea66cd0fc">Knight</a>, <a class="el" href="class_pawn.html#a3a486fb3aead14cfccf11361a4d14e1b">Pawn</a>, <a class="el" href="class_piece.html#aff1d03b1f648b21360f748420d020632">Piece</a>, <a class="el" href="class_queen.html#a0a565c02f337220df4702c075e018eb3">Queen</a>, and <a class="el" href="class_rook.html#a4efd12edec127baa48ddefc25770a507">Rook</a>.</p>
+
 </div>
 </div>
 <a id="a139633b7248e730b6976a79edf4debdd" name="a139633b7248e730b6976a79edf4debdd"></a>
@@ -177,13 +196,13 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">virtual bool IPiece::IsMoveRegular </td>
           <td>(</td>
-          <td class="paramtype">Position&#160;</td>
+          <td class="paramtype"><a class="el" href="struct_position.html">Position</a>&#160;</td>
           <td class="paramname"><em>p1</em>, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Position&#160;</td>
+          <td class="paramtype"><a class="el" href="struct_position.html">Position</a>&#160;</td>
           <td class="paramname"><em>p2</em>&#160;</td>
         </tr>
         <tr>
@@ -208,10 +227,12 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>bool true if p2 is a position where the piece can go </dd></dl>
 
+<p>Implemented in <a class="el" href="class_bishop.html#a4b5665b965610f8b3e37de608c671954">Bishop</a>, <a class="el" href="class_king.html#a25c85cf9b49f25fb2d0d24a9955adc95">King</a>, <a class="el" href="class_knight.html#a7c563aee764ec2edf06f05925ae6a083">Knight</a>, <a class="el" href="class_pawn.html#ab8c80259b54f79be02397f5ab368fd15">Pawn</a>, <a class="el" href="class_piece.html#ad2c5cb6fe70b6142680b13a8cecf7969">Piece</a>, <a class="el" href="class_queen.html#ad9bd3660cb11d54ac0336a3bb66430f1">Queen</a>, and <a class="el" href="class_rook.html#a6c9b70ff98e214458bd50afb5169841d">Rook</a>.</p>
+
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>D:/Documentation/source/<a class="el" href="_i_piece_8h_source.html">IPiece.h</a></li>
+<li>C:/Users/cpopovici/Documents/GitHub/Chess-Application/GameLib/GameLib/<a class="el" href="_i_piece_8h_source.html">IPiece.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

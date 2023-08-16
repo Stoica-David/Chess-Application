@@ -1,0 +1,116 @@
+\doxysection{ITimer\+Info Class Reference}
+\hypertarget{class_i_timer_info}{}\label{class_i_timer_info}\index{ITimerInfo@{ITimerInfo}}
+Inheritance diagram for ITimer\+Info\+:\begin{figure}[H]
+\begin{center}
+\leavevmode
+\includegraphics[height=2.000000cm]{class_i_timer_info}
+\end{center}
+\end{figure}
+\doxysubsubsection*{Public Member Functions}
+\begin{DoxyCompactItemize}
+\item 
+virtual int \mbox{\hyperlink{class_i_timer_info_aa919b918f040c8f59d323fb128486843}{Get\+Total\+Time}} () const =0
+\item 
+virtual int \mbox{\hyperlink{class_i_timer_info_a2023c1541fde6eb2909bfa4fbd4d1ec1}{Get\+Remaining\+Time}} (EColor color) const =0
+\item 
+virtual int \mbox{\hyperlink{class_i_timer_info_aca7355d17c9c68a17c8550db82779aed}{Get\+Thinking\+Time}} (int nr\+Move) const =0
+\item 
+virtual int \mbox{\hyperlink{class_i_timer_info_a916172625f1df1b51359e6b136c2a45f}{Get\+Current\+Move\+Time}} () const =0
+\item 
+virtual void \mbox{\hyperlink{class_i_timer_info_a2807d170401b07a1103cc5cbadd94aa9}{Set\+Timer\+Resolution}} (int ms)=0
+\item 
+virtual int \mbox{\hyperlink{class_i_timer_info_a4ce1937a5bb40d4fa7ca5a496ab7ceac}{Get\+Timer\+Resolution}} () const =0
+\end{DoxyCompactItemize}
+
+
+\doxysubsection{Member Function Documentation}
+\Hypertarget{class_i_timer_info_a916172625f1df1b51359e6b136c2a45f}\label{class_i_timer_info_a916172625f1df1b51359e6b136c2a45f} 
+\index{ITimerInfo@{ITimerInfo}!GetCurrentMoveTime@{GetCurrentMoveTime}}
+\index{GetCurrentMoveTime@{GetCurrentMoveTime}!ITimerInfo@{ITimerInfo}}
+\doxysubsubsection{\texorpdfstring{GetCurrentMoveTime()}{GetCurrentMoveTime()}}
+{\footnotesize\ttfamily virtual int ITimer\+Info\+::\+Get\+Current\+Move\+Time (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Obtain time after turn was switched
+
+\begin{DoxyReturn}{Returns}
+int milliseconds 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{class_game_a117147909b732d897b508198fc675a14}{Game}}.
+
+\Hypertarget{class_i_timer_info_a2023c1541fde6eb2909bfa4fbd4d1ec1}\label{class_i_timer_info_a2023c1541fde6eb2909bfa4fbd4d1ec1} 
+\index{ITimerInfo@{ITimerInfo}!GetRemainingTime@{GetRemainingTime}}
+\index{GetRemainingTime@{GetRemainingTime}!ITimerInfo@{ITimerInfo}}
+\doxysubsubsection{\texorpdfstring{GetRemainingTime()}{GetRemainingTime()}}
+{\footnotesize\ttfamily virtual int ITimer\+Info\+::\+Get\+Remaining\+Time (\begin{DoxyParamCaption}\item[{EColor}]{color }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Obtains left time
+
+\begin{DoxyReturn}{Returns}
+int milliseconds 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{class_game_a1ce404e2a18b967cf418fb2aa7022deb}{Game}}.
+
+\Hypertarget{class_i_timer_info_aca7355d17c9c68a17c8550db82779aed}\label{class_i_timer_info_aca7355d17c9c68a17c8550db82779aed} 
+\index{ITimerInfo@{ITimerInfo}!GetThinkingTime@{GetThinkingTime}}
+\index{GetThinkingTime@{GetThinkingTime}!ITimerInfo@{ITimerInfo}}
+\doxysubsubsection{\texorpdfstring{GetThinkingTime()}{GetThinkingTime()}}
+{\footnotesize\ttfamily virtual int ITimer\+Info\+::\+Get\+Thinking\+Time (\begin{DoxyParamCaption}\item[{int}]{nr\+Move }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Obtain time spent between moves
+
+\begin{DoxyReturn}{Returns}
+int milliseconds between moves 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{class_game_afdc9987f3c4fa872a97c8cbb6214d0c3}{Game}}.
+
+\Hypertarget{class_i_timer_info_a4ce1937a5bb40d4fa7ca5a496ab7ceac}\label{class_i_timer_info_a4ce1937a5bb40d4fa7ca5a496ab7ceac} 
+\index{ITimerInfo@{ITimerInfo}!GetTimerResolution@{GetTimerResolution}}
+\index{GetTimerResolution@{GetTimerResolution}!ITimerInfo@{ITimerInfo}}
+\doxysubsubsection{\texorpdfstring{GetTimerResolution()}{GetTimerResolution()}}
+{\footnotesize\ttfamily virtual int ITimer\+Info\+::\+Get\+Timer\+Resolution (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Obtain milliseconds between updates
+
+\begin{DoxyReturn}{Returns}
+int milliseconds 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{class_game_a4855699fc8aca3431ca454e97b30f9e8}{Game}}.
+
+\Hypertarget{class_i_timer_info_aa919b918f040c8f59d323fb128486843}\label{class_i_timer_info_aa919b918f040c8f59d323fb128486843} 
+\index{ITimerInfo@{ITimerInfo}!GetTotalTime@{GetTotalTime}}
+\index{GetTotalTime@{GetTotalTime}!ITimerInfo@{ITimerInfo}}
+\doxysubsubsection{\texorpdfstring{GetTotalTime()}{GetTotalTime()}}
+{\footnotesize\ttfamily virtual int ITimer\+Info\+::\+Get\+Total\+Time (\begin{DoxyParamCaption}{ }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Obtains total time allocated for a player
+
+\begin{DoxyReturn}{Returns}
+int milliseconds 
+\end{DoxyReturn}
+
+
+Implemented in \mbox{\hyperlink{class_game_a9397de33e2e371478dce208847245052}{Game}}.
+
+\Hypertarget{class_i_timer_info_a2807d170401b07a1103cc5cbadd94aa9}\label{class_i_timer_info_a2807d170401b07a1103cc5cbadd94aa9} 
+\index{ITimerInfo@{ITimerInfo}!SetTimerResolution@{SetTimerResolution}}
+\index{SetTimerResolution@{SetTimerResolution}!ITimerInfo@{ITimerInfo}}
+\doxysubsubsection{\texorpdfstring{SetTimerResolution()}{SetTimerResolution()}}
+{\footnotesize\ttfamily virtual void ITimer\+Info\+::\+Set\+Timer\+Resolution (\begin{DoxyParamCaption}\item[{int}]{ms }\end{DoxyParamCaption})\hspace{0.3cm}{\ttfamily [pure virtual]}}
+
+Sets how fast you want the timer to update 
+
+Implemented in \mbox{\hyperlink{class_game_ae4d8c98fadd04309a7ae9d4dbf22acd7}{Game}}.
+
+
+
+The documentation for this class was generated from the following file\+:\begin{DoxyCompactItemize}
+\item 
+C\+:/\+Users/cpopovici/\+Documents/\+Git\+Hub/\+Chess-\/\+Application/\+Game\+Lib/\+Game\+Lib/ITimer\+Info.\+h\end{DoxyCompactItemize}

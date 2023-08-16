@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['chessexception_0',['ChessException',['../class_chess_exception.html',1,'ChessException'],['../class_chess_exception.html#ae06a36eceb691640321564efc60d41e4',1,'ChessException::ChessException()'],['../class_chess_exception.html#a240c7e44b3afe702bbb09568315ed7fd',1,'ChessException::ChessException(const std::string &amp;)']]]
+  ['bishop_0',['Bishop',['../class_bishop.html',1,'']]],
+  ['board_1',['Board',['../class_board.html',1,'']]]
 ];

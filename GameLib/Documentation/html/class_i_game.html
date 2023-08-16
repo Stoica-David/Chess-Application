@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.7"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Chess Application: IGame Class Reference</title>
+<title>My Project: IGame Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Chess Application
+   <div id="projectname">My Project
    </div>
   </td>
  </tr>
@@ -76,6 +76,15 @@ $(function() {
   <div class="headertitle"><div class="title">IGame Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div></div>
 </div><!--header-->
 <div class="contents">
+<div class="dynheader">
+Inheritance diagram for IGame:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="class_i_game.png" usemap="#IGame_map" alt=""/>
+  <map id="IGame_map" name="IGame_map">
+<area href="class_game.html" alt="Game" shape="rect" coords="0,56,47,80"/>
+  </map>
+</div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -89,9 +98,13 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~IGame</b> ()=defa
 <tr class="memitem:adb29c26ef9fe1f5b6edb5fb1c5ff437f"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_game.html#adb29c26ef9fe1f5b6edb5fb1c5ff437f">RemoveListener</a> (<a class="el" href="class_i_game_listener.html">IGameListener</a> *)=0</td></tr>
 <tr class="memdesc:adb29c26ef9fe1f5b6edb5fb1c5ff437f"><td class="mdescLeft">&#160;</td><td class="mdescRight">Removes listeners by making them weak pointers.  <br /></td></tr>
 <tr class="separator:adb29c26ef9fe1f5b6edb5fb1c5ff437f"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5fc60512309dc15421c8ac64b8f831cc"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_game.html#a5fc60512309dc15421c8ac64b8f831cc">Pause</a> ()=0</td></tr>
+<tr class="separator:a5fc60512309dc15421c8ac64b8f831cc"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa77988c536b98128c70844fb83180a8d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_game.html#aa77988c536b98128c70844fb83180a8d">Resume</a> ()=0</td></tr>
+<tr class="separator:aa77988c536b98128c70844fb83180a8d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a32ea1e3bcf22446f088b8dae36c7033d"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_game.html#a32ea1e3bcf22446f088b8dae36c7033d">Restart</a> ()=0</td></tr>
 <tr class="separator:a32ea1e3bcf22446f088b8dae36c7033d"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a58f939100e63910207f9f1eda91d0f27"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_game.html#a58f939100e63910207f9f1eda91d0f27">Move</a> (Position, Position)=0</td></tr>
+<tr class="memitem:a58f939100e63910207f9f1eda91d0f27"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_game.html#a58f939100e63910207f9f1eda91d0f27">Move</a> (<a class="el" href="struct_position.html">Position</a>, <a class="el" href="struct_position.html">Position</a>)=0</td></tr>
 <tr class="separator:a58f939100e63910207f9f1eda91d0f27"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2ea8412ab7d821552b8cad6e52cd242e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_game.html#a2ea8412ab7d821552b8cad6e52cd242e">ProposeDraw</a> ()=0</td></tr>
 <tr class="separator:a2ea8412ab7d821552b8cad6e52cd242e"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -103,20 +116,18 @@ virtual&#160;</td><td class="memItemRight" valign="bottom"><b>~IGame</b> ()=defa
 <tr class="separator:ae66cd941a10fadeaaff6f95739f8a337"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac083ccc91973f8b4084bcdf0ff403492"><td class="memItemLeft" align="right" valign="top">virtual const <a class="el" href="class_i_game_status.html">IGameStatus</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_game.html#ac083ccc91973f8b4084bcdf0ff403492">GetStatus</a> () const =0</td></tr>
 <tr class="separator:ac083ccc91973f8b4084bcdf0ff403492"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a865d4a64ff3e9da60c616d4b9293db1f"><td class="memItemLeft" align="right" valign="top">virtual const <a class="el" href="class_i_timer_info.html">ITimerInfo</a> *&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_game.html#a865d4a64ff3e9da60c616d4b9293db1f">GetTimer</a> () const =0</td></tr>
+<tr class="separator:a865d4a64ff3e9da60c616d4b9293db1f"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac4893b10c4d38109fe9fb518082df2ba"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_game.html#ac4893b10c4d38109fe9fb518082df2ba">Save</a> (EFileFormat format, const String &amp;file) const =0</td></tr>
 <tr class="separator:ac4893b10c4d38109fe9fb518082df2ba"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aae690e4e4985cdf4d83a07eb904b794e"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_game.html#aae690e4e4985cdf4d83a07eb904b794e">Load</a> (EFileFormat format, const String &amp;file)=0</td></tr>
 <tr class="separator:aae690e4e4985cdf4d83a07eb904b794e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac20ae5355439e21f0961eda1fc84c556"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_game.html#ac20ae5355439e21f0961eda1fc84c556">PauseGame</a> ()=0</td></tr>
-<tr class="separator:ac20ae5355439e21f0961eda1fc84c556"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae5aee6eae854061ed400c8a72ffcc8de"><td class="memItemLeft" align="right" valign="top">virtual void&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_game.html#ae5aee6eae854061ed400c8a72ffcc8de">ResumeGame</a> ()=0</td></tr>
-<tr class="separator:ae5aee6eae854061ed400c8a72ffcc8de"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table><table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-static-methods" name="pub-static-methods"></a>
 Static Public Member Functions</h2></td></tr>
-<tr class="memitem:abc90623c9219f7b9fedaac9dc6996464"><td class="memItemLeft" align="right" valign="top">static IGamePtr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_game.html#abc90623c9219f7b9fedaac9dc6996464">Produce</a> (bool wantTimer=false)</td></tr>
-<tr class="memdesc:abc90623c9219f7b9fedaac9dc6996464"><td class="mdescLeft">&#160;</td><td class="mdescRight">Produces a game Produces a game by calling the Game() constructor.  <br /></td></tr>
-<tr class="separator:abc90623c9219f7b9fedaac9dc6996464"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a8f81f8831c7020bcb90e8175c3d4276a"><td class="memItemLeft" align="right" valign="top">static IGamePtr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_game.html#a8f81f8831c7020bcb90e8175c3d4276a">Produce</a> (bool wantTimer=false)</td></tr>
+<tr class="memdesc:a8f81f8831c7020bcb90e8175c3d4276a"><td class="mdescLeft">&#160;</td><td class="mdescRight">Produces a game Produces a game by calling the <a class="el" href="class_game.html">Game()</a> constructor.  <br /></td></tr>
+<tr class="separator:a8f81f8831c7020bcb90e8175c3d4276a"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <h2 class="groupheader">Member Function Documentation</h2>
 <a id="a44348b4d4879147173849561fc8c6846" name="a44348b4d4879147173849561fc8c6846"></a>
@@ -151,6 +162,8 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
+<p>Implemented in <a class="el" href="class_game.html#adbe56c50e87c6e34508d90d46d8a820e">Game</a>.</p>
+
 </div>
 </div>
 <a id="afa9a97809c4eff87cbb1d4acfd585f8e" name="afa9a97809c4eff87cbb1d4acfd585f8e"></a>
@@ -184,6 +197,8 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
+<p>Implemented in <a class="el" href="class_game.html#a329432ec0157456bee22e3d7c591ead9">Game</a>.</p>
+
 </div>
 </div>
 <a id="ac083ccc91973f8b4084bcdf0ff403492" name="ac083ccc91973f8b4084bcdf0ff403492"></a>
@@ -210,6 +225,37 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Contains getters for all informations related to a game status</p>
 <dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_i_game_status.html">IGameStatus</a> pointer to a <a class="el" href="class_i_game_status.html">IGameStatus</a> class </dd></dl>
+
+<p>Implemented in <a class="el" href="class_game.html#af5b7bc62d36ceca6dceeba9366b5068f">Game</a>.</p>
+
+</div>
+</div>
+<a id="a865d4a64ff3e9da60c616d4b9293db1f" name="a865d4a64ff3e9da60c616d4b9293db1f"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a865d4a64ff3e9da60c616d4b9293db1f">&#9670;&#160;</a></span>GetTimer()</h2>
+
+<div class="memitem">
+<div class="memproto">
+<table class="mlabels">
+  <tr>
+  <td class="mlabels-left">
+      <table class="memname">
+        <tr>
+          <td class="memname">virtual const <a class="el" href="class_i_timer_info.html">ITimerInfo</a> * IGame::GetTimer </td>
+          <td>(</td>
+          <td class="paramname"></td><td>)</td>
+          <td> const</td>
+        </tr>
+      </table>
+  </td>
+  <td class="mlabels-right">
+<span class="mlabels"><span class="mlabel">pure virtual</span></span>  </td>
+  </tr>
+</table>
+</div><div class="memdoc">
+<p>Contains getters for all informations related to timer</p>
+<dl class="section return"><dt>Returns</dt><dd><a class="el" href="class_i_game_status.html">IGameStatus</a> pointer to a <a class="el" href="class_i_timer_info.html">ITimerInfo</a> class </dd></dl>
+
+<p>Implemented in <a class="el" href="class_game.html#a988ed3fe18cb2847ac9562d20157ca1f">Game</a>.</p>
 
 </div>
 </div>
@@ -255,6 +301,8 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
+<p>Implemented in <a class="el" href="class_game.html#a289fa7d5a927a6db08b35fd87ac45e0e">Game</a>.</p>
+
 </div>
 </div>
 <a id="a58f939100e63910207f9f1eda91d0f27" name="a58f939100e63910207f9f1eda91d0f27"></a>
@@ -269,13 +317,13 @@ Static Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">virtual void IGame::Move </td>
           <td>(</td>
-          <td class="paramtype">Position&#160;</td>
+          <td class="paramtype"><a class="el" href="struct_position.html">Position</a>&#160;</td>
           <td class="paramname">, </td>
         </tr>
         <tr>
           <td class="paramkey"></td>
           <td></td>
-          <td class="paramtype">Position&#160;</td>
+          <td class="paramtype"><a class="el" href="struct_position.html">Position</a>&#160;</td>
           <td class="paramname">&#160;</td>
         </tr>
         <tr>
@@ -291,17 +339,29 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Moves a piece from an initial position to another position Contains all the logic of pieces, checks the surroundings to see if a specific move is possible It throws specific exceptions if the move is not possible Notifies the Ui listener about the move Adds moves to the PGN format</p>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="class_position_exception.html">PositionException</a></td><td>if the given move is out if the table </td></tr>
+    <tr><td class="paramname"><a class="el" href="class_doesnt_exist_exception.html">DoesntExistException</a></td><td>if the selected square doesn't contain a piece </td></tr>
+    <tr><td class="paramname"><a class="el" href="class_turn_exception.html">TurnException</a></td><td>if player tries to select the opponent's pieces </td></tr>
+    <tr><td class="paramname"><a class="el" href="class_move_exception.html">MoveException</a></td><td>if the piece cannot do such move </td></tr>
+    <tr><td class="paramname"><a class="el" href="class_in_the_way_exception.html">InTheWayException</a></td><td>if there's a piece between initial position and final position (exception knight) @thorw <a class="el" href="class_still_check_exception.html">StillCheckException</a> if the move doesn't get rid of king's check </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
-    <tr><td class="paramname">Position</td><td>is a pair with two coordinates </td></tr>
+    <tr><td class="paramname"><a class="el" href="struct_position.html">Position</a></td><td>is a pair with two coordinates </td></tr>
   </table>
   </dd>
 </dl>
 
+<p>Implemented in <a class="el" href="class_game.html#a2f4a2bb3db3dec950e57523e9945d301">Game</a>.</p>
+
 </div>
 </div>
-<a id="ac20ae5355439e21f0961eda1fc84c556" name="ac20ae5355439e21f0961eda1fc84c556"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ac20ae5355439e21f0961eda1fc84c556">&#9670;&#160;</a></span>PauseGame()</h2>
+<a id="a5fc60512309dc15421c8ac64b8f831cc" name="a5fc60512309dc15421c8ac64b8f831cc"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a5fc60512309dc15421c8ac64b8f831cc">&#9670;&#160;</a></span>Pause()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -310,7 +370,7 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void IGame::PauseGame </td>
+          <td class="memname">virtual void IGame::Pause </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -324,10 +384,12 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Updates the state of the game Stops timer </p>
 
+<p>Implemented in <a class="el" href="class_game.html#a623261e79042162d2de8feecdfd1900e">Game</a>.</p>
+
 </div>
 </div>
-<a id="abc90623c9219f7b9fedaac9dc6996464" name="abc90623c9219f7b9fedaac9dc6996464"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#abc90623c9219f7b9fedaac9dc6996464">&#9670;&#160;</a></span>Produce()</h2>
+<a id="a8f81f8831c7020bcb90e8175c3d4276a" name="a8f81f8831c7020bcb90e8175c3d4276a"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a8f81f8831c7020bcb90e8175c3d4276a">&#9670;&#160;</a></span>Produce()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -336,7 +398,7 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">static IGamePtr IGame::Produce </td>
+          <td class="memname">IGamePtr IGame::Produce </td>
           <td>(</td>
           <td class="paramtype">bool&#160;</td>
           <td class="paramname"><em>wantTimer</em> = <code>false</code></td><td>)</td>
@@ -350,7 +412,7 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 
-<p>Produces a game Produces a game by calling the Game() constructor. </p>
+<p>Produces a game Produces a game by calling the <a class="el" href="class_game.html">Game()</a> constructor. </p>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">wantTimer</td><td>specifies type of game that user chooses</td></tr>
@@ -392,6 +454,8 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
+<p>Implemented in <a class="el" href="class_game.html#abae77c0c34d36e773399c2cb29f53b8e">Game</a>.</p>
+
 </div>
 </div>
 <a id="a2ea8412ab7d821552b8cad6e52cd242e" name="a2ea8412ab7d821552b8cad6e52cd242e"></a>
@@ -417,6 +481,8 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Updates state of the game Switches turn for the other player to in order to respond </p>
+
+<p>Implemented in <a class="el" href="class_game.html#a9abb1957aac17118d20dd5ec40c4ed18">Game</a>.</p>
 
 </div>
 </div>
@@ -452,6 +518,8 @@ Static Public Member Functions</h2></td></tr>
   </dd>
 </dl>
 
+<p>Implemented in <a class="el" href="class_game.html#af572b8b4763edf9d71d1733bb9f5d659">Game</a>.</p>
+
 </div>
 </div>
 <a id="a32ea1e3bcf22446f088b8dae36c7033d" name="a32ea1e3bcf22446f088b8dae36c7033d"></a>
@@ -478,10 +546,12 @@ Static Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Restarts a game and informs ChessUiQt listener </p>
 
+<p>Implemented in <a class="el" href="class_game.html#a4dff40885a885d9810f8ca7687eccaa7">Game</a>.</p>
+
 </div>
 </div>
-<a id="ae5aee6eae854061ed400c8a72ffcc8de" name="ae5aee6eae854061ed400c8a72ffcc8de"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#ae5aee6eae854061ed400c8a72ffcc8de">&#9670;&#160;</a></span>ResumeGame()</h2>
+<a id="aa77988c536b98128c70844fb83180a8d" name="aa77988c536b98128c70844fb83180a8d"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#aa77988c536b98128c70844fb83180a8d">&#9670;&#160;</a></span>Resume()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -490,7 +560,7 @@ Static Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual void IGame::ResumeGame </td>
+          <td class="memname">virtual void IGame::Resume </td>
           <td>(</td>
           <td class="paramname"></td><td>)</td>
           <td></td>
@@ -503,6 +573,8 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Updates the state of the game Starts timer again </p>
+
+<p>Implemented in <a class="el" href="class_game.html#a4654c5ed9de1387dcb2b1f25c88d56f1">Game</a>.</p>
 
 </div>
 </div>
@@ -540,6 +612,13 @@ Static Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Saves either FEN or PGN formats to computer</p>
+<dl class="exception"><dt>Exceptions</dt><dd>
+  <table class="exception">
+    <tr><td class="paramname"><a class="el" href="class_f_e_n_exception.html">FENException</a></td><td>if cannot open the file to write properly </td></tr>
+    <tr><td class="paramname"><a class="el" href="class_p_g_n_exception.html">PGNException</a></td><td>if if cannot open the file to write properly </td></tr>
+  </table>
+  </dd>
+</dl>
 <dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">format</td><td>specifies the format in which to save the state of the board </td></tr>
@@ -547,6 +626,8 @@ Static Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
+
+<p>Implemented in <a class="el" href="class_game.html#a6e0eec94f7623d9323f2acd239285df0">Game</a>.</p>
 
 </div>
 </div>
@@ -573,17 +654,20 @@ Static Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Goes in the bitset vector, takes the confNrth configuration from history Transforms this configuration into a Board Updates current board to the newly converted one </p><dl class="params"><dt>Parameters</dt><dd>
+<p>Goes in the bitset vector, takes the confNrth configuration from history Transforms this configuration into a <a class="el" href="class_board.html">Board</a> Updates current board to the newly converted one </p><dl class="params"><dt>Parameters</dt><dd>
   <table class="params">
     <tr><td class="paramname">confNr</td><td>configuration number </td></tr>
   </table>
   </dd>
 </dl>
 
+<p>Implemented in <a class="el" href="class_game.html#a7891601910f872fcae6df42e3d9c99ad">Game</a>.</p>
+
 </div>
 </div>
-<hr/>The documentation for this class was generated from the following file:<ul>
-<li>D:/Documentation/source/<a class="el" href="_i_game_8h_source.html">IGame.h</a></li>
+<hr/>The documentation for this class was generated from the following files:<ul>
+<li>C:/Users/cpopovici/Documents/GitHub/Chess-Application/GameLib/GameLib/<a class="el" href="_i_game_8h_source.html">IGame.h</a></li>
+<li>C:/Users/cpopovici/Documents/GitHub/Chess-Application/GameLib/GameLib/Game.cpp</li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

@@ -1,4 +1,5 @@
 var searchData=
 [
-  ['chessexception_0',['ChessException',['../class_chess_exception.html',1,'']]]
+  ['bishop_0',['Bishop',['../class_bishop.html',1,'']]],
+  ['board_1',['Board',['../class_board.html',1,'']]]
 ];

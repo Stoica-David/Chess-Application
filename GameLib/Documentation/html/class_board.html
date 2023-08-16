@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.7"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Chess Application: Board Class Reference</title>
+<title>My Project: Board Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Chess Application
+   <div id="projectname">My Project
    </div>
   </td>
  </tr>
@@ -85,42 +85,48 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a19e2c1f6c2baf8ab04cbd02f0cd2aebc"><td class="memItemLeft" align="right" valign="top"><a id="a19e2c1f6c2baf8ab04cbd02f0cd2aebc" name="a19e2c1f6c2baf8ab04cbd02f0cd2aebc"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Board</b> (const <a class="el" href="class_board.html">Board</a> &amp;)</td></tr>
 <tr class="separator:a19e2c1f6c2baf8ab04cbd02f0cd2aebc"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aaa3afa898a49a4c13b553528b5fd7a0a"><td class="memItemLeft" align="right" valign="top"><a id="aaa3afa898a49a4c13b553528b5fd7a0a" name="aaa3afa898a49a4c13b553528b5fd7a0a"></a>
-PiecesPtr &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>at</b> (<a class="el" href="struct_position.html">Position</a> p)</td></tr>
-<tr class="separator:aaa3afa898a49a4c13b553528b5fd7a0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af86cdf2850f857c01f8c7709f9680ffa"><td class="memItemLeft" align="right" valign="top"><a id="af86cdf2850f857c01f8c7709f9680ffa" name="af86cdf2850f857c01f8c7709f9680ffa"></a>
-const PiecesPtr &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>at</b> (<a class="el" href="struct_position.html">Position</a> p) const</td></tr>
-<tr class="separator:af86cdf2850f857c01f8c7709f9680ffa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:adace14aacf3875a9aa63fb5997988e25"><td class="memItemLeft" align="right" valign="top"><a id="adace14aacf3875a9aa63fb5997988e25" name="adace14aacf3875a9aa63fb5997988e25"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>Set</b> (const ChessBoard &amp;board)</td></tr>
 <tr class="separator:adace14aacf3875a9aa63fb5997988e25"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae271e730f0fe79cafd85871f171b6fe2"><td class="memItemLeft" align="right" valign="top"><a id="ae271e730f0fe79cafd85871f171b6fe2" name="ae271e730f0fe79cafd85871f171b6fe2"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>Reset</b> ()</td></tr>
+<tr class="separator:ae271e730f0fe79cafd85871f171b6fe2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a603d55be4f6ef4a7cea54e13fd5df7ed"><td class="memItemLeft" align="right" valign="top"><a id="a603d55be4f6ef4a7cea54e13fd5df7ed" name="a603d55be4f6ef4a7cea54e13fd5df7ed"></a>
 IPieceInfoPtr&#160;</td><td class="memItemRight" valign="bottom"><b>GetPieceInfo</b> (<a class="el" href="struct_position.html">Position</a> p) const</td></tr>
 <tr class="separator:a603d55be4f6ef4a7cea54e13fd5df7ed"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ac041358414cf25ff8ea17adf8888a641"><td class="memItemLeft" align="right" valign="top"><a id="ac041358414cf25ff8ea17adf8888a641" name="ac041358414cf25ff8ea17adf8888a641"></a>
-MoveVector&#160;</td><td class="memItemRight" valign="bottom"><b>GetHistory</b> () const</td></tr>
-<tr class="separator:ac041358414cf25ff8ea17adf8888a641"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a9818fac436e51b141dbfe6e5b250d865"><td class="memItemLeft" align="right" valign="top"><a id="a9818fac436e51b141dbfe6e5b250d865" name="a9818fac436e51b141dbfe6e5b250d865"></a>
 String&#160;</td><td class="memItemRight" valign="bottom"><b>GetCurrPGN</b> () const</td></tr>
 <tr class="separator:a9818fac436e51b141dbfe6e5b250d865"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aab35404097d9fb728a8e4d7cfce24205"><td class="memItemLeft" align="right" valign="top"><a id="aab35404097d9fb728a8e4d7cfce24205" name="aab35404097d9fb728a8e4d7cfce24205"></a>
 BitMatrix&#160;</td><td class="memItemRight" valign="bottom"><b>GetPrevPositions</b> () const</td></tr>
 <tr class="separator:aab35404097d9fb728a8e4d7cfce24205"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a39b0f567e8e6ab2c01b11c83d50f5668"><td class="memItemLeft" align="right" valign="top"><a id="a39b0f567e8e6ab2c01b11c83d50f5668" name="a39b0f567e8e6ab2c01b11c83d50f5668"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsOver</b> (EColor color) const</td></tr>
-<tr class="separator:a39b0f567e8e6ab2c01b11c83d50f5668"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aa70769a7cf3b58fa8545affefd273528"><td class="memItemLeft" align="right" valign="top"><a id="aa70769a7cf3b58fa8545affefd273528" name="aa70769a7cf3b58fa8545affefd273528"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>VerifyTheWay</b> (<a class="el" href="struct_position.html">Position</a> p1, <a class="el" href="struct_position.html">Position</a> p2) const</td></tr>
-<tr class="separator:aa70769a7cf3b58fa8545affefd273528"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ac041358414cf25ff8ea17adf8888a641"><td class="memItemLeft" align="right" valign="top"><a id="ac041358414cf25ff8ea17adf8888a641" name="ac041358414cf25ff8ea17adf8888a641"></a>
+MoveVector&#160;</td><td class="memItemRight" valign="bottom"><b>GetHistory</b> () const</td></tr>
+<tr class="separator:ac041358414cf25ff8ea17adf8888a641"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aaa3afa898a49a4c13b553528b5fd7a0a"><td class="memItemLeft" align="right" valign="top"><a id="aaa3afa898a49a4c13b553528b5fd7a0a" name="aaa3afa898a49a4c13b553528b5fd7a0a"></a>
+PiecesPtr &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>at</b> (<a class="el" href="struct_position.html">Position</a> p)</td></tr>
+<tr class="separator:aaa3afa898a49a4c13b553528b5fd7a0a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:af86cdf2850f857c01f8c7709f9680ffa"><td class="memItemLeft" align="right" valign="top"><a id="af86cdf2850f857c01f8c7709f9680ffa" name="af86cdf2850f857c01f8c7709f9680ffa"></a>
+const PiecesPtr &amp;&#160;</td><td class="memItemRight" valign="bottom"><b>at</b> (<a class="el" href="struct_position.html">Position</a> p) const</td></tr>
+<tr class="separator:af86cdf2850f857c01f8c7709f9680ffa"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae8f6fb1a55e3834de408a41017c43334"><td class="memItemLeft" align="right" valign="top"><a id="ae8f6fb1a55e3834de408a41017c43334" name="ae8f6fb1a55e3834de408a41017c43334"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsCheck</b> (<a class="el" href="struct_position.html">Position</a> p, EColor color) const</td></tr>
 <tr class="separator:ae8f6fb1a55e3834de408a41017c43334"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a47acf881507b2ea28af21167b2f07998"><td class="memItemLeft" align="right" valign="top"><a id="a47acf881507b2ea28af21167b2f07998" name="a47acf881507b2ea28af21167b2f07998"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsSameWay</b> (<a class="el" href="struct_position.html">Position</a> p1, <a class="el" href="struct_position.html">Position</a> p2, EColor color) const</td></tr>
-<tr class="separator:a47acf881507b2ea28af21167b2f07998"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7dc9602af18fc8fb810da1f0c60ec4cb"><td class="memItemLeft" align="right" valign="top"><a id="a7dc9602af18fc8fb810da1f0c60ec4cb" name="a7dc9602af18fc8fb810da1f0c60ec4cb"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsCheckMate</b> (EColor color) const</td></tr>
 <tr class="separator:a7dc9602af18fc8fb810da1f0c60ec4cb"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa70769a7cf3b58fa8545affefd273528"><td class="memItemLeft" align="right" valign="top"><a id="aa70769a7cf3b58fa8545affefd273528" name="aa70769a7cf3b58fa8545affefd273528"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>VerifyTheWay</b> (<a class="el" href="struct_position.html">Position</a> p1, <a class="el" href="struct_position.html">Position</a> p2) const</td></tr>
+<tr class="separator:aa70769a7cf3b58fa8545affefd273528"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae28a9c19f9df271c8e7bb5edfc2d7a24"><td class="memItemLeft" align="right" valign="top"><a id="ae28a9c19f9df271c8e7bb5edfc2d7a24" name="ae28a9c19f9df271c8e7bb5edfc2d7a24"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsPinned</b> (<a class="el" href="struct_position.html">Position</a> p) const</td></tr>
+<tr class="separator:ae28a9c19f9df271c8e7bb5edfc2d7a24"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a47acf881507b2ea28af21167b2f07998"><td class="memItemLeft" align="right" valign="top"><a id="a47acf881507b2ea28af21167b2f07998" name="a47acf881507b2ea28af21167b2f07998"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsSameWay</b> (<a class="el" href="struct_position.html">Position</a> p1, <a class="el" href="struct_position.html">Position</a> p2, EColor color) const</td></tr>
+<tr class="separator:a47acf881507b2ea28af21167b2f07998"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a39b0f567e8e6ab2c01b11c83d50f5668"><td class="memItemLeft" align="right" valign="top"><a id="a39b0f567e8e6ab2c01b11c83d50f5668" name="a39b0f567e8e6ab2c01b11c83d50f5668"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsOver</b> (EColor color) const</td></tr>
+<tr class="separator:a39b0f567e8e6ab2c01b11c83d50f5668"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aeb7f7f8c5bb38b7ab93e51efd5ae199f"><td class="memItemLeft" align="right" valign="top"><a id="aeb7f7f8c5bb38b7ab93e51efd5ae199f" name="aeb7f7f8c5bb38b7ab93e51efd5ae199f"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsDraw</b> () const</td></tr>
 <tr class="separator:aeb7f7f8c5bb38b7ab93e51efd5ae199f"><td class="memSeparator" colspan="2">&#160;</td></tr>
@@ -133,63 +139,42 @@ bool&#160;</td><td class="memItemRight" valign="bottom"><b>Is3Fold</b> () const<
 <tr class="memitem:ac629e234b26e5bd713a1afe97806c2bd"><td class="memItemLeft" align="right" valign="top"><a id="ac629e234b26e5bd713a1afe97806c2bd" name="ac629e234b26e5bd713a1afe97806c2bd"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsPromotePossible</b> (<a class="el" href="struct_position.html">Position</a> p) const</td></tr>
 <tr class="separator:ac629e234b26e5bd713a1afe97806c2bd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae28a9c19f9df271c8e7bb5edfc2d7a24"><td class="memItemLeft" align="right" valign="top"><a id="ae28a9c19f9df271c8e7bb5edfc2d7a24" name="ae28a9c19f9df271c8e7bb5edfc2d7a24"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsPinned</b> (<a class="el" href="struct_position.html">Position</a> p) const</td></tr>
-<tr class="separator:ae28a9c19f9df271c8e7bb5edfc2d7a24"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5d89872384f7af89e43233e010ba594e"><td class="memItemLeft" align="right" valign="top"><a id="a5d89872384f7af89e43233e010ba594e" name="a5d89872384f7af89e43233e010ba594e"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsEnPassant</b> (<a class="el" href="struct_position.html">Position</a> p1, <a class="el" href="struct_position.html">Position</a> p2) const</td></tr>
 <tr class="separator:a5d89872384f7af89e43233e010ba594e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a80cab30433bcc2b2473687309b66c666"><td class="memItemLeft" align="right" valign="top"><a id="a80cab30433bcc2b2473687309b66c666" name="a80cab30433bcc2b2473687309b66c666"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>FindOnSameColumn</b> (<a class="el" href="struct_position.html">Position</a> p1, <a class="el" href="struct_position.html">Position</a> p2) const</td></tr>
+<tr class="separator:a80cab30433bcc2b2473687309b66c666"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a3bc7ef8b2c75d4e023d26f82c7805261"><td class="memItemLeft" align="right" valign="top"><a id="a3bc7ef8b2c75d4e023d26f82c7805261" name="a3bc7ef8b2c75d4e023d26f82c7805261"></a>
+bool&#160;</td><td class="memItemRight" valign="bottom"><b>PawnException</b> (<a class="el" href="struct_position.html">Position</a> p1, <a class="el" href="struct_position.html">Position</a> p2) const</td></tr>
+<tr class="separator:a3bc7ef8b2c75d4e023d26f82c7805261"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab4930e1989ba547f4dbe965a5de3a6f3"><td class="memItemLeft" align="right" valign="top"><a id="ab4930e1989ba547f4dbe965a5de3a6f3" name="ab4930e1989ba547f4dbe965a5de3a6f3"></a>
 <a class="el" href="struct_position.html">Position</a>&#160;</td><td class="memItemRight" valign="bottom"><b>FindCheck</b> (<a class="el" href="struct_position.html">Position</a> p, EColor color) const</td></tr>
 <tr class="separator:ab4930e1989ba547f4dbe965a5de3a6f3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac0655e0c740da06113f7e7f3d966b688"><td class="memItemLeft" align="right" valign="top"><a id="ac0655e0c740da06113f7e7f3d966b688" name="ac0655e0c740da06113f7e7f3d966b688"></a>
 <a class="el" href="struct_position.html">Position</a>&#160;</td><td class="memItemRight" valign="bottom"><b>FindKing</b> (EColor) const</td></tr>
 <tr class="separator:ac0655e0c740da06113f7e7f3d966b688"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:aea26889bc2a3e3dbe139e5457cdad54e"><td class="memItemLeft" align="right" valign="top"><a id="aea26889bc2a3e3dbe139e5457cdad54e" name="aea26889bc2a3e3dbe139e5457cdad54e"></a>
-PieceVector&#160;</td><td class="memItemRight" valign="bottom"><b>RemainingPieces</b> () const</td></tr>
-<tr class="separator:aea26889bc2a3e3dbe139e5457cdad54e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a647bfa40745f12ff002aa2e31992ce7e"><td class="memItemLeft" align="right" valign="top"><a id="a647bfa40745f12ff002aa2e31992ce7e" name="a647bfa40745f12ff002aa2e31992ce7e"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>PromoteTo</b> (EPieceType pieceType, EColor color)</td></tr>
-<tr class="separator:a647bfa40745f12ff002aa2e31992ce7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a95a23eb95ea1f5e495cf3a193e18e49c"><td class="memItemLeft" align="right" valign="top"><a id="a95a23eb95ea1f5e495cf3a193e18e49c" name="a95a23eb95ea1f5e495cf3a193e18e49c"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>Move</b> (<a class="el" href="struct_position.html">Position</a> p1, <a class="el" href="struct_position.html">Position</a> p2)</td></tr>
 <tr class="separator:a95a23eb95ea1f5e495cf3a193e18e49c"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae271e730f0fe79cafd85871f171b6fe2"><td class="memItemLeft" align="right" valign="top"><a id="ae271e730f0fe79cafd85871f171b6fe2" name="ae271e730f0fe79cafd85871f171b6fe2"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>Reset</b> ()</td></tr>
-<tr class="separator:ae271e730f0fe79cafd85871f171b6fe2"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a647bfa40745f12ff002aa2e31992ce7e"><td class="memItemLeft" align="right" valign="top"><a id="a647bfa40745f12ff002aa2e31992ce7e" name="a647bfa40745f12ff002aa2e31992ce7e"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>PromoteTo</b> (EPieceType pieceType, EColor color)</td></tr>
+<tr class="separator:a647bfa40745f12ff002aa2e31992ce7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a7cbb0031a7093ed7e4948f9f2367fea4"><td class="memItemLeft" align="right" valign="top"><a id="a7cbb0031a7093ed7e4948f9f2367fea4" name="a7cbb0031a7093ed7e4948f9f2367fea4"></a>
 PositionList&#160;</td><td class="memItemRight" valign="bottom"><b>GetMoves</b> (<a class="el" href="struct_position.html">Position</a> p) const</td></tr>
 <tr class="separator:a7cbb0031a7093ed7e4948f9f2367fea4"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a0152bfb713ca4676265c8cfa5f0a1b45"><td class="memItemLeft" align="right" valign="top"><a id="a0152bfb713ca4676265c8cfa5f0a1b45" name="a0152bfb713ca4676265c8cfa5f0a1b45"></a>
-PositionList&#160;</td><td class="memItemRight" valign="bottom"><b>GetMovesNormal</b> (<a class="el" href="struct_position.html">Position</a> p) const</td></tr>
-<tr class="separator:a0152bfb713ca4676265c8cfa5f0a1b45"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ae6cd21c9d5fad3501f2ef6c02ad6c36e"><td class="memItemLeft" align="right" valign="top"><a id="ae6cd21c9d5fad3501f2ef6c02ad6c36e" name="ae6cd21c9d5fad3501f2ef6c02ad6c36e"></a>
 PositionList&#160;</td><td class="memItemRight" valign="bottom"><b>GetMovesCheck</b> (<a class="el" href="struct_position.html">Position</a> p) const</td></tr>
 <tr class="separator:ae6cd21c9d5fad3501f2ef6c02ad6c36e"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a2ce86105467e776a55f4821e3b2efb78"><td class="memItemLeft" align="right" valign="top"><a id="a2ce86105467e776a55f4821e3b2efb78" name="a2ce86105467e776a55f4821e3b2efb78"></a>
-PositionList&#160;</td><td class="memItemRight" valign="bottom"><b>GetMovesPinned</b> (<a class="el" href="struct_position.html">Position</a> p) const</td></tr>
-<tr class="separator:a2ce86105467e776a55f4821e3b2efb78"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:af91e385b89715f23af219d27677baacc"><td class="memItemLeft" align="right" valign="top"><a id="af91e385b89715f23af219d27677baacc" name="af91e385b89715f23af219d27677baacc"></a>
-PositionList&#160;</td><td class="memItemRight" valign="bottom"><b>GetMovesKing</b> (<a class="el" href="struct_position.html">Position</a> p) const</td></tr>
-<tr class="separator:af91e385b89715f23af219d27677baacc"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ab3d70bb1924b693bfd133e900b188967"><td class="memItemLeft" align="right" valign="top"><a id="ab3d70bb1924b693bfd133e900b188967" name="ab3d70bb1924b693bfd133e900b188967"></a>
 String&#160;</td><td class="memItemRight" valign="bottom"><b>GetFEN</b> () const</td></tr>
 <tr class="separator:ab3d70bb1924b693bfd133e900b188967"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a5cf8b0da3931574e82a99e8e02e674ac"><td class="memItemLeft" align="right" valign="top"><a id="a5cf8b0da3931574e82a99e8e02e674ac" name="a5cf8b0da3931574e82a99e8e02e674ac"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>LoadFEN</b> (const String &amp;)</td></tr>
 <tr class="separator:a5cf8b0da3931574e82a99e8e02e674ac"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:acf08b11d807f6ec002b0ae0fabb12145"><td class="memItemLeft" align="right" valign="top"><a id="acf08b11d807f6ec002b0ae0fabb12145" name="acf08b11d807f6ec002b0ae0fabb12145"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>FindOnSameLine</b> (<a class="el" href="struct_position.html">Position</a> p1, <a class="el" href="struct_position.html">Position</a> p2) const</td></tr>
-<tr class="separator:acf08b11d807f6ec002b0ae0fabb12145"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a80cab30433bcc2b2473687309b66c666"><td class="memItemLeft" align="right" valign="top"><a id="a80cab30433bcc2b2473687309b66c666" name="a80cab30433bcc2b2473687309b66c666"></a>
-bool&#160;</td><td class="memItemRight" valign="bottom"><b>FindOnSameColumn</b> (<a class="el" href="struct_position.html">Position</a> p1, <a class="el" href="struct_position.html">Position</a> p2) const</td></tr>
-<tr class="separator:a80cab30433bcc2b2473687309b66c666"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afb18c7aa43c1a3615fb4939d5cc56356"><td class="memItemLeft" align="right" valign="top"><a id="afb18c7aa43c1a3615fb4939d5cc56356" name="afb18c7aa43c1a3615fb4939d5cc56356"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>ParsePGN</b> (StringVector Moves)</td></tr>
 <tr class="separator:afb18c7aa43c1a3615fb4939d5cc56356"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:abe75b282bee4bc4d5e38ab993bf751f2"><td class="memItemLeft" align="right" valign="top"><a id="abe75b282bee4bc4d5e38ab993bf751f2" name="abe75b282bee4bc4d5e38ab993bf751f2"></a>
-String&#160;</td><td class="memItemRight" valign="bottom"><b>ConvertMove</b> (<a class="el" href="struct_position.html">Position</a> p1, <a class="el" href="struct_position.html">Position</a> p2) const</td></tr>
-<tr class="separator:abe75b282bee4bc4d5e38ab993bf751f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a2fdac53f691204e9707c5a44fe61d8fc"><td class="memItemLeft" align="right" valign="top"><a id="a2fdac53f691204e9707c5a44fe61d8fc" name="a2fdac53f691204e9707c5a44fe61d8fc"></a>
 ChessBoard&#160;</td><td class="memItemRight" valign="bottom"><b>ConvertBitset</b> (int bitsetNr) const</td></tr>
 <tr class="separator:a2fdac53f691204e9707c5a44fe61d8fc"><td class="memSeparator" colspan="2">&#160;</td></tr>

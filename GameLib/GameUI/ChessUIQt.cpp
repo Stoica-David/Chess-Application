@@ -500,8 +500,8 @@ void ChessUIQt::InitializeHistory(QGridLayout* mainGridLayout)
 
 	m_movesList = new QListWidget();
 
-	m_movesList->setStyleSheet("QListWidget::item:hover { background-color: #7A6C5D; } "
-		"QListWidget::item:selected { background-color: #7A6C5D; border: 3px solid #2A3D45;}");
+	m_movesList->setStyleSheet("QListWidget::item:hover { background-color: #BCA595; } "
+		"QListWidget::item:selected { background-color: #7A6C5D; border: 2px solid #2A3D45;}");
 
 	connect(m_movesList, &QListWidget::itemActivated, this, &ChessUIQt::OnHistoryClicked);
 

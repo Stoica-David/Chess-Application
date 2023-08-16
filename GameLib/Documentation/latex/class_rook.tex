@@ -57,19 +57,16 @@ char {\bfseries Convert\+Piece} () const
 \end{DoxyCompactItemize}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{class_i_piece_a139633b7248e730b6976a79edf4debdd}\label{class_i_piece_a139633b7248e730b6976a79edf4debdd} 
-virtual bool {\bfseries Is\+Move\+Regular} (\mbox{\hyperlink{struct_position}{Position}} p1, \mbox{\hyperlink{struct_position}{Position}} p2) const =0
+virtual bool \mbox{\hyperlink{class_i_piece_a139633b7248e730b6976a79edf4debdd}{Is\+Move\+Regular}} (\mbox{\hyperlink{struct_position}{Position}} p1, \mbox{\hyperlink{struct_position}{Position}} p2) const =0
 \item 
-\Hypertarget{class_i_piece_aea941dcb33022bd3c545622101fda07d}\label{class_i_piece_aea941dcb33022bd3c545622101fda07d} 
-virtual Position\+List {\bfseries Determine\+Pattern} (\mbox{\hyperlink{struct_position}{Position}} p1, \mbox{\hyperlink{struct_position}{Position}} p2) const =0
+virtual Position\+List \mbox{\hyperlink{class_i_piece_aea941dcb33022bd3c545622101fda07d}{Determine\+Pattern}} (\mbox{\hyperlink{struct_position}{Position}} p1, \mbox{\hyperlink{struct_position}{Position}} p2) const =0
 \item 
-\Hypertarget{class_i_piece_a35d3c59a98974e760f664ae5e475adea}\label{class_i_piece_a35d3c59a98974e760f664ae5e475adea} 
-virtual Position\+Matrix {\bfseries All\+Moves} (\mbox{\hyperlink{struct_position}{Position}} p) const =0
+virtual Position\+Matrix \mbox{\hyperlink{class_i_piece_a35d3c59a98974e760f664ae5e475adea}{All\+Moves}} (\mbox{\hyperlink{struct_position}{Position}} p) const =0
 \end{DoxyCompactItemize}
 \doxysubsubsection*{Static Public Member Functions}
 \begin{DoxyCompactItemize}
 \item 
-\Hypertarget{class_rook_a9ed659ce4391f1becbb09fbd61a50b8e}\label{class_rook_a9ed659ce4391f1becbb09fbd61a50b8e} 
+\Hypertarget{class_rook_af5cf305637e0265c8b19784f8a73b4fc}\label{class_rook_af5cf305637e0265c8b19784f8a73b4fc} 
 static bool {\bfseries Rook\+Move} (\mbox{\hyperlink{struct_position}{Position}} p1, \mbox{\hyperlink{struct_position}{Position}} p2)
 \end{DoxyCompactItemize}
 \doxysubsection*{Static Public Member Functions inherited from \mbox{\hyperlink{class_piece}{Piece}}}
@@ -86,16 +83,16 @@ bool {\bfseries Is\+Color} (EColor) const
 \doxysubsection*{Static Protected Member Functions inherited from \mbox{\hyperlink{class_piece}{Piece}}}
 \begin{DoxyCompactItemize}
 \item 
-static bool {\bfseries Is\+In\+Table} (\mbox{\hyperlink{struct_position}{Position}} p)
-\item 
 static int {\bfseries Abs\+Value} (int, int)
+\item 
+static bool {\bfseries Is\+In\+Table} (\mbox{\hyperlink{struct_position}{Position}} p)
 \end{DoxyCompactItemize}
 \doxysubsection*{Protected Attributes inherited from \mbox{\hyperlink{class_piece}{Piece}}}
 \begin{DoxyCompactItemize}
 \item 
-EPiece\+Type {\bfseries m\+\_\+type}
-\item 
 EColor {\bfseries m\+\_\+color}
+\item 
+EPiece\+Type {\bfseries m\+\_\+type}
 \item 
 bool {\bfseries m\+\_\+has\+Moved}
 \item 
@@ -112,9 +109,19 @@ bool {\bfseries m\+\_\+right\+Passant}
 \doxysubsubsection{\texorpdfstring{AllMoves()}{AllMoves()}}
 {\footnotesize\ttfamily Position\+Matrix Rook\+::\+All\+Moves (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_position}{Position}}}]{p }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
 
+Determines all squares a piece can go from a given position Doesn\textquotesingle{}t take into account other pieces that may be on the board
 
 
-Reimplemented from \mbox{\hyperlink{class_piece}{Piece}}.
+\begin{DoxyParams}{Parameters}
+{\em position} & of piece\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+matrix of position vectors for every direction in which the piece can go 
+\end{DoxyReturn}
+
+
+Reimplemented from \mbox{\hyperlink{class_piece_a059e7bd9b88fa71a269789b546b9a2a0}{Piece}}.
 
 \Hypertarget{class_rook_a4efd12edec127baa48ddefc25770a507}\label{class_rook_a4efd12edec127baa48ddefc25770a507} 
 \index{Rook@{Rook}!DeterminePattern@{DeterminePattern}}
@@ -122,9 +129,21 @@ Reimplemented from \mbox{\hyperlink{class_piece}{Piece}}.
 \doxysubsubsection{\texorpdfstring{DeterminePattern()}{DeterminePattern()}}
 {\footnotesize\ttfamily Position\+List Rook\+::\+Determine\+Pattern (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_position}{Position}}}]{p1,  }\item[{\mbox{\hyperlink{struct_position}{Position}}}]{p2 }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
 
+Determines all positions a piece has to travel until p2 in reached
 
 
-Reimplemented from \mbox{\hyperlink{class_piece}{Piece}}.
+\begin{DoxyParams}{Parameters}
+{\em p1} & initial position \\
+\hline
+{\em p2} & new position\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+vector of positions the piece travels to until p2 in reached 
+\end{DoxyReturn}
+
+
+Reimplemented from \mbox{\hyperlink{class_piece_aff1d03b1f648b21360f748420d020632}{Piece}}.
 
 \Hypertarget{class_rook_a6c9b70ff98e214458bd50afb5169841d}\label{class_rook_a6c9b70ff98e214458bd50afb5169841d} 
 \index{Rook@{Rook}!IsMoveRegular@{IsMoveRegular}}
@@ -132,9 +151,21 @@ Reimplemented from \mbox{\hyperlink{class_piece}{Piece}}.
 \doxysubsubsection{\texorpdfstring{IsMoveRegular()}{IsMoveRegular()}}
 {\footnotesize\ttfamily bool Rook\+::\+Is\+Move\+Regular (\begin{DoxyParamCaption}\item[{\mbox{\hyperlink{struct_position}{Position}}}]{p1,  }\item[{\mbox{\hyperlink{struct_position}{Position}}}]{p2 }\end{DoxyParamCaption}) const\hspace{0.3cm}{\ttfamily [override]}, {\ttfamily [virtual]}}
 
+Determines whether or not a given piece from a position can go to a different position
 
 
-Reimplemented from \mbox{\hyperlink{class_piece}{Piece}}.
+\begin{DoxyParams}{Parameters}
+{\em p1} & initial position \\
+\hline
+{\em p2} & new position\\
+\hline
+\end{DoxyParams}
+\begin{DoxyReturn}{Returns}
+bool true if p2 is a position where the piece can go 
+\end{DoxyReturn}
+
+
+Reimplemented from \mbox{\hyperlink{class_piece_ad2c5cb6fe70b6142680b13a8cecf7969}{Piece}}.
 
 
 

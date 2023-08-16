@@ -1,6 +1,6 @@
 var searchData=
 [
-  ['removelistener_0',['RemoveListener',['../class_i_game.html#adb29c26ef9fe1f5b6edb5fb1c5ff437f',1,'IGame']]],
-  ['restart_1',['Restart',['../class_i_game.html#a32ea1e3bcf22446f088b8dae36c7033d',1,'IGame']]],
-  ['resumegame_2',['ResumeGame',['../class_i_game.html#ae5aee6eae854061ed400c8a72ffcc8de',1,'IGame']]]
+  ['save_0',['Save',['../class_game.html#a6e0eec94f7623d9323f2acd239285df0',1,'Game::Save()'],['../class_i_game.html#ac4893b10c4d38109fe9fb518082df2ba',1,'IGame::Save()']]],
+  ['settimerresolution_1',['SetTimerResolution',['../class_game.html#ae4d8c98fadd04309a7ae9d4dbf22acd7',1,'Game::SetTimerResolution()'],['../class_i_timer_info.html#a2807d170401b07a1103cc5cbadd94aa9',1,'ITimerInfo::SetTimerResolution()']]],
+  ['showconfiguration_2',['ShowConfiguration',['../class_game.html#a7891601910f872fcae6df42e3d9c99ad',1,'Game::ShowConfiguration()'],['../class_i_game.html#ae66cd941a10fadeaaff6f95739f8a337',1,'IGame::ShowConfiguration()']]]
 ];

@@ -9,20 +9,14 @@
 \Hypertarget{class_board_a19e2c1f6c2baf8ab04cbd02f0cd2aebc}\label{class_board_a19e2c1f6c2baf8ab04cbd02f0cd2aebc} 
 {\bfseries Board} (const \mbox{\hyperlink{class_board}{Board}} \&)
 \item 
-\Hypertarget{class_board_aaa3afa898a49a4c13b553528b5fd7a0a}\label{class_board_aaa3afa898a49a4c13b553528b5fd7a0a} 
-Pieces\+Ptr \& {\bfseries at} (\mbox{\hyperlink{struct_position}{Position}} p)
-\item 
-\Hypertarget{class_board_af86cdf2850f857c01f8c7709f9680ffa}\label{class_board_af86cdf2850f857c01f8c7709f9680ffa} 
-const Pieces\+Ptr \& {\bfseries at} (\mbox{\hyperlink{struct_position}{Position}} p) const
-\item 
 \Hypertarget{class_board_adace14aacf3875a9aa63fb5997988e25}\label{class_board_adace14aacf3875a9aa63fb5997988e25} 
 void {\bfseries Set} (const Chess\+Board \&board)
 \item 
+\Hypertarget{class_board_ae271e730f0fe79cafd85871f171b6fe2}\label{class_board_ae271e730f0fe79cafd85871f171b6fe2} 
+void {\bfseries Reset} ()
+\item 
 \Hypertarget{class_board_a603d55be4f6ef4a7cea54e13fd5df7ed}\label{class_board_a603d55be4f6ef4a7cea54e13fd5df7ed} 
 IPiece\+Info\+Ptr {\bfseries Get\+Piece\+Info} (\mbox{\hyperlink{struct_position}{Position}} p) const
-\item 
-\Hypertarget{class_board_ac041358414cf25ff8ea17adf8888a641}\label{class_board_ac041358414cf25ff8ea17adf8888a641} 
-Move\+Vector {\bfseries Get\+History} () const
 \item 
 \Hypertarget{class_board_a9818fac436e51b141dbfe6e5b250d865}\label{class_board_a9818fac436e51b141dbfe6e5b250d865} 
 String {\bfseries Get\+Curr\+PGN} () const
@@ -30,20 +24,32 @@ String {\bfseries Get\+Curr\+PGN} () const
 \Hypertarget{class_board_aab35404097d9fb728a8e4d7cfce24205}\label{class_board_aab35404097d9fb728a8e4d7cfce24205} 
 Bit\+Matrix {\bfseries Get\+Prev\+Positions} () const
 \item 
-\Hypertarget{class_board_a39b0f567e8e6ab2c01b11c83d50f5668}\label{class_board_a39b0f567e8e6ab2c01b11c83d50f5668} 
-bool {\bfseries Is\+Over} (EColor color) const
+\Hypertarget{class_board_ac041358414cf25ff8ea17adf8888a641}\label{class_board_ac041358414cf25ff8ea17adf8888a641} 
+Move\+Vector {\bfseries Get\+History} () const
 \item 
-\Hypertarget{class_board_aa70769a7cf3b58fa8545affefd273528}\label{class_board_aa70769a7cf3b58fa8545affefd273528} 
-bool {\bfseries Verify\+The\+Way} (\mbox{\hyperlink{struct_position}{Position}} p1, \mbox{\hyperlink{struct_position}{Position}} p2) const
+\Hypertarget{class_board_aaa3afa898a49a4c13b553528b5fd7a0a}\label{class_board_aaa3afa898a49a4c13b553528b5fd7a0a} 
+Pieces\+Ptr \& {\bfseries at} (\mbox{\hyperlink{struct_position}{Position}} p)
+\item 
+\Hypertarget{class_board_af86cdf2850f857c01f8c7709f9680ffa}\label{class_board_af86cdf2850f857c01f8c7709f9680ffa} 
+const Pieces\+Ptr \& {\bfseries at} (\mbox{\hyperlink{struct_position}{Position}} p) const
 \item 
 \Hypertarget{class_board_ae8f6fb1a55e3834de408a41017c43334}\label{class_board_ae8f6fb1a55e3834de408a41017c43334} 
 bool {\bfseries Is\+Check} (\mbox{\hyperlink{struct_position}{Position}} p, EColor color) const
 \item 
+\Hypertarget{class_board_a7dc9602af18fc8fb810da1f0c60ec4cb}\label{class_board_a7dc9602af18fc8fb810da1f0c60ec4cb} 
+bool {\bfseries Is\+Check\+Mate} (EColor color) const
+\item 
+\Hypertarget{class_board_aa70769a7cf3b58fa8545affefd273528}\label{class_board_aa70769a7cf3b58fa8545affefd273528} 
+bool {\bfseries Verify\+The\+Way} (\mbox{\hyperlink{struct_position}{Position}} p1, \mbox{\hyperlink{struct_position}{Position}} p2) const
+\item 
+\Hypertarget{class_board_ae28a9c19f9df271c8e7bb5edfc2d7a24}\label{class_board_ae28a9c19f9df271c8e7bb5edfc2d7a24} 
+bool {\bfseries Is\+Pinned} (\mbox{\hyperlink{struct_position}{Position}} p) const
+\item 
 \Hypertarget{class_board_a47acf881507b2ea28af21167b2f07998}\label{class_board_a47acf881507b2ea28af21167b2f07998} 
 bool {\bfseries Is\+Same\+Way} (\mbox{\hyperlink{struct_position}{Position}} p1, \mbox{\hyperlink{struct_position}{Position}} p2, EColor color) const
 \item 
-\Hypertarget{class_board_a7dc9602af18fc8fb810da1f0c60ec4cb}\label{class_board_a7dc9602af18fc8fb810da1f0c60ec4cb} 
-bool {\bfseries Is\+Check\+Mate} (EColor color) const
+\Hypertarget{class_board_a39b0f567e8e6ab2c01b11c83d50f5668}\label{class_board_a39b0f567e8e6ab2c01b11c83d50f5668} 
+bool {\bfseries Is\+Over} (EColor color) const
 \item 
 \Hypertarget{class_board_aeb7f7f8c5bb38b7ab93e51efd5ae199f}\label{class_board_aeb7f7f8c5bb38b7ab93e51efd5ae199f} 
 bool {\bfseries Is\+Draw} () const
@@ -57,11 +63,14 @@ bool {\bfseries Is3\+Fold} () const
 \Hypertarget{class_board_ac629e234b26e5bd713a1afe97806c2bd}\label{class_board_ac629e234b26e5bd713a1afe97806c2bd} 
 bool {\bfseries Is\+Promote\+Possible} (\mbox{\hyperlink{struct_position}{Position}} p) const
 \item 
-\Hypertarget{class_board_ae28a9c19f9df271c8e7bb5edfc2d7a24}\label{class_board_ae28a9c19f9df271c8e7bb5edfc2d7a24} 
-bool {\bfseries Is\+Pinned} (\mbox{\hyperlink{struct_position}{Position}} p) const
-\item 
 \Hypertarget{class_board_a5d89872384f7af89e43233e010ba594e}\label{class_board_a5d89872384f7af89e43233e010ba594e} 
 bool {\bfseries Is\+En\+Passant} (\mbox{\hyperlink{struct_position}{Position}} p1, \mbox{\hyperlink{struct_position}{Position}} p2) const
+\item 
+\Hypertarget{class_board_a80cab30433bcc2b2473687309b66c666}\label{class_board_a80cab30433bcc2b2473687309b66c666} 
+bool {\bfseries Find\+On\+Same\+Column} (\mbox{\hyperlink{struct_position}{Position}} p1, \mbox{\hyperlink{struct_position}{Position}} p2) const
+\item 
+\Hypertarget{class_board_a3bc7ef8b2c75d4e023d26f82c7805261}\label{class_board_a3bc7ef8b2c75d4e023d26f82c7805261} 
+bool {\bfseries Pawn\+Exception} (\mbox{\hyperlink{struct_position}{Position}} p1, \mbox{\hyperlink{struct_position}{Position}} p2) const
 \item 
 \Hypertarget{class_board_ab4930e1989ba547f4dbe965a5de3a6f3}\label{class_board_ab4930e1989ba547f4dbe965a5de3a6f3} 
 \mbox{\hyperlink{struct_position}{Position}} {\bfseries Find\+Check} (\mbox{\hyperlink{struct_position}{Position}} p, EColor color) const
@@ -69,32 +78,17 @@ bool {\bfseries Is\+En\+Passant} (\mbox{\hyperlink{struct_position}{Position}} p
 \Hypertarget{class_board_ac0655e0c740da06113f7e7f3d966b688}\label{class_board_ac0655e0c740da06113f7e7f3d966b688} 
 \mbox{\hyperlink{struct_position}{Position}} {\bfseries Find\+King} (EColor) const
 \item 
-\Hypertarget{class_board_aea26889bc2a3e3dbe139e5457cdad54e}\label{class_board_aea26889bc2a3e3dbe139e5457cdad54e} 
-Piece\+Vector {\bfseries Remaining\+Pieces} () const
+\Hypertarget{class_board_a95a23eb95ea1f5e495cf3a193e18e49c}\label{class_board_a95a23eb95ea1f5e495cf3a193e18e49c} 
+void {\bfseries Move} (\mbox{\hyperlink{struct_position}{Position}} p1, \mbox{\hyperlink{struct_position}{Position}} p2)
 \item 
 \Hypertarget{class_board_a647bfa40745f12ff002aa2e31992ce7e}\label{class_board_a647bfa40745f12ff002aa2e31992ce7e} 
 void {\bfseries Promote\+To} (EPiece\+Type piece\+Type, EColor color)
 \item 
-\Hypertarget{class_board_a95a23eb95ea1f5e495cf3a193e18e49c}\label{class_board_a95a23eb95ea1f5e495cf3a193e18e49c} 
-void {\bfseries Move} (\mbox{\hyperlink{struct_position}{Position}} p1, \mbox{\hyperlink{struct_position}{Position}} p2)
-\item 
-\Hypertarget{class_board_ae271e730f0fe79cafd85871f171b6fe2}\label{class_board_ae271e730f0fe79cafd85871f171b6fe2} 
-void {\bfseries Reset} ()
-\item 
 \Hypertarget{class_board_a7cbb0031a7093ed7e4948f9f2367fea4}\label{class_board_a7cbb0031a7093ed7e4948f9f2367fea4} 
 Position\+List {\bfseries Get\+Moves} (\mbox{\hyperlink{struct_position}{Position}} p) const
 \item 
-\Hypertarget{class_board_a0152bfb713ca4676265c8cfa5f0a1b45}\label{class_board_a0152bfb713ca4676265c8cfa5f0a1b45} 
-Position\+List {\bfseries Get\+Moves\+Normal} (\mbox{\hyperlink{struct_position}{Position}} p) const
-\item 
 \Hypertarget{class_board_ae6cd21c9d5fad3501f2ef6c02ad6c36e}\label{class_board_ae6cd21c9d5fad3501f2ef6c02ad6c36e} 
 Position\+List {\bfseries Get\+Moves\+Check} (\mbox{\hyperlink{struct_position}{Position}} p) const
-\item 
-\Hypertarget{class_board_a2ce86105467e776a55f4821e3b2efb78}\label{class_board_a2ce86105467e776a55f4821e3b2efb78} 
-Position\+List {\bfseries Get\+Moves\+Pinned} (\mbox{\hyperlink{struct_position}{Position}} p) const
-\item 
-\Hypertarget{class_board_af91e385b89715f23af219d27677baacc}\label{class_board_af91e385b89715f23af219d27677baacc} 
-Position\+List {\bfseries Get\+Moves\+King} (\mbox{\hyperlink{struct_position}{Position}} p) const
 \item 
 \Hypertarget{class_board_ab3d70bb1924b693bfd133e900b188967}\label{class_board_ab3d70bb1924b693bfd133e900b188967} 
 String {\bfseries Get\+FEN} () const
@@ -102,17 +96,8 @@ String {\bfseries Get\+FEN} () const
 \Hypertarget{class_board_a5cf8b0da3931574e82a99e8e02e674ac}\label{class_board_a5cf8b0da3931574e82a99e8e02e674ac} 
 void {\bfseries Load\+FEN} (const String \&)
 \item 
-\Hypertarget{class_board_acf08b11d807f6ec002b0ae0fabb12145}\label{class_board_acf08b11d807f6ec002b0ae0fabb12145} 
-bool {\bfseries Find\+On\+Same\+Line} (\mbox{\hyperlink{struct_position}{Position}} p1, \mbox{\hyperlink{struct_position}{Position}} p2) const
-\item 
-\Hypertarget{class_board_a80cab30433bcc2b2473687309b66c666}\label{class_board_a80cab30433bcc2b2473687309b66c666} 
-bool {\bfseries Find\+On\+Same\+Column} (\mbox{\hyperlink{struct_position}{Position}} p1, \mbox{\hyperlink{struct_position}{Position}} p2) const
-\item 
 \Hypertarget{class_board_afb18c7aa43c1a3615fb4939d5cc56356}\label{class_board_afb18c7aa43c1a3615fb4939d5cc56356} 
 void {\bfseries Parse\+PGN} (String\+Vector Moves)
-\item 
-\Hypertarget{class_board_abe75b282bee4bc4d5e38ab993bf751f2}\label{class_board_abe75b282bee4bc4d5e38ab993bf751f2} 
-String {\bfseries Convert\+Move} (\mbox{\hyperlink{struct_position}{Position}} p1, \mbox{\hyperlink{struct_position}{Position}} p2) const
 \item 
 \Hypertarget{class_board_a2fdac53f691204e9707c5a44fe61d8fc}\label{class_board_a2fdac53f691204e9707c5a44fe61d8fc} 
 Chess\+Board {\bfseries Convert\+Bitset} (int bitset\+Nr) const

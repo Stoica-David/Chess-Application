@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.7"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Chess Application: Timer Class Reference</title>
+<title>My Project: Timer Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Chess Application
+   <div id="projectname">My Project
    </div>
   </td>
  </tr>
@@ -81,27 +81,51 @@ Public Member Functions</h2></td></tr>
 <tr class="memitem:a106660d536e5f59ecd526004d888559e"><td class="memItemLeft" align="right" valign="top"><a id="a106660d536e5f59ecd526004d888559e" name="a106660d536e5f59ecd526004d888559e"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Timer</b> (int total_minutes)</td></tr>
 <tr class="separator:a106660d536e5f59ecd526004d888559e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a5786bae7e16506820a621c26f5943874"><td class="memItemLeft" align="right" valign="top"><a id="a5786bae7e16506820a621c26f5943874" name="a5786bae7e16506820a621c26f5943874"></a>
+&#160;</td><td class="memItemRight" valign="bottom"><b>Timer</b> (int, bool)</td></tr>
+<tr class="separator:a5786bae7e16506820a621c26f5943874"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:affd9d41e5d5f9957b9471ec79ddf214d"><td class="memItemLeft" align="right" valign="top"><a id="affd9d41e5d5f9957b9471ec79ddf214d" name="affd9d41e5d5f9957b9471ec79ddf214d"></a>
 &#160;</td><td class="memItemRight" valign="bottom"><b>Timer</b> (const <a class="el" href="class_timer.html">Timer</a> &amp;)=default</td></tr>
 <tr class="separator:affd9d41e5d5f9957b9471ec79ddf214d"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aef4829129474a4f869b673768787039e"><td class="memItemLeft" align="right" valign="top"><a id="aef4829129474a4f869b673768787039e" name="aef4829129474a4f869b673768787039e"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>SetColor</b> (EColor)</td></tr>
+<tr class="separator:aef4829129474a4f869b673768787039e"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a1b514f0069e8265dff8155be7999d51a"><td class="memItemLeft" align="right" valign="top"><a id="a1b514f0069e8265dff8155be7999d51a" name="a1b514f0069e8265dff8155be7999d51a"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>SetNotifyChange</b> (TimerCallback newFunc)</td></tr>
+<tr class="separator:a1b514f0069e8265dff8155be7999d51a"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:add6cb5794535b29b870aef99507cc741"><td class="memItemLeft" align="right" valign="top"><a id="add6cb5794535b29b870aef99507cc741" name="add6cb5794535b29b870aef99507cc741"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>SetTimerResolution</b> (int ms)</td></tr>
+<tr class="separator:add6cb5794535b29b870aef99507cc741"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a49838bb0d401f745ce6756a7fc5882e3"><td class="memItemLeft" align="right" valign="top"><a id="a49838bb0d401f745ce6756a7fc5882e3" name="a49838bb0d401f745ce6756a7fc5882e3"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>StartTimer</b> ()</td></tr>
 <tr class="separator:a49838bb0d401f745ce6756a7fc5882e3"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a8ebf0e6d027f40f1b419f83f7a1d218a"><td class="memItemLeft" align="right" valign="top"><a id="a8ebf0e6d027f40f1b419f83f7a1d218a" name="a8ebf0e6d027f40f1b419f83f7a1d218a"></a>
 void&#160;</td><td class="memItemRight" valign="bottom"><b>StopTimer</b> ()</td></tr>
 <tr class="separator:a8ebf0e6d027f40f1b419f83f7a1d218a"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a20426b9ee876ea51c7f96f758678ffb9"><td class="memItemLeft" align="right" valign="top"><a id="a20426b9ee876ea51c7f96f758678ffb9" name="a20426b9ee876ea51c7f96f758678ffb9"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>RestartTimer</b> ()</td></tr>
-<tr class="separator:a20426b9ee876ea51c7f96f758678ffb9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad56f45efcd8a10464a82c33ccb66b2b9"><td class="memItemLeft" align="right" valign="top"><a id="ad56f45efcd8a10464a82c33ccb66b2b9" name="ad56f45efcd8a10464a82c33ccb66b2b9"></a>
-void&#160;</td><td class="memItemRight" valign="bottom"><b>SetNotifyChange</b> (std::function&lt; void()&gt; newFunc)</td></tr>
-<tr class="separator:ad56f45efcd8a10464a82c33ccb66b2b9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a715ede39b7d011d59759ad657bd3da7d"><td class="memItemLeft" align="right" valign="top"><a id="a715ede39b7d011d59759ad657bd3da7d" name="a715ede39b7d011d59759ad657bd3da7d"></a>
+void&#160;</td><td class="memItemRight" valign="bottom"><b>ResetTimer</b> ()</td></tr>
+<tr class="separator:a715ede39b7d011d59759ad657bd3da7d"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:afdd703d78f4d4246dc07d2647e5efdae"><td class="memItemLeft" align="right" valign="top"><a id="afdd703d78f4d4246dc07d2647e5efdae" name="afdd703d78f4d4246dc07d2647e5efdae"></a>
 bool&#160;</td><td class="memItemRight" valign="bottom"><b>IsTimeExpired</b> ()</td></tr>
 <tr class="separator:afdd703d78f4d4246dc07d2647e5efdae"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a5eabb63b23e2bf2370cdf022bd5f7b61"><td class="memItemLeft" align="right" valign="top"><a id="a5eabb63b23e2bf2370cdf022bd5f7b61" name="a5eabb63b23e2bf2370cdf022bd5f7b61"></a>
-int&#160;</td><td class="memItemRight" valign="bottom"><b>GetMs</b> () const</td></tr>
-<tr class="separator:a5eabb63b23e2bf2370cdf022bd5f7b61"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a29d90d08731fa000d30c47ec2ab5d4b4"><td class="memItemLeft" align="right" valign="top"><a id="a29d90d08731fa000d30c47ec2ab5d4b4" name="a29d90d08731fa000d30c47ec2ab5d4b4"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>GetInitialTime</b> () const</td></tr>
+<tr class="separator:a29d90d08731fa000d30c47ec2ab5d4b4"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ad510b36e3435580b404bd3bd06ce6e5b"><td class="memItemLeft" align="right" valign="top"><a id="ad510b36e3435580b404bd3bd06ce6e5b" name="ad510b36e3435580b404bd3bd06ce6e5b"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>GetRemainingTime</b> (EColor) const</td></tr>
+<tr class="separator:ad510b36e3435580b404bd3bd06ce6e5b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a6e8668cadec48fc35df126ae27475340"><td class="memItemLeft" align="right" valign="top"><a id="a6e8668cadec48fc35df126ae27475340" name="a6e8668cadec48fc35df126ae27475340"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>GetCurrentMoveTime</b> () const</td></tr>
+<tr class="separator:a6e8668cadec48fc35df126ae27475340"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aa031ce91694c43bee4e936043b179ff7"><td class="memItemLeft" align="right" valign="top"><a id="aa031ce91694c43bee4e936043b179ff7" name="aa031ce91694c43bee4e936043b179ff7"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>GetTimeForMove</b> (EColor) const</td></tr>
+<tr class="separator:aa031ce91694c43bee4e936043b179ff7"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae2cc171b181292a9a94496f52fd0d837"><td class="memItemLeft" align="right" valign="top"><a id="ae2cc171b181292a9a94496f52fd0d837" name="ae2cc171b181292a9a94496f52fd0d837"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>GetThinkingTimes</b> (int nrMove) const</td></tr>
+<tr class="separator:ae2cc171b181292a9a94496f52fd0d837"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:aab0b22fd34da3039c705bab5273fa7fb"><td class="memItemLeft" align="right" valign="top"><a id="aab0b22fd34da3039c705bab5273fa7fb" name="aab0b22fd34da3039c705bab5273fa7fb"></a>
+int&#160;</td><td class="memItemRight" valign="bottom"><b>GetTimerResolution</b> () const</td></tr>
+<tr class="separator:aab0b22fd34da3039c705bab5273fa7fb"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
 <hr/>The documentation for this class was generated from the following files:<ul>
 <li>C:/Users/cpopovici/Documents/GitHub/Chess-Application/GameLib/GameLib/<a class="el" href="_timer_8h_source.html">Timer.h</a></li>

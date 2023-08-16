@@ -12,55 +12,19 @@
 \DoxyCodeLine{00008\ \ \ \ \ \mbox{\hyperlink{class_king}{King}}(EColor);}
 \DoxyCodeLine{00009\ }
 \DoxyCodeLine{00010\ \ \ \ \ \textcolor{comment}{//\ Piece\ methods}}
-\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keywordtype}{bool}\ IsMoveRegular(\mbox{\hyperlink{struct_position}{Position}}\ p1,\ \mbox{\hyperlink{struct_position}{Position}}\ p2)\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00011\ \ \ \ \ \textcolor{keywordtype}{bool}\ \mbox{\hyperlink{class_king_a25c85cf9b49f25fb2d0d24a9955adc95}{IsMoveRegular}}(\mbox{\hyperlink{struct_position}{Position}}\ p1,\ \mbox{\hyperlink{struct_position}{Position}}\ p2)\ \textcolor{keyword}{const\ override};}
 \DoxyCodeLine{00012\ }
-\DoxyCodeLine{00013\ \ \ \ \ PositionList\ DeterminePattern(\mbox{\hyperlink{struct_position}{Position}}\ p1,\ \mbox{\hyperlink{struct_position}{Position}}\ p2)\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00013\ \ \ \ \ PositionList\ \mbox{\hyperlink{class_king_a4b58f5f937efa528b6ff0e8c2a33db0e}{DeterminePattern}}(\mbox{\hyperlink{struct_position}{Position}}\ p1,\ \mbox{\hyperlink{struct_position}{Position}}\ p2)\ \textcolor{keyword}{const\ override};}
 \DoxyCodeLine{00014\ }
-\DoxyCodeLine{00015\ \ \ \ \ PositionMatrix\ AllMoves(\mbox{\hyperlink{struct_position}{Position}}\ p)\ \textcolor{keyword}{const\ override};}
+\DoxyCodeLine{00015\ \ \ \ \ PositionMatrix\ \mbox{\hyperlink{class_king_a4be3e3028ba7df9ce7048f378a1853b6}{AllMoves}}(\mbox{\hyperlink{struct_position}{Position}}\ p)\ \textcolor{keyword}{const\ override};}
 \DoxyCodeLine{00016\ }
 \DoxyCodeLine{00017\ \textcolor{keyword}{private}:}
 \DoxyCodeLine{00018\ \ \ \ \ \textcolor{comment}{//Other\ methods}}
-\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Horizontal(\mbox{\hyperlink{struct_position}{Position}}\ p1,\ \mbox{\hyperlink{struct_position}{Position}}\ p2)}
-\DoxyCodeLine{00020\ \ \ \ \ \{}
-\DoxyCodeLine{00021\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ x1\ =\ p1.x,}
-\DoxyCodeLine{00022\ \ \ \ \ \ \ \ \ \ \ \ \ y1\ =\ p1.y,}
-\DoxyCodeLine{00023\ \ \ \ \ \ \ \ \ \ \ \ \ x2\ =\ p2.x,}
-\DoxyCodeLine{00024\ \ \ \ \ \ \ \ \ \ \ \ \ y2\ =\ p2.y;}
-\DoxyCodeLine{00025\ }
-\DoxyCodeLine{00026\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (AbsValue(x2,\ x1)\ ==\ 0\ \&\&\ AbsValue(y2,\ y1)\ ==\ 1);}
-\DoxyCodeLine{00027\ \ \ \ \ \}}
-\DoxyCodeLine{00028\ }
-\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Vertical(\mbox{\hyperlink{struct_position}{Position}}\ p1,\ \mbox{\hyperlink{struct_position}{Position}}\ p2)}
-\DoxyCodeLine{00030\ \ \ \ \ \{}
-\DoxyCodeLine{00031\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ x1\ =\ p1.x,}
-\DoxyCodeLine{00032\ \ \ \ \ \ \ \ \ \ \ \ \ y1\ =\ p1.y,}
-\DoxyCodeLine{00033\ \ \ \ \ \ \ \ \ \ \ \ \ x2\ =\ p2.x,}
-\DoxyCodeLine{00034\ \ \ \ \ \ \ \ \ \ \ \ \ y2\ =\ p2.y;}
-\DoxyCodeLine{00035\ }
-\DoxyCodeLine{00036\ }
-\DoxyCodeLine{00037\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (AbsValue(x2,\ x1)\ ==\ 1\ \&\&\ AbsValue(y2,\ y1)\ ==\ 0);}
-\DoxyCodeLine{00038\ \ \ \ \ \}}
-\DoxyCodeLine{00039\ }
-\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Diagonal(\mbox{\hyperlink{struct_position}{Position}}\ p1,\ \mbox{\hyperlink{struct_position}{Position}}\ p2)}
-\DoxyCodeLine{00041\ \ \ \ \ \{}
-\DoxyCodeLine{00042\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ x1\ =\ p1.x,}
-\DoxyCodeLine{00043\ \ \ \ \ \ \ \ \ \ \ \ \ y1\ =\ p1.y,}
-\DoxyCodeLine{00044\ \ \ \ \ \ \ \ \ \ \ \ \ x2\ =\ p2.x,}
-\DoxyCodeLine{00045\ \ \ \ \ \ \ \ \ \ \ \ \ y2\ =\ p2.y;}
-\DoxyCodeLine{00046\ }
-\DoxyCodeLine{00047\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (AbsValue(x2,\ x1)\ ==\ 1\ \&\&\ AbsValue(y2,\ y1)\ ==\ 1);}
-\DoxyCodeLine{00048\ \ \ \ \ \}}
-\DoxyCodeLine{00049\ }
-\DoxyCodeLine{00050\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ CastleMove(\mbox{\hyperlink{struct_position}{Position}}\ p1,\ \mbox{\hyperlink{struct_position}{Position}}\ p2)}
-\DoxyCodeLine{00051\ \ \ \ \ \{}
-\DoxyCodeLine{00052\ \ \ \ \ \ \ \ \ \textcolor{keywordtype}{int}\ x1\ =\ p1.x,}
-\DoxyCodeLine{00053\ \ \ \ \ \ \ \ \ \ \ \ \ y1\ =\ p1.y,}
-\DoxyCodeLine{00054\ \ \ \ \ \ \ \ \ \ \ \ \ x2\ =\ p2.x,}
-\DoxyCodeLine{00055\ \ \ \ \ \ \ \ \ \ \ \ \ y2\ =\ p2.y;}
-\DoxyCodeLine{00056\ }
-\DoxyCodeLine{00057\ \ \ \ \ \ \ \ \ \textcolor{keywordflow}{return}\ (AbsValue(y2,\ y1)\ ==\ 2);}
-\DoxyCodeLine{00058\ \ \ \ \ \}}
-\DoxyCodeLine{00059\ \};}
-\DoxyCodeLine{00060\ }
+\DoxyCodeLine{00019\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Horizontal(\mbox{\hyperlink{struct_position}{Position}}\ p1,\ \mbox{\hyperlink{struct_position}{Position}}\ p2);}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Vertical(\mbox{\hyperlink{struct_position}{Position}}\ p1,\ \mbox{\hyperlink{struct_position}{Position}}\ p2);}
+\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ Diagonal(\mbox{\hyperlink{struct_position}{Position}}\ p1,\ \mbox{\hyperlink{struct_position}{Position}}\ p2);}
+\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keyword}{static}\ \textcolor{keywordtype}{bool}\ CastleMove(\mbox{\hyperlink{struct_position}{Position}}\ p1,\ \mbox{\hyperlink{struct_position}{Position}}\ p2);}
+\DoxyCodeLine{00023\ \};}
+\DoxyCodeLine{00024\ }
 
 \end{DoxyCode}

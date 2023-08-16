@@ -5,7 +5,7 @@
 <meta http-equiv="X-UA-Compatible" content="IE=11"/>
 <meta name="generator" content="Doxygen 1.9.7"/>
 <meta name="viewport" content="width=device-width, initial-scale=1"/>
-<title>Chess Application: IGameStatus Class Reference</title>
+<title>My Project: IGameStatus Class Reference</title>
 <link href="tabs.css" rel="stylesheet" type="text/css"/>
 <script type="text/javascript" src="jquery.js"></script>
 <script type="text/javascript" src="dynsections.js"></script>
@@ -21,7 +21,7 @@
  <tbody>
  <tr id="projectrow">
   <td id="projectalign">
-   <div id="projectname">Chess Application
+   <div id="projectname">My Project
    </div>
   </td>
  </tr>
@@ -75,6 +75,15 @@ $(function() {
   <div class="headertitle"><div class="title">IGameStatus Class Reference<span class="mlabels"><span class="mlabel">abstract</span></span></div></div>
 </div><!--header-->
 <div class="contents">
+<div class="dynheader">
+Inheritance diagram for IGameStatus:</div>
+<div class="dyncontent">
+ <div class="center">
+  <img src="class_i_game_status.png" usemap="#IGameStatus_map" alt=""/>
+  <map id="IGameStatus_map" name="IGameStatus_map">
+<area href="class_game.html" alt="Game" shape="rect" coords="0,56,81,80"/>
+  </map>
+</div></div>
 <table class="memberdecls">
 <tr class="heading"><td colspan="2"><h2 class="groupheader"><a id="pub-methods" name="pub-methods"></a>
 Public Member Functions</h2></td></tr>
@@ -92,16 +101,16 @@ Public Member Functions</h2></td></tr>
 <tr class="separator:a5fe4283efea9d4df8096cf7b48e182f2"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:aad4fbd094854219eae3ac4de9cf2472b"><td class="memItemLeft" align="right" valign="top">virtual bool&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_game_status.html#aad4fbd094854219eae3ac4de9cf2472b">IsPlaying</a> () const =0</td></tr>
 <tr class="separator:aad4fbd094854219eae3ac4de9cf2472b"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:a09f934eda7982e4e51cedef58580fa7e"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_game_status.html#a09f934eda7982e4e51cedef58580fa7e">GetNrMoves</a> () const =0</td></tr>
+<tr class="separator:a09f934eda7982e4e51cedef58580fa7e"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a6a6a67a198a33c7c59a1d64029e9cfcd"><td class="memItemLeft" align="right" valign="top">virtual EColor&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_game_status.html#a6a6a67a198a33c7c59a1d64029e9cfcd">GetTurn</a> () const =0</td></tr>
 <tr class="separator:a6a6a67a198a33c7c59a1d64029e9cfcd"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ae1ab9502323d2c09d31784ddd357d269"><td class="memItemLeft" align="right" valign="top">virtual PositionList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_game_status.html#ae1ab9502323d2c09d31784ddd357d269">GetMoves</a> (Position p) const =0</td></tr>
+<tr class="memitem:ad699960754085a943ebdee909f1cfad9"><td class="memItemLeft" align="right" valign="top">virtual IPieceInfoPtr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_game_status.html#ad699960754085a943ebdee909f1cfad9">GetPieceInfo</a> (<a class="el" href="struct_position.html">Position</a>) const =0</td></tr>
+<tr class="separator:ad699960754085a943ebdee909f1cfad9"><td class="memSeparator" colspan="2">&#160;</td></tr>
+<tr class="memitem:ae1ab9502323d2c09d31784ddd357d269"><td class="memItemLeft" align="right" valign="top">virtual PositionList&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_game_status.html#ae1ab9502323d2c09d31784ddd357d269">GetMoves</a> (<a class="el" href="struct_position.html">Position</a> p) const =0</td></tr>
 <tr class="separator:ae1ab9502323d2c09d31784ddd357d269"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:a431feea28092c2f87559db66a0c86af2"><td class="memItemLeft" align="right" valign="top">virtual MoveVector&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_game_status.html#a431feea28092c2f87559db66a0c86af2">GetHistory</a> () const =0</td></tr>
 <tr class="separator:a431feea28092c2f87559db66a0c86af2"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:ad699960754085a943ebdee909f1cfad9"><td class="memItemLeft" align="right" valign="top">virtual IPieceInfoPtr&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_game_status.html#ad699960754085a943ebdee909f1cfad9">GetPieceInfo</a> (Position) const =0</td></tr>
-<tr class="separator:ad699960754085a943ebdee909f1cfad9"><td class="memSeparator" colspan="2">&#160;</td></tr>
-<tr class="memitem:a8ff07904f52ba8cd001760488073f703"><td class="memItemLeft" align="right" valign="top">virtual int&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_game_status.html#a8ff07904f52ba8cd001760488073f703">GetMs</a> (EColor color) const =0</td></tr>
-<tr class="separator:a8ff07904f52ba8cd001760488073f703"><td class="memSeparator" colspan="2">&#160;</td></tr>
 <tr class="memitem:ac43085eb830b7c4ce8064561e25db923"><td class="memItemLeft" align="right" valign="top">virtual PiecesLeftVector&#160;</td><td class="memItemRight" valign="bottom"><a class="el" href="class_i_game_status.html#ac43085eb830b7c4ce8064561e25db923">GetPiecesLeft</a> (EColor) const =0</td></tr>
 <tr class="separator:ac43085eb830b7c4ce8064561e25db923"><td class="memSeparator" colspan="2">&#160;</td></tr>
 </table>
@@ -131,6 +140,8 @@ Public Member Functions</h2></td></tr>
 <p>Obtains past moves</p>
 <dl class="section return"><dt>Returns</dt><dd>vector of positions </dd></dl>
 
+<p>Implemented in <a class="el" href="class_game.html#a93433da4d0087838df3fc0ef3caee289">Game</a>.</p>
+
 </div>
 </div>
 <a id="ae1ab9502323d2c09d31784ddd357d269" name="ae1ab9502323d2c09d31784ddd357d269"></a>
@@ -145,7 +156,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">virtual PositionList IGameStatus::GetMoves </td>
           <td>(</td>
-          <td class="paramtype">Position&#160;</td>
+          <td class="paramtype"><a class="el" href="struct_position.html">Position</a>&#160;</td>
           <td class="paramname"><em>p</em></td><td>)</td>
           <td> const</td>
         </tr>
@@ -164,10 +175,12 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>vector of possible positions where a piece can go </dd></dl>
 
+<p>Implemented in <a class="el" href="class_game.html#ab17af104b7776148132e29c294e85a3a">Game</a>.</p>
+
 </div>
 </div>
-<a id="a8ff07904f52ba8cd001760488073f703" name="a8ff07904f52ba8cd001760488073f703"></a>
-<h2 class="memtitle"><span class="permalink"><a href="#a8ff07904f52ba8cd001760488073f703">&#9670;&#160;</a></span>GetMs()</h2>
+<a id="a09f934eda7982e4e51cedef58580fa7e" name="a09f934eda7982e4e51cedef58580fa7e"></a>
+<h2 class="memtitle"><span class="permalink"><a href="#a09f934eda7982e4e51cedef58580fa7e">&#9670;&#160;</a></span>GetNrMoves()</h2>
 
 <div class="memitem">
 <div class="memproto">
@@ -176,10 +189,9 @@ Public Member Functions</h2></td></tr>
   <td class="mlabels-left">
       <table class="memname">
         <tr>
-          <td class="memname">virtual int IGameStatus::GetMs </td>
+          <td class="memname">virtual int IGameStatus::GetNrMoves </td>
           <td>(</td>
-          <td class="paramtype">EColor&#160;</td>
-          <td class="paramname"><em>color</em></td><td>)</td>
+          <td class="paramname"></td><td>)</td>
           <td> const</td>
         </tr>
       </table>
@@ -189,14 +201,10 @@ Public Member Functions</h2></td></tr>
   </tr>
 </table>
 </div><div class="memdoc">
-<p>Obtain left milliseconds of given player</p>
-<dl class="params"><dt>Parameters</dt><dd>
-  <table class="params">
-    <tr><td class="paramname">color</td><td>of player </td></tr>
-  </table>
-  </dd>
-</dl>
-<dl class="section return"><dt>Returns</dt><dd>int </dd></dl>
+<p>returns number of moves</p>
+<dl class="section return"><dt>Returns</dt><dd>int number of moves </dd></dl>
+
+<p>Implemented in <a class="el" href="class_game.html#a10922d32056a9cc8ccb18de7708b3857">Game</a>.</p>
 
 </div>
 </div>
@@ -212,7 +220,7 @@ Public Member Functions</h2></td></tr>
         <tr>
           <td class="memname">virtual IPieceInfoPtr IGameStatus::GetPieceInfo </td>
           <td>(</td>
-          <td class="paramtype">Position&#160;</td>
+          <td class="paramtype"><a class="el" href="struct_position.html">Position</a>&#160;</td>
           <td class="paramname"></td><td>)</td>
           <td> const</td>
         </tr>
@@ -230,7 +238,9 @@ Public Member Functions</h2></td></tr>
   </table>
   </dd>
 </dl>
-<dl class="section return"><dt>Returns</dt><dd>pointer to PieceInfo </dd></dl>
+<dl class="section return"><dt>Returns</dt><dd>pointer to <a class="el" href="class_piece_info.html">PieceInfo</a> </dd></dl>
+
+<p>Implemented in <a class="el" href="class_game.html#aca6957c8c154836e0154edfa0e2d8d34">Game</a>.</p>
 
 </div>
 </div>
@@ -266,6 +276,8 @@ Public Member Functions</h2></td></tr>
 </dl>
 <dl class="section return"><dt>Returns</dt><dd>vector of pieces and their apparitions </dd></dl>
 
+<p>Implemented in <a class="el" href="class_game.html#aca0bf5396e5bcac7f49f01d894dcda54">Game</a>.</p>
+
 </div>
 </div>
 <a id="a6a6a67a198a33c7c59a1d64029e9cfcd" name="a6a6a67a198a33c7c59a1d64029e9cfcd"></a>
@@ -291,6 +303,8 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Returns color of player </p>
+
+<p>Implemented in <a class="el" href="class_game.html#a91e31fed96711704d282932c6a2cad0c">Game</a>.</p>
 
 </div>
 </div>
@@ -318,6 +332,8 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Checks if the game is in check state </p>
 
+<p>Implemented in <a class="el" href="class_game.html#a59f55b810c0d082ba6234addda2a5866">Game</a>.</p>
+
 </div>
 </div>
 <a id="aa4afb663c30478c2bf09b21c1c1ebafa" name="aa4afb663c30478c2bf09b21c1c1ebafa"></a>
@@ -343,6 +359,8 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Checks if the game is in draw state </p>
+
+<p>Implemented in <a class="el" href="class_game.html#acc1aed45ff933c9975d46a37e8f76beb">Game</a>.</p>
 
 </div>
 </div>
@@ -370,6 +388,8 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Checks if the game is in draw proposed state </p>
 
+<p>Implemented in <a class="el" href="class_game.html#a905862268150da81ae3c7c5176412019">Game</a>.</p>
+
 </div>
 </div>
 <a id="a5fe4283efea9d4df8096cf7b48e182f2" name="a5fe4283efea9d4df8096cf7b48e182f2"></a>
@@ -395,6 +415,8 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Checks if the game is in pause state </p>
+
+<p>Implemented in <a class="el" href="class_game.html#ad97e92f001e2f4a4880f5da3912d906c">Game</a>.</p>
 
 </div>
 </div>
@@ -422,6 +444,8 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Checks if the game is in over state </p>
 
+<p>Implemented in <a class="el" href="class_game.html#a4fe332c1826f7b861b045223c05f5c67">Game</a>.</p>
+
 </div>
 </div>
 <a id="aad4fbd094854219eae3ac4de9cf2472b" name="aad4fbd094854219eae3ac4de9cf2472b"></a>
@@ -447,6 +471,8 @@ Public Member Functions</h2></td></tr>
 </table>
 </div><div class="memdoc">
 <p>Checks if the game is in playing state </p>
+
+<p>Implemented in <a class="el" href="class_game.html#af257aedc58c04923d3e1f4d5c555785d">Game</a>.</p>
 
 </div>
 </div>
@@ -474,10 +500,12 @@ Public Member Functions</h2></td></tr>
 </div><div class="memdoc">
 <p>Checks if the game is in choose piece state </p>
 
+<p>Implemented in <a class="el" href="class_game.html#aed07fe822d6a2cd6162aa093653f78cc">Game</a>.</p>
+
 </div>
 </div>
 <hr/>The documentation for this class was generated from the following file:<ul>
-<li>D:/Documentation/source/<a class="el" href="_i_game_status_8h_source.html">IGameStatus.h</a></li>
+<li>C:/Users/cpopovici/Documents/GitHub/Chess-Application/GameLib/GameLib/<a class="el" href="_i_game_status_8h_source.html">IGameStatus.h</a></li>
 </ul>
 </div><!-- contents -->
 <!-- start footer part -->

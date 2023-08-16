@@ -1,6 +1,5 @@
 var searchData=
 [
-  ['removelistener_0',['RemoveListener',['../class_i_game.html#adb29c26ef9fe1f5b6edb5fb1c5ff437f',1,'IGame']]],
-  ['restart_1',['Restart',['../class_i_game.html#a32ea1e3bcf22446f088b8dae36c7033d',1,'IGame']]],
-  ['resumegame_2',['ResumeGame',['../class_i_game.html#ae5aee6eae854061ed400c8a72ffcc8de',1,'IGame']]]
+  ['move_0',['Move',['../class_game.html#a2f4a2bb3db3dec950e57523e9945d301',1,'Game::Move()'],['../class_i_game.html#a58f939100e63910207f9f1eda91d0f27',1,'IGame::Move()']]],
+  ['moveexception_1',['MoveException',['../class_move_exception.html',1,'']]]
 ];

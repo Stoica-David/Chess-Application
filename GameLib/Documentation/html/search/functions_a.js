@@ -1,5 +1,6 @@
 var searchData=
 [
-  ['save_0',['Save',['../class_i_game.html#ac4893b10c4d38109fe9fb518082df2ba',1,'IGame']]],
-  ['showconfiguration_1',['ShowConfiguration',['../class_i_game.html#ae66cd941a10fadeaaff6f95739f8a337',1,'IGame']]]
+  ['_7eigame_0',['~IGame',['../class_i_game.html#a91b14c1b6019364120d5c5e4d4c64414',1,'IGame']]],
+  ['_7eigamelistener_1',['~IGameListener',['../class_i_game_listener.html#aa75029cbc38192375b5fcf175eebca54',1,'IGameListener']]],
+  ['_7eipieceinfo_2',['~IPieceInfo',['../class_i_piece_info.html#afbbbdc0f85c790dc115fb1f37339a567',1,'IPieceInfo']]]
 ];

@@ -5,44 +5,72 @@
 \DoxyCodeLine{00001\ \textcolor{preprocessor}{\#pragma\ once}}
 \DoxyCodeLine{00002\ }
 \DoxyCodeLine{00003\ \textcolor{preprocessor}{\#include\ <chrono>}}
-\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <thread>}}
-\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <atomic>}}
-\DoxyCodeLine{00006\ \textcolor{preprocessor}{\#include\ <mutex>}}
-\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ <condition\_variable>}}
-\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ <functional>}}
+\DoxyCodeLine{00004\ \textcolor{preprocessor}{\#include\ <functional>}}
+\DoxyCodeLine{00005\ \textcolor{preprocessor}{\#include\ <vector>}}
+\DoxyCodeLine{00006\ }
+\DoxyCodeLine{00007\ \textcolor{preprocessor}{\#include\ "{}EColor.h"{}}}
+\DoxyCodeLine{00008\ \textcolor{preprocessor}{\#include\ "{}Thread.h"{}}}
 \DoxyCodeLine{00009\ }
-\DoxyCodeLine{00010\ \textcolor{keyword}{using\ namespace\ }std::chrono\_literals;}
+\DoxyCodeLine{00010\ \textcolor{keyword}{using\ }TimerCallback\ =\ std::function<void()>;}
 \DoxyCodeLine{00011\ }
 \DoxyCodeLine{00012\ \textcolor{keyword}{class\ }\mbox{\hyperlink{class_timer}{Timer}}}
 \DoxyCodeLine{00013\ \{}
 \DoxyCodeLine{00014\ \textcolor{keyword}{public}:}
-\DoxyCodeLine{00015\ \ \ \ \ \mbox{\hyperlink{class_timer}{Timer}}(\textcolor{keywordtype}{int}\ total\_minutes);}
-\DoxyCodeLine{00016\ \ \ \ \ \mbox{\hyperlink{class_timer}{Timer}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_timer}{Timer}}\&)\ =\ \textcolor{keywordflow}{default};}
-\DoxyCodeLine{00017\ }
-\DoxyCodeLine{00018\ \ \ \ \ \mbox{\hyperlink{class_timer}{\string~Timer}}();}
+\DoxyCodeLine{00015\ \ \ \ \ \textcolor{comment}{//\ Constructors}}
+\DoxyCodeLine{00016\ \ \ \ \ \mbox{\hyperlink{class_timer}{Timer}}(\textcolor{keywordtype}{int}\ total\_minutes);}
+\DoxyCodeLine{00017\ \ \ \ \ \mbox{\hyperlink{class_timer}{Timer}}(\textcolor{keywordtype}{int},\ \textcolor{keywordtype}{bool});}
+\DoxyCodeLine{00018\ \ \ \ \ \mbox{\hyperlink{class_timer}{Timer}}(\textcolor{keyword}{const}\ \mbox{\hyperlink{class_timer}{Timer}}\&)\ =\ \textcolor{keywordflow}{default};}
 \DoxyCodeLine{00019\ }
-\DoxyCodeLine{00020\ \ \ \ \ \textcolor{keywordtype}{void}\ StartTimer();}
-\DoxyCodeLine{00021\ \ \ \ \ \textcolor{keywordtype}{void}\ StopTimer();}
-\DoxyCodeLine{00022\ \ \ \ \ \textcolor{keywordtype}{void}\ RestartTimer();}
-\DoxyCodeLine{00023\ \ \ \ \ \textcolor{keywordtype}{void}\ SetNotifyChange(std::function<\textcolor{keywordtype}{void}()>\ newFunc);}
-\DoxyCodeLine{00024\ }
-\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{bool}\ IsTimeExpired();}
-\DoxyCodeLine{00026\ }
-\DoxyCodeLine{00027\ \ \ \ \ \textcolor{keywordtype}{int}\ GetMs()\textcolor{keyword}{const};}
-\DoxyCodeLine{00028\ }
-\DoxyCodeLine{00029\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{void}\ Run();}
-\DoxyCodeLine{00031\ }
-\DoxyCodeLine{00032\ \textcolor{keyword}{private}:}
-\DoxyCodeLine{00033\ \ \ \ \ std::thread\ thread;}
-\DoxyCodeLine{00034\ \ \ \ \ std::atomic<bool>\ running;}
-\DoxyCodeLine{00035\ \ \ \ \ std::condition\_variable\ cv;}
-\DoxyCodeLine{00036\ \ \ \ \ std::mutex\ mutex;}
-\DoxyCodeLine{00037\ }
-\DoxyCodeLine{00038\ \ \ \ \ std::chrono::milliseconds\ remaining\_time;}
-\DoxyCodeLine{00039\ \ \ \ \ std::function<void()>\ notifyChange;}
-\DoxyCodeLine{00040\ }
-\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{bool}\ m\_bSuspended;}
-\DoxyCodeLine{00042\ \};}
+\DoxyCodeLine{00020\ \ \ \ \ \textcolor{comment}{//\ Destructor}}
+\DoxyCodeLine{00021\ \ \ \ \ \mbox{\hyperlink{class_timer}{\string~Timer}}();}
+\DoxyCodeLine{00022\ }
+\DoxyCodeLine{00023\ \ \ \ \ \textcolor{comment}{//\ Setters}}
+\DoxyCodeLine{00024\ \ \ \ \ \textcolor{keywordtype}{void}\ SetColor(EColor);}
+\DoxyCodeLine{00025\ \ \ \ \ \textcolor{keywordtype}{void}\ SetNotifyChange(TimerCallback\ newFunc);}
+\DoxyCodeLine{00026\ \ \ \ \ \textcolor{keywordtype}{void}\ SetTimerResolution(\textcolor{keywordtype}{int}\ ms);}
+\DoxyCodeLine{00027\ \ \ \ \ }
+\DoxyCodeLine{00028\ \ \ \ \ \textcolor{comment}{//\ Flow\ of\ the\ timer}}
+\DoxyCodeLine{00029\ \ \ \ \ \textcolor{keywordtype}{void}\ StartTimer();}
+\DoxyCodeLine{00030\ \ \ \ \ \textcolor{keywordtype}{void}\ StopTimer();}
+\DoxyCodeLine{00031\ \ \ \ \ \textcolor{keywordtype}{void}\ ResetTimer();}
+\DoxyCodeLine{00032\ }
+\DoxyCodeLine{00033\ \ \ \ \ \textcolor{comment}{//\ Time\ related}}
+\DoxyCodeLine{00034\ \ \ \ \ \textcolor{keywordtype}{bool}\ IsTimeExpired();}
+\DoxyCodeLine{00035\ }
+\DoxyCodeLine{00036\ \ \ \ \ \textcolor{keywordtype}{int}\ GetInitialTime()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00037\ \ \ \ \ \textcolor{keywordtype}{int}\ GetRemainingTime(EColor)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00038\ \ \ \ \ \textcolor{keywordtype}{int}\ GetCurrentMoveTime()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00039\ \ \ \ \ \textcolor{keywordtype}{int}\ GetTimeForMove(EColor)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00040\ \ \ \ \ \textcolor{keywordtype}{int}\ GetThinkingTimes(\textcolor{keywordtype}{int}\ nrMove)\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00041\ \ \ \ \ \textcolor{keywordtype}{int}\ GetTimerResolution()\ \textcolor{keyword}{const};}
+\DoxyCodeLine{00042\ }
+\DoxyCodeLine{00043\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00044\ \ \ \ \ \textcolor{keywordtype}{void}\ Run();}
+\DoxyCodeLine{00045\ }
+\DoxyCodeLine{00046\ \textcolor{keyword}{private}:}
+\DoxyCodeLine{00047\ \ \ \ \ Thread\ m\_thread;}
+\DoxyCodeLine{00048\ }
+\DoxyCodeLine{00049\ \ \ \ \ Mutex\ m\_mutex;}
+\DoxyCodeLine{00050\ \ \ \ \ }
+\DoxyCodeLine{00051\ \ \ \ \ ConditionVariable\ m\_cv;}
+\DoxyCodeLine{00052\ \ \ \ \ }
+\DoxyCodeLine{00053\ \ \ \ \ AtomicBool\ m\_running;}
+\DoxyCodeLine{00054\ }
+\DoxyCodeLine{00055\ \ \ \ \ std::chrono::milliseconds\ m\_initial\_time;}
+\DoxyCodeLine{00056\ \ \ \ \ std::chrono::milliseconds\ m\_white\_remaining\_time;}
+\DoxyCodeLine{00057\ \ \ \ \ std::chrono::milliseconds\ m\_black\_remaining\_time;}
+\DoxyCodeLine{00058\ \ \ \ \ std::chrono::milliseconds\ m\_timer\_resolution;}
+\DoxyCodeLine{00059\ \ \ \ \ std::chrono::milliseconds\ m\_white\_thinking\_time;}
+\DoxyCodeLine{00060\ \ \ \ \ std::chrono::milliseconds\ m\_black\_thinking\_time;}
+\DoxyCodeLine{00061\ \ \ \ \ std::chrono::milliseconds\ m\_toDecrease\_time;}
+\DoxyCodeLine{00062\ }
+\DoxyCodeLine{00063\ \ \ \ \ std::vector<std::chrono::milliseconds>\ m\_thinking\_times;}
+\DoxyCodeLine{00064\ }
+\DoxyCodeLine{00065\ \ \ \ \ EColor\ m\_color;}
+\DoxyCodeLine{00066\ }
+\DoxyCodeLine{00067\ \ \ \ \ \textcolor{keywordtype}{bool}\ m\_bSuspended;}
+\DoxyCodeLine{00068\ }
+\DoxyCodeLine{00069\ \ \ \ \ TimerCallback\ m\_notifyChange;}
+\DoxyCodeLine{00070\ \};}
 
 \end{DoxyCode}
