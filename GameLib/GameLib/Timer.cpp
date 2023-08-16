@@ -2,8 +2,9 @@
 
 Timer::Timer(int seconds, bool)
 	: m_running(false)
-	, m_white_remaining_time(seconds * 1000)
-	, m_black_remaining_time(seconds * 1000)
+	, m_initial_time(seconds * 1000)
+	, m_white_remaining_time(m_initial_time)
+	, m_black_remaining_time(m_initial_time)
 	, m_bSuspended(false)
 	, m_color(EColor::White)
 {
@@ -31,7 +32,7 @@ void Timer::SetColor(EColor color)
 	m_color = color;
 }
 
-void Timer::SetNotifyChange(std::function<void()> newFunc)
+void Timer::SetNotifyChange(TimerCallback newFunc)
 {
 	m_notifyChange = newFunc;
 }
@@ -58,8 +59,8 @@ void Timer::StopTimer()
 
 void Timer::ResetTimer()
 {
-	m_white_remaining_time = std::chrono::milliseconds(600000);
-	m_black_remaining_time = std::chrono::milliseconds(600000);
+	m_white_remaining_time = std::chrono::milliseconds(m_initial_time);
+	m_black_remaining_time = std::chrono::milliseconds(m_initial_time);
 }
 
 bool Timer::IsTimeExpired()

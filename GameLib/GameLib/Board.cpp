@@ -1236,12 +1236,7 @@ bool Board::IsCastle1(Position p1, Position p2) const
 		return false;
 	}
 
-	if (p1.x != p2.x)
-	{
-		return false;
-	}
-
-	if (p1.y - p2.y != 4 && p2.y - p1.y != 3)
+	if (p1.x != p2.x || (p1.y - p2.y != 4 && p2.y - p1.y != 3))
 	{
 		return false;
 	}
@@ -1272,8 +1267,8 @@ bool Board::IsCastle2(Position p1, Position p2) const
 		return false;
 	}
 
-	PiecesPtr rook1 = {};
-	PiecesPtr rook2 = {};
+	PiecesPtr rook1;
+	PiecesPtr rook2;
 
 	if (rookPos1.IsValid())
 		rook1 = at(rookPos1);
@@ -1306,23 +1301,12 @@ bool Board::IsCastle2(Position p1, Position p2) const
 		return false;
 	}
 
-	if (p1.x != p2.x)
+	if (p1.x != p2.x || (p1.y - p2.y != 2 && p2.y - p1.y != 2))
 	{
 		return false;
 	}
 
-	if (p1.y - p2.y != 2 && p2.y - p1.y != 2)
-	{
-		return false;
-	}
-
-	PositionList castleTiles;
-
-	if (rook1 && rook1->Is(EPieceType::Rook))
-		castleTiles = rook1->DeterminePattern(rookPos1, p1);
-	else
-		castleTiles = rook2->DeterminePattern(rookPos2, p1);
-
+	PositionList castleTiles = rook1 && rook1->Is(EPieceType::Rook) ? rook1->DeterminePattern(rookPos1, p1) : rook2->DeterminePattern(rookPos2, p1);
 
 	for (int i = 0; i < castleTiles.size(); i++)
 	{
