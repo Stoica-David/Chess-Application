@@ -620,17 +620,34 @@ void ChessUIQt::UpdateHistory()
 
 	MoveVector newHistory = status->GetHistory();
 
-	for (int i = 0; i < newHistory.size(); i++) {
-		QString itemText = QString("%1. %2%3 \t %4%5 \t %6")
-			.arg(i + 1)
-			.arg(ConvertIntToChar(newHistory[i].first.y))
-			.arg(8 - newHistory[i].first.x)
-			.arg(ConvertIntToChar(newHistory[i].second.y))
-			.arg(8 - newHistory[i].second.x)
-			.arg(ConvertToTime(timer->GetThinkingTime(i)));
+	for (int i = 0; i < newHistory.size(); i++)
+	{
+		QString itemText;
+
+		if (timer)
+		{
+			itemText = QString("%1. %2%3 \t %4%5 \t %6")
+				.arg(i + 1)
+				.arg(ConvertIntToChar(newHistory[i].first.y))
+				.arg(8 - newHistory[i].first.x)
+				.arg(ConvertIntToChar(newHistory[i].second.y))
+				.arg(8 - newHistory[i].second.x)
+				.arg(ConvertToTime(timer->GetThinkingTime(i)));
+		}
+		else
+		{
+			itemText = QString("%1. %2%3 \t %4%5")
+				.arg(i + 1)
+				.arg(ConvertIntToChar(newHistory[i].first.y))
+				.arg(8 - newHistory[i].first.x)
+				.arg(ConvertIntToChar(newHistory[i].second.y))
+				.arg(8 - newHistory[i].second.x);
+		}
 
 		m_movesList->addItem(new QListWidgetItem(itemText));
 	}
+
+
 
 	QListWidgetItem* lastItem = m_movesList->item(m_movesList->count() - 1);
 	if (lastItem)
