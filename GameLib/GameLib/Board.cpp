@@ -572,7 +572,7 @@ PositionList Board::GetMoves(Position p) const
 		{
 			newList = GetMovesPinned(p);
 		}
-		else if (at(p)->GetType() == EPieceType::King)
+		else if (at(p)->Is(EPieceType::King))
 		{
 			newList = GetMovesKing(p);
 		}
@@ -741,30 +741,24 @@ void Board::ParsePGN(StringVector Moves)
 			toY = moveString[0] - 'a';
 		}
 
-		Position prevPos(fromX, fromY);
-		Position nextPos(toX, toY);
-
 		try
 		{
+			Position prevPos(fromX, fromY);
+			Position nextPos(toX, toY);
+
 			prevPos = FindPrevPos(nextPos, type, color, prevPos);
-		}
-		catch (ChessException exc)
-		{
-			throw PGNException("Can't load PGN properly!");
-		}
 
-		try
-		{
 			Move(prevPos, nextPos);
 		}
 		catch (ChessException exc)
 		{
 			Reset();
 			(*this) = initialBoard;
+
 			throw PGNException("Can't load PGN properly!");
 		}
 
-		if (toPromote == true)
+		if (toPromote)
 		{
 			PromoteTo(promoteType, color);
 		}
@@ -863,7 +857,7 @@ Position Board::IntermediatePosition(Position p) const
 		Position pair1 = { 5, p.y };
 		Position pair2 = { 2, p.y };
 
-		intermediate = currPiece->GetColor() == EColor::White ? pair1 : pair2;
+		intermediate = currPiece->Is(EColor::White) ? pair1 : pair2;
 	}
 
 	return intermediate;
@@ -877,7 +871,7 @@ bool Board::OnlyKing(EColor color) const
 		{
 			PiecesPtr currPiece = m_board[i][j];
 
-			if (currPiece && currPiece->GetColor() == color && !currPiece->Is(EPieceType::King))
+			if (currPiece && currPiece->Is(color) && !currPiece->Is(EPieceType::King))
 			{
 				return false;
 			}
@@ -905,14 +899,13 @@ bool Board::SameBishop() const
 		}
 	}
 
-	return (firstBishop && secondBishop && firstBishop->GetColor() == secondBishop->GetColor());
+	return (firstBishop && secondBishop && firstBishop->SameColor(secondBishop));
 }
 
 bool Board::FindHelp(Position p, EColor color) const
 {
 	PositionList kingMoves = GetMovesNormal(p);
 
-	PositionList attackMoves;
 	PiecesPtr attackPiece;
 	Position attackPos;
 
@@ -922,19 +915,17 @@ bool Board::FindHelp(Position p, EColor color) const
 		{
 			PiecesPtr currPiece = m_board[i][j];
 
-			if (!currPiece || (currPiece->GetColor() == color))
+			if (currPiece && (!currPiece->Is(color)))
 			{
-				continue;
-			}
+				PositionList attackMoves = GetMovesNormal({ i, j });
 
-			attackMoves = GetMovesNormal({ i, j });
+				auto it = std::find(attackMoves.begin(), attackMoves.end(), p);
 
-			auto it = std::find(attackMoves.begin(), attackMoves.end(), p);
-
-			if (it != attackMoves.end())
-			{
-				attackPiece = currPiece;
-				attackPos = { i, j };
+				if (it != attackMoves.end())
+				{
+					attackPiece = currPiece;
+					attackPos = { i, j };
+				}
 			}
 		}
 	}
@@ -951,7 +942,7 @@ bool Board::FindHelp(Position p, EColor color) const
 			{
 				PiecesPtr currPiece = m_board[i][j];
 
-				if (!currPiece || (currPiece->GetColor() != color) || (currPiece->Is(EPieceType::King)))
+				if (!currPiece || (!currPiece->Is(color)) || (currPiece->Is(EPieceType::King)))
 				{
 					continue;
 				}
@@ -1010,11 +1001,9 @@ bool Board::KillCheck(Position p, EColor color) const
 			{
 				PositionList moves = GetMovesNormal({ i, j });
 
-				auto it = std::find(moves.begin(), moves.end(), toKill);
-
-				if (it != moves.end())
+				if (std::find(moves.begin(), moves.end(), toKill) != moves.end())
 				{
-					if (currPiece->GetType() == EPieceType::King && (IsDefended(toKill, notColor) || !PawnGoesDiagonally({ i,j }, moves[0])))
+					if (currPiece->Is(EPieceType::King) && (IsDefended(toKill, notColor) || !PawnGoesDiagonally({ i,j }, moves[0])))
 					{
 						break;
 					}
@@ -1044,9 +1033,7 @@ bool Board::IsDefended(Position p, EColor color) const
 
 			currList = DefendedPositions({ i, j }, color);
 
-			auto it = std::find(currList.begin(), currList.end(), p);
-
-			if (it != currList.end())
+			if (std::find(currList.begin(), currList.end(), p) != currList.end())
 			{
 				return true;
 			}
@@ -1100,7 +1087,7 @@ PositionList Board::DefendedPositions(Position p, EColor color) const
 				continue;
 			}
 
-			if (currPiece->GetColor() != initialPiece->GetColor())
+			if (!currPiece->Is(initialPiece->GetColor()))
 			{
 				break;
 			}
@@ -1266,7 +1253,7 @@ bool Board::IsCastle2(Position p1, Position p2) const
 		return false;
 	}
 
-	if ((rook1 && initialPiece->GetColor() != at(rookPos1)->GetColor()) && (rook2 && initialPiece->GetColor() != at(rookPos2)->GetColor()))
+	if ((rook1 && !initialPiece->SameColor(at(rookPos1))) && (rook2 && initialPiece->SameColor(at(rookPos2))))
 	{
 		return false;
 	}
@@ -1382,7 +1369,7 @@ bool Board::LeftPawnCheck(Position p) const
 	PiecesPtr otherPiece = m_board[p.x][p.y - 1];
 	PiecesPtr currPiece = at(p);
 
-	return (p.y - 1 >= 0 && otherPiece && otherPiece->Is(EPieceType::Pawn) && otherPiece->GetColor() != currPiece->GetColor());
+	return (p.y - 1 >= 0 && otherPiece && otherPiece->Is(EPieceType::Pawn) && !otherPiece->SameColor(currPiece));
 }
 
 bool Board::RightPawnCheck(Position p) const
@@ -1390,7 +1377,7 @@ bool Board::RightPawnCheck(Position p) const
 	PiecesPtr otherPiece = m_board[p.x][p.y + 1];
 	PiecesPtr currPiece = at(p);
 
-	return (p.y + 1 <= 7 && otherPiece && otherPiece->Is(EPieceType::Pawn) && otherPiece->GetColor() != currPiece->GetColor());
+	return (p.y + 1 <= 7 && otherPiece && otherPiece->Is(EPieceType::Pawn) && !otherPiece->SameColor(currPiece));
 }
 
 bool Board::IsLeftPassantPossible(Position p1, Position p2) const
@@ -1517,7 +1504,7 @@ PositionList Board::GetMovesKing(Position p) const
 	{
 		for (int j = 0; j < 8; j++)
 		{
-			if (!at(Position(i, j)) || at(p)->GetColor() == at(Position(i, j))->GetColor())
+			if (!at(Position(i, j)) || at(p)->SameColor(at(Position{i, j})))
 			{
 				continue;
 			}
@@ -1526,12 +1513,11 @@ PositionList Board::GetMovesKing(Position p) const
 
 			for (const auto& currMove : currMoves)
 			{
-				for (int j = 0; j < kingMoves.size(); j++)
+				auto it = std::find(kingMoves.begin(), kingMoves.end(), currMove);
+
+				if (it != kingMoves.end())
 				{
-					if (kingMoves[j] == currMove)
-					{
-						kingMoves.erase(kingMoves.begin() + j);
-					}
+					kingMoves.erase(it);
 				}
 			}
 		}
