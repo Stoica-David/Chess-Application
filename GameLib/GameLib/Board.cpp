@@ -210,7 +210,7 @@ bool Board::IsPinned(Position p) const
 
 	Position checkPos = FindCheck(p, currColor);
 
-	if (checkPos == Position(-1, -1))
+	if (!checkPos.IsValid())
 	{
 		return false;
 	}
@@ -414,7 +414,7 @@ Position Board::FindKing(EColor color) const
 			}
 		}
 	}
-	return { -1, -1 };
+	return Position::INVALID;
 }
 
 void Board::Move(Position p1, Position p2)
@@ -866,7 +866,7 @@ bool Board::CanMoveTwoForward(Position p1, Position p2) const
 Position Board::IntermediatePosition(Position p) const
 {
 	PiecesPtr currPiece = at(p);
-	Position intermediate = { -1, -1 };
+	Position intermediate = Position::INVALID;
 
 	if (currPiece->Is(EPieceType::Pawn))
 	{
@@ -988,16 +988,11 @@ bool Board::FindHelp(Position p, EColor color) const
 
 bool Board::KillCheck(Position p, EColor color) const
 {
-	Position toKill = { -1, -1 };
+	Position toKill = Position::INVALID;
 
-	for (int i = 0; i < 8; i++)
+	for (int i = 0; i < 8 && !toKill.IsValid(); i++)
 	{
-		if (toKill != Position(-1, -1))
-		{
-			break;
-		}
-
-		for (int j = 0; j < 8; j++)
+		for (int j = 0; j < 8 && !toKill.IsValid(); j++)
 		{
 			PiecesPtr currPiece = m_board[i][j];
 
@@ -1005,12 +1000,9 @@ bool Board::KillCheck(Position p, EColor color) const
 			{
 				PositionList moves = GetMovesNormal({ i, j });
 
-				auto it = std::find(moves.begin(), moves.end(), p);
-
-				if (it != moves.end())
+				if ( std::find( moves.begin(), moves.end(), p ) != moves.end())
 				{
 					toKill = { i, j };
-					break;
 				}
 			}
 		}
@@ -1732,7 +1724,7 @@ Position Board::FindPrevPos(Position nextPos, EPieceType type, EColor color, Pos
 	{
 		Position currPos; PiecesPtr currPiece;
 
-		if (toReturnPos == Position(-1, -1))
+		if (toReturnPos == Position::INVALID)
 		{
 			for (int j = 0; j < 8; j++)
 			{

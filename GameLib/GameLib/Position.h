@@ -13,6 +13,8 @@ struct Position
 	bool operator!=(const Position& other) const;
 
 	bool IsValid() const;
+
+	static const Position INVALID;
 };
 
 using PositionList = std::vector<Position>;

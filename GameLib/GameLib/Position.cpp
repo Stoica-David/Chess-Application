@@ -1,5 +1,7 @@
 #include "Position.h"
 
+const Position Position::INVALID( -1, -1 );
+
 Position::Position(int x /*= -1*/, int y /*= -1*/) 
 	: x(x)
 	, y(y)
