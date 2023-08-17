@@ -542,25 +542,18 @@ void Board::Move(Position p1, Position p2)
 
 void Board::PromoteTo(EPieceType pieceType, EColor color)
 {
-	Position pieceToPromote;
+	int row = ( color == EColor::White ? 0 : 7 );
 
-	bool found = false;
 	for (int i = 0; i < 8; i++)
 	{
-		if (m_board[0][i] && m_board[0][i]->Is(EPieceType::Pawn))
+		if (m_board[row][i] && m_board[row][i]->Is(EPieceType::Pawn))
 		{
-			pieceToPromote = { 0, i };
-			found = true;
-		}
-
-		if (m_board[7][i] && m_board[7][i]->Is(EPieceType::Pawn))
-		{
-			pieceToPromote = { 7, i };
-			found = true;
+			at( { row, i } ) = Piece::Produce( pieceType, color );
+			return;
 		}
 	}
 
-	!found ? throw PromoteException("Can't promote!\n") : at(pieceToPromote) = Piece::Produce(pieceType, color);	
+	throw PromoteException( "Can't promote!\n" );
 }
 
 PositionList Board::GetMoves(Position p) const
@@ -592,9 +585,9 @@ PositionList Board::GetMoves(Position p) const
 		{
 			PositionList enPassantMoves = GetPassantMoves(p);
 
-			for (int i = 0; i < enPassantMoves.size(); i++)
+			for (const auto& position : enPassantMoves )
 			{
-				newList.push_back(enPassantMoves[i]);
+				newList.push_back(position);
 			}
 		}
 	}
@@ -605,9 +598,6 @@ PositionList Board::GetMoves(Position p) const
 PositionList Board::GetMovesCheck(Position p) const
 {
 	PiecesPtr currPiece = at(p);
-	EColor currColor = currPiece->GetColor();
-
-	PositionList newList;
 
 	return currPiece->Is(EPieceType::King) ? GetMovesCheckKing(p) : GetMovesCheckOther(p);
 }
