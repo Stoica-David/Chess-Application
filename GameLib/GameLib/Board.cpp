@@ -25,11 +25,13 @@ Board::Board(const CharMatrix& matrix)
 }
 
 Board::Board(const Board& newBoard)
+	: m_board(newBoard.m_board)
+	, m_moves(newBoard.m_moves)
+	, m_PGN(newBoard.m_PGN)
+	, m_prevPositions(newBoard.m_prevPositions)
+	, m_nrMove(newBoard.m_nrMove)
 {
-	m_board = newBoard.m_board;
-	m_moves = newBoard.m_moves;
-	m_PGN = newBoard.m_PGN;
-	m_prevPositions = newBoard.m_prevPositions;
+
 }
 
 void Board::Set(const ChessBoard& board)
@@ -39,12 +41,9 @@ void Board::Set(const ChessBoard& board)
 
 void Board::Reset()
 {
-	for (int i = 0; i < 8; i++)
+	for ( auto& row : m_board )
 	{
-		for (int j = 0; j < 8; j++)
-		{
-			m_board[i][j] = {};
-		}
+		row.fill( {} );
 	}
 
 	std::vector<EPieceType> TYPES = {
@@ -58,16 +57,12 @@ void Board::Reset()
 	EPieceType::Rook
 	};
 
-	for (int i = 0; i < TYPES.size(); i++)
-	{
-		m_board[0][i] = Piece::Produce(TYPES[i], EColor::Black);
-		m_board[7][i] = Piece::Produce(TYPES[i], EColor::White);
-	}
-
 	for (int i = 0; i < 8; i++)
 	{
-		m_board[1][i] = Piece::Produce(EPieceType::Pawn, EColor::Black);
-		m_board[6][i] = Piece::Produce(EPieceType::Pawn, EColor::White);
+		m_board[0][i] = Piece::Produce(TYPES[i], EColor::Black);
+		m_board[1][i] = Piece::Produce( EPieceType::Pawn, EColor::Black );
+		m_board[6][i] = Piece::Produce( EPieceType::Pawn, EColor::White );
+		m_board[7][i] = Piece::Produce(TYPES[i], EColor::White);
 	}
 
 	m_prevPositions = { };
@@ -145,18 +140,16 @@ bool Board::IsCheckMate(EColor color) const
 {
 	Position kingPos = FindKing(color);
 
-	PiecesPtr King;
-
 	try
 	{
-		King = at(kingPos);
+		PiecesPtr King = at(kingPos);
+
+		if ( !King || !IsCheck( kingPos, color ) )
+		{
+			return false;
+		}
 	}
 	catch (...)
-	{
-		return false;
-	}
-
-	if (!King || !IsCheck(kingPos, color))
 	{
 		return false;
 	}
