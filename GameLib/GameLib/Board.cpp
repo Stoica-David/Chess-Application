@@ -223,6 +223,19 @@ bool Board::IsPinned(Position p) const
 		return false;
 	}
 
+	for (const auto& currPos : behindCurr)
+	{
+		if (currPos == p || currPos == kingPos || !m_board[currPos.x][currPos.y])
+		{
+			continue;
+		}
+
+		if (m_board[currPos.x][currPos.y]->Is(at(p)->GetColor()))
+		{
+			return false;
+		}
+	}
+
 	PositionList checkPattern = at(checkPos)->DeterminePattern(checkPos, kingPos);
 
 	bool kingFound = std::find(checkPattern.begin(), checkPattern.end(), kingPos) != checkPattern.end() ? true : false, 
@@ -726,7 +739,12 @@ void Board::ParsePGN(StringVector Moves)
 			moveString.pop_back();
 		}
 
-		int toX = -1, toY = -1, fromX = -1, fromY = -1;
+		int toX, toY, fromX = -1, fromY = -1;
+
+		if (moveString == "f3")
+		{
+			int x;
+		}
 
 		if (moveString.size() == 4)
 		{
@@ -1837,6 +1855,8 @@ EPieceType Board::GetPieceType(char c)
 	{
 		return EPieceType::Knight;
 	}
+	default:
+		throw ChessException("Can't load!");
 	}
 }
 

@@ -661,3 +661,23 @@ TEST(Castle2Test, Variation2)
 
 	EXPECT_NO_THROW(g.Move({7,4}, {7,6}));
 }
+
+TEST(GetMovesPinnedTest, HorseTest)
+{
+	CharMatrix m = { {
+	{'r', 'h', 'b', 'q', 'h', '-', 'k', '-'},
+	{'p', 'p', 'p', 'p', '-', '-', '-', 'H'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', '-', '-', 'p', '-', '-', '-'},
+	{'-', 'b', '-', 'P', 'H', '-', '-', '-'},
+	{'-', '-', '-', '-', 'B', '-', '-', '-'},
+	{'P', 'P', 'P', 'Q', 'P', 'P', '-', '-'},
+	{'-', '-', 'K', 'R', '-', 'B', 'H', 'q'}
+	} };
+
+	Game g(m, EColor::White, EState::Playing);
+
+	PositionList v = { {5,5}, {5, 7} };
+
+	EXPECT_EQ(g.GetMoves({7,6}), v);
+}
