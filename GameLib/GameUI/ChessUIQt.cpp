@@ -553,7 +553,7 @@ void ChessUIQt::InitializePlayer(QGridLayout* mainGridLayout, EColor color)
 	color == EColor::Black ? m_blackCapturedPiecesList = new QListWidget() : m_whiteCapturedPiecesList = new QListWidget();
 
 	QListWidget* playerCapturedPieces = new QListWidget;
-	
+
 	InitializePlayerPieces(playerCapturedPieces, color);
 
 	playerGrid->addWidget(profilePicture, 0, 0, 2, 1);
@@ -1085,7 +1085,10 @@ void ChessUIQt::OnTimerChange()
 
 	int ms;
 
-	ms = status->GetTurn() == EColor::White ? timer->GetRemainingTime(EColor::White) : timer->GetRemainingTime(EColor::Black);
+	if (timer != nullptr)
+	{
+		ms = status->GetTurn() == EColor::White ? timer->GetRemainingTime(EColor::White) : timer->GetRemainingTime(EColor::Black);
+	}
 
 	int minutes = ms / 60000;
 	ms %= 60000;

@@ -208,6 +208,9 @@ void Game::Save(EFileFormat format, const String& file) const
 
 void Game::Load(EFileFormat format, const String& file)
 {
+	m_wantTimer = false;
+	m_timer.StopTimer();
+
 	switch (format)
 	{
 	case EFileFormat::FEN:

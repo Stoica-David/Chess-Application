@@ -675,7 +675,7 @@ void Board::LoadFEN(const String& string)
 	}
 	catch (ChessException exc)
 	{
-		throw FENException("Can't save properly!");
+		throw FENException("Can't load FEN properly!");
 	}
 }
 
@@ -706,7 +706,15 @@ void Board::ParsePGN(StringVector Moves)
 			continue;
 		}
 
-		type = isupper(moveString[0]) ? moveString.erase(moveString.begin()), GetPieceType(moveString[0]) : EPieceType::Pawn;
+		if (isupper(moveString[0]))
+		{
+			type = GetPieceType(moveString[0]);
+			moveString.erase(moveString.begin());
+		}
+		else
+		{
+			type = EPieceType::Pawn;
+		}
 
 		bool toPromote = false;
 
@@ -1829,8 +1837,6 @@ EPieceType Board::GetPieceType(char c)
 	{
 		return EPieceType::Knight;
 	}
-	default:
-		throw FENException("");
 	}
 }
 
