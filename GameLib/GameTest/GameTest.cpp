@@ -681,3 +681,23 @@ TEST(GetMovesPinnedTest, HorseTest)
 
 	EXPECT_EQ(g.GetMoves({7,6}), v);
 }
+
+TEST(FoolMateTest, WeirdFoolMateBug)
+{
+	CharMatrix m = { {
+	{'r', 'h', 'b', 'q', 'k', 'b', 'h', 'r'},
+	{'p', 'p', 'p', 'p', '-', 'p', 'p', 'p'},
+	{'-', '-', '-', '-', 'p', '-', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'-', '-', 'P', '-', '-', 'P', '-', '-'},
+	{'-', '-', '-', '-', '-', '-', '-', '-'},
+	{'P', 'P', '-', 'P', 'P', '-', 'P', 'P'},
+	{'R', 'H', 'B', 'Q', 'K', 'B', 'H', 'R'}
+	} };
+
+	Game g(m, EColor::Black, EState::Playing);
+
+	EXPECT_EQ(g.IsOver(), false);
+	EXPECT_NO_THROW(g.Move({ 0,3 }, { 4,7 }));
+	EXPECT_EQ(g.IsOver(), false);
+}

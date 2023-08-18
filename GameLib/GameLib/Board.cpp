@@ -41,9 +41,9 @@ void Board::Set(const ChessBoard& board)
 
 void Board::Reset()
 {
-	for ( auto& row : m_board )
+	for (auto& row : m_board)
 	{
-		row.fill( {} );
+		row.fill({});
 	}
 
 	std::vector<EPieceType> TYPES = {
@@ -60,8 +60,8 @@ void Board::Reset()
 	for (int i = 0; i < 8; i++)
 	{
 		m_board[0][i] = Piece::Produce(TYPES[i], EColor::Black);
-		m_board[1][i] = Piece::Produce( EPieceType::Pawn, EColor::Black );
-		m_board[6][i] = Piece::Produce( EPieceType::Pawn, EColor::White );
+		m_board[1][i] = Piece::Produce(EPieceType::Pawn, EColor::Black);
+		m_board[6][i] = Piece::Produce(EPieceType::Pawn, EColor::White);
 		m_board[7][i] = Piece::Produce(TYPES[i], EColor::White);
 	}
 
@@ -144,7 +144,7 @@ bool Board::IsCheckMate(EColor color) const
 	{
 		PiecesPtr King = at(kingPos);
 
-		if ( !King || !IsCheck( kingPos, color ) )
+		if (!King || !IsCheck(kingPos, color))
 		{
 			return false;
 		}
@@ -238,8 +238,8 @@ bool Board::IsPinned(Position p) const
 
 	PositionList checkPattern = at(checkPos)->DeterminePattern(checkPos, kingPos);
 
-	bool kingFound = std::find(checkPattern.begin(), checkPattern.end(), kingPos) != checkPattern.end() ? true : false, 
-		 currFound = std::find(checkPattern.begin(), checkPattern.end(), p) != checkPattern.end() ? true : false;
+	bool kingFound = std::find(checkPattern.begin(), checkPattern.end(), kingPos) != checkPattern.end() ? true : false,
+		currFound = std::find(checkPattern.begin(), checkPattern.end(), p) != checkPattern.end() ? true : false;
 
 	return kingFound && currFound;
 }
@@ -469,7 +469,7 @@ void Board::Move(Position p1, Position p2)
 	bool currPiecePrevMoved = false;
 
 	if (currPiece)
-	{ 
+	{
 		currPiecePrevMoved = currPiece->GetHasMoved();
 	}
 
@@ -555,18 +555,18 @@ void Board::Move(Position p1, Position p2)
 
 void Board::PromoteTo(EPieceType pieceType, EColor color)
 {
-	int row = ( color == EColor::White ? 0 : 7 );
+	int row = (color == EColor::White ? 0 : 7);
 
 	for (int i = 0; i < 8; i++)
 	{
 		if (m_board[row][i] && m_board[row][i]->Is(EPieceType::Pawn))
 		{
-			at( { row, i } ) = Piece::Produce( pieceType, color );
+			at({ row, i }) = Piece::Produce(pieceType, color);
 			return;
 		}
 	}
 
-	throw PromoteException( "Can't promote!\n" );
+	throw PromoteException("Can't promote!\n");
 }
 
 PositionList Board::GetMoves(Position p) const
@@ -598,7 +598,7 @@ PositionList Board::GetMoves(Position p) const
 		{
 			PositionList enPassantMoves = GetPassantMoves(p);
 
-			for (const auto& position : enPassantMoves )
+			for (const auto& position : enPassantMoves)
 			{
 				newList.push_back(position);
 			}
@@ -979,9 +979,12 @@ bool Board::FindHelp(Position p, EColor color) const
 
 				if (it != helpMoves.end())
 				{
-					if (currPiece->Is(EPieceType::Pawn) && !at(*it))
+					if (currPiece->Is(EPieceType::Pawn))
 					{
-						break;
+						if ((PawnGoesDiagonally({ i,j }, { it->x, it->y }) && !at(*it)) || (!PawnGoesDiagonally({ i,j }, { it->x, it->y }) && at(*it)))
+						{
+							break;
+						}
 					}
 
 					return true;
@@ -1007,7 +1010,7 @@ bool Board::KillCheck(Position p, EColor color) const
 			{
 				PositionList moves = GetMovesNormal({ i, j });
 
-				if ( std::find( moves.begin(), moves.end(), p ) != moves.end())
+				if (std::find(moves.begin(), moves.end(), p) != moves.end())
 				{
 					toKill = { i, j };
 				}
@@ -1530,7 +1533,7 @@ PositionList Board::GetMovesKing(Position p) const
 	{
 		for (int j = 0; j < 8; j++)
 		{
-			if (!at(Position(i, j)) || at(p)->SameColor(at(Position{i, j})))
+			if (!at(Position(i, j)) || at(p)->SameColor(at(Position{ i, j })))
 			{
 				continue;
 			}
