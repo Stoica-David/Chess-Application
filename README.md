@@ -1,2 +1,3 @@
 # Chess-Application
-#include <iostream>
+
+Chess application made in C++ with UI made in QT.
