@@ -49,7 +49,7 @@
 The game comes with an **installer**, making it easy for users to download and start playing right away.
 
 ### Option 1: Download Installer
-1. Download the installer from [GitHub Releases](#) *(replace with actual link)*.
+1. Download the installer from [GitHub Releases](https://github.com/Stoica-David/Chess-Application/releases/tag/v1.0.0).
 2. Run the installer and follow the setup instructions.
 3. Launch the game and enjoy!
 
